@@ -63,7 +63,7 @@ namespace CB{
 		const bool		IsEqual(const CString& strText) const;
 		const bool		IsNotEqual(const CString& strText) const;
 
-		const wchar&		operator[](const uint32 uIndex) const;
+		const wchar&	operator[](const uint32 uIndex) const;
 		wchar&			operator[](const uint32 uIndex);
 
 		const CString&	operator=(const CString& strText);
@@ -76,19 +76,19 @@ namespace CB{
 	};
 
 	namespace String{
-		extern COMMON_API const CString	FromInt32(const int iValue);
+		extern COMMON_API const CString	FromInt32(const int32 iValue);
 		extern COMMON_API const CString	FromUInt32(const uint32 uValue);
-		extern COMMON_API const CString	FromFloat(const float fValue);
+		extern COMMON_API const CString	FromFloat(const float32 fValue);
 		extern COMMON_API const CString	FromBool(const bool bValue);
 
-		static inline const CString	ToString(const int iValue){ return FromInt32(iValue); }
+		static inline const CString	ToString(const int32 iValue){ return FromInt32(iValue); }
 		static inline const CString	ToString(const uint32 uValue){ return FromUInt32(uValue); }
-		static inline const CString ToString(const float fValue){ return FromFloat(fValue); }
+		static inline const CString ToString(const float32 fValue){ return FromFloat(fValue); }
 		static inline const CString ToString(const bool bValue){ return FromBool(bValue); }
 		
-		extern COMMON_API const int			ToInt32(const CString& strText);
-		extern COMMON_API const uint32	ToUInt32(const CString& strText);
-		extern COMMON_API const float		ToFloat(const CString& strText);
+		extern COMMON_API const int8			ToInt32(const CString& strText);
+		extern COMMON_API const uint32		ToUInt32(const CString& strText);
+		extern COMMON_API const float32		ToFloat(const CString& strText);
 		extern COMMON_API const bool		ToBool(const CString& strText);
 
 		extern COMMON_API const bool		ToInt32(const CString& strText, int& iOutValue);
@@ -98,15 +98,15 @@ namespace CB{
 			
 		extern COMMON_API const CString		ToHexString(const uint32 uValue);
 
-		extern COMMON_API const CString		FromANSI(const char* szText); // with zero
-		extern COMMON_API const CString		FromANSI(const char* szText, const uint32 uLength);	// without zero
-		extern COMMON_API const CString		FromUTF8(const char* szText); // with zero
-		extern COMMON_API const CString		FromUTF8(const char* szText, const uint32 uLength);	// wirhout zero
+		extern COMMON_API const CString		FromANSI(const int8* szText); // with zero
+		extern COMMON_API const CString		FromANSI(const int8* szText, const uint32 uLength);	// without zero
+		extern COMMON_API const CString		FromUTF8(const int8* szText); // with zero
+		extern COMMON_API const CString		FromUTF8(const int8* szText, const uint32 uLength);	// wirhout zero
 
-		extern COMMON_API const uint32	ToANSICount(const CString& strText); // returns count with zero
-		extern COMMON_API void				ToANSI(const CString& strText, char* szOutText, const uint32 uBufferLen); // buffer len with zero
-		extern COMMON_API const uint32	ToUTF8Count(const CString& strText); // returns count with zero
-		extern COMMON_API void				ToUTF8(const CString& strText, char* szOutText, const uint32 uBufferLen);	// buffer len with zero
+		extern COMMON_API const uint32		ToANSICount(const CString& strText); // returns count with zero
+		extern COMMON_API void				ToANSI(const CString& strText, int8* szOutText, const uint32 uBufferLen); // buffer len with zero
+		extern COMMON_API const uint32		ToUTF8Count(const CString& strText); // returns count with zero
+		extern COMMON_API void				ToUTF8(const CString& strText, int8* szOutText, const uint32 uBufferLen);	// buffer len with zero
 	}
 }
 

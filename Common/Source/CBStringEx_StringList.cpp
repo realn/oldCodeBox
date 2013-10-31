@@ -5,9 +5,9 @@ using namespace CB::Collection;
 
 CStringList::CStringList(){}
 
-CStringList::CStringList(const CStringList& List) : CLinkList<CString>(List){}
+CStringList::CStringList(const CStringList& List) : CList<CString>(List){}
 
-CStringList::CStringList(const CLinkList<CB::CString>& List) : CLinkList<CString>(List){}
+CStringList::CStringList(const ICountable<CB::CString>& List) : CList<CString>(List){}
 
 const bool	CStringList::Contains(const CB::CString& strText) const{
 	if(strText.IsEmpty()){
@@ -16,10 +16,8 @@ const bool	CStringList::Contains(const CB::CString& strText) const{
 	}
 
 	try{
-		CEnumerator Enumerator = this->GetEnumerator();
-
-		for(Enumerator.ToFirst(); Enumerator.IsValid(); Enumerator.Next()){
-			if(Enumerator.Get() == strText){
+		for(uint32 uIndex = 0; uIndex < this->GetLength(); uIndex++){
+			if(this->Get(uIndex) == strText){
 				return true;
 			}
 		}
@@ -32,21 +30,17 @@ const bool	CStringList::Contains(const CB::CString& strText) const{
 	}
 }
 
-const unsigned	CStringList::IndexOf(const CB::CString& strText) const{
+const uint32	CStringList::IndexOf(const CB::CString& strText) const{
 	if(strText.IsEmpty()){
 		throw CB::Exception::CZeroLengthArgumentException(L"strText",
 			L"Cannot search with empty find text.", __FUNCTIONW__, __FILEW__, __LINE__);
 	}
 
 	try{
-		CEnumerator Enumerator = this->GetEnumerator();
-
-		unsigned uIndex = 0;
-		for(Enumerator.ToFirst(); Enumerator.IsValid(); Enumerator.Next()){
-			if(Enumerator.Get() == strText){
+		for(uint32 uIndex = 0; uIndex < this->GetLength(); uIndex++){
+			if(this->Get(uIndex) == strText){
 				return uIndex;
 			}
-			uIndex++;
 		}
 
 		return false;
@@ -64,22 +58,21 @@ const CB::CString	CStringList::ToString() const{
 	}
 	try{
 		CB::CString strReturn;
-		CEnumerator Enumerator = this->GetEnumerator();
-		unsigned uLength = 0;
+		uint32 uLength = 0;
 
-		for(Enumerator.ToFirst(); Enumerator.IsValid(); Enumerator.Next()){
-			uLength += Enumerator.Get().GetLength();
+		for(uint32 uIndex = 0; uIndex < this->GetLength(); uIndex++){
+			uLength += this->Get(uIndex).GetLength();
 		}
 
 		strReturn.Resize(uLength);
 
-		unsigned uIndex = 0;
-		for(Enumerator.ToFirst(); Enumerator.IsValid(); Enumerator.Next()){
-			if(Enumerator.Get().IsEmpty()){
+		uint32 uIndex = 0;
+		for(uint32 uListIndex = 0; uListIndex < this->GetLength(); uListIndex++){
+			if(this->Get(uListIndex).IsEmpty()){
 				continue;
 			}
-			Memory::CopyArray<wchar_t>(&Enumerator.Get().GetChar(0), &strReturn.GetChar(uIndex), Enumerator.Get().GetLength());
-			uIndex += Enumerator.Get().GetLength();
+			Memory::CopyArray<wchar>(&this->Get(uListIndex).Get(0), &strReturn.Get(uIndex), this->Get(uListIndex).GetLength());
+			uIndex += this->Get(uListIndex).GetLength();
 		}
 
 		return strReturn;
@@ -98,8 +91,10 @@ const CB::CString	CStringList::ToString(const CB::CString& strGlue) const{
 	try{
 		CB::CString strReturn;
 		CEnumerator Enumerator = this->GetEnumerator();
-		unsigned uLength = 0;
+		uint32 uLength = 0;
 
+		for(uint32 uIndex = 0; uIndex < this->GetLength(); uIndex++){
+		}
 		for(Enumerator.ToFirst(); Enumerator.IsValid(); Enumerator.Next()){
 			uLength += Enumerator.Get().GetLength();
 			if(Enumerator.HasNext()){
@@ -109,15 +104,15 @@ const CB::CString	CStringList::ToString(const CB::CString& strGlue) const{
 
 		strReturn.Resize(uLength);
 
-		unsigned uIndex = 0;
+		uint32 uIndex = 0;
 		for(Enumerator.ToFirst(); Enumerator.IsValid(); Enumerator.Next()){
 			if(Enumerator.Get().IsEmpty()){
 				continue;
 			}
-			Memory::CopyArray<wchar_t>(&Enumerator.Get().GetChar(0), &strReturn[uIndex], Enumerator.Get().GetLength());
+			Memory::CopyArray<wchar>(&Enumerator.Get().GetChar(0), &strReturn[uIndex], Enumerator.Get().GetLength());
 			uIndex += Enumerator.Get().GetLength();
 			if(Enumerator.HasNext() && !strGlue.IsEmpty()){
-				Memory::CopyArray<wchar_t>(&strGlue[0], &strReturn[uIndex], strGlue.GetLength());
+				Memory::CopyArray<wchar>(&strGlue[0], &strReturn[uIndex], strGlue.GetLength());
 				uIndex += strGlue.GetLength();
 			}
 		}

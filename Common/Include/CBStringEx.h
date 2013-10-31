@@ -1,18 +1,20 @@
 #pragma once
 
 #include "CBString.h"
-#include "Collection.h"
+#include "Collection_List.h"
 
 namespace CB{
 	namespace Collection{
-		class COMMON_API CStringList : public CLinkList<CString>{
+		class COMMON_API CStringList : 
+			public CList<CString>
+		{
 		public:
 			CStringList();
 			CStringList(const CStringList& List);
-			CStringList(const CLinkList<CString>& List);
+			CStringList(const ICountable<CString>& List);
 
 			const bool		Contains(const CString& strText) const;
-			const unsigned	IndexOf(const CString& strFind) const;
+			const uint32	IndexOf(const CString& strFind) const;
 
 			const CString	ToString() const;
 			const CString	ToString(const CString& strGlue) const;
@@ -20,35 +22,34 @@ namespace CB{
 	}
 
 	namespace String{
-		extern COMMON_API const CString	VarReplace(const CString& strText, const Collection::CLinkList<CString>& VarList);
-		extern COMMON_API const CString	VarReplace(const CString& strText, const Collection::CLinkList<CString>& VarList, const bool bIgnoreMissng);
+		extern COMMON_API const CString	VarReplace(const CString& strText, const Collection::ICountable<CString>& VarList);
+		extern COMMON_API const CString	VarReplace(const CString& strText, const Collection::ICountable<CString>& VarList, const bool bIgnoreMissng);
 
-		extern COMMON_API const CString	FromANSI(const Collection::CList<char>& Array);
-		extern COMMON_API const CString	FromUTF8(const Collection::CList<char>& Array);
+		extern COMMON_API const CString	FromANSI(const Collection::IPacked<int8>& Array);
+		extern COMMON_API const CString	FromUTF8(const Collection::IPacked<int8>& Array);
 
-		extern COMMON_API void	ToANSI(const CString& strText, Collection::CList<char>& Array);
-		extern COMMON_API void	ToUTF8(const CString& strText, Collection::CList<char>& Array);
-		extern COMMON_API void	ToArray(const CString& strText, Collection::CList<wchar_t>& Array);
+		extern COMMON_API void	ToANSI(const CString& strText, Collection::CList<int8>& Array);
+		extern COMMON_API void	ToUTF8(const CString& strText, Collection::CList<int8>& Array);
+		extern COMMON_API void	ToArray(const CString& strText, Collection::CList<wchar>& Array);
 
-		extern COMMON_API const Collection::CList<char>		ToANSI(const CString& strText);
-		extern COMMON_API const Collection::CList<char>		ToUTF8(const CString& strText);
-		extern COMMON_API const Collection::CList<wchar_t>		ToArray(const CString& strText);
+		extern COMMON_API const Collection::CList<int8>		ToANSI(const CString& strText);
+		extern COMMON_API const Collection::CList<int8>		ToUTF8(const CString& strText);
+		extern COMMON_API const Collection::CList<wchar>	ToArray(const CString& strText);
 
-		//! Converts to array wihout char 0 ending.
-		extern COMMON_API const CString	ToString(const Collection::CList<wchar_t>& Array);
+		//! Converts to array wihout int8 0 ending.
+		extern COMMON_API const CString	ToString(const Collection::CList<wchar>& Array);
 
-		extern COMMON_API const bool	SubCompare(const CString& strText, const unsigned uPos, const Collection::CLinkList<CString>& strCompare);
-		extern COMMON_API const bool	SubCompare(const CString& strText, const unsigned uPos, const Collection::CLinkList<CString>& strCompare, unsigned& uEndPos);
+		extern COMMON_API const bool	SubCompare(const CString& strText, const uint32 uPos, const Collection::ICountable<CString>& strCompare);
+		extern COMMON_API const bool	SubCompare(const CString& strText, const uint32 uPos, const Collection::ICountable<CString>& strCompare, uint32& uEndPos);
 
-		extern COMMON_API const bool	MultiCompare(const CString& strText, const unsigned uPos, const Collection::CList<wchar_t>& CharList);
-		extern COMMON_API const bool	MultiCompare(const CString& strText, const unsigned uPos, const CString& strCharList);
+		extern COMMON_API const bool	MultiCompare(const CString& strText, const uint32 uPos, const Collection::ICountable<wchar>& CharList);
 
-		extern COMMON_API const bool	Find(const CString& strText, const Collection::CLinkList<CString>& strFind);
-		extern COMMON_API const bool	Find(const CString& strText, const Collection::CLinkList<CString>& strFind, unsigned& uOutPos);
-		extern COMMON_API const bool	Find(const CString& strText, const Collection::CLinkList<CString>& strFind, const unsigned uStartPos, unsigned& uOutPos);
+		extern COMMON_API const bool	Find(const CString& strText, const Collection::ICountable<CString>& strFind);
+		extern COMMON_API const bool	Find(const CString& strText, const Collection::ICountable<CString>& strFind, uint32& uOutPos);
+		extern COMMON_API const bool	Find(const CString& strText, const Collection::ICountable<CString>& strFind, const uint32 uStartPos, uint32& uOutPos);
 
-		extern COMMON_API const bool	FindNot(const CString& strText, const Collection::CLinkList<CString>& strSkip);
-		extern COMMON_API const bool	FindNot(const CString& strText, const Collection::CLinkList<CString>& strSkip, unsigned& uOutPos);
-		extern COMMON_API const bool	FindNot(const CString& strText, const Collection::CLinkList<CString>& strSkip, const unsigned uStartPos, unsigned& uOutPos);
+		extern COMMON_API const bool	FindNot(const CString& strText, const Collection::ICountable<CString>& strSkip);
+		extern COMMON_API const bool	FindNot(const CString& strText, const Collection::ICountable<CString>& strSkip, uint32& uOutPos);
+		extern COMMON_API const bool	FindNot(const CString& strText, const Collection::ICountable<CString>& strSkip, const uint32 uStartPos, uint32& uOutPos);
 	}
 }

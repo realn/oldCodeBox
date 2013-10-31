@@ -3,11 +3,11 @@
 
 namespace CB{
 	namespace String{
-		const CString	VarReplace(const CString& strText, const Collection::CLinkList<CB::CString>& VarList){
+		const CString	VarReplace(const CString& strText, const Collection::ICountable<CB::CString>& VarList){
 			return VarReplace(strText, VarList, false);
 		}
 
-		const CString	VarReplace(const CString& strText, const Collection::CLinkList<CB::CString>& VarList, const bool bIgnoreMissing){
+		const CString	VarReplace(const CString& strText, const Collection::ICountable<CB::CString>& VarList, const bool bIgnoreMissing){
 			if(strText.IsEmpty()){
 				throw CB::Exception::CZeroLengthArgumentException(L"strText",
 					L"Cannot replace in empty string.", __FUNCTIONW__, __FILEW__, __LINE__);
@@ -18,8 +18,7 @@ namespace CB{
 			}
 
 			try{
-				Collection::CLinkList<CB::CString>::CEnumerator Enumerator = VarList.GetEnumerator();
-				unsigned uPos = 0, uNextPos = 0, uIndex = 0;
+				uint32 uPos = 0, uNextPos = 0, uIndex = 0;
 				CString strReturn;
 
 				while(strText.Find(L"{", uPos, uNextPos)){
@@ -60,7 +59,7 @@ namespace CB{
 			}
 		}
 
-		const CString	FromANSI(const CB::Collection::CList<char>& Array){
+		const CString	FromANSI(const CB::Collection::IPacked<int8>& Array){
 			if(Array.IsEmpty()){
 				throw CB::Exception::CZeroLengthArgumentException(L"Array",
 					L"Cannot create string from empty array.", __FUNCTIONW__, __FILEW__, __LINE__);
@@ -71,11 +70,11 @@ namespace CB{
 			}
 			catch(CB::Exception::CException& Exception){
 				throw CB::Exception::CException(
-					L"Error while converting char array to string.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+					L"Error while converting int8 array to string.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
 			}
 		}
 
-		const CString	FromUTF8(const Collection::CList<char>& Array){
+		const CString	FromUTF8(const Collection::IPacked<int8>& Array){
 			if(Array.IsEmpty()){
 				throw CB::Exception::CZeroLengthArgumentException(L"Array",
 					L"Cannot create string from empty array.", __FUNCTIONW__, __FILEW__, __LINE__);
@@ -86,11 +85,11 @@ namespace CB{
 			}
 			catch(CB::Exception::CException& Exception){
 				throw CB::Exception::CException(
-					L"Error while converting char array to string.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+					L"Error while converting int8 array to string.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
 			}
 		}
 
-		const CString	ToString(const Collection::CList<wchar_t>&	Array){
+		const CString	ToString(const Collection::IPacked<wchar>&	Array){
 			if(Array.IsEmpty()){
 				throw CB::Exception::CZeroLengthArgumentException(L"Array",
 					L"Cannot create string from empty array.", __FUNCTIONW__, __FILEW__, __LINE__);
@@ -99,7 +98,7 @@ namespace CB{
 			try{
 				CB::CString strReturn;
 
-				unsigned uRange = 0;
+				uint32 uRange = 0;
 				for(; uRange < Array.GetLength(); uRange++){
 					if(Array[uRange] == 0){
 						break;
@@ -113,17 +112,17 @@ namespace CB{
 			}
 			catch(CB::Exception::CException& Exception){
 				throw CB::Exception::CException(
-					L"Error while converting char array to string.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+					L"Error while converting int8 array to string.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
 			}
 		}
 
-		void	ToANSI(const CString& strText, Collection::CList<char>& Array){
+		void	ToANSI(const CString& strText, Collection::CList<int8>& Array){
 			if(strText.IsEmpty()){
 				throw CB::Exception::CZeroLengthArgumentException(L"strText", 
 					L"Cannot convert empty string to array.", __FUNCTIONW__, __FILEW__, __LINE__);
 			}
 			try{
-				unsigned uLength = ToANSICount(strText);
+				uint32 uLength = ToANSICount(strText);
 				if(Array.GetLength() < uLength){
 					Array.Resize(uLength);
 				}
@@ -135,7 +134,7 @@ namespace CB{
 			}
 		}
 
-		void	ToUTF8(const CString& strText, Collection::CList<char>& Array){
+		void	ToUTF8(const CString& strText, Collection::CList<int8>& Array){
 			if(strText.IsEmpty()){
 				throw CB::Exception::CZeroLengthArgumentException(L"strText", 
 					L"Cannot convert empty string to array.", __FUNCTIONW__, __FILEW__, __LINE__);
@@ -151,21 +150,21 @@ namespace CB{
 			}
 		}
 
-		const Collection::CList<char>		ToANSI(const CB::CString& strText){
-			Collection::CList<char>	Array(ToANSICount(strText) + 1);
+		const Collection::CList<int8>		ToANSI(const CB::CString& strText){
+			Collection::CList<int8>	Array(ToANSICount(strText) + 1);
 			Memory::SetZeroArray(Array);
 			ToANSI(strText, Array);
 			return Array;
 		}
 
-		const Collection::CList<char>		ToUTF8(const CB::CString& strText){
-			Collection::CList<char>	Array(ToUTF8Count(strText) + 1);
+		const Collection::CList<int8>		ToUTF8(const CB::CString& strText){
+			Collection::CList<int8>	Array(ToUTF8Count(strText) + 1);
 			Memory::SetZeroArray(Array);
 			ToUTF8(strText, Array);
 			return Array;
 		}
 
-		void	ToArray(const CString& strText, Collection::CList<wchar_t>& Array){
+		void	ToArray(const CString& strText, Collection::CList<wchar>& Array){
 			if(strText.IsEmpty()){
 				throw CB::Exception::CZeroLengthArgumentException(L"strText", 
 					L"Cannot convert empty string to array.", __FUNCTIONW__, __FILEW__, __LINE__);
@@ -173,8 +172,8 @@ namespace CB{
 
 			try{
 				Array.Resize(strText.GetLength());
-				Memory::SetZeroArray<wchar_t>(Array);
-				Memory::CopyArray<wchar_t>(&strText[0], &Array.First(), strText.GetLength());
+				Memory::SetZeroArray<wchar>(Array);
+				Memory::CopyArray<wchar>(&strText[0], &Array.First(), strText.GetLength());
 			}
 			catch(CB::Exception::CException& Exception){
 				throw CB::Exception::CException(
@@ -182,19 +181,19 @@ namespace CB{
 			}
 		}
 
-		const Collection::CList<wchar_t>	ToArray(const CString& strText){
-			Collection::CList<wchar_t>	Array(strText.GetLength());
+		const Collection::CList<wchar>	ToArray(const CString& strText){
+			Collection::CList<wchar>	Array(strText.GetLength());
 			Memory::SetZeroArray(Array);
 			ToArray(strText, Array);
 			return Array;
 		}
 
-		const bool	SubCompare(const CString& strText, const unsigned uPos, const Collection::CLinkList<CString>& strCompare){
-			unsigned uEndPos = 0;
+		const bool	SubCompare(const CString& strText, const uint32 uPos, const Collection::ICountable<CString>& strCompare){
+			uint32 uEndPos = 0;
 			return SubCompare(strText, uPos, strCompare, uEndPos);
 		}
 
-		const bool	SubCompare(const CString& strText, const unsigned uPos, const Collection::CLinkList<CString>& strCompare, unsigned& uEndPos){
+		const bool	SubCompare(const CString& strText, const uint32 uPos, const Collection::ICountable<CString>& strCompare, uint32& uEndPos){
 			if(strText.IsEmpty()){
 				return false;
 			}
@@ -206,11 +205,9 @@ namespace CB{
 			}
 
 			try{
-				Collection::CLinkList<CB::CString>::CEnumerator Enum = strCompare.GetEnumerator();
-
-				for(Enum.ToFirst(); !Enum.IsValid(); Enum.Next()){
-					if(strText.SubCompare(uPos, Enum.Get())){
-						uEndPos = uPos + Enum.Get().GetLength();
+				for(uint32 uIndex = 0; uIndex < strText.GetLength(); uIndex++){
+					if(strText.SubCompare(uPos, strCompare[uIndex])){
+						uEndPos = uPos + strCompare[uIndex].GetLength();
 						return true;
 					}
 				}
@@ -223,30 +220,26 @@ namespace CB{
 			}
 		}
 
-		const bool	MultiCompare(const CString& strText, const unsigned uPos, const CString& strCharList){
-			return MultiCompare(strText, uPos, ToArray(strCharList));
-		}
-
-		const bool	MultiCompare(const CString& strText, const unsigned uPos, const Collection::CList<wchar_t>& CharList){
-			const wchar_t& toCompare = strText[uPos];
-			for(unsigned uIndex = 0; uIndex < CharList.GetLength(); uIndex++){
-				if(toCompare == CharList[uIndex]){
+		const bool	MultiCompare(const CString& strText, const uint32 uPos, const Collection::IPacked<wchar>& int8List){
+			const wchar& toCompare = strText[uPos];
+			for(uint32 uIndex = 0; uIndex < int8List.GetLength(); uIndex++){
+				if(toCompare == int8List[uIndex]){
 					return true;
 				}
 			}
 			return false;
 		}
 
-		const bool	Find(const CString& strText, const Collection::CLinkList<CString>& strFind){
-			unsigned uPos = 0;
+		const bool	Find(const CString& strText, const Collection::ICountable<CString>& strFind){
+			uint32 uPos = 0;
 			return Find(strText, strFind, 0, uPos);
 		}
 
-		const bool	Find(const CString& strText, const Collection::CLinkList<CString>& strFind, unsigned& uOutPos){
+		const bool	Find(const CString& strText, const Collection::ICountable<CString>& strFind, uint32& uOutPos){
 			return Find(strText, strFind, 0, uOutPos);
 		}
 
-		const bool	Find(const CString& strText, const Collection::CLinkList<CString>& strFind, const unsigned uStartPos, unsigned& uOutPos){
+		const bool	Find(const CString& strText, const Collection::ICountable<CString>& strFind, const uint32 uStartPos, uint32& uOutPos){
 			if(strText.IsEmpty()){
 				return false;
 			}
@@ -258,11 +251,9 @@ namespace CB{
 			}
 	
 			try{
-				Collection::CLinkList<CString>::CEnumerator Enum = strFind.GetEnumerator();
-
-				for(unsigned uPos = uStartPos; uPos < strText.GetLength(); uPos++){
-					for(Enum.ToFirst(); !Enum.IsValid(); Enum.Next()){
-						if(strText.SubCompare(uPos, Enum.Get())){
+				for(uint32 uPos = uStartPos; uPos < strText.GetLength(); uPos++){
+					for(uint32 uIndex = 0; uIndex < strFind.GetLength(); uIndex++){
+						if(strText.SubCompare(uPos, strFind[uIndex])){
 							uOutPos = uPos;
 							return true;
 						}
@@ -277,23 +268,23 @@ namespace CB{
 			}
 		}
 
-		const bool	FindNot(const CString& strText, const Collection::CLinkList<CString>& strSkip){
-			unsigned uPos;
+		const bool	FindNot(const CString& strText, const Collection::ICountable<CString>& strSkip){
+			uint32 uPos;
 			return FindNot(strText, strSkip, 0, uPos);
 		}
 
-		const bool	FindNot(const CString& strText, const Collection::CLinkList<CString>& strSkip, unsigned& uOutPos){
+		const bool	FindNot(const CString& strText, const Collection::ICountable<CString>& strSkip, uint32& uOutPos){
 			return FindNot(strText, strSkip, 0, uOutPos);
 		}
 
-		const bool	FindNot(const CString& strText, const Collection::CLinkList<CString>& strSkip, const unsigned uStartPos, unsigned& uOutPos){
+		const bool	FindNot(const CString& strText, const Collection::ICountable<CString>& strSkip, const uint32 uStartPos, uint32& uOutPos){
 			if(strText.IsEmpty() || strSkip.IsEmpty()){
 				uOutPos = 0;
 				return true;
 			}
 
 			try{
-				for(unsigned uPos = uStartPos; uPos < strText.GetLength(); uPos++){
+				for(uint32 uPos = uStartPos; uPos < strText.GetLength(); uPos++){
 					if(!SubCompare(strText, uPos, strSkip)){
 						uOutPos = uPos;
 						return true;

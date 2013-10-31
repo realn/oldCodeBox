@@ -4,8 +4,8 @@
 
 #include <wchar.h>
 
-const bool MultiCompare(const CB::CString& strText, const unsigned uPos, const CB::CString& strCharList){
-	for(unsigned uIndex = 0; uIndex < strCharList.GetLength(); uIndex++){
+const bool MultiCompare(const CB::CString& strText, const uint32 uPos, const CB::CString& strCharList){
+	for(uint32 uIndex = 0; uIndex < strCharList.GetLength(); uIndex++){
 		if(strText[uPos] == strCharList[uIndex]){
 			return true;
 		}
@@ -13,12 +13,12 @@ const bool MultiCompare(const CB::CString& strText, const unsigned uPos, const C
 	return false;
 }
 
-const wchar_t*	szWhiteSpace = L" \n\r\t";
-const unsigned	uWhiteSpaceNumber = 4;
+const wchar*	g_szWhiteSpace = L" \n\r\t";
+const uint32	g_uWhiteSpaceNumber = 4;
 
-const bool	IsCharWhiteSpace(const wchar_t uChar){
-	for(unsigned uIndex = 0; uIndex < uWhiteSpaceNumber; uIndex++){
-		if(uChar == szWhiteSpace[uIndex]){
+const bool	IsCharWhiteSpace(const wchar uChar){
+	for(uint32 uIndex = 0; uIndex < g_uWhiteSpaceNumber; uIndex++){
+		if(uChar == g_szWhiteSpace[uIndex]){
 			return true;
 		}
 	}
@@ -26,14 +26,46 @@ const bool	IsCharWhiteSpace(const wchar_t uChar){
 }
 
 namespace CB{
-	CString::CString() : m_pStr(0), m_uLength(0){
+	CString::CString() : 
+		m_pStr(0), 
+		m_uLength(0)
+	{
 	}
 
-	CString::CString(const CString& strText) : m_pStr(0), m_uLength(0){
+	CString::CString(const CString& strText) : 
+		m_pStr(0), 
+		m_uLength(0)
+	{
 		this->Assign(strText);
 	}
 
-	CString::CString(const wchar_t* pStr) : m_pStr(0), m_uLength(0){
+	CString::CString(const Collection::IPacked<wchar>& Data) :
+		m_pStr(0),
+		m_uLength(0)
+	{
+		if(Data.IsEmpty()){
+			return;
+		}
+		if(Data[0] == 0){
+			return;
+		}
+
+		for(; this->m_uLength < Data.GetLength(); this->m_uLength++){
+			if(Data[this->m_uLength] == 0){
+				break;
+			}
+		}
+
+		this->m_pStr = new wchar[this->m_uLength + 1];
+
+		Memory::SetZero(*(this->m_pStr + this->m_uLength));
+		Memory::CopyArray(Data.GetPointer(), this->m_pStr, this->m_uLength);
+	}
+
+	CString::CString(const wchar* pStr) : 
+		m_pStr(0), 
+		m_uLength(0)
+	{
 		if(pStr == 0){
 			throw Exception::CNullArgumentException(L"pStr",
 				L"Cannot create string from null pointer", __FUNCTIONW__, __FILEW__, __LINE__);
@@ -43,14 +75,16 @@ namespace CB{
 		}
 
 		this->m_uLength = wcslen(pStr);
+		this->m_pStr = new wchar[this->m_uLength + 1];
 
-		this->m_pStr = new wchar_t[this->m_uLength + 1];
-
-		Memory::SetZeroArray<wchar_t>(this->m_pStr, this->m_uLength + 1);
-		Memory::CopyArray<wchar_t>(pStr, this->m_pStr, this->m_uLength);
+		Memory::SetZero(*(this->m_pStr + this->m_uLength));
+		Memory::CopyArray(pStr, this->m_pStr, this->m_uLength);
 	}
 
-	CString::CString(const wchar_t* pStr, const unsigned uLength) : m_pStr(0), m_uLength(0){
+	CString::CString(const wchar* pStr, const uint32 uLength) : 
+		m_pStr(0), 
+		m_uLength(0)
+	{
 		if(pStr == NULL){
 			throw Exception::CNullArgumentException(L"pStr",
 				L"Cannot create string from null pointer.", __FUNCTIONW__, __FILEW__, __LINE__);
@@ -70,18 +104,21 @@ namespace CB{
 			return;
 		}
 
-		this->m_pStr = new wchar_t[this->m_uLength + 1];
+		this->m_pStr = new wchar[this->m_uLength + 1];
 
-		Memory::SetZeroArray<wchar_t>(this->m_pStr, this->m_uLength);
-		Memory::CopyArray<wchar_t>(pStr, this->m_pStr, this->m_uLength);
+		Memory::SetZeroArray<wchar>(this->m_pStr, this->m_uLength);
+		Memory::CopyArray<wchar>(pStr, this->m_pStr, this->m_uLength);
 	}
 
-	CString::CString(const wchar_t chStr) : m_pStr(0), m_uLength(0){
+	CString::CString(const wchar chStr) : 
+		m_pStr(0), 
+		m_uLength(0)
+	{
 		if(chStr == 0){
 			return;
 		}
 
-		this->m_pStr = new wchar_t[2];
+		this->m_pStr = new wchar[2];
 		this->m_uLength = 1;
 
 		this->m_pStr[0] = chStr;
@@ -97,7 +134,7 @@ namespace CB{
 			return;
 		}
 
-		unsigned uLength = 0;
+		uint32 uLength = 0;
 		for(;uLength < this->m_uLength; uLength++){
 			if(this->m_pStr[uLength] == 0){
 				break;
@@ -108,9 +145,9 @@ namespace CB{
 			return;
 		}
 
-		wchar_t* pStr = new wchar_t[uLength+1];
-		Memory::SetZeroArray<wchar_t>(pStr, uLength + 1);
-		Memory::CopyArray<wchar_t>(this->m_pStr, pStr, uLength);
+		wchar* pStr = new wchar[uLength+1];
+		Memory::SetZero(*(this->m_pStr + this->m_uLength));
+		Memory::CopyArray(this->m_pStr, pStr, uLength);
 
 		this->Clear();
 
@@ -118,7 +155,7 @@ namespace CB{
 		this->m_uLength	= uLength;
 	}
 
-	void	CString::Resize(const unsigned uLength){
+	void	CString::Resize(const uint32 uLength){
 		if(uLength == 0){
 			this->Clear();
 			return;
@@ -126,17 +163,17 @@ namespace CB{
 
 		if(this->m_uLength == 0){
 			this->m_uLength = uLength;
-			this->m_pStr = new wchar_t[this->m_uLength + 1];
+			this->m_pStr = new wchar[this->m_uLength + 1];
 
-			Memory::SetZeroArray<wchar_t>(this->m_pStr, this->m_uLength + 1);
+			Memory::SetZeroArray<wchar>(this->m_pStr, this->m_uLength + 1);
 		
 			return;
 		}
 
-		wchar_t* pStr = new wchar_t[uLength + 1];
+		wchar* pStr = new wchar[uLength + 1];
 
 		Memory::SetZeroArray(pStr, uLength + 1);
-		Memory::CopyArray<wchar_t>(this->m_pStr, pStr, uLength < this->m_uLength ? uLength : this->m_uLength);
+		Memory::CopyArray<wchar>(this->m_pStr, pStr, uLength < this->m_uLength ? uLength : this->m_uLength);
 
 		this->Clear();
 
@@ -153,11 +190,22 @@ namespace CB{
 		}
 	}
 
-	const unsigned	CString::GetLength() const{
+	const uint32	CString::GetLength() const{
 		return this->m_uLength;
 	}
 
-	const wchar_t*		CString::ToConst() const{
+	const uint32	CString::GetSizeInBytes() const{
+		return this->m_uLength * sizeof(wchar);
+	}
+
+	const wchar*		CString::GetPointer() const{
+		if(this->m_pStr){
+			return this->m_pStr;
+		}
+		return L"";
+	}
+
+	wchar*	CString::GetPointer(){
 		if(this->m_pStr){
 			return this->m_pStr;
 		}
@@ -182,7 +230,7 @@ namespace CB{
 		}
 
 		bool haveChars = false;
-		for(unsigned uIndex = 0; uIndex < this->GetLength(); uIndex++){
+		for(uint32 uIndex = 0; uIndex < this->GetLength(); uIndex++){
 			if(!IsCharWhiteSpace(this->m_pStr[uIndex])){
 				return false;
 			}
@@ -191,15 +239,15 @@ namespace CB{
 		return true;
 	}
 
-	const CString	CString::SubStringIndexed(const unsigned uStartPos, const unsigned uEndPos) const{
+	const CString	CString::SubStringIndexed(const uint32 uStartPos, const uint32 uEndPos) const{
 		return this->SubString(uStartPos, uEndPos - uStartPos);
 	}
 
-	const CString	CString::SubString(const unsigned uIndex) const{
+	const CString	CString::SubString(const uint32 uIndex) const{
 		return this->SubString(uIndex, this->m_uLength - uIndex);
 	}
 
-	const CString	CString::SubString(const unsigned uIndex, const unsigned uLength) const{
+	const CString	CString::SubString(const uint32 uIndex, const uint32 uLength) const{
 		if(this->IsEmpty()){
 			throw Exception::CZeroLengthException(L"CString",
 				L"Source string is empty.", __FUNCTIONW__, __FILEW__, __LINE__);
@@ -213,17 +261,17 @@ namespace CB{
 				L"Cannot crate zero length sub string.", __FUNCTIONW__, __FILEW__, __LINE__);
 		}
 
-		unsigned uRealLength = (uIndex + uLength < this->m_uLength ? uLength : this->m_uLength - uIndex);
+		uint32 uRealLength = (uIndex + uLength < this->m_uLength ? uLength : this->m_uLength - uIndex);
 
 		CString strReturn;
 		strReturn.Resize(uRealLength);
 
-		Memory::CopyArray<wchar_t>(this->m_pStr + uIndex, &strReturn[0], uRealLength); 
+		Memory::CopyArray<wchar>(this->m_pStr + uIndex, &strReturn[0], uRealLength); 
 
 		return strReturn;
 	}
 
-	const bool	CString::SubCompare(const unsigned uIndex, const CString& strCompare) const{
+	const bool	CString::SubCompare(const uint32 uIndex, const CString& strCompare) const{
 		if(uIndex + strCompare.GetLength() > this->m_uLength){
 			return false;
 		}
@@ -231,7 +279,7 @@ namespace CB{
 	}
 
 	const CString	CString::Trim() const{
-		return this->Trim(L" \t\n\r");
+		return this->Trim(g_szWhiteSpace);
 	}
 
 	const CString	CString::Trim(const CString& strCharList) const{
@@ -239,7 +287,7 @@ namespace CB{
 			return CString();
 		}
 
-		unsigned uPos = 0;
+		uint32 uPos = 0;
 		for(; uPos < this->m_uLength; uPos++){
 			if(MultiCompare(*this, uPos, strCharList)){
 				continue;
@@ -254,7 +302,7 @@ namespace CB{
 			return this->SubString(uPos);
 		}
 
-		unsigned uEndPos = this->m_uLength;
+		uint32 uEndPos = this->m_uLength;
 		for(; uEndPos > 0; uEndPos--){
 			if(MultiCompare(*this, uEndPos - 1, strCharList)){
 				continue;
@@ -266,20 +314,20 @@ namespace CB{
 	}
 
 	const bool	CString::Find(const CString& strFind) const{
-		unsigned uPos = 0;
+		uint32 uPos = 0;
 		return this->Find(strFind, 0, uPos);
 	}
 
-	const bool	CString::Find(const CString& strFind, unsigned& uPos) const{
+	const bool	CString::Find(const CString& strFind, uint32& uPos) const{
 		return this->Find(strFind, 0, uPos);
 	}
 
-	const bool	CString::Find(const CString& strFind, const unsigned uStartPos, unsigned& uPos) const{
+	const bool	CString::Find(const CString& strFind, const uint32 uStartPos, uint32& uPos) const{
 		if(this->IsEmpty() || strFind.IsEmpty()){
 			return false;
 		}
 
-		for(unsigned uIndex = uStartPos; uIndex < this->m_uLength; uIndex++){
+		for(uint32 uIndex = uStartPos; uIndex < this->m_uLength; uIndex++){
 			if(this->SubCompare(uIndex, strFind)){
 				uPos = uIndex;
 				return true;
@@ -289,21 +337,21 @@ namespace CB{
 		return false;
 	}
 
-	const bool	CString::FindLast(const CString& strFind, unsigned& uPos) const{
+	const bool	CString::FindLast(const CString& strFind, uint32& uPos) const{
 		return this->FindLast(strFind, this->m_uLength, uPos);
 	}
 
-	const bool	CString::FindLast(const CString& strFind, const unsigned uReverseStartPos, unsigned& uPos) const{
+	const bool	CString::FindLast(const CString& strFind, const uint32 uReverseStartPos, uint32& uPos) const{
 		if(this->IsEmpty() || strFind.IsEmpty() || this->m_uLength < strFind.GetLength()){
 			return false;
 		}
 
-		unsigned uStartPos = uReverseStartPos;
+		uint32 uStartPos = uReverseStartPos;
 		if(uStartPos + strFind.GetLength() > this->m_uLength){
 			uStartPos = this->m_uLength - strFind.GetLength();
 		}
 
-		for(unsigned uIndex = uStartPos + 1; uIndex > 0; uIndex--){
+		for(uint32 uIndex = uStartPos + 1; uIndex > 0; uIndex--){
 			if(this->SubCompare(uIndex - 1, strFind)){
 				uPos = uIndex - 1;
 				return true;
@@ -314,18 +362,18 @@ namespace CB{
 	}
 
 	const CString	CString::Replace(const CString& strFind, const CString& strReplace) const{
-		unsigned uOut = 0;
+		uint32 uOut = 0;
 		return this->Replace(strFind, strReplace, uOut); 
 	}
 
-	const CString	CString::Replace(const CString& strFind, const CString& strReplace, unsigned& uNumberOfReplaced) const{
+	const CString	CString::Replace(const CString& strFind, const CString& strReplace, uint32& uNumberOfReplaced) const{
 		if(strFind.IsEmpty()){
 			throw Exception::CZeroLengthException(L"strFind",
 				L"Cannot replace empty string.", __FUNCTIONW__, __FILEW__, __LINE__);
 		}
 
-		unsigned uPos = 0;
-		unsigned uNextPos = 0;
+		uint32 uPos = 0;
+		uint32 uNextPos = 0;
 		CString	strReturn;
 
 		while(this->Find(strFind, uPos, uNextPos)){
@@ -340,11 +388,11 @@ namespace CB{
 		return strReturn;
 	}
 
-	wchar_t&	CString::GetChar(const unsigned uIndex){
+	wchar&	CString::Get(const uint32 uIndex){
 		return this->m_pStr[uIndex];
 	}
 
-	const wchar_t&	CString::GetChar(const unsigned uIndex) const{
+	const wchar&	CString::Get(const uint32 uIndex) const{
 		return this->m_pStr[uIndex];
 	}
 
@@ -357,7 +405,7 @@ namespace CB{
 
 		this->Resize(strText.GetLength());
 
-		Memory::CopyArray<wchar_t>(strText.ToConst(), this->m_pStr, this->m_uLength);
+		Memory::CopyArray(strText.GetPointer(), this->m_pStr, this->m_uLength);
 	}
 
 	const CString	CString::Add(const CString& strText) const{
@@ -372,8 +420,8 @@ namespace CB{
 
 		strRet.Resize(this->m_uLength + strText.GetLength());
 
-		Memory::CopyArray<wchar_t>(this->m_pStr, &strRet[0], this->m_uLength);
-		Memory::CopyArray<wchar_t>(strText.ToConst(), &strRet[this->m_uLength], strText.GetLength());
+		Memory::CopyArray(this->m_pStr, &strRet[0], this->m_uLength);
+		Memory::CopyArray(strText.GetPointer(), &strRet[this->m_uLength], strText.GetLength());
 
 		return strRet;
 	}
@@ -382,7 +430,7 @@ namespace CB{
 		if(this->m_uLength != strText.GetLength()){
 			return false;
 		}
-		if(Memory::CompareArray<wchar_t>(this->m_pStr, strText.ToConst(), this->m_uLength) == 0){
+		if(Memory::CompareArray<wchar>(this->m_pStr, strText.GetPointer(), this->m_uLength) == 0){
 			return true;
 		}
 		return false;
@@ -392,12 +440,12 @@ namespace CB{
 		return !this->IsEqual(strText);
 	}
 
-	const wchar_t&	CString::operator[](const unsigned uIndex) const{
-		return this->GetChar(uIndex);
+	const wchar&	CString::operator[](const uint32 uIndex) const{
+		return this->Get(uIndex);
 	}
 
-	wchar_t& CString::operator[](const unsigned uIndex){
-		return this->GetChar(uIndex);
+	wchar& CString::operator[](const uint32 uIndex){
+		return this->Get(uIndex);
 	}
 
 	const CString&	CString::operator=(const CString& strText){
@@ -424,14 +472,14 @@ namespace CB{
 }
 
 //	Functions
-const CB::CString	operator+(const wchar_t* pStr, const CB::CString& strText){
+const CB::CString	operator+(const wchar* pStr, const CB::CString& strText){
 	return CB::CString(pStr) + strText;
 }
 
-const bool	operator==(const wchar_t* pStr, const CB::CString& strText){
+const bool	operator==(const wchar* pStr, const CB::CString& strText){
 	return CB::CString(pStr) == strText;
 }
 
-const bool	operator!=(const wchar_t* pStr, const CB::CString& strText){
+const bool	operator!=(const wchar* pStr, const CB::CString& strText){
 	return CB::CString(pStr) != strText;
 }
