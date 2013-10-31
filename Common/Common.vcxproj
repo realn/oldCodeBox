@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{844B7AB6-F789-496C-86D2-FC71E8328F23}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Common</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)Output\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)Intermediate\$(Configuration)\$(ProjectName)\</IntDir>
+    <ExecutablePath>$(SolutionDir)\Ext\runtime;$(ExecutablePath)</ExecutablePath>
+    <LibraryPath>$(SolutionDir)\Ext\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\Ext\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;COMMON_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PostBuildEvent>
+      <Command>@xcopy $(OutDir)*.dll $(SolutionDir)WorkArea\ /Y /Q</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;COMMON_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="Include\ApiObject.h" />
+    <ClInclude Include="Include\Collection.h" />
+    <ClInclude Include="Include\Collection_Array.h" />
+    <ClInclude Include="Include\Collection_Dictionary.h" />
+    <ClInclude Include="Include\Collection_Funcs.h" />
+    <ClInclude Include="Include\Collection_LinkList.h" />
+    <ClInclude Include="Include\Collection_List.h" />
+    <ClInclude Include="Include\Collection_Interface.h" />
+    <ClInclude Include="Include\Collection_Memory.h" />
+    <ClInclude Include="Include\IO_Directory.h" />
+    <ClInclude Include="Include\IO_File.h" />
+    <ClInclude Include="Include\IO_MemoryStream.h" />
+    <ClInclude Include="Include\IO_OSConsoleStream.h" />
+    <ClInclude Include="Include\IO_Stream.h" />
+    <ClInclude Include="Include\Manage_EventHandler.h" />
+    <ClInclude Include="Include\Exception.h" />
+    <ClInclude Include="Include\IO_Image.h" />
+    <ClInclude Include="Include\Logger.h" />
+    <ClInclude Include="Include\Macros.h" />
+    <ClInclude Include="Include\Manage_ObjectManaged.h" />
+    <ClInclude Include="Include\Manage_ObjectManager.h" />
+    <ClInclude Include="Include\Memory.h" />
+    <ClInclude Include="Include\Manage_Object.h" />
+    <ClInclude Include="Include\IO_Path.h" />
+    <ClInclude Include="Include\MessageBox.h" />
+    <ClInclude Include="Include\Module.h" />
+    <ClInclude Include="Include\Ref.h" />
+    <ClInclude Include="Include\Signals_Method.h" />
+    <ClInclude Include="Include\Signals_Signal.h" />
+    <ClInclude Include="Include\Signals_Slots.h" />
+    <ClInclude Include="Include\SimpleXML.h" />
+    <ClInclude Include="Include\Manage_Singleton.h" />
+    <ClInclude Include="Include\Signals_Func.h" />
+    <ClInclude Include="Include\SmartPointers.h" />
+    <ClInclude Include="Include\IO_Sound.h" />
+    <ClInclude Include="Include\IO_SoundStream.h" />
+    <ClInclude Include="Include\SmartPointers_AutoPtr.h" />
+    <ClInclude Include="Include\SmartPointers_Hidden.h" />
+    <ClInclude Include="Include\SmartPointers_Ptr.h" />
+    <ClInclude Include="Include\SmartPointers_RefPtr.h" />
+    <ClInclude Include="Include\CBString.h" />
+    <ClInclude Include="Include\CBStringEx.h" />
+    <ClInclude Include="Include\Math.h" />
+    <ClInclude Include="Include\Math_Color.h" />
+    <ClInclude Include="Include\Math_Matrix.h" />
+    <ClInclude Include="Include\Math_Point.h" />
+    <ClInclude Include="Include\Math_Rectangle.h" />
+    <ClInclude Include="Include\Math_Size.h" />
+    <ClInclude Include="Include\Math_Vector.h" />
+    <ClInclude Include="Include\Timer.h" />
+    <ClInclude Include="Include\Types.h" />
+    <ClInclude Include="Include\WindowsErrors.h" />
+    <ClInclude Include="Internal\IO_Directory.h" />
+    <ClInclude Include="Internal\IO_FileStream.h" />
+    <ClInclude Include="Internal\IO_FreeImage.h" />
+    <ClInclude Include="Internal\IO_WindowsConsoleStream.h" />
+    <ClInclude Include="Internal\WinPlatform.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\ApiObject_Exception.cpp" />
+    <ClCompile Include="Source\IO_DirectoryWIN.cpp" />
+    <ClCompile Include="Source\IO_Directory_Exception.cpp" />
+    <ClCompile Include="Source\IO_FileWIN.cpp" />
+    <ClCompile Include="Source\IO_File_Exception.cpp" />
+    <ClCompile Include="Source\IO_File_Funcs.cpp" />
+    <ClCompile Include="Source\IO_FreeImage_Bitmap.cpp" />
+    <ClCompile Include="Source\IO_FreeImage_Data.cpp" />
+    <ClCompile Include="Source\IO_FreeImage_Stream.cpp" />
+    <ClCompile Include="Source\IO_Path.cpp" />
+    <ClCompile Include="Source\IO_StreamReader.cpp" />
+    <ClCompile Include="Source\IO_StreamWriter.cpp" />
+    <ClCompile Include="Source\IO_Stream_Exceptions.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\dllmain.cpp" />
+    <ClCompile Include="Source\Exception.cpp" />
+    <ClCompile Include="Source\IO_Image.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\IO_StreamWrapper.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\IO_MemoryStream.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\IO_SoundStream.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\IO_Stream.cpp" />
+    <ClCompile Include="Source\IO_TextWriter.cpp" />
+    <ClCompile Include="Source\IO_WindowsConsoleStream.cpp" />
+    <ClCompile Include="Source\Logger.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\Math.cpp" />
+    <ClCompile Include="Source\Math_Color.cpp" />
+    <ClCompile Include="Source\Math_Matrix.cpp" />
+    <ClCompile Include="Source\Math_Point.cpp" />
+    <ClCompile Include="Source\Math_Point3D.cpp" />
+    <ClCompile Include="Source\Math_Rectangle.cpp" />
+    <ClCompile Include="Source\Math_Size.cpp" />
+    <ClCompile Include="Source\Math_Size3D.cpp" />
+    <ClCompile Include="Source\Math_Vector2D.cpp" />
+    <ClCompile Include="Source\Math_Vector3D.cpp" />
+    <ClCompile Include="Source\Math_Vector4D.cpp" />
+    <ClCompile Include="Source\Memory.cpp" />
+    <ClCompile Include="Source\MessageBox.cpp" />
+    <ClCompile Include="Source\Module.cpp" />
+    <ClCompile Include="Source\Module_Exceptions.cpp" />
+    <ClCompile Include="Source\Module_Manager.cpp" />
+    <ClCompile Include="Source\PlatformException.cpp" />
+    <ClCompile Include="Source\Ref.cpp" />
+    <ClCompile Include="Source\Signals_Signal.cpp" />
+    <ClCompile Include="Source\Signals_Slots.cpp" />
+    <ClCompile Include="Source\SimpleXML.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\IO_Sound.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Source\CBString.cpp" />
+    <ClCompile Include="Source\CBStringEx.cpp" />
+    <ClCompile Include="Source\CBStringEx_StringList.cpp" />
+    <ClCompile Include="Source\CBString_Convert.cpp" />
+    <ClCompile Include="Source\CBString_String.cpp" />
+    <ClCompile Include="Source\IO_TextReader.cpp" />
+    <ClCompile Include="Source\Timer.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
