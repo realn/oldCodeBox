@@ -76,6 +76,14 @@ namespace CB{
 	};
 
 	namespace String{
+		enum class Encoding{
+			UTF16 = 0,
+			UTF8,
+			ANSI,
+		};
+
+		extern COMMON_API const CString ToString(const Encoding uEncoding);
+
 		extern COMMON_API const CString	FromInt32(const int32 iValue);
 		extern COMMON_API const CString	FromUInt32(const uint32 uValue);
 		extern COMMON_API const CString	FromFloat(const float32 fValue);
@@ -86,7 +94,7 @@ namespace CB{
 		static inline const CString ToString(const float32 fValue){ return FromFloat(fValue); }
 		static inline const CString ToString(const bool bValue){ return FromBool(bValue); }
 		
-		extern COMMON_API const int8			ToInt32(const CString& strText);
+		extern COMMON_API const int8		ToInt32(const CString& strText);
 		extern COMMON_API const uint32		ToUInt32(const CString& strText);
 		extern COMMON_API const float32		ToFloat(const CString& strText);
 		extern COMMON_API const bool		ToBool(const CString& strText);

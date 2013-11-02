@@ -5,11 +5,11 @@ namespace CB{
 		CStreamException::CStreamException(const CStreamException& Exception) : CException(Exception){
 		}
 
-		CStreamException::CStreamException(const CString& strMessage, const CString& strFunction, const CString& strFile, const unsigned uLine)
+		CStreamException::CStreamException(const CString& strMessage, const CString& strFunction, const CString& strFile, const uint32 uLine)
 			: CException(strMessage, strFunction, strFile, uLine){
 		}
 
-		CStreamException::CStreamException(const CString& strMessage, const CString& strFunction, const CString& strFile, const unsigned uLine, CException& InnerException)
+		CStreamException::CStreamException(const CString& strMessage, const CString& strFunction, const CString& strFile, const uint32 uLine, CException& InnerException)
 			: CException(strMessage, strFunction, strFile, uLine, InnerException){
 		}
 

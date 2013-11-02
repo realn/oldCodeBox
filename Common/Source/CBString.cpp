@@ -5,7 +5,18 @@
 
 namespace CB{
 	namespace String{
-		const CString	FromInt32(const int iValue){
+		const CString	ToString(const Encoding uEncoding){
+			switch (uEncoding)
+			{
+			case Encoding::UTF16:	return L"UTF16";
+			case Encoding::UTF8:	return L"UTF8";
+			case Encoding::ANSI:	return L"ANSI";
+			default:
+				return ToString((uint32)uEncoding);
+			}
+		}
+
+		const CString	Fromint3232(const int32 iValue){
 			try{
 				std::wstringstream ss;
 
@@ -15,36 +26,36 @@ namespace CB{
 			}
 			catch(std::exception& Exception){
 				throw CB::Exception::CException(
-					FromANSI(Exception.what()), __FUNCTIONW__, __FILEW__, __LINE__);
+					FromANSI((int8*)Exception.what()), CR_INFO());
 			}
 		}
 
-		const int	ToInt32(const CString& strText){
+		const int32	Toint3232(const CString& strText){
 			if(strText.IsEmpty()){
 				throw CB::Exception::CZeroLengthArgumentException(L"strText", 
-					L"Cannot convert empty string.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Cannot convert empty string.", CR_INFO());
 			}
 
 			std::wstringstream ss;
-			int iValue = 0;
+			int32 iValue = 0;
 			try{
-				ss << strText.ToConst();
+				ss << strText.GetPointer();
 				ss >> iValue;
 			}
 			catch(std::exception& Exception){
 				throw CB::Exception::CException(
-					FromANSI(Exception.what()), __FUNCTIONW__, __FILEW__, __LINE__);
+					FromANSI((int8*)Exception.what()), CR_INFO());
 			}
 
 			if(ss.fail()){
 				throw CB::Exception::CInvalidArgumentException(L"strText", strText, 
-					L"Invalid string for conversion.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Invalid string for conversion.", CR_INFO());
 			}
 
 			return iValue;
 		}
 
-		const CString	FromUInt32(const unsigned uValue){
+		const CString	FromUint3232(const uint32 uValue){
 			try{
 			std::wstringstream ss;
 
@@ -54,37 +65,37 @@ namespace CB{
 			}
 			catch(std::exception& Exception){
 				throw CB::Exception::CException(
-					FromANSI(Exception.what()), __FUNCTIONW__, __FILEW__, __LINE__);
+					FromANSI((int8*)Exception.what()), CR_INFO());
 			}
 		}
 
-		const unsigned	ToUInt32(const CString& strText){
+		const uint32	ToUint3232(const CString& strText){
 			if(strText.IsEmpty()){
 				throw CB::Exception::CZeroLengthArgumentException(L"strText", 
-					L"Cannot convert empty string.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Cannot convert empty string.", CR_INFO());
 			}
 
 			std::wstringstream ss;
-			unsigned uValue = 0;
+			uint32 uValue = 0;
 
 			try{
-				ss << strText.ToConst();
+				ss << strText.GetPointer();
 				ss >> uValue;
 			}
 			catch(std::exception& Exception){
 				throw CB::Exception::CException(
-					FromANSI(Exception.what()), __FUNCTIONW__, __FILEW__, __LINE__);
+					FromANSI((int8*)Exception.what()), CR_INFO());
 			}
 
 			if(ss.fail()){
 				throw CB::Exception::CInvalidArgumentException(L"strText", strText, 
-					L"Invalid string for conversion.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Invalid string for conversion.", CR_INFO());
 			}
 
 			return uValue;
 		}
 
-		const CString	FromFloat(const float fValue){
+		const CString	FromFloat(const float32 fValue){
 			try{
 				std::wstringstream ss;
 
@@ -94,31 +105,31 @@ namespace CB{
 			}
 			catch(std::exception& Exception){
 				throw CB::Exception::CException(
-					FromANSI(Exception.what()), __FUNCTIONW__, __FILEW__, __LINE__);
+					FromANSI((int8*)Exception.what()), CR_INFO());
 			}
 		}
 
-		const float	ToFloat(const CString& strText){
+		const float32	ToFloat(const CString& strText){
 			if(strText.IsEmpty()){
 				throw CB::Exception::CZeroLengthArgumentException(L"strText", 
-					L"Cannot convert empty string.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Cannot convert empty string.", CR_INFO());
 			}
 
 			std::wstringstream ss;
-			float fValue = 0.0f;
+			float32 fValue = 0.0f;
 
 			try{
-				ss << strText.ToConst();
+				ss << strText.GetPointer();
 				ss >> fValue;
 			}
 			catch(std::exception& Exception){
 				throw CB::Exception::CException(
-					FromANSI(Exception.what()), __FUNCTIONW__, __FILEW__, __LINE__);
+					FromANSI((int8*)Exception.what()), CR_INFO());
 			}
 
 			if(ss.fail()){
 				throw CB::Exception::CInvalidArgumentException(L"strText", strText, 
-					L"Invalid string for conversion.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Invalid string for conversion.", CR_INFO());
 			}
 
 			return fValue;
@@ -150,52 +161,52 @@ namespace CB{
 			return false;
 		}
 
-		const bool		ToInt32(const CString& strText, int& iOutValue){
+		const bool		Toint3232(const CString& strText, int32& iOutValue){
 			try{
 				std::wstringstream ss;
 
-				ss << strText.ToConst();
+				ss << strText.GetPointer();
 				ss >> iOutValue;
 
 				return !ss.fail();
 			}
 			catch(std::exception& Exception){
 				throw CB::Exception::CException(
-					FromANSI(Exception.what()), __FUNCTIONW__, __FILEW__, __LINE__);
+					FromANSI((int8*)Exception.what()), CR_INFO());
 			}
 		}
 
-		const bool		ToUInt32(const CString& strText, unsigned& uOutValue){
+		const bool		ToUint3232(const CString& strText, uint32& uOutValue){
 			try{
 				std::wstringstream ss;
 
-				ss << strText.ToConst();
+				ss << strText.GetPointer();
 				ss >> uOutValue;
 
 				return !ss.fail();
 			}
 			catch(std::exception& Exception){
 				throw CB::Exception::CException(
-					FromANSI(Exception.what()), __FUNCTIONW__, __FILEW__, __LINE__);
+					FromANSI((int8*)Exception.what()), CR_INFO());
 			}
 		}
 
-		const bool		ToFloat(const CString& strText, float& fOutValue){
+		const bool		ToFloat(const CString& strText, float32& fOutValue){
 			try{
 				std::wstringstream ss;
 
-				ss << strText.ToConst();
+				ss << strText.GetPointer();
 				ss >> fOutValue;
 
 				return !ss.fail();
 			}
 			catch(std::exception& Exception){
 				throw CB::Exception::CException(
-					FromANSI(Exception.what()), __FUNCTIONW__, __FILEW__, __LINE__);
+					FromANSI((int8*)Exception.what()), CR_INFO());
 			}
 		}
 
-		const CString	ToHexString(const unsigned uValue){
+		const CString	ToHexString(const uint32 uValue){
 			try{
 				std::wstringstream ss;
 
@@ -205,7 +216,7 @@ namespace CB{
 			}
 			catch(std::exception& Exception){
 				throw CB::Exception::CException(
-					FromANSI(Exception.what()), __FUNCTIONW__, __FILEW__, __LINE__);
+					FromANSI((int8*)Exception.what()), CR_INFO());
 			}
 		}
 	}

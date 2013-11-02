@@ -1,46 +1,58 @@
 #pragma once
 
 #include "Macros.h"
-#include "../../Common/Include/CBString.h"
-#include "../../Common/Include/CBStringEx.h"
-#include "../../Common/Include/Ref.h"
-#include "../../Common/Include/SmartPointers.h"
+#include "CBString.h"
+#include "CBStringEx.h"
+#include "SmartPointers_Hidden.h"
 
 namespace CB{
 	namespace IO{
 		namespace Directory{
-			class IDirectory : public IRef{
+			class CDirectory
+			{
+			private:
+				CString		m_strDirectory;
+				CHiddenPtr	m_pData;
+
 			public:
-				virtual const CString& GetDirectory() const = 0;
+				CDirectory(const CString& strDirectory);
+				CDirectory(const CDirectory& Directory);
+				~CDirectory();
 
-				virtual void		ToFirstEntry() = 0;
-				virtual void		NextEntry() = 0;
-				virtual const bool	IsEndOfEntries() const = 0;
+				const CString& GetDirectory() const;
 
-				virtual const CString	GetCurrentName() const = 0;
-				virtual const CString	GetCurrentPath() const = 0;
+				void		ToFirstEntry();
+				void		NextEntry();
+				const bool	IsEndOfEntries() const;
 
-				virtual const bool	IsCurrentAnFile() const = 0;
-				virtual const bool	IsCurrentAnDirectory() const = 0;
+				const CString	GetCurrentName() const;
+				const CString	GetCurrentPath() const;
+
+				const bool	IsCurrentAnFile() const;
+				const bool	IsCurrentAnDirectory() const;
+
+				const CDirectory& operator=(const CDirectory& Directory);
 			};
 
-			extern COMMON_API CRefPtr<IDirectory>	Open(const CString& strPath);
-			extern COMMON_API void	Create(const CString& strPath);
-			extern COMMON_API void	Create(const CString& strPath, const bool bThrowIfExists);
-			extern COMMON_API const bool	Exists(const CString& strPath);
+			extern COMMON_API const CDirectory	Open(const CString& strPath);
+			extern COMMON_API void				Create(const CString& strPath); // does not throw
+			extern COMMON_API void				Create(const CString& strPath, const bool bThrowIfExists);
+			extern COMMON_API const bool		Exists(const CString& strPath);
 			extern COMMON_API const Collection::CStringList GetFileList(const CString& strPath);
 		}
 	}
 
 	namespace Exception{
-		class COMMON_API CDirectoryException : public CException{
+		class COMMON_API CDirectoryException : 
+			public CException
+		{
 		protected:
 			CString	m_strPath;
 
 		public:
 			CDirectoryException(const CDirectoryException& Exception);
-			CDirectoryException(const CString& strPath, const CString& strMessage, const CString& strFunction, const CString& strFile, const unsigned uLine);
-			CDirectoryException(const CString& strPath, const CString& strMessage, const CString& strFunction, const CString& strFile, const unsigned uLine, const CException& InnerException);
+			CDirectoryException(const CString& strPath, const CString& strMessage, const CString& strFunction, const CString& strFile, const uint32 uLine);
+			CDirectoryException(const CString& strPath, const CString& strMessage, const CString& strFunction, const CString& strFile, const uint32 uLine, const CException& InnerException);
 
 			virtual const CString	GetMessage() const;
 

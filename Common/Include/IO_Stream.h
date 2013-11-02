@@ -13,6 +13,11 @@ namespace CB{
 			End,
 		};
 
+		enum class Direction{
+			Forward,
+			Back
+		};
+
 		class COMMON_API IStream : 
 			public virtual IRef
 		{
@@ -31,8 +36,8 @@ namespace CB{
 
 			virtual const uint32	GetLength() const = 0;	// it may be slow
 
-			virtual void	SetPos(const int iPos);	// default - from begining
-			virtual	void	SetPos(const int iPos, const StreamPos uType) = 0;
+			virtual void	SetPos(const uint32 uPos);	// default - from begining
+			virtual	void	SetPos(const uint32 uPos, const Direction uDirection, const StreamPos uType) = 0;
 
 			virtual const uint32	GetPos() const = 0; // from stream begining
 
@@ -55,6 +60,7 @@ namespace CB{
 			void	Read(_Type* pValue, const uint32 uNumberOfItems){
 				this->Read(pValue, sizeof(_Type), uNumberOfItems);
 			}
+
 			template<typename _Type>
 			void	Write(const Collection::IPacked<_Type>& Array){
 				this->Write(Array.GetPointer(), sizeof(_Type), Array.GetLength());
@@ -67,72 +73,6 @@ namespace CB{
 			void	Write(const _Type* pValue, const uint32 uNumberOfItems){
 				this->Write(pValue, sizeof(_Type), uNumberOfItems);
 			}
-		};
-
-
-		class COMMON_API CTextWriter : public CStreamWriter{
-		public:
-			CTextWriter(const CRefPtr<IStream> pStream);
-			CTextWriter(const IStreamWrapper& Wrapper);
-
-			void	WriteText(const CString& strValue);	// string without 0
-			void	WriteTextANSI(const CString& strValue);
-			void	WriteTextUTF8(const CString& strValue);
-			void	WriteLine(const CString& strValue); // string with new line int8 (windows: return and new line), without 0
-			void	WriteLineANSI(const CString& strValue);
-			void	WriteLineUTF8(const CString& strValue);
-
-		private:
-			const CTextWriter&	operator=(const CTextWriter& Writer);
-		};
-
-		class COMMON_API CStreamReader : public IStreamWrapper{
-		public:
-			CStreamReader(const CRefPtr<IStream> pStream);
-			CStreamReader(const IStreamWrapper& Wrapper);
-
-			void	Read(int8& chValue);
-			void	Read(int16& sValue);
-			void	Read(int32& iValue);
-			void	Read(int64& iValue);
-			void	Read(float32& fValue);
-			void	Read(float64& dValue);
-			void	Read(CString& strValue);	// first 4 byte length, then string without 0
-			void	Read(uint8& uchValue);
-			void	Read(uint16& usValue);
-			void	Read(uint32& uValue);
-			void	Read(uint64& uValue);
-
-			const int8				ReadInt8();
-			const int16				ReadInt16();
-			const int32				ReadInt32();
-			const int64			ReadInt64();
-			const float32				Readfloat3232();
-			const float64			Readfloat3264();
-			const CString		ReadString();	// reads 4 bytes of len without 0, then rest of string
-			const uint8		ReadUInt8();
-			const uint16	ReadUInt16();
-			const uint32		ReadUInt32();
-			const uint64	ReadUInt64();
-
-		private:
-			const CStreamReader&	operator=(const CStreamReader& Reader);
-		};
-
-		class COMMON_API CTextReader : public CStreamReader{
-		public:
-			CTextReader(const CRefPtr<IStream> pStream);
-			CTextReader(const IStreamWrapper& Wrapper);
-
-			const CString		ReadText();	// reads text until int8 0 or end of stream
-			const CString		ReadTextANSI();
-			const CString		ReadTextUTF8();
-			const CString		ReadLine();	// reads text until int8 new line (windows: return and new line) or end of stream
-			const CString		ReadLineANSI();
-			const CString		ReadLineUTF8();
-
-		private:
-			const CTextReader&	operator=(const CTextReader& Reader);
 		};
 	}
 
@@ -148,6 +88,7 @@ namespace CB{
 	}
 
 	namespace String{
-		extern COMMON_API	CString	ToString(const IO::StreamPos uType);
+		extern COMMON_API	const CString	ToString(const IO::StreamPos uType);
+		extern COMMON_API	const CString	ToString(const IO::Direction uDir);
 	}
 }

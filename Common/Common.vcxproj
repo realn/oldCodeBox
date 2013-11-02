@@ -96,6 +96,12 @@
     <ClInclude Include="Include\IO_MemoryStream.h" />
     <ClInclude Include="Include\IO_OSConsoleStream.h" />
     <ClInclude Include="Include\IO_Stream.h" />
+    <ClInclude Include="Include\IO_StreamReader.h" />
+    <ClInclude Include="Include\IO_StreamWrapper.h" />
+    <ClInclude Include="Include\IO_StreamWriter.h" />
+    <ClInclude Include="Include\IO_TextReader.h" />
+    <ClInclude Include="Include\IO_TextWriter.h" />
+    <ClInclude Include="Include\Logger_Formatters.h" />
     <ClInclude Include="Include\Manage_EventHandler.h" />
     <ClInclude Include="Include\Exception.h" />
     <ClInclude Include="Include\IO_Image.h" />
@@ -134,7 +140,7 @@
     <ClInclude Include="Include\Timer.h" />
     <ClInclude Include="Include\Types.h" />
     <ClInclude Include="Include\WindowsErrors.h" />
-    <ClInclude Include="Internal\IO_Directory.h" />
+    <ClInclude Include="Internal\IO_DirectoryWIN.h" />
     <ClInclude Include="Internal\IO_FileStream.h" />
     <ClInclude Include="Internal\IO_FreeImage.h" />
     <ClInclude Include="Internal\IO_WindowsConsoleStream.h" />
@@ -142,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\ApiObject_Exception.cpp" />
+    <ClCompile Include="Source\IO_Directory.cpp" />
     <ClCompile Include="Source\IO_DirectoryWIN.cpp" />
     <ClCompile Include="Source\IO_Directory_Exception.cpp" />
     <ClCompile Include="Source\IO_FileWIN.cpp" />
@@ -176,6 +183,7 @@
     <ClCompile Include="Source\Logger.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Source\Logger_TextFormatter.cpp" />
     <ClCompile Include="Source\Math.cpp" />
     <ClCompile Include="Source\Math_Color.cpp" />
     <ClCompile Include="Source\Math_Matrix.cpp" />

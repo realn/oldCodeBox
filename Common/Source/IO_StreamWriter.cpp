@@ -35,7 +35,7 @@ namespace CB{
 		void	CStreamWriter::Write(const CB::CString& strValue){
 			uint32 uLen = strValue.GetLength();
 			this->m_pStream->Write<uint32>(uLen);
-			this->m_pStream->Write<wchar>(strValue.ToConst(), strValue.GetLength());
+			this->m_pStream->Write((Collection::IPacked<wchar>&)strValue);
 		}
 
 		void	CStreamWriter::Write(const uint8 uchValue){
@@ -54,8 +54,12 @@ namespace CB{
 			this->m_pStream->Write<uint64>(uValue);
 		}
 
+		void	CStreamWriter::Write(const void* pData, const uint32 uSizeInBytes){
+			this->m_pStream->Write(pData, uSizeInBytes, 1);
+		}
+
 		const CStreamWriter&	CStreamWriter::operator=(const CStreamWriter& Writer){
-			throw CB::Exception::CException(L"Not Implemented.", __FUNCTIONW__, __FILEW__, __LINE__);
+			CR_THROWNOTIMPLEMENTED();
 		}
 	}
 }

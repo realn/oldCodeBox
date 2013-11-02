@@ -141,9 +141,6 @@
     <ClInclude Include="Internal\IO_WindowsConsoleStream.h">
       <Filter>Internal</Filter>
     </ClInclude>
-    <ClInclude Include="Internal\IO_Directory.h">
-      <Filter>Internal</Filter>
-    </ClInclude>
     <ClInclude Include="Include\IO_Directory.h">
       <Filter>Include\IO</Filter>
     </ClInclude>
@@ -227,6 +224,27 @@
     </ClInclude>
     <ClInclude Include="Include\CBStringEx.h">
       <Filter>Include\String</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Logger_Formatters.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\IO_StreamWrapper.h">
+      <Filter>Include\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\IO_StreamWriter.h">
+      <Filter>Include\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\IO_TextWriter.h">
+      <Filter>Include\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\IO_StreamReader.h">
+      <Filter>Include\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\IO_TextReader.h">
+      <Filter>Include\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\IO_DirectoryWIN.h">
+      <Filter>Internal</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -385,6 +403,12 @@
     </ClCompile>
     <ClCompile Include="Source\CBStringEx_StringList.cpp">
       <Filter>Source\String</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Logger_TextFormatter.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO_Directory.cpp">
+      <Filter>Source\IO</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

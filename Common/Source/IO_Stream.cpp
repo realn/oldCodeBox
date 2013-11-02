@@ -10,11 +10,11 @@ namespace CB{
 			return true;
 		}
 
-		void	IStream::Read(void* pData, const unsigned uSizeInBytes){
+		void	IStream::Read(void* pData, const uint32 uSizeInBytes){
 			this->Read(pData, uSizeInBytes, 1);
 		}
 
-		void	IStream::Write(const void* pData, const unsigned uSizeInBytes){
+		void	IStream::Write(const void* pData, const uint32 uSizeInBytes){
 			this->Write(pData, uSizeInBytes, 1);
 		}
 
@@ -22,8 +22,8 @@ namespace CB{
 			return IsBeginingOfStream() && IsEndOfStream();
 		}
 
-		void	IStream::SetPos(const int iPos){
-			this->SetPos(iPos, CB::IO::StreamPos::Begin);
+		void	IStream::SetPos(const uint32 uPos){
+			this->SetPos(uPos, IO::Direction::Forward, CB::IO::StreamPos::Begin);
 		}
 
 		void	IStream::Read(CRefPtr<IStream> pStream){
@@ -36,14 +36,24 @@ namespace CB{
 	}
 
 	namespace String{
-		CString	ToString(const IO::StreamPos uType){
-			switch (uType)
-			{
-			case IO::StreamPos::Begin:	return L"Begin";
+		const CString	ToString(const IO::StreamPos uType){
+			switch (uType){
+			case IO::StreamPos::Begin:		return L"Begin";
 			case IO::StreamPos::Current:	return L"Current";
-			case IO::StreamPos::End:	return L"End";
+			case IO::StreamPos::End:		return L"End";
 			default:
-				return FromUInt32((unsigned)uType);
+				return FromUInt32((uint32)uType);
+			}
+		}
+
+		const CString	ToString(const IO::Direction uDirection){
+			switch (uDirection)
+			{
+			case IO::Direction::Forward:	return L"Forward";
+			case IO::Direction::Back:		return L"Back";
+
+			default:
+				return FromUInt32((uint32)uDirection);
 			}
 		}
 	}

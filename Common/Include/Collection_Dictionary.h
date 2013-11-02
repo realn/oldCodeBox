@@ -74,12 +74,12 @@ namespace CB{
 			void			Delete(const typename CEnumerator& Enumerator);
 			void			DeleteByKey(const _KeyType& Key);
 
-			_ValueType&		Get(const _KeyType&	Key);
+			_ValueType&			Get(const _KeyType&	Key);
 			const _ValueType&	Get(const _KeyType& Key) const;
 
-			_KeyType&		GetKey(const uint32 uIndex);
-			const _KeyType&	GetKey(const uint32 uIndex) const;
-			_ValueType&		GetValue(const uint32 uIndex);
+			_KeyType&			GetKey(const uint32 uIndex);
+			const _KeyType&		GetKey(const uint32 uIndex) const;
+			_ValueType&			GetValue(const uint32 uIndex);
 			const _ValueType&	GetValue(const uint32 uIndex) const;
 
 			const bool	Find(const _KeyType& Key, _ValueType& Value) const;
@@ -229,7 +229,7 @@ namespace CB{
 		_ValueType&	CDictionary<_KeyType, _ValueType>::GetValue(const _KeyType& Key) const{
 			if(this->IsEmpty()){
 				throw CB::Exception::CZeroLengthException(L"Dictionary",
-					L"Cannot retrieve value by key from empty dictionary.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Cannot retrieve value by key from empty dictionary.", CR_INFO());
 			}
 
 			try{
@@ -240,22 +240,22 @@ namespace CB{
 			}
 			catch(CB::Exception::CException& Exception){
 				throw CB::Exception::CException(
-					L"Error while searching for matching key.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+					L"Error while searching for matching key.", CR_INFO(), Exception);
 			}
 
 			throw CB::Exception::CException(
-				L"Didn't find key to return dictionary item's value.", __FUNCTIONW__, __FILEW__, __LINE__);
+				L"Didn't find key to return dictionary item's value.", CR_INFO());
 		}
 
 		template<typename _KeyType, typename _ValueType>
 		typename CDictionary<_KeyType, _ValueType>::CItem&	CDictionary<_KeyType, _ValueType>::GetItemByIndex(const uint32 uIndex) const{
 			if(this->IsEmpty()){
 				throw CB::Exception::CZeroLengthException(L"Dictionary",
-					L"Cannot retrieve item from empty dictionary.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Cannot retrieve item from empty dictionary.", CR_INFO());
 			}
 			if(uIndex >= this->GetLength()){
 				throw CB::Exception::CInvalidArgumentException(L"uIndex", String::FromUInt32(uIndex),
-					L"Index out of range.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Index out of range.", CR_INFO());
 			}
 
 			try{
@@ -270,11 +270,11 @@ namespace CB{
 			}
 			catch(CB::Exception::CException& Exception){
 				throw CB::Exception::CException(
-					L"Error while searching for item.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+					L"Error while searching for item.", CR_INFO(), Exception);
 			}
 
 			throw CB::Exception::CInvalidVarValueException(L"uIndex", CB::String::FromUInt32(uIndex),
-				L"Cannot find specified index for dictionary item.", __FUNCTIONW__, __FILEW__, __LINE__);
+				L"Cannot find specified index for dictionary item.", CR_INFO());
 		}
 
 		template<typename _KeyType, typename _ValueType>
@@ -289,7 +289,7 @@ namespace CB{
 			}
 			catch(CB::Exception::CException& Exception){
 				throw CB::Exception::CException(
-					L"Error while creating dictionary copy.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+					L"Error while creating dictionary copy.", CR_INFO(), Exception);
 			}
 		}
 
@@ -300,7 +300,7 @@ namespace CB{
 			}
 			catch(CB::Exception::CException& Exception){
 				throw CB::Exception::CException(
-					L"Error while creating dictionary list copy.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+					L"Error while creating dictionary list copy.", CR_INFO(), Exception);
 			}
 		}
 
@@ -311,7 +311,7 @@ namespace CB{
 			}
 			catch(CB::Exception::CException& Exception){
 				throw CB::Exception::CException(
-					L"Error while creating dictionary raw data copy.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+					L"Error while creating dictionary raw data copy.", CR_INFO(), Exception);
 			}
 		}
 
@@ -319,14 +319,14 @@ namespace CB{
 		const uint32	CDictionary<_KeyType, _ValueType>::Add(const CItem& Item){
 			if(this->Contains(Item.GetKey())){
 				throw CB::Exception::CException(
-					L"Trying to add duplicate dictionary key.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Trying to add duplicate dictionary key.", CR_INFO());
 			}
 			try{
 				return CDictionaryList::Add(Item);
 			}
 			catch(CB::Exception::CException& Exception){
 				throw CB::Exception::CException(
-					L"Error while adding dictionary item.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+					L"Error while adding dictionary item.", CR_INFO(), Exception);
 			}
 		}
 
@@ -352,7 +352,7 @@ namespace CB{
 			}
 			catch(CB::Exception::CException& Exception){
 				throw CB::Exception::CException(
-					L"Error while inserting dictionary item.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+					L"Error while inserting dictionary item.", CR_INFO(), Exception);
 			}
 		}
 
@@ -368,7 +368,7 @@ namespace CB{
 			}
 			catch(CB::Exception::CException& Exception){
 				throw CB::Exception::CException(
-					L"Error while deleting dictionary item.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+					L"Error while deleting dictionary item.", CR_INFO(), Exception);
 			}
 		}
 
@@ -379,7 +379,7 @@ namespace CB{
 			}
 			catch(CB::Exception::CException& Exception){
 				throw CB::Exception::CException(
-					L"Error while deleting dictionary item by enumerator.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+					L"Error while deleting dictionary item by enumerator.", CR_INFO(), Exception);
 			}
 		}
 
@@ -392,12 +392,12 @@ namespace CB{
 				}
 				else{
 					throw CB::Exception::CException(
-						L"Dictionary item not found.", __FUNCTIONW__, __FILEW__, __LINE__);
+						L"Dictionary item not found.", CR_INFO());
 				}
 			}
 			catch(CB::Exception::CException& Exception){
 				throw CB::Exception::CException(
-					L"Error while deleting dictionary item by key value.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+					L"Error while deleting dictionary item by key value.", CR_INFO(), Exception);
 			}
 		}
 
@@ -446,7 +446,7 @@ namespace CB{
 			}
 			catch(CB::Exception::CException& Exception){
 				throw CB::Exception::CException(
-					L"Error while searching for key value.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+					L"Error while searching for key value.", CR_INFO(), Exception);
 			}
 		}
 
@@ -461,7 +461,7 @@ namespace CB{
 			}
 			catch(CB::Exception::CException& Exception){
 				throw CB::Exception::CException(
-				L"Error while checking for key.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+				L"Error while checking for key.", CR_INFO(), Exception);
 			}
 		}
 
@@ -484,7 +484,7 @@ namespace CB{
 			}
 			catch(CB::Exception::CException& Exception){
 				throw CB::Exception::CException(
-					L"Error while searching for key.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+					L"Error while searching for key.", CR_INFO(), Exception);
 			}
 		}
 
@@ -507,7 +507,7 @@ namespace CB{
 			}
 			catch(CB::Exception::CException& Exception){
 				throw CB::Exception::CException(
-					L"Error while searching for value.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+					L"Error while searching for value.", CR_INFO(), Exception);
 			}
 		}
 
@@ -523,7 +523,7 @@ namespace CB{
 			}
 			catch(CB::Exception::CException& Exception){
 				throw CB::Exception::CException(
-					L"Error while coping dictionary items.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+					L"Error while coping dictionary items.", CR_INFO(), Exception);
 			}
 		}
 
@@ -533,7 +533,7 @@ namespace CB{
 				throw CB::Exception::CInvalidArgumentException(
 					L"KeyList, ValueList", String::FromUInt32(KeyList.GetLength()) + L", " + String::FromUInt32(ValueList.GetLength()),
 					L"Cannot create dictionary when key and value lists don't have the same number of items.", 
-					__FUNCTIONW__, __FILEW__, __LINE__);
+					CR_INFO());
 			}
 
 			try{
@@ -544,7 +544,7 @@ namespace CB{
 			}
 			catch(CB::Exception::CException& Exception){
 				throw CB::Exception::CException(
-					L"Error while coping dictionary from key and value lists.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+					L"Error while coping dictionary from key and value lists.", CR_INFO(), Exception);
 			}
 		}
 
@@ -554,7 +554,7 @@ namespace CB{
 				throw CB::Exception::CInvalidArgumentException(
 					L"uKeysLength, uValuesLength", String::FromUInt32(uKeysLength) + L", " + String::FromUInt32(uValuesLength),
 					L"Cannot create dictionary when key and value arrays don't have the same number of items.", 
-					__FUNCTIONW__, __FILEW__, __LINE__);
+					CR_INFO());
 			}
 			if(uKeysLength == 0 || uValuesLength == 0){
 				this->Clear();
@@ -562,11 +562,11 @@ namespace CB{
 			}
 			if(pKeys == 0){
 				throw CB::Exception::CNullArgumentException(L"pKeys",
-					L"Cannot create dictionary from null pointer keys array.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Cannot create dictionary from null pointer keys array.", CR_INFO());
 			}
 			if(pValues == 0){
 				throw CB::Exception::CNullArgumentException(L"pValues",
-					L"Cannot create dictionary from null pointer values array.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Cannot create dictionary from null pointer values array.", CR_INFO());
 			}
 
 			try{
@@ -577,7 +577,7 @@ namespace CB{
 			}
 			catch(CB::Exception::CException& Exception){
 				throw CB::Exception::CException(
-					L"Error while coping dictionary from key and value arrays.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+					L"Error while coping dictionary from key and value arrays.", CR_INFO(), Exception);
 			}
 		}
 
@@ -592,7 +592,7 @@ namespace CB{
 			}
 			catch(CB::Exception::CException& Exception){
 				throw CB::Exception::CException(
-					L"Error while swaping dictionary.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+					L"Error while swaping dictionary.", CR_INFO(), Exception);
 			}
 		}
 
