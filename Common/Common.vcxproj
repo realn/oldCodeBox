@@ -101,7 +101,9 @@
     <ClInclude Include="Include\IO_StreamWriter.h" />
     <ClInclude Include="Include\IO_TextReader.h" />
     <ClInclude Include="Include\IO_TextWriter.h" />
+    <ClInclude Include="Include\Logger_Consts.h" />
     <ClInclude Include="Include\Logger_Formatters.h" />
+    <ClInclude Include="Include\Logger_Interface.h" />
     <ClInclude Include="Include\Manage_EventHandler.h" />
     <ClInclude Include="Include\Exception.h" />
     <ClInclude Include="Include\IO_Image.h" />
@@ -141,8 +143,10 @@
     <ClInclude Include="Include\Types.h" />
     <ClInclude Include="Include\WindowsErrors.h" />
     <ClInclude Include="Internal\IO_DirectoryWIN.h" />
-    <ClInclude Include="Internal\IO_FileStream.h" />
+    <ClInclude Include="Internal\IO_FileStreamWIN.h" />
     <ClInclude Include="Internal\IO_FreeImage.h" />
+    <ClInclude Include="Internal\IO_SoundData.h" />
+    <ClInclude Include="Internal\IO_SoundStream.h" />
     <ClInclude Include="Internal\IO_WindowsConsoleStream.h" />
     <ClInclude Include="Internal\WinPlatform.h" />
   </ItemGroup>
@@ -151,13 +155,14 @@
     <ClCompile Include="Source\IO_Directory.cpp" />
     <ClCompile Include="Source\IO_DirectoryWIN.cpp" />
     <ClCompile Include="Source\IO_Directory_Exception.cpp" />
-    <ClCompile Include="Source\IO_FileWIN.cpp" />
+    <ClCompile Include="Source\IO_FileStreamWIN.cpp" />
     <ClCompile Include="Source\IO_File_Exception.cpp" />
     <ClCompile Include="Source\IO_File_Funcs.cpp" />
     <ClCompile Include="Source\IO_FreeImage_Bitmap.cpp" />
     <ClCompile Include="Source\IO_FreeImage_Data.cpp" />
     <ClCompile Include="Source\IO_FreeImage_Stream.cpp" />
     <ClCompile Include="Source\IO_Path.cpp" />
+    <ClCompile Include="Source\IO_SoundData.cpp" />
     <ClCompile Include="Source\IO_StreamReader.cpp" />
     <ClCompile Include="Source\IO_StreamWriter.cpp" />
     <ClCompile Include="Source\IO_Stream_Exceptions.cpp">

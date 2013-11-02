@@ -1,6 +1,6 @@
 #pragma once 
 
-#include "Logger.h"
+#include "Logger_Interface.h"
 
 namespace CB{
 	namespace Log{
@@ -8,8 +8,7 @@ namespace CB{
 			public IEntryFormatter
 		{
 		protected:
-			CTextFormatter();
-			~CTextFormatter();
+			const String::Encoding	m_uEncoding;
 
 		public:
 			void	LogBegin(CRefPtr<IO::IStream> pStream) override;
@@ -22,6 +21,12 @@ namespace CB{
 			void	FormatEntry(CRefPtr<IO::IStream> pStream, const Exception::CException& Exception, const LogLevel uLevel) override;
 
 			static CRefPtr<CTextFormatter>	Create();
+			static CRefPtr<CTextFormatter>	Create(const String::Encoding uEncoding);
+
+		protected:
+			CTextFormatter(const CTextFormatter&);
+			CTextFormatter(const String::Encoding uEncoding);
+			~CTextFormatter();
 		};
 	}
 }

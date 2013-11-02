@@ -3,6 +3,7 @@
 #include "../Internal/IO_FreeImage.h"
 #include "../Include/Math.h"
 #include "../Include/CBStringEx.h"
+#include "../Include/SmartPointers_AutoPtr.h"
 
 namespace CB{
 	namespace IO{
@@ -22,7 +23,10 @@ namespace CB{
 		}
 
 		CImage::~CImage(){
-			this->Free();
+			try{
+				this->Free();
+			}
+			catch(Exception::CException&){}
 		}
 
 		void	CImage::Create(const Math::CSize& Size){
@@ -32,7 +36,7 @@ namespace CB{
 		void	CImage::Create(const Math::CSize& Size, const Image::BitFormat uFormat){
 			this->Free();
 
-			unsigned uBits = 0;
+			uint32 uBits = 0;
 			switch (uFormat)
 			{
 			case Image::BitFormat::f4Bit:	uBits = 4; break;
@@ -42,7 +46,7 @@ namespace CB{
 			case Image::BitFormat::f32Bit:	uBits = 32; break;
 			default:
 				throw Exception::CInvalidArgumentException(L"uFormat", String::ToString(uFormat),
-					L"Invalid image bit format.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Invalid image bit format.", CR_INFO());
 			}
 
 			try{
@@ -54,7 +58,7 @@ namespace CB{
 			}
 			catch(Exception::CException& Exception){
 				throw Exception::CException(
-					L"Error while creating image.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+					L"Error while creating image.", CR_INFO(), Exception);
 			}
 		}
 
@@ -65,7 +69,7 @@ namespace CB{
 		void	CImage::ReadFromStream(CRefPtr<IO::IStream> pStream){
 			if(pStream.IsNull()){
 				throw Exception::CNullArgumentException(L"pStream",
-					L"Need valid stream for reading.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Need valid stream for reading.", CR_INFO());
 			}
 
 			try{
@@ -79,13 +83,13 @@ namespace CB{
 
 				if(ImageData->Format == FIF_UNKNOWN){
 					throw Exception::CException(
-						L"Failed to recognize file type.", __FUNCTIONW__, __FILEW__, __LINE__);
+						L"Failed to recognize file type.", CR_INFO());
 				}
 
 				ImageData->Bitmap.Set(FreeImage_LoadFromMemory(ImageData->Format, imageStream.Get()));
 				if(!ImageData->Bitmap.IsValid()){
 					throw Exception::CException(
-						L"Failed to load image from memory.", __FUNCTIONW__, __FILEW__, __LINE__);
+						L"Failed to load image from memory.", CR_INFO());
 				}
 
 				this->Free();
@@ -93,7 +97,7 @@ namespace CB{
 			}
 			catch(Exception::CException& Exception){
 				throw Exception::CException(
-					L"Error while loading image from stream.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+					L"Error while loading image from stream.", CR_INFO(), Exception);
 			}
 		}
 
@@ -113,11 +117,11 @@ namespace CB{
 		void	CImage::WriteToStream(CRefPtr<IO::IStream> pStream, Image::FileType uFileType) const{
 			if(pStream == 0){
 				throw Exception::CNullArgumentException(L"pStream",
-					L"Need valid stream to write image.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Need valid stream to write image.", CR_INFO());
 			}
 			if(!this->IsLoaded()){
 				throw Exception::CException(
-					L"Image must be loaded for writing to stream.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Image must be loaded for writing to stream.", CR_INFO());
 			}
 
 			try{
@@ -130,28 +134,28 @@ namespace CB{
 				case Image::FileType::Png:		uFormat = FIF_PNG;		break;
 				default:
 					throw Exception::CInvalidArgumentException(L"uFileType", String::ToString(uFileType),
-						L"Invalid file type.", __FUNCTIONW__, __FILEW__, __LINE__);
+						L"Invalid file type.", CR_INFO());
 				}
 
 				FreeImage::CStream FreeStream(0, 0);
 
 				if(!FreeImage_SaveToMemory(uFormat, this->m_Data.Get<FreeImage::CData>()->Bitmap.Get(), FreeStream.Get())){
 					throw Exception::CException(
-						L"Failed to save image data.", __FUNCTIONW__, __FILEW__, __LINE__);
+						L"Failed to save image data.", CR_INFO());
 				}
 
 				BYTE* pByteData = 0;
 				DWORD dwLength = 0;
 				if(!FreeImage_AcquireMemory(FreeStream.Get(), &pByteData, &dwLength)){
 					throw Exception::CException(
-						L"Failed to acquire image data.", __FUNCTIONW__, __FILEW__, __LINE__);
+						L"Failed to acquire image data.", CR_INFO());
 				}
 
 				pStream->Write(pByteData, dwLength);
 			}
 			catch(Exception::CException& Exception){
 				throw Exception::CException(
-					L"Failed to write image to stream.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+					L"Failed to write image to stream.", CR_INFO(), Exception);
 			}
 		}
 
@@ -179,7 +183,7 @@ namespace CB{
 			}
 		}
 
-		const unsigned	CImage::GetBytesPerPixel() const{
+		const uint32	CImage::GetBytesPerPixel() const{
 			if(!this->IsLoaded()){
 				return 0;
 			}
@@ -199,13 +203,13 @@ namespace CB{
 			}
 		}
 
-		void	CImage::GetPixels(Collection::CList<unsigned char>& Array) const{
+		void	CImage::GetPixels(Collection::CList<byte>& Array) const{
 			if(!this->IsLoaded()){
 				throw Exception::CException(
-					L"Cannot retrieve data when image not loaded.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Cannot retrieve data when image not loaded.", CR_INFO());
 			}
 			Math::CSize Size = this->GetSize();
-			unsigned uBytes = this->GetBytesPerPixel();
+			uint32 uBytes = this->GetBytesPerPixel();
 
 			Array.Resize(Size.Width * Size.Height * uBytes);
 			Memory::CopyArray(FreeImage_GetBits(this->m_Data.Get<FreeImage::CData>()->Bitmap.Get()), &Array[0], Array.GetLength());
@@ -218,7 +222,7 @@ namespace CB{
 		void	CImage::Convert(const Image::BitFormat uFormat){
 			if(!this->IsLoaded()){
 				throw Exception::CException(
-					L"Cannot convert not loaded image.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Cannot convert not loaded image.", CR_INFO());
 			}
 			FreeImage::CBitmap Bitmap;
 			switch (uFormat)
@@ -240,12 +244,12 @@ namespace CB{
 
 			default:
 				throw Exception::CInvalidArgumentException(L"uFormat", String::ToString(uFormat),
-					L"Failed to convert bitmap image.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Failed to convert bitmap image.", CR_INFO());
 			}
 
 			if(!Bitmap.IsValid()){
 				throw Exception::CException(
-					L"Image conversion failed.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Image conversion failed.", CR_INFO());
 			}
 
 			this->m_Data.Get<FreeImage::CData>()->Bitmap.Free();
@@ -255,7 +259,7 @@ namespace CB{
 		void	CImage::Flip(const Image::FlipType uType){
 			if(!this->IsLoaded()){
 				throw Exception::CException(
-					L"Cannot flip not loaded image.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Cannot flip not loaded image.", CR_INFO());
 			}
 			switch (uType)
 			{
@@ -267,7 +271,7 @@ namespace CB{
 			
 			default:
 				throw Exception::CInvalidArgumentException(L"uType", String::ToString(uType),
-					L"Invalid flip type.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Invalid flip type.", CR_INFO());
 			}
 		}
 
@@ -282,11 +286,11 @@ namespace CB{
 		void	CImage::Resize(const Math::CSize& Size, const Image::ScaleFilter uFilter, const bool bKeepRatio){
 			if(!this->IsLoaded()){
 				throw Exception::CException(
-					L"Cannot resize not loaded image.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Cannot resize not loaded image.", CR_INFO());
 			}
 
-			unsigned uWidth = Size.Width;
-			unsigned uHeight = Size.Height;
+			uint32 uWidth = Size.Width;
+			uint32 uHeight = Size.Height;
 			FREE_IMAGE_FILTER uFreeFilter;
 
 			switch (uFilter)
@@ -299,24 +303,24 @@ namespace CB{
 			case Image::ScaleFilter::Lanczos3:		uFreeFilter = FILTER_LANCZOS3;	break;
 			default:
 				throw Exception::CInvalidArgumentException(L"uFilter", String::ToString(uFilter),
-					L"Invalid filter to resize image.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Invalid filter to resize image.", CR_INFO());
 			}
 
 			if(bKeepRatio){
 				Math::CSize imgSize = this->GetSize();
 				float fRatio = float(imgSize.Width) / float(imgSize.Height);
 				if(imgSize.Width > imgSize.Height){
-					uHeight = unsigned(float(uWidth) / fRatio);
+					uHeight = uint32(float(uWidth) / fRatio);
 				}
 				else{
-					uWidth = unsigned(float(uHeight) * fRatio);
+					uWidth = uint32(float(uHeight) * fRatio);
 				}
 			}
 
 			FreeImage::CBitmap Bitmap(FreeImage_Rescale(this->m_Data.Get<FreeImage::CData>()->Bitmap.Get(), uWidth, uHeight, uFreeFilter));
 			if(!Bitmap.IsValid()){
 				throw Exception::CException(
-					L"Failed to resize image.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Failed to resize image.", CR_INFO());
 			}
 
 			this->m_Data.Get<FreeImage::CData>()->Bitmap.Free();
@@ -326,7 +330,7 @@ namespace CB{
 		void	CImage::CopyTo(CImage& Image) const{
 			if(!this->IsLoaded()){
 				throw Exception::CException(
-					L"Cannot copy not loaded image.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Cannot copy not loaded image.", CR_INFO());
 			}
 
 			CAutoPtr<FreeImage::CData> Data = new FreeImage::CData(this->m_Data.Get<FreeImage::CData>()->Format);
@@ -334,7 +338,7 @@ namespace CB{
 
 			if(!Data->Bitmap.IsValid()){
 				throw Exception::CException(
-					L"Failed to copy image.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Failed to copy image.", CR_INFO());
 			}
 
 			Image.Free();
@@ -344,7 +348,7 @@ namespace CB{
 		void	CImage::CopyTo(CImage& Image, const Math::CRectangle& rtSource) const{
 			if(!this->IsLoaded()){
 				throw Exception::CException(
-					L"Cannot copy from not loaded image.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Cannot copy from not loaded image.", CR_INFO());
 			}
 
 			CAutoPtr<FreeImage::CData> pData = new FreeImage::CData(this->m_Data.Get<FreeImage::CData>()->Format);
@@ -353,7 +357,7 @@ namespace CB{
 
 			if(!pData->Bitmap.IsValid()){
 				throw Exception::CException(
-					L"Failed to copy image.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Failed to copy image.", CR_INFO());
 			}
 
 			Image.Free();
@@ -367,17 +371,17 @@ namespace CB{
 		void	CImage::PasteTo(CImage& Image, const Math::CPoint& ptPosition, const float fAlpha) const{
 			if(!this->IsLoaded()){
 				throw Exception::CException(
-					L"Cannot paste from not loaded image.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Cannot paste from not loaded image.", CR_INFO());
 			}
 			if(!Image.IsLoaded()){
 				throw Exception::CException(
-					L"Cannot paste to not loaded image.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Cannot paste to not loaded image.", CR_INFO());
 			}
 
 			if(!FreeImage_Paste(Image.m_Data.Get<FreeImage::CData>()->Bitmap.Get(), this->m_Data.Get<FreeImage::CData>()->Bitmap.Get(), 
 				ptPosition.X, ptPosition.Y, int(Math::Clamp01(fAlpha) * 255.0f))){
 					throw Exception::CException(
-						L"Failed to paste image.", __FUNCTIONW__, __FILEW__, __LINE__);
+						L"Failed to paste image.", CR_INFO());
 			}
 		}
 
@@ -413,7 +417,7 @@ namespace CB{
 			case IO::Image::BitFormat::f24Bit:	return L"24 Bits";
 			case IO::Image::BitFormat::f32Bit:	return L"32 Bits";
 			default:
-				return L"Unknwon";
+				return String::ToString((uint32)uFormat);
 			}
 		}
 
@@ -423,7 +427,7 @@ namespace CB{
 			case IO::Image::ColorFormat::RGB:	return L"RGB";
 			case IO::Image::ColorFormat::RGBA:	return L"RGBA";
 			default:
-				return L"Unknown";
+				return String::ToString((uint32)uFormat);
 			}
 		}
 
@@ -435,7 +439,7 @@ namespace CB{
 			case IO::Image::FileType::Png:		return L"Png";
 			case IO::Image::FileType::Targa:	return L"Targa";
 			default:
-				return L"Unknown";
+				return String::ToString((uint32)uType);
 			}
 		}
 
@@ -445,8 +449,7 @@ namespace CB{
 			case IO::Image::FlipType::Horizontal:	return L"Horizontal";
 			case IO::Image::FlipType::Vertical:		return L"Vertical";
 			default:
-				throw Exception::CInvalidArgumentException(L"uType", FromUInt32((unsigned)uType),
-					L"Invalid flip type", __FUNCTIONW__, __FILEW__, __LINE__);
+				return String::ToString((uint32)uType);
 			}
 		}
 
@@ -460,8 +463,7 @@ namespace CB{
 			case IO::Image::ScaleFilter::CatmullRom:	return L"CatmullRom";
 			case IO::Image::ScaleFilter::Lanczos3:		return L"Lanczos3";
 			default:
-				throw Exception::CInvalidArgumentException(L"uFilter", FromUInt32((unsigned)uFilter),
-					L"Unknown image filter type.", __FUNCTIONW__, __FILEW__, __LINE__);
+				return String::ToString((uint32)uFilter);
 			}
 		}
 	}

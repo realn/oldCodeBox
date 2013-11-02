@@ -1,19 +1,22 @@
 #include "../Internal/IO_WindowsConsoleStream.h"
 #include "../Include/WindowsErrors.h"
+#include "../Include/Collection_List.h"
 
 namespace CB{
 	CWindowsConsoleStream*	Manage::CRefSingleton<CWindowsConsoleStream>::ms_pInstance = 0;
 
-	CWindowsConsoleStream::CWindowsConsoleStream(){
+	CWindowsConsoleStream::CWindowsConsoleStream() : 
+		m_hConsole(0)
+	{
 		if(!AllocConsole()){
 			//throw Exception::CStreamException(
-			//	L"Failed to allocate new console.", __FUNCTIONW__, __FILEW__, __LINE__);
+			//	L"Failed to allocate new console.", CR_INFO());
 		}
 
 		this->m_hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 		if(this->m_hConsole == 0 || this->m_hConsole == INVALID_HANDLE_VALUE){
 			throw Exception::CStreamException(
-				L"Failed to aquire console handle. " + CWindowsError(GetLastError()).GetMessage(), __FUNCTIONW__, __FILEW__, __LINE__);
+				L"Failed to aquire console handle. " + CWindowsError(GetLastError()).GetMessage(), CR_INFO());
 		}
 	}
 
@@ -22,7 +25,7 @@ namespace CB{
 
 		if(!FreeConsole()){
 			throw Exception::CStreamException(
-				L"Failed to free console stream.", __FUNCTIONW__, __FILEW__, __LINE__);
+				L"Failed to free console stream.", CR_INFO());
 		}
 	}
 
@@ -34,55 +37,52 @@ namespace CB{
 		return true;
 	}
 
-	void	CWindowsConsoleStream::Read(void* pData, const unsigned uSizeInBytes, const unsigned uNumberOfElements){
+	void	CWindowsConsoleStream::Read(void* pData, const uint32 uSizeInBytes, const uint32 uNumberOfElements){
 		throw Exception::CStreamException(
-			L"Windows console stream cannot be readed.", __FUNCTIONW__, __FILEW__, __LINE__);
+			L"Windows console stream cannot be readed.", CR_INFO());
 	}
 
-	void	CWindowsConsoleStream::Write(const void* pData, const unsigned uSizeInBytes, const unsigned uNumberOfElements){
-		Collection::CList<char> Data;
-
+	void	CWindowsConsoleStream::Write(const void* pData, const uint32 uSizeInBytes, const uint32 uNumberOfElements){
+		Collection::CList<byte> Data;
 		try{
-			Collection::CLinkList<char> List((char*)pData, uSizeInBytes * uNumberOfElements);
+			Data.Set(uSizeInBytes * uNumberOfElements, (byte*)pData);
 	
-			Collection::CLinkList<char>::CEnumerator Enumerator = List.GetEnumerator();
-			unsigned uIndex = 0;
-			for(Enumerator.ToFirst(); Enumerator.HasNext(); Enumerator.Next()){
-				if(Enumerator.Get() == '\n'){
-					List.Insert(uIndex, '\r');
+			for(uint32 uIndex = 0; uIndex < Data.GetLength(); uIndex++){
+				if(Data[uIndex] == (byte)'\n'){
+					if(uIndex > 0 && Data[uIndex - 1] == (byte)'\r'){
+						continue;
+					}
+					Data.Insert(uIndex, (byte)'\r');
 					uIndex++;
 				}
-				uIndex++;
 			}
-			Data = List;
 		}
 		catch(Exception::CException& Exception){
 			throw Exception::CStreamException(
-				L"Error while converting data for console buffer write.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+				L"Error while converting data for console buffer write.", CR_INFO(), Exception);
 		}
 
 		DWORD dwCount = 0;
-		if(!WriteConsoleA(this->m_hConsole, &Data[0], Data.GetLength(), &dwCount, 0)){
+		if(!WriteConsoleA(this->m_hConsole, Data.GetPointer(), Data.GetSizeInBytes(), &dwCount, 0)){
 			throw Exception::CStreamException(
-				L"Failed to write to console buffer. " + CWindowsError(GetLastError()).GetMessage(), __FUNCTIONW__, __FILEW__, __LINE__);
+				L"Failed to write to console buffer. " + CWindowsError(GetLastError()).GetMessage(), CR_INFO());
 		}
 	}
 
-	void	CWindowsConsoleStream::Read(CRefPtr<IStream> pOutStream, const unsigned uSizeInBytes){
+	void	CWindowsConsoleStream::Read(CRefPtr<IStream> pOutStream, const uint32 uSizeInBytes){
 		throw Exception::CStreamException(
-			L"Windows Console stream cannot be readed.", __FUNCTIONW__, __FILEW__, __LINE__);
+			L"Windows Console stream cannot be readed.", CR_INFO());
 	}
 
-	void	CWindowsConsoleStream::Write(CRefPtr<IStream> pInStream, const unsigned uSizeInBytes){
+	void	CWindowsConsoleStream::Write(CRefPtr<IStream> pInStream, const uint32 uSizeInBytes){
 		try{
-			Collection::CList<char> Data(uSizeInBytes);
-			Memory::SetZeroArray(Data);
+			Collection::CList<byte> Data(uSizeInBytes);
 			pInStream->Read(Data);
 			dynamic_cast<IO::IStream*>(this)->Write(Data);
 		}
 		catch(Exception::CException& Exception){
 			throw Exception::CStreamException(
-				L"Error while writing stream to console.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+				L"Error while writing stream to console.", CR_INFO(), Exception);
 		}
 	}
 
@@ -98,15 +98,15 @@ namespace CB{
 		return false;
 	}
 
-	const unsigned	CWindowsConsoleStream::GetLength() const{
+	const uint32	CWindowsConsoleStream::GetLength() const{
 		return 0xFFFFFFFF;
 	}
 
-	void	CWindowsConsoleStream::SetPos(const int uPos, const IO::StreamPos uType){
+	void	CWindowsConsoleStream::SetPos(const uint32 uPos, const IO::Direction uDirection, const IO::StreamPos uType){
 		return;
 	}
 
-	const unsigned	CWindowsConsoleStream::GetPos() const{
+	const uint32	CWindowsConsoleStream::GetPos() const{
 		return 0;
 	}
 

@@ -302,8 +302,8 @@ namespace CB{
 		const _Type	CList<_Type>::Remove(){
 			CR_ASSERT(!this->IsEmpty(), L"Cannot remove item from empty array.");
 
-			_Type temp(this->m_pList[uIndex]);
 			this->m_uLength--;
+			_Type temp(this->m_pList[this->m_uLength]);
 			this->m_pList[this->m_uLength].~_Type();
 			return temp;
 		}

@@ -56,10 +56,6 @@ namespace CB{
 				ms_pInstance = static_cast<_Type*>(this);
 			}
 			virtual ~CRefSingleton(){
-				if(ms_pInstance == 0){
-					throw CB::Exception::CNullPointerException(L"ms_pInstance",
-						L"Singleton class not exist while deleting one.", __FUNCTIONW__, __FILEW__, __LINE__);
-				}
 				ms_pInstance = 0;
 			}
 

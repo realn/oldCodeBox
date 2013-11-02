@@ -8,7 +8,9 @@
 namespace CB{
 	namespace Manage{
 		template<typename _ItemType>
-		class IEventInvoker : public virtual IRef{
+		class IEventInvoker : 
+			public virtual IRef
+		{
 		protected:
 			IEventInvoker(){}
 			virtual ~IEventInvoker(){}
@@ -19,7 +21,9 @@ namespace CB{
 		};
 
 		template<typename _ItemType>
-		class IBaseEventInvoker : public virtual IEventInvoker<_ItemType>{
+		class IBaseEventInvoker : 
+			public virtual IEventInvoker<_ItemType>
+		{
 		protected:
 			typedef Collection::CLinkList<_ItemType*> EventHandlerList;
 

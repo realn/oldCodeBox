@@ -1,5 +1,5 @@
 #include "../Include/IO_File.h"
-#include "../Internal/IO_FileStream.h"
+#include "../Internal/IO_FileStreamWIN.h"
 #include "../Internal/WinPlatform.h"
 
 namespace CB{
@@ -20,11 +20,11 @@ namespace CB{
 			}
 
 			CRefPtr<IFileStream>	Open(const CString& strFilename, const AccessType uType, const OpenAction uAction, const ShareType uShare){
-				return new CFileStream(strFilename, uType, uAction, uShare);
+				return new CFileStreamWIN(strFilename, uType, uAction, uShare);
 			}
 
 			const bool	Exists(const CString& strFilename){
-				DWORD dwAttr = GetFileAttributesW(strFilename.ToConst());
+				DWORD dwAttr = GetFileAttributesW(strFilename.GetPointer());
 				if(dwAttr != INVALID_FILE_ATTRIBUTES && !(dwAttr & FILE_ATTRIBUTE_DIRECTORY)){
 					return true;
 				}
@@ -37,11 +37,11 @@ namespace CB{
 		const CString	ToString(const IO::File::AccessType uType){
 			switch (uType)
 			{
-			case IO::File::AccessType::ReadOnly:	return L"ReadOnly";
-			case IO::File::AccessType::WriteOnly:	return L"WriteOnly";
+			case IO::File::AccessType::ReadOnly:		return L"ReadOnly";
+			case IO::File::AccessType::WriteOnly:		return L"WriteOnly";
 			case IO::File::AccessType::ReadAndWrite:	return L"ReadAndWrite";
 			default:
-				return L"Unknown Value: " + FromUInt32((unsigned)uType);
+				return L"Unknown Value: " + ToString((unsigned)uType);
 			}
 		}
 
@@ -53,7 +53,7 @@ namespace CB{
 			case IO::File::OpenAction::AlwaysOpen:	return L"AlwaysOpen";
 			case IO::File::OpenAction::AlwaysCreate:	return L"AlwaysCreate";
 			default:
-				return L"Unknown Value: " + FromUInt32((unsigned)uAction);
+				return L"Unknown Value: " + ToString((unsigned)uAction);
 			}
 		}
 
@@ -65,7 +65,7 @@ namespace CB{
 			case IO::File::ShareType::ReadOnly:		return L"ReadOnly";
 			case IO::File::ShareType::ReadAndWrite:	return L"ReadAndWrite";
 			default:
-				return L"Unknown Value: " + FromUInt32((unsigned)uShare);
+				return L"Unknown Value: " + ToString((unsigned)uShare);
 			}
 		}
 	}

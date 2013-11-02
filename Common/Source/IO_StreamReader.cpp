@@ -13,49 +13,49 @@ namespace CB{
 		}
 
 		void	CStreamReader::Read(int8& chValue){
-			this->m_pStream->Read<int8>(chValue);
+			this->m_pStream->ReadValue<int8>(chValue);
 		}
 
 		void	CStreamReader::Read(int16& sValue){
-			this->m_pStream->Read<int16>(sValue);
+			this->m_pStream->ReadValue<int16>(sValue);
 		}
 
 		void	CStreamReader::Read(int32& iValue){
-			this->m_pStream->Read<int32>(iValue);
+			this->m_pStream->ReadValue<int32>(iValue);
 		}
 		
 		void	CStreamReader::Read(int64& iValue){
-			this->m_pStream->Read<int64>(iValue);
+			this->m_pStream->ReadValue<int64>(iValue);
 		}
 
 		void	CStreamReader::Read(uint8& uchValue){
-			this->m_pStream->Read<uint8>(uchValue);
+			this->m_pStream->ReadValue<uint8>(uchValue);
 		}
 
 		void	CStreamReader::Read(uint16& ushValue){
-			this->m_pStream->Read<uint16>(ushValue);
+			this->m_pStream->ReadValue<uint16>(ushValue);
 		}
 
 		void	CStreamReader::Read(uint32& uValue){
-			this->m_pStream->Read<uint32>(uValue);
+			this->m_pStream->ReadValue<uint32>(uValue);
 		}
 
 		void	CStreamReader::Read(uint64& uValue){
-			this->m_pStream->Read<uint64>(uValue);
+			this->m_pStream->ReadValue<uint64>(uValue);
 		}
 
 		void	CStreamReader::Read(float32& fValue){
-			this->m_pStream->Read<float32>(fValue);
+			this->m_pStream->ReadValue<float32>(fValue);
 		}
 
 		void	CStreamReader::Read(float64& dValue){
-			this->m_pStream->Read<float64>(dValue);
+			this->m_pStream->ReadValue<float64>(dValue);
 		}
 
 		void	CStreamReader::Read(CString& strValue){
 			unsigned uLen = this->ReadUInt32();
 			strValue.Resize(uLen);
-			this->m_pStream->Read<wchar>(&strValue[0], uLen);
+			this->m_pStream->Read(strValue);
 		}
 
 		const int8	CStreamReader::ReadInt8(){

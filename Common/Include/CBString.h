@@ -94,7 +94,7 @@ namespace CB{
 		static inline const CString ToString(const float32 fValue){ return FromFloat(fValue); }
 		static inline const CString ToString(const bool bValue){ return FromBool(bValue); }
 		
-		extern COMMON_API const int8		ToInt32(const CString& strText);
+		extern COMMON_API const int32		ToInt32(const CString& strText);
 		extern COMMON_API const uint32		ToUInt32(const CString& strText);
 		extern COMMON_API const float32		ToFloat(const CString& strText);
 		extern COMMON_API const bool		ToBool(const CString& strText);

@@ -220,10 +220,10 @@ namespace CB{
 			}
 		}
 
-		const bool	MultiCompare(const CString& strText, const uint32 uPos, const Collection::IPacked<wchar>& int8List){
+		const bool	MultiCompare(const CString& strText, const uint32 uPos, const Collection::ICountable<wchar>& CharList){
 			const wchar& toCompare = strText[uPos];
-			for(uint32 uIndex = 0; uIndex < int8List.GetLength(); uIndex++){
-				if(toCompare == int8List[uIndex]){
+			for(uint32 uIndex = 0; uIndex < CharList.GetLength(); uIndex++){
+				if(toCompare == CharList[uIndex]){
 					return true;
 				}
 			}

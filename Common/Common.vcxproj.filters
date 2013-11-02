@@ -55,12 +55,12 @@
     <Filter Include="Include\Smart Pointers">
       <UniqueIdentifier>{57700074-8fbc-4dcf-a84a-0cf86eb48b2e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Include\Logger">
+      <UniqueIdentifier>{f592bf8a-aea6-492b-9962-af77348d181d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Exception.h">
-      <Filter>Include</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Logger.h">
       <Filter>Include</Filter>
     </ClInclude>
     <ClInclude Include="Include\Macros.h">
@@ -134,9 +134,6 @@
     </ClInclude>
     <ClInclude Include="Include\Module.h">
       <Filter>Include</Filter>
-    </ClInclude>
-    <ClInclude Include="Internal\IO_FileStream.h">
-      <Filter>Internal</Filter>
     </ClInclude>
     <ClInclude Include="Internal\IO_WindowsConsoleStream.h">
       <Filter>Internal</Filter>
@@ -225,9 +222,6 @@
     <ClInclude Include="Include\CBStringEx.h">
       <Filter>Include\String</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Logger_Formatters.h">
-      <Filter>Include</Filter>
-    </ClInclude>
     <ClInclude Include="Include\IO_StreamWrapper.h">
       <Filter>Include\IO</Filter>
     </ClInclude>
@@ -245,6 +239,27 @@
     </ClInclude>
     <ClInclude Include="Internal\IO_DirectoryWIN.h">
       <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\IO_FileStreamWIN.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\IO_SoundData.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\IO_SoundStream.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Logger.h">
+      <Filter>Include\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Logger_Formatters.h">
+      <Filter>Include\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Logger_Interface.h">
+      <Filter>Include\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Logger_Consts.h">
+      <Filter>Include\Logger</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -356,9 +371,6 @@
     <ClCompile Include="Source\IO_File_Funcs.cpp">
       <Filter>Source\IO</Filter>
     </ClCompile>
-    <ClCompile Include="Source\IO_FileWIN.cpp">
-      <Filter>Source\IO</Filter>
-    </ClCompile>
     <ClCompile Include="Source\IO_WindowsConsoleStream.cpp">
       <Filter>Source\IO</Filter>
     </ClCompile>
@@ -408,6 +420,12 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\IO_Directory.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO_FileStreamWIN.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO_SoundData.cpp">
       <Filter>Source\IO</Filter>
     </ClCompile>
   </ItemGroup>

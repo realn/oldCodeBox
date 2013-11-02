@@ -1,9 +1,9 @@
 #include "../Include/Logger.h"
 #include "../Include/Logger_Formatters.h"
 
-namespace CB{
-	Log::CLogger*	Manage::CRefSingleton<Log::CLogger>::ms_pInstance = 0;
+CB::Log::CLogger*	CB::Manage::CRefSingleton<CB::Log::CLogger>::ms_pInstance = 0;
 
+namespace CB{
 	namespace Log{
 		CLogger::CLogger() : 
 			m_bDebugMode(false)

@@ -3,11 +3,13 @@
 #include "Math_Size.h"
 #include "Math_Rectangle.h"
 #include "IO_Stream.h"
+#include "SmartPointers_Hidden.h"
+#include "Collection_List.h"
 
 namespace CB{
 	namespace IO{
 		namespace Image{
-			enum class FileType : unsigned{
+			enum class FileType : uint32{
 				Unknown,
 				Bitmap,
 				Targa,
@@ -15,7 +17,7 @@ namespace CB{
 				Png,
 			};
 
-			enum class BitFormat : unsigned{
+			enum class BitFormat : uint32{
 				Unknown,
 				f4Bit,
 				f8Bit,
@@ -35,7 +37,7 @@ namespace CB{
 				Vertical,
 			};
 
-			enum class ScaleFilter : unsigned{
+			enum class ScaleFilter : uint32{
 				Box,
 				BiLinear,
 				BSpline,
@@ -66,10 +68,11 @@ namespace CB{
 
 			const Math::CSize			GetSize() const;
 			const Image::BitFormat		GetBitFormat() const;
-			const unsigned				GetBytesPerPixel() const;
+			const uint32				GetBytesPerPixel() const;
 			const Image::ColorFormat	GetColorFormat() const;
-			void		GetPixels(CB::Collection::CList<unsigned char>& Pixels) const;
-			const bool	IsLoaded() const;
+			const bool					IsLoaded() const;
+
+			void	GetPixels(Collection::CList<byte>& Pixels) const;
 
 			void	Convert(const Image::BitFormat uFormat);
 			void	Flip(const Image::FlipType uFlip);
@@ -88,6 +91,7 @@ namespace CB{
 		};
 
 	}
+
 	namespace String{
 		extern COMMON_API const CString	ToString(const IO::Image::BitFormat uFormat);
 		extern COMMON_API const CString	ToString(const IO::Image::ColorFormat uFormat);

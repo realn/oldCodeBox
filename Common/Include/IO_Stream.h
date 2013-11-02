@@ -53,7 +53,7 @@ namespace CB{
 				this->Read(Array.GetPointer(), sizeof(_Type), Array.GetLength());
 			}
 			template<typename _Type>
-			void	Read(_Type& Value){
+			void	ReadValue(_Type& Value){
 				this->Read(&Value, sizeof(_Type), 1);
 			}
 			template<typename _Type>
@@ -66,7 +66,7 @@ namespace CB{
 				this->Write(Array.GetPointer(), sizeof(_Type), Array.GetLength());
 			}
 			template<typename _Type>
-			void	Write(const _Type& Value){
+			void	WriteValue(const _Type& Value){
 				this->Write(&Value, sizeof(_Type), 1);
 			}
 			template<typename _Type>
@@ -77,7 +77,9 @@ namespace CB{
 	}
 
 	namespace Exception{
-		class COMMON_API CStreamException : public CException{
+		class COMMON_API CStreamException : 
+			public CException
+		{
 		public:
 			CStreamException(const CStreamException& Exception);
 			CStreamException(const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine);

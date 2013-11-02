@@ -71,7 +71,7 @@ namespace CB{
 			this->m_pStream->Write<int8>(buffer);
 		}
 
-		void	CTextWriter::WriteLine(const CString& strValue){
+		void	CTextWriter::WriteLineUTF16(const CString& strValue){
 			this->WriteText(strValue + L"\n");
 		}
 

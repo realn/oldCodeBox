@@ -37,7 +37,7 @@ namespace CB{
 		extern COMMON_API const Collection::CList<wchar>	ToArray(const CString& strText);
 
 		//! Converts to array wihout int8 0 ending.
-		extern COMMON_API const CString	ToString(const Collection::CList<wchar>& Array);
+		extern COMMON_API const CString	ToString(const Collection::IPacked<wchar>& Array);
 
 		extern COMMON_API const bool	SubCompare(const CString& strText, const uint32 uPos, const Collection::ICountable<CString>& strCompare);
 		extern COMMON_API const bool	SubCompare(const CString& strText, const uint32 uPos, const Collection::ICountable<CString>& strCompare, uint32& uEndPos);

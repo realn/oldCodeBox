@@ -3,6 +3,7 @@
 #include "CBStringEx.h"
 #include "Exception.h"
 #include "SmartPointers_AutoPtr.h"
+#include "Collection_LinkList.h"
 
 namespace CB{
 	namespace SXML{

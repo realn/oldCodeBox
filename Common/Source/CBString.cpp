@@ -16,7 +16,7 @@ namespace CB{
 			}
 		}
 
-		const CString	Fromint3232(const int32 iValue){
+		const CString	FromInt32(const int32 iValue){
 			try{
 				std::wstringstream ss;
 
@@ -30,7 +30,7 @@ namespace CB{
 			}
 		}
 
-		const int32	Toint3232(const CString& strText){
+		const int32	ToInt32(const CString& strText){
 			if(strText.IsEmpty()){
 				throw CB::Exception::CZeroLengthArgumentException(L"strText", 
 					L"Cannot convert empty string.", CR_INFO());
@@ -55,7 +55,7 @@ namespace CB{
 			return iValue;
 		}
 
-		const CString	FromUint3232(const uint32 uValue){
+		const CString	FromUInt32(const uint32 uValue){
 			try{
 			std::wstringstream ss;
 
@@ -69,7 +69,7 @@ namespace CB{
 			}
 		}
 
-		const uint32	ToUint3232(const CString& strText){
+		const uint32	ToUInt32(const CString& strText){
 			if(strText.IsEmpty()){
 				throw CB::Exception::CZeroLengthArgumentException(L"strText", 
 					L"Cannot convert empty string.", CR_INFO());
@@ -161,7 +161,7 @@ namespace CB{
 			return false;
 		}
 
-		const bool		Toint3232(const CString& strText, int32& iOutValue){
+		const bool		ToInt32(const CString& strText, int32& iOutValue){
 			try{
 				std::wstringstream ss;
 
@@ -176,7 +176,7 @@ namespace CB{
 			}
 		}
 
-		const bool		ToUint3232(const CString& strText, uint32& uOutValue){
+		const bool		ToUInt32(const CString& strText, uint32& uOutValue){
 			try{
 				std::wstringstream ss;
 

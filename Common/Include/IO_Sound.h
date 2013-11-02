@@ -1,6 +1,8 @@
 #pragma once
 
 #include "IO_Stream.h"
+#include "SmartPointers_Hidden.h"
+#pragma warning(disable : 4251)
 
 namespace CB{
 	namespace IO{
@@ -12,24 +14,24 @@ namespace CB{
 			CSound(CRefPtr<IStream> pStream);
 			~CSound();
 
-			const unsigned	GetNumberOfChannels() const;
-			const unsigned	GetNumberOfFrames() const;
-			const unsigned	GetFrequency() const;
+			const uint32	GetNumberOfChannels() const;
+			const uint32	GetNumberOfFrames() const;
+			const uint32	GetFrequency() const;
 
 			CRefPtr<IStream>	GetStream() const;
 
-			void	ReadFrames(short* pData, const unsigned uFrames);
-			void	ReadFrames(Collection::CList<short>& Data);
-			void	ReadFrames(Collection::CList<short>& Data, const unsigned uFrames);
+			void	ReadFrames(int16* pData, const uint32 uFrames);
+			void	ReadFrames(Collection::IPacked<int16>& Data);
+			void	ReadFrames(Collection::IPacked<int16>& Data, const uint32 uFrames);
 
-			void	WriteFrames(const short* pData, const unsigned uFrames);
-			void	WriteFrames(const Collection::CList<short>& Data);
-			void	WriteFrames(const Collection::CList<short>& Data, const unsigned uFrames);
+			void	WriteFrames(const int16* pData, const uint32 uFrames);
+			void	WriteFrames(const Collection::IPacked<int16>& Data);
+			void	WriteFrames(const Collection::IPacked<int16>& Data, const uint32 uFrames);
 
-			void	SetFrame(const unsigned uFrame);
-			void	SetFrame(const int iFrame, StreamPos uType);
+			void	SetFrame(const uint32 uFrame);
+			void	SetFrame(const uint32 iFrame, const Direction uDirection, StreamPos uType);
 
-			const unsigned	GetFrame() const;
+			const uint32	GetFrame() const;
 		};
 	}
 }

@@ -26,7 +26,7 @@ namespace CB{
 				break;
 			}
 
-			MessageBoxW(0, strText.ToConst(), strCaption.ToConst(), MB_OK | dwIcon);
+			MessageBoxW(0, strText.GetPointer(), strCaption.GetPointer(), MB_OK | dwIcon);
 		}
 
 		void Show(const Exception::CException& Exception){

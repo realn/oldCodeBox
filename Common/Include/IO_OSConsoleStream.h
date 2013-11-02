@@ -5,8 +5,9 @@
 
 namespace CB{
 	namespace IO{
-		class IOSConsoleStream : public IO::IStream{
-		public:
+		class IOSConsoleStream : 
+			public IO::IStream
+		{
 		};
 
 		namespace Console{

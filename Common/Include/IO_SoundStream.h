@@ -6,11 +6,11 @@ namespace CB{
 	namespace IO{
 		class ISoundStream : public IStream{
 		public:
-			virtual const unsigned	GetNumberOfChannels() const = 0;
-			virtual const unsigned	GetNumberOfFrames() const = 0;
-			virtual const unsigned	GetFrequency() const = 0;
-			virtual const unsigned	GetSampleSize() const = 0;
-			virtual const unsigned	GetFrameSize() const = 0; // = Sample Size * Num of channels
+			virtual const uint32	GetNumberOfChannels() const = 0;
+			virtual const uint32	GetNumberOfFrames() const = 0;
+			virtual const uint32	GetFrequency() const = 0;
+			virtual const uint32	GetSampleSize() const = 0;
+			virtual const uint32	GetFrameSize() const = 0; // = Sample Size * Num of channels
 		};
 
 		namespace Audio{

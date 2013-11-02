@@ -3,20 +3,28 @@
 
 namespace CB{
 	namespace Log{
-		CTextFormatter::CTextFormatter(){
+		CTextFormatter::CTextFormatter(const CTextFormatter&) : 
+			m_uEncoding(String::Encoding::UTF16)
+		{
+			CR_THROWNOTIMPLEMENTED();
+		}
+
+		CTextFormatter::CTextFormatter(const String::Encoding uEncoding) :
+			m_uEncoding(uEncoding)
+		{
 		}
 
 		CTextFormatter::~CTextFormatter(){
 		}
 
 		void	CTextFormatter::LogBegin(CRefPtr<IO::IStream> pStream){
-			IO::CTextWriter writer(pStream, String::Encoding::ANSI);
+			IO::CTextWriter writer(pStream, this->m_uEncoding);
 
 			writer.WriteLine(L"Log Begin.");
 		}
 
 		void	CTextFormatter::LogEnd(CRefPtr<IO::IStream> pStream){
-			IO::CTextWriter writer(pStream, String::Encoding::ANSI);
+			IO::CTextWriter writer(pStream, this->m_uEncoding);
 
 			writer.WriteLine(L"Log End.");
 		}
@@ -28,13 +36,13 @@ namespace CB{
 		}
 
 		void	CTextFormatter::FormatEntry(CRefPtr<IO::IStream> pStream, const CString& strEntry, const LogLevel uLevel){
-			IO::CTextWriter writer(pStream, String::Encoding::ANSI);
+			IO::CTextWriter writer(pStream, this->m_uEncoding);
 
 			writer.WriteLine(String::ToString(uLevel) + L": " + strEntry);
 		}
 
 		void	CTextFormatter::FormatEntry(CRefPtr<IO::IStream> pStream, const Exception::CException& Exception, const LogLevel uLevel){
-			IO::CTextWriter writer(pStream, String::Encoding::ANSI);
+			IO::CTextWriter writer(pStream, this->m_uEncoding);
 
 			writer.WriteLine(String::ToString(uLevel) + L": EXCEPTION:");
 			writer.WriteLine(L"\tFile:\t" + Exception.GetFile());
@@ -55,7 +63,11 @@ namespace CB{
 		}
 
 		CRefPtr<CTextFormatter>	CTextFormatter::Create(){
-			return new CTextFormatter();
+			return Create(String::Encoding::UTF16);
+		}
+
+		CRefPtr<CTextFormatter> CTextFormatter::Create(const String::Encoding uEncoding){
+			return new CTextFormatter(uEncoding);
 		}
 	}
 }

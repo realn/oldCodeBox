@@ -3,7 +3,7 @@
 #include "Types.h"
 
 namespace CB{
-	class CHiddenPtr{
+	class COMMON_API CHiddenPtr{
 	private:
 		void* m_pPtr;
 

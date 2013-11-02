@@ -24,7 +24,7 @@ namespace CB{
 	{
 		if(this->m_pHandle.IsValid()){
 			// rainsing module reference count for proper handling
-			this->m_pHandle.SetCast<HMODULE>(LoadLibraryW(this->m_strName.ToConst()));
+			this->m_pHandle.SetCast<HMODULE>(LoadLibraryW(this->m_strName.GetPointer()));
 		}
 	}
 
@@ -36,7 +36,7 @@ namespace CB{
 		if(this->m_pHandle.IsValid())
 			return;
 
-		this->m_pHandle.SetCast<HMODULE>(LoadLibraryW(this->m_strName.ToConst()));
+		this->m_pHandle.SetCast<HMODULE>(LoadLibraryW(this->m_strName.GetPointer()));
 		if(this->m_pHandle.IsNull()){
 			DWORD dwError = GetLastError();
 			if(dwError == ERROR_MOD_NOT_FOUND){
@@ -69,11 +69,11 @@ namespace CB{
 				L"Cannot load function with empty name string.", __FUNCTIONW__, __FILEW__, __LINE__);
 		}
 
-		Collection::CList<char> szFuncName(strFunctionName.GetLength() + 1);
+		Collection::CList<int8> szFuncName(strFunctionName.GetLength() + 1);
 		Memory::SetZeroArray(szFuncName);
 		String::ToANSI(strFunctionName, szFuncName);
 
-		FARPROC pFunc = GetProcAddress(this->m_pHandle.GetCast<HMODULE>(), &szFuncName[0]);
+		FARPROC pFunc = GetProcAddress(this->m_pHandle.GetCast<HMODULE>(), (const char*)szFuncName.GetPointer());
 		if(pFunc == 0){
 			DWORD dwError = GetLastError();
 

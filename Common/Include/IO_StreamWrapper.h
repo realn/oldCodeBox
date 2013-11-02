@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IO_Stream.h"
+#pragma warning(disable : 4251)
 
 namespace CB{
 	namespace IO{
