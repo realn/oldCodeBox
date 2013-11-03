@@ -353,7 +353,7 @@ namespace CB{
 
 			CAutoPtr<FreeImage::CData> pData = new FreeImage::CData(this->m_Data.Get<FreeImage::CData>()->Format);
 
-			pData->Bitmap.Set(FreeImage_Copy(this->m_Data.Get<FreeImage::CData>()->Bitmap.Get(), rtSource.GetLeft(), rtSource.GetTop(), rtSource.GetRight(), rtSource.GetBottom()));
+			pData->Bitmap.Set(FreeImage_Copy(this->m_Data.Get<FreeImage::CData>()->Bitmap.Get(), rtSource.GetXLower(), rtSource.GetYLower(), rtSource.GetXHigher(), rtSource.GetYHigher()));
 
 			if(!pData->Bitmap.IsValid()){
 				throw Exception::CException(

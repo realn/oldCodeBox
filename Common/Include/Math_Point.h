@@ -1,6 +1,7 @@
 #pragma once
 
-#include "../Include/CBString.h"
+#include "Types.h"
+#include "CBString.h"
 
 #pragma pack(1)
 
@@ -8,18 +9,18 @@ namespace CB{
 	namespace Math{
 		class COMMON_API CPoint{
 		public:
-			int	X;
-			int Y;
+			int32	X;
+			int32	Y;
 
 			CPoint();
 			CPoint(const CPoint& Point);
-			CPoint(const int iValue);
-			CPoint(const int iX, const int iY);
+			CPoint(const int32 iValue);
+			CPoint(const int32 iX, const int32 iY);
 
 			void		SetZero();
 			void		Set(const CPoint& Point);
-			void		Set(const int iValue);
-			void		Set(const int iX, const int iY);
+			void		Set(const int32 iValue);
+			void		Set(const int32 iX, const int32 iY);
 
 			const bool	IsZero() const;
 			const bool	IsPartialZero() const;
@@ -31,13 +32,13 @@ namespace CB{
 			const CPoint	Div(const CPoint& Point) const;
 			const CPoint	Mod(const CPoint& Point) const;
 
-			const CPoint	Mul(const int iValue) const;
-			const CPoint	Div(const int iValue) const;
-			const CPoint	Mod(const int iValue) const;
+			const CPoint	Mul(const int32 iValue) const;
+			const CPoint	Div(const int32 iValue) const;
+			const CPoint	Mod(const int32 iValue) const;
 
 			const CString	ToString() const;
 
-			const CPoint& operator=(const CPoint& Point);
+			const CPoint&	operator=(const CPoint& Point);
 
 			const CPoint	operator+() const;
 			const CPoint	operator-()	const;
@@ -48,9 +49,9 @@ namespace CB{
 			const CPoint	operator/(const CPoint& Point) const;
 			const CPoint	operator%(const CPoint& Point) const;
 
-			const CPoint	operator*(const int iValue) const;
-			const CPoint	operator/(const int iValue) const;
-			const CPoint	operator%(const int iValue) const;
+			const CPoint	operator*(const int32 iValue) const;
+			const CPoint	operator/(const int32 iValue) const;
+			const CPoint	operator%(const int32 iValue) const;
 
 			const CPoint&	operator+=(const CPoint& Point);
 			const CPoint&	operator-=(const CPoint& Point);
@@ -58,36 +59,38 @@ namespace CB{
 			const CPoint&	operator/=(const CPoint& Point);
 			const CPoint&	operator%=(const CPoint& Point);
 
-			const CPoint&	operator*=(const int iValue);
-			const CPoint&	operator/=(const int iValue);
-			const CPoint&	operator%=(const int iValue);
+			const CPoint&	operator*=(const int32 iValue);
+			const CPoint&	operator/=(const int32 iValue);
+			const CPoint&	operator%=(const int32 iValue);
 
 			const bool	operator==(const CPoint& Point) const;
 			const bool	operator!=(const CPoint& Point) const;
 
-			const int&	operator[](const unsigned uIndex) const;
-			int&		operator[](const unsigned uIndex);
+			const int32&	operator[](const uint32 uIndex) const;
+			int32&			operator[](const uint32 uIndex);
 		};
 
-		class COMMON_API CPoint3D : public CPoint{
+		class COMMON_API CPoint3D : 
+			public CPoint
+		{
 		public:
-			int	Z;
+			int32	Z;
 
 			CPoint3D();
 			CPoint3D(const CPoint3D& Point);
 			CPoint3D(const CPoint& Point);
-			CPoint3D(const CPoint& Point, const int Z);
-			CPoint3D(const int iValue);
-			CPoint3D(const int iX, const int iY);
-			CPoint3D(const int iX, const int iY, const int iZ);
+			CPoint3D(const CPoint& Point, const int32 Z);
+			CPoint3D(const int32 iValue);
+			CPoint3D(const int32 iX, const int32 iY);
+			CPoint3D(const int32 iX, const int32 iY, const int32 iZ);
 
 			void		SetZero();
 			void		Set(const CPoint3D& Point);
 			void		Set(const CPoint& Point);
-			void		Set(const CPoint& Point, const int iZ);
-			void		Set(const int iValue);
-			void		Set(const int iX, const int iY);
-			void		Set(const int iX, const int iY, const int iZ);
+			void		Set(const CPoint& Point, const int32 iZ);
+			void		Set(const int32 iValue);
+			void		Set(const int32 iX, const int32 iY);
+			void		Set(const int32 iX, const int32 iY, const int32 iZ);
 
 			const bool	IsZero() const;
 			const bool	IsPartialZero() const;
@@ -99,9 +102,9 @@ namespace CB{
 			const CPoint3D	Div(const CPoint3D& Point) const;
 			const CPoint3D	Mod(const CPoint3D& Point) const;
 
-			const CPoint3D	Mul(const int iValue) const;
-			const CPoint3D	Div(const int iValue) const;
-			const CPoint3D	Mod(const int iValue) const;
+			const CPoint3D	Mul(const int32 iValue) const;
+			const CPoint3D	Div(const int32 iValue) const;
+			const CPoint3D	Mod(const int32 iValue) const;
 
 			const CString	ToString() const;
 
@@ -116,9 +119,9 @@ namespace CB{
 			const CPoint3D	operator/(const CPoint3D& Point) const;
 			const CPoint3D	operator%(const CPoint3D& Point) const;
 
-			const CPoint3D	operator*(const int iValue) const;
-			const CPoint3D	operator/(const int iValue) const;
-			const CPoint3D	operator%(const int iValue) const;
+			const CPoint3D	operator*(const int32 iValue) const;
+			const CPoint3D	operator/(const int32 iValue) const;
+			const CPoint3D	operator%(const int32 iValue) const;
 
 			const CPoint3D&	operator+=(const CPoint3D& Point);
 			const CPoint3D&	operator-=(const CPoint3D& Point);
@@ -126,15 +129,15 @@ namespace CB{
 			const CPoint3D&	operator/=(const CPoint3D& Point);
 			const CPoint3D&	operator%=(const CPoint3D& Point);
 
-			const CPoint3D&	operator*=(const int iValue);
-			const CPoint3D&	operator/=(const int iValue);
-			const CPoint3D&	operator%=(const int iValue);
+			const CPoint3D&	operator*=(const int32 iValue);
+			const CPoint3D&	operator/=(const int32 iValue);
+			const CPoint3D&	operator%=(const int32 iValue);
 
 			const bool	operator==(const CPoint3D& Point) const;
 			const bool	operator!=(const CPoint3D& Point) const;
 
-			const int&	operator[](const unsigned uIndex) const;
-			int&		operator[](const unsigned uIndex);
+			const int32&	operator[](const uint32 uIndex) const;
+			int32&			operator[](const uint32 uIndex);
 		};
 	}
 }

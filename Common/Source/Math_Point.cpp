@@ -3,13 +3,25 @@
 
 namespace CB{
 	namespace Math{
-		CPoint::CPoint() : X(0), Y(0){}
+		CPoint::CPoint() : 
+			X(0), 
+			Y(0)
+		{}
 
-		CPoint::CPoint(const CPoint& Point) : X(Point.X), Y(Point.Y){}
+		CPoint::CPoint(const CPoint& Point) : 
+			X(Point.X), 
+			Y(Point.Y)
+		{}
 
-		CPoint::CPoint(const int iValue) : X(iValue), Y(iValue){}
+		CPoint::CPoint(const int32 iValue) : 
+			X(iValue), 
+			Y(iValue)
+		{}
 
-		CPoint::CPoint(const int iX, const int iY) : X(iX), Y(iY){}
+		CPoint::CPoint(const int32 iX, const int32 iY) : 
+			X(iX), 
+			Y(iY)
+		{}
 
 		void	CPoint::SetZero(){
 			this->X = 0;
@@ -21,12 +33,12 @@ namespace CB{
 			this->Y = Point.Y;
 		}
 
-		void	CPoint::Set(const int iValue){
+		void	CPoint::Set(const int32 iValue){
 			this->X = iValue;
 			this->Y = iValue;
 		}
 
-		void	CPoint::Set(const int iX, const int iY){
+		void	CPoint::Set(const int32 iX, const int32 iY){
 			this->X = iX;
 			this->Y = iY;
 		}
@@ -63,20 +75,20 @@ namespace CB{
 			return CPoint(this->X % Point.X, this->Y % Point.Y);
 		}
 
-		const CPoint	CPoint::Mul(const int iValue) const{
+		const CPoint	CPoint::Mul(const int32 iValue) const{
 			return CPoint(this->X * iValue, this->Y * iValue);
 		}
 
-		const CPoint	CPoint::Div(const int iValue) const{
+		const CPoint	CPoint::Div(const int32 iValue) const{
 			return CPoint(this->X / iValue, this->Y / iValue);
 		}
 
-		const CPoint	CPoint::Mod(const int iValue) const{
+		const CPoint	CPoint::Mod(const int32 iValue) const{
 			return CPoint(this->X % iValue, this->Y % iValue);
 		}
 
 		const CString	CPoint::ToString() const{
-			return L"X: " + String::FromInt32(this->X) + L", Y: " + String::FromInt32(this->Y);
+			return L"X: " + String::ToString(this->X) + L", Y: " + String::ToString(this->Y);
 		}
 
 		const CPoint&	CPoint::operator=(const CPoint& Point){
@@ -112,15 +124,15 @@ namespace CB{
 			return this->Mod(Point);
 		}
 
-		const CPoint	CPoint::operator*(const int iValue) const{
+		const CPoint	CPoint::operator*(const int32 iValue) const{
 			return this->Mul(iValue);
 		}
 
-		const CPoint	CPoint::operator/(const int iValue) const{
+		const CPoint	CPoint::operator/(const int32 iValue) const{
 			return this->Div(iValue);
 		}
 
-		const CPoint	CPoint::operator%(const int iValue) const{
+		const CPoint	CPoint::operator%(const int32 iValue) const{
 			return this->Mod(iValue);
 		}
 
@@ -149,17 +161,17 @@ namespace CB{
 			return *this;
 		}
 
-		const CPoint&	CPoint::operator*=(const int iValue){
+		const CPoint&	CPoint::operator*=(const int32 iValue){
 			*this = this->Mul(iValue);
 			return *this;
 		}
 
-		const CPoint&	CPoint::operator/=(const int iValue){
+		const CPoint&	CPoint::operator/=(const int32 iValue){
 			*this = this->Div(iValue);
 			return *this;
 		}
 
-		const CPoint&	CPoint::operator%=(const int iValue){
+		const CPoint&	CPoint::operator%=(const int32 iValue){
 			*this = this->Mod(iValue);
 			return *this;
 		}
@@ -172,25 +184,25 @@ namespace CB{
 			return !this->IsEqual(Point);
 		}
 
-		const int&	CPoint::operator[](const unsigned uIndex) const{
+		const int32&	CPoint::operator[](const uint32 uIndex) const{
 			switch (uIndex)
 			{
 			case 0:	return this->X;
 			case 1:	return this->Y;
 			default:
-				throw Exception::CInvalidArgumentException(L"uIndex", CB::String::FromUInt32(uIndex),
-					L"Index out of range.", __FUNCTIONW__, __FILEW__, __LINE__);
+				throw Exception::CInvalidArgumentException(L"uIndex", String::ToString(uIndex),
+					L"Index out of range.", CR_INFO());
 			}
 		}
 
-		int&	CPoint::operator[](const unsigned uIndex){
+		int32&	CPoint::operator[](const uint32 uIndex){
 			switch (uIndex)
 			{
 			case 0:	return this->X;
 			case 1:	return this->Y;
 			default:
-				throw Exception::CInvalidArgumentException(L"uIndex", CB::String::FromUInt32(uIndex),
-					L"Index out of range.", __FUNCTIONW__, __FILEW__, __LINE__);
+				throw Exception::CInvalidArgumentException(L"uIndex", String::ToString(uIndex),
+					L"Index out of range.", CR_INFO());
 			}
 		}
 	}

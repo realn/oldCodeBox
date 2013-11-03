@@ -109,8 +109,14 @@
     <ClInclude Include="Include\IO_Image.h" />
     <ClInclude Include="Include\Logger.h" />
     <ClInclude Include="Include\Macros.h" />
+    <ClInclude Include="Include\Manage_EventHandlerGuard.h" />
+    <ClInclude Include="Include\Manage_EventInvoker.h" />
+    <ClInclude Include="Include\Manage_EventInvokerBase.h" />
     <ClInclude Include="Include\Manage_ObjectManaged.h" />
     <ClInclude Include="Include\Manage_ObjectManager.h" />
+    <ClInclude Include="Include\Math_Box.h" />
+    <ClInclude Include="Include\Math_BoxF.h" />
+    <ClInclude Include="Include\Math_RectangleF.h" />
     <ClInclude Include="Include\Memory.h" />
     <ClInclude Include="Include\Manage_Object.h" />
     <ClInclude Include="Include\IO_Path.h" />
@@ -190,11 +196,14 @@
     </ClCompile>
     <ClCompile Include="Source\Logger_TextFormatter.cpp" />
     <ClCompile Include="Source\Math.cpp" />
+    <ClCompile Include="Source\Math_Box.cpp" />
+    <ClCompile Include="Source\Math_BoxF.cpp" />
     <ClCompile Include="Source\Math_Color.cpp" />
     <ClCompile Include="Source\Math_Matrix.cpp" />
     <ClCompile Include="Source\Math_Point.cpp" />
     <ClCompile Include="Source\Math_Point3D.cpp" />
     <ClCompile Include="Source\Math_Rectangle.cpp" />
+    <ClCompile Include="Source\Math_RectangleF.cpp" />
     <ClCompile Include="Source\Math_Size.cpp" />
     <ClCompile Include="Source\Math_Size3D.cpp" />
     <ClCompile Include="Source\Math_Vector2D.cpp" />

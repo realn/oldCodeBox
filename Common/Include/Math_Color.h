@@ -6,37 +6,37 @@ namespace CB{
 	namespace Math{
 		class COMMON_API CColor{
 		public:
-			float	Red;
-			float	Green;
-			float	Blue;
-			float	Alpha;
+			float32	Red;
+			float32	Green;
+			float32	Blue;
+			float32	Alpha;
 
 			CColor();
 			CColor(const CColor& Color);
 			CColor(const CVector3D& Vector);
-			CColor(const CVector3D& Vector, const float fAlpha);
+			CColor(const CVector3D& Vector, const float32 fAlpha);
 			CColor(const CVector4D& Vector);
 			CColor(const CPoint3D& Point); // clamped to 0-255
-			CColor(const CPoint3D& Point, const float fAlpha);
-			explicit CColor(const float fColor);
-			explicit CColor(const float fColor, const float fAlpha);
-			CColor(const float fRed, const float fGreen, const float fBlue); // clamped to 0-1
-			CColor(const float fRed, const float fGreen, const float fBlue, const float fAlpha);
+			CColor(const CPoint3D& Point, const float32 fAlpha);
+			explicit CColor(const float32 fColor);
+			explicit CColor(const float32 fColor, const float32 fAlpha);
+			CColor(const float32 fRed, const float32 fGreen, const float32 fBlue); // clamped to 0-1
+			CColor(const float32 fRed, const float32 fGreen, const float32 fBlue, const float32 fAlpha);
 
 			void	Set(const CColor& Color);
-			void	Set(const float fColor);
-			void	Set(const float fColor, const float fAlpha);
-			void	Set(const float fRed, const float fGreen, const float fBlue);
-			void	Set(const float fRed, const float fGreen, const float fBlue, const float fAlpha);
-			void	Set(const unsigned char uColor);
-			void	Set(const unsigned char uColor, const unsigned char uAlpha);
-			void	Set(const unsigned char uRed, const unsigned char uGreen, const unsigned char uBlue);
-			void	Set(const unsigned char uRed, const unsigned char uGreen, const unsigned char uBlue, const unsigned char uAlpha);
+			void	Set(const float32 fColor);
+			void	Set(const float32 fColor, const float32 fAlpha);
+			void	Set(const float32 fRed, const float32 fGreen, const float32 fBlue);
+			void	Set(const float32 fRed, const float32 fGreen, const float32 fBlue, const float32 fAlpha);
+			void	Set(const byte uColor);
+			void	Set(const byte uColor, const byte uAlpha);
+			void	Set(const byte uRed, const byte uGreen, const byte uBlue);
+			void	Set(const byte uRed, const byte uGreen, const byte uBlue, const byte uAlpha);
 
-			const unsigned char	GetRedByte() const;
-			const unsigned char GetGreenByte() const;
-			const unsigned char GetBlueByte() const;
-			const unsigned char GetAlphaByte() const;
+			const byte	GetRedByte() const;
+			const byte GetGreenByte() const;
+			const byte GetBlueByte() const;
+			const byte GetAlphaByte() const;
 
 			const bool	IsBlack() const;
 			const bool	IsNearBlack() const;
@@ -53,10 +53,10 @@ namespace CB{
 			const bool IsEqual(const CColor& Color) const;
 			const bool IsNearEqual(const CColor& Color) const;
 
-			const unsigned ToRGBA() const;
-			const unsigned ToARGB() const;
-			const unsigned ToBGRA() const;
-			const unsigned ToABGR() const;
+			const uint32 ToRGBA() const;
+			const uint32 ToARGB() const;
+			const uint32 ToBGRA() const;
+			const uint32 ToABGR() const;
 
 			const CColor	Add(const CColor& Color) const;
 			const CColor	Sub(const CColor& Color) const;
@@ -84,15 +84,15 @@ namespace CB{
 			const bool		operator==(const CColor& Color) const;
 			const bool		operator!=(const CColor& Color) const;
 
-			const float&	operator[](const unsigned uIndex) const;
-			float&			operator[](const unsigned uIndex);
+			const float32&	operator[](const uint32 uIndex) const;
+			float32&			operator[](const uint32 uIndex);
 		};
 
 		class CColorHSV{
 		public:
-			float	H;
-			float	S;
-			float	V;
+			float32	H;
+			float32	S;
+			float32	V;
 		};
 	}
 }

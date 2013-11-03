@@ -5,94 +5,94 @@
 namespace CB{
 	namespace Math{
 
-		const float	g_fPi		= 3.14159265358979323846f;
-		const float g_fPi2		= 6.28318530717958623200f;
-		const float g_fPiDiv2	= 1.57079632679489655800f;
-		const float g_fPiDiv4	= 0.78539816339744827900f;
-		const float g_fPiInv	= 0.31830988618379069122f;
-		const float	g_fHuge		= 1e+6f;
-		const float g_fEpsilon	= 1e-6f;
-		const float g_fDegToRad	= 0.01745329251994329547f;
-		const float g_fRadToDeg	= 57.29577951308232286465f;
+		const float32	g_fPi		= 3.14159265358979323846f;
+		const float32	g_fPi2		= 6.28318530717958623200f;
+		const float32	g_fPiDiv2	= 1.57079632679489655800f;
+		const float32	g_fPiDiv4	= 0.78539816339744827900f;
+		const float32	g_fPiInv	= 0.31830988618379069122f;
+		const float32	g_fHuge		= 1e+6f;
+		const float32	g_fEpsilon	= 1e-6f;
+		const float32	g_fDegToRad	= 0.01745329251994329547f;
+		const float32	g_fRadToDeg	= 57.29577951308232286465f;
 
 
 		// returns true if two values are near equality.
 
-		const bool	IsNearEqual(const float fA, const float fB){
+		const bool	IsNearEqual(const float32 fA, const float32 fB){
 			return IsNearEqual(fA, fB, g_fEpsilon);
 		}
 
-		const bool	IsNearEqual(const float fA, const float fB, const float fTolerance){
+		const bool	IsNearEqual(const float32 fA, const float32 fB, const float32 fTolerance){
 			return Absolute(fA-fB) < fTolerance;
 		}
 
 		// returns true if given value is very near zero.
 
-		const bool	IsNearZero(const float fValue){
+		const bool	IsNearZero(const float32 fValue){
 			return IsNearZero(fValue, g_fEpsilon);
 		}
 
-		const bool	IsNearZero(const float fValue, const float fTolerance){
+		const bool	IsNearZero(const float32 fValue, const float32 fTolerance){
 			return Absolute(fValue) < fTolerance;
 		}
 
 		// returns given value power of two.
 
-		inline const float	Power2(const float fValue){
+		inline const float32	Power2(const float32 fValue){
 			return std::powf(fValue, 2.0f);
 		}
 
 		// returns given value square root.
 
-		inline const float	SqRoot(const float fValue){
+		inline const float32	SqRoot(const float32 fValue){
 			return std::sqrtf(fValue);
 		}
 
 		// returns smaller value of two given.
 
-		inline const float Min(const float fA, const float fB){
+		inline const float32 Min(const float32 fA, const float32 fB){
 			if(fA <= fB){
 				return fA;
 			}
 			return fB;
 		}
 
-		inline const float Min(const float fA, const float fB, const float fC){
+		inline const float32 Min(const float32 fA, const float32 fB, const float32 fC){
 			return Min(Min(fA, fB), fC);
 		}
 
-		inline const float Min(const float fA, const float fB, const float fC, const float fD){
+		inline const float32 Min(const float32 fA, const float32 fB, const float32 fC, const float32 fD){
 			return Min(Min(fA, fB), Min(fC, fD));
 		}
 
-		inline const float Min(const float fA, const float fB, const float fC, const float fD, const float fE){
+		inline const float32 Min(const float32 fA, const float32 fB, const float32 fC, const float32 fD, const float32 fE){
 			return Min(Min(fA, fB), Min(fC, fD), fE);
 		}
 
 		// returns greather value of two given.
 
-		inline const float Max(const float fA, const float fB){
+		inline const float32 Max(const float32 fA, const float32 fB){
 			if(fA >= fB){
 				return fA;
 			}
 			return fB;
 		}
 
-		inline const float Max(const float fA, const float fB, const float fC){
+		inline const float32 Max(const float32 fA, const float32 fB, const float32 fC){
 			return Max(Max(fA, fB), fC);
 		}
 
-		inline const float Max(const float fA, const float fB, const float fC, const float fD){
+		inline const float32 Max(const float32 fA, const float32 fB, const float32 fC, const float32 fD){
 			return Max(Max(fA, fB), Max(fC, fD));
 		}
 
-		inline const float Max(const float fA, const float fB, const float fC, const float fD, const float fE){
+		inline const float32 Max(const float32 fA, const float32 fB, const float32 fC, const float32 fD, const float32 fE){
 			return Max(Max(fA, fB), Max(fC, fD), fE);
 		}
 
 		// returns value clamped between zero and one.
 
-		inline const float	Clamp01(const float fValue){
+		inline const float32	Clamp01(const float32 fValue){
 			if(fValue < 0.0f)	return 0.0f;
 			if(fValue > 1.0f)	return 1.0f;
 			return fValue;
@@ -100,30 +100,30 @@ namespace CB{
 
 		// returns value clamped between zero and max value of byte.
 
-		inline const unsigned	Clamp0255(const unsigned uValue){
+		inline const uint32	Clamp0255(const uint32 uValue){
 			if(uValue > 255)	return 255;
 			return uValue;
 		}
 
-		// converts value range from floating point 0-1 to fixed 0-255
+		// converts value range from float32ing point32 0-1 to fixed 0-255
 
-		inline const unsigned	Convert01to0255(const float fValue){
-			return (unsigned)(Clamp01(fValue) * 255.0f);
+		inline const uint32	Convert01to0255(const float32 fValue){
+			return (uint32)(Clamp01(fValue) * 255.0f);
 		}
 
-		// converts value range from fixed 0-255 to floating point 0-1
+		// converts value range from fixed 0-255 to float32ing point32 0-1
 
-		inline const float	Convert0255to01(const unsigned uValue){
-			return ((float)Clamp0255(uValue)) / 255.0f;
+		inline const float32	Convert0255to01(const uint32 uValue){
+			return ((float32)Clamp0255(uValue)) / 255.0f;
 		}
 
 		// returns absolute number from given value.
 
-		inline const float Absolute(const float fValue){
+		inline const float32 Absolute(const float32 fValue){
 			return std::fabsf(fValue);
 		}
 
-		inline const unsigned	Absolute(const int iValue){
+		inline const uint32	Absolute(const int32 iValue){
 			if(iValue < 0){
 				return -iValue;
 			}
@@ -132,7 +132,7 @@ namespace CB{
 
 		// Permute deux entiers.
 
-		inline void Swap(int &iA, int &iB){
+		inline void Swap(int32 &iA, int32 &iB){
 			int	iC = iA;
 			iA = iB;
 			iB = iC;
@@ -140,8 +140,8 @@ namespace CB{
 
 		// Permute deux réels.
 
-		inline void Swap(float &fA, float &fB){
-			float	fC = fA;
+		inline void Swap(float32 &fA, float32 &fB){
+			float32	fC = fA;
 			fA = fB;
 			fB = fC;
 		}
@@ -158,15 +158,15 @@ namespace CB{
 		//	Mod(8.1, 4) = 0.1
 		//	Mod(n, 1) = partie fractionnaire de n
 
-		inline const float Mod(const float fA, const float fB){
+		inline const float32 Mod(const float32 fA, const float32 fB){
 			return fA - ((int)(fA / fB)) * fB;
 		}
 
 		// Retourne un angle normalisé, c'est-à-dire compris entre
 		// 0 et 2*PI.
 
-		inline const float NormalizeAngle(const float fAngle){
-			float fAng = Mod(fAngle, g_fPi2);
+		inline const float32 NormalizeAngle(const float32 fAngle){
+			float32 fAng = Mod(fAngle, g_fPi2);
 			if(fAng < 0.0f){
 				return g_fPi2 + fAng;
 			}
@@ -175,10 +175,10 @@ namespace CB{
 
 		// Teste si un angle est compris entre 2 bornes.
 
-		const bool TestAngle(const float fAngle, const float fMinAngle, const float fMaxAngle){
-			float fAng = NormalizeAngle(fAngle);
-			float fMin = NormalizeAngle(fMinAngle);
-			float fMax = NormalizeAngle(fMaxAngle);
+		const bool TestAngle(const float32 fAngle, const float32 fMinAngle, const float32 fMaxAngle){
+			float32 fAng = NormalizeAngle(fAngle);
+			float32 fMin = NormalizeAngle(fMinAngle);
+			float32 fMax = NormalizeAngle(fMaxAngle);
 
 			if(fMin > fMax){
 				return (fAng <= fMax || fAng >= fMin);
@@ -189,9 +189,9 @@ namespace CB{
 		// Calcule l'angle permettant de tourner de l'angle a vers l'angle g.
 		// Un angle positif est anti-horaire (CCW).
 
-		const float Direction(const float fAngle, const float fGer){
-			float fA = NormalizeAngle(fAngle);
-			float fG = NormalizeAngle(fGer);
+		const float32 Direction(const float32 fAngle, const float32 fGer){
+			float32 fA = NormalizeAngle(fAngle);
+			float32 fG = NormalizeAngle(fGer);
 
 			if(fA < fG){
 				if(fA + g_fPi2 - fG < fG - fA){
@@ -206,11 +206,11 @@ namespace CB{
 			return fG - fA;
 		}
 
-		// Fait tourner un point autour d'un centre.
+		// Fait tourner un point32 autour d'un centre.
 		// L'angle est exprimé en radians.
 		// Un angle positif est anti-horaire (CCW).
 
-		const CVector2D	RotatePoint(const CVector2D& vCenter, const float fAngle, const CVector2D& vPoint){
+		const CVector2D	RotatePoint(const CVector2D& vCenter, const float32 fAngle, const CVector2D& vPoint){
 			CVector2D	vA, vB;
 
 			vA = vPoint - vCenter;
@@ -223,11 +223,11 @@ namespace CB{
 			return vB;
 		}
 
-		// Fait tourner un point autour de l'origine.
+		// Fait tourner un point32 autour de l'origine.
 		// L'angle est exprimé en radians.
 		// Un angle positif est anti-horaire (CCW).
 
-		const CVector2D RotatePoint(const float fAngle, const CVector2D& vPoint){
+		const CVector2D RotatePoint(const float32 fAngle, const CVector2D& vPoint){
 			CVector2D vA;
 
 			vA.X = vPoint.X * std::cosf(fAngle) - vPoint.Y * std::sinf(fAngle);
@@ -240,7 +240,7 @@ namespace CB{
 		// L'angle est exprimé en radians.
 		// Un angle positif est anti-horaire (CCW).
 
-		const CVector2D RotatePoint(const float fAngle, const float fDistance){
+		const CVector2D RotatePoint(const float32 fAngle, const float32 fDistance){
 			return CVector2D(fDistance * std::cosf(fAngle), fDistance * std::sinf(fAngle));
 		}
 
@@ -257,14 +257,14 @@ namespace CB{
 		//      |    x 
 		//      |
 
-		const float RotateAngle_Check(const bool bIs, const float fMulPi1, const float fMulPi2, const CVector2D& vPos){
+		const float32 RotateAngle_Check(const bool bIs, const float32 fMulPi1, const float32 fMulPi2, const CVector2D& vPos){
 			if(bIs){
 				return g_fPi * fMulPi1 + std::atanf(vPos.Y / vPos.X);
 			}
 			return g_fPi * fMulPi2 - std::atanf(vPos.X / vPos.Y);
 		}
 
-		const float RotateAngle(const CVector2D& vPosition){
+		const float32 RotateAngle(const CVector2D& vPosition){
 			if(vPosition.IsZero()){
 				return 0.0f;
 			}
@@ -286,7 +286,7 @@ namespace CB{
 			}
 		}
 
-		const float RotateAngle(const float fX, const float fY){
+		const float32 RotateAngle(const float32 fX, const float32 fY){
 			return RotateAngle(CVector2D(fX, fY));
 		}
 
@@ -294,11 +294,11 @@ namespace CB{
 		// L'angle est exprimé en radians.
 		// Un angle positif est anti-horaire (CCW).
 
-		const float RotateAngle(const CVector2D& vCenter, const CVector2D& vPoint1, const CVector2D& vPoint2){
+		const float32 RotateAngle(const CVector2D& vCenter, const CVector2D& vPoint1, const CVector2D& vPoint2){
 			if(vPoint1 == vCenter || vPoint2 == vCenter){
 				return 0.0f;
 			}
-			float	fA1, fA2, fA;
+			float32	fA1, fA2, fA;
 
 			fA1 = std::asinf((vPoint1.Y - vCenter.Y) / Distance(vPoint1, vCenter));
 			fA2 = std::asinf((vPoint2.Y - vCenter.Y) / Distance(vPoint2, vCenter));
@@ -319,7 +319,7 @@ namespace CB{
 
 		// Retourne py placé sur la droite ab.
 
-		const float MidPoint(const CVector2D& vPoint1, const CVector2D& vPoint2, const float fPX){
+		const float32 MidPoint(const CVector2D& vPoint1, const CVector2D& vPoint2, const float32 fPX){
 			if(IsNearEqual(vPoint1.X, vPoint2.X)){
 				if(vPoint1.Y < vPoint2.Y){
 					return g_fHuge;
@@ -332,15 +332,15 @@ namespace CB{
 
 		// Avance de "dist" le long du segment p1-p2.
 
-		const CVector3D	SegmentDist(const CVector3D& vPoint1, const CVector3D& vPoint2, const float fAdvanceDistance){
+		const CVector3D	SegmentDist(const CVector3D& vPoint1, const CVector3D& vPoint2, const float32 fAdvanceDistance){
 			return vPoint1 + (vPoint2 - vPoint1).GetNormalized() * fAdvanceDistance;
 		}
 
-		// Vérifie si un point est dans un triangle.
+		// Vérifie si un point32 est dans un triangle.
 
 		const bool	IsInsideTriangle_Check(const CVector2D& vA, const CVector2D& vB, const CVector2D& vC, const CVector2D& vPoint){
-			float fN = MidPoint(vA, vB, vPoint.X);
-			float fM = MidPoint(vA, vC, vPoint.X);
+			float32 fN = MidPoint(vA, vB, vPoint.X);
+			float32 fM = MidPoint(vA, vC, vPoint.X);
 			if((fN > vPoint.Y || vPoint.Y > fM) && (fN < vPoint.Y || vPoint.Y < fM)){
 				return false;
 			}
@@ -375,12 +375,12 @@ namespace CB{
 		{
 			CVector3D vTriCross = (vTriB - vTriA).Cross(vTriC - vTriA);
 	
-			float fD2 = (vLineStart - vLineEnd).Dot(vTriCross);
+			float32 fD2 = (vLineStart - vLineEnd).Dot(vTriCross);
 			if(fD2 == 0.0f){
 				return false;
 			}
 
-			float fD1 = (vLineStart - vTriA).Dot(vTriCross);
+			float32 fD1 = (vLineStart - vTriA).Dot(vTriCross);
 
 			vOutIntersection = vLineStart + (vLineEnd - vLineStart) * (fD1/fD2);
 			return true;
@@ -395,39 +395,39 @@ namespace CB{
 			CVector3D vCA = vTriC - vTriA;
 			CVector3D vPA = vOutIntersection - vTriA;
 
-			float fD = vBA.X * vCA.Z - vCA.X * vBA.Z;
+			float32 fD = vBA.X * vCA.Z - vCA.X * vBA.Z;
 			if(fD == 0.0f){
 				return false;
 			}
 
-			float fD1 = vPA.X * vCA.Z - vCA.X * vPA.Z;
-			float fD2 = vBA.X * vPA.Z - vPA.X * vBA.Z;
+			float32 fD1 = vPA.X * vCA.Z - vCA.X * vPA.Z;
+			float32 fD2 = vBA.X * vPA.Z - vPA.X * vBA.Z;
 
 			vOutIntersection.Y = vTriA.Y + (fD1/fD) * vBA.Y + (fD2/fD) * vCA.Y;
 			return true;
 		}
 
 
-		// Fait tourner un point autour d'un centre dans le plan.
+		// Fait tourner un point32 autour d'un centre dans le plan.
 		// L'angle est exprimé en radians.
 		// Un angle positif est anti-horaire (CCW).
 
-		void RotatePoint(const float fCx, const float fCy, const float fAngle, float &fPx, float &fPy){
+		void RotatePoint(const float32 fCx, const float32 fCy, const float32 fAngle, float32 &fPx, float32 &fPy){
 			fPx -= fCx;
 			fPy -= fCy;
 
-			float fAx = fPx * std::cosf(fAngle) - fPy * std::sinf(fAngle);
-			float fAy = fPx * std::sinf(fAngle) + fPy * std::cosf(fAngle);
+			float32 fAx = fPx * std::cosf(fAngle) - fPy * std::sinf(fAngle);
+			float32 fAy = fPx * std::sinf(fAngle) + fPy * std::cosf(fAngle);
 
 			fPx = fCx + fAx;
 			fPy = fCy + fAy;
 		}
 
-		// Fait tourner un point autour d'un centre dans l'espace.
+		// Fait tourner un point32 autour d'un centre dans l'espace.
 		// L'angles sont exprimés en radians.
 		// Un angle positif est anti-horaire (CCW).
 
-		void RotatePoint(const CVector3D& vCenter, const float fAngleHorizontal, const float fAngleVertical, CVector3D& vPoint){
+		void RotatePoint(const CVector3D& vCenter, const float32 fAngleHorizontal, const float32 fAngleVertical, CVector3D& vPoint){
 			CVector3D	vA;
 	
 			vPoint -= vCenter;
@@ -439,11 +439,11 @@ namespace CB{
 			vPoint = vCenter + vA;
 		}
 
-		// Fait tourner un point autour d'un centre dans l'espace.
+		// Fait tourner un point32 autour d'un centre dans l'espace.
 		// L'angles sont exprimés en radians.
 		// Un angle positif est anti-horaire (CCW).
 
-		void RotatePoint2(const CVector3D& vCenter, const float fAngleHorizontal, const float fAngleVertical, CVector3D &vPoint){
+		void RotatePoint2(const CVector3D& vCenter, const float32 fAngleHorizontal, const float32 fAngleVertical, CVector3D &vPoint){
 			CVector3D vA, vB;
 
 			vPoint -= vCenter;
@@ -459,10 +459,10 @@ namespace CB{
 			vPoint = vCenter + vB;
 		}
 
-		// Calcul le point de vue permettant de regarder un centre selon deux
+		// Calcul le point32 de vue permettant de regarder un centre selon deux
 		// angles et à une certaine distance.
 
-		const CVector3D RotateView(const CVector3D& vCenter, const float fAngleHorizontal, const float fAngleVertival, const float fDistance){
+		const CVector3D RotateView(const CVector3D& vCenter, const float32 fAngleHorizontal, const float32 fAngleVertival, const float32 fDistance){
 			CMatrix	mRes, mRotH, mRotV;
 
 			mRotV.SetRotation(AxisOrientation::AxisX, -fAngleVertival);
@@ -473,9 +473,9 @@ namespace CB{
 			return mRes * CVector3D(fDistance, 0.0f, 0.0f) + vCenter;
 		}
 
-		// Calcule le point d'arrivée.
+		// Calcule le point32 d'arrivée.
 
-		const CVector3D LookatPoint(const CVector3D& vEye, const float fAngleHorizontal, const float fAngleVertical, const float fLength){
+		const CVector3D LookatPoint(const CVector3D& vEye, const float32 fAngleHorizontal, const float32 fAngleVertical, const float32 fLength){
 			CVector3D vLookAt = vEye;
 			vLookAt.Z += fLength;
 
@@ -487,29 +487,29 @@ namespace CB{
 
 		// Retourne la distance entre deux points.
 
-		const float Distance(const CVector2D& vA, const CVector2D& vB){
+		const float32 Distance(const CVector2D& vA, const CVector2D& vB){
 			return (vA - vB).GetLength();
 		}
 
 		// Retourne la distance entre deux points.
 
-		const float Distance(const CVector3D& vA, const CVector3D& vB){
+		const float32 Distance(const CVector3D& vA, const CVector3D& vB){
 			return (vA - vB).GetLength();
 		}
 
 		// Retourne la distance "à plat" entre deux points.
 
-		const float Distance2D(const CVector3D& vA, const CVector3D& vB){
+		const float32 Distance2D(const CVector3D& vA, const CVector3D& vB){
 			CVector3D vAB = vA - vB;
 			return CVector2D(vAB.X, vAB.Z).GetLength();
 		}
 
 		// Retourne l'angle formé par deux vecteurs.
 
-		const float Angle(const CVector3D& vU, const CVector3D& vV){
-			float fLen = vU.GetLength() * vV.GetLength();
-			float fA = std::acosf(vU.Dot(vV) / fLen);
-			//float fB = std::asinf(vU.Cross(vV).GetLength() / fLen);
+		const float32 Angle(const CVector3D& vU, const CVector3D& vV){
+			float32 fLen = vU.GetLength() * vV.GetLength();
+			float32 fA = std::acosf(vU.Dot(vV) / fLen);
+			//float32 fB = std::asinf(vU.Cross(vV).GetLength() / fLen);
 			return fA;
 		}
 
@@ -523,30 +523,30 @@ namespace CB{
 		}
 
 
-		// Calcule la projection d'un point P sur une droite AB.
+		// Calcule la projection d'un point32 P sur une droite AB.
 
 		const CVector3D	Projection(const CVector3D& vA, const CVector3D& vB, const CVector3D& vPoint){
 			CVector3D vBA = vB - vA;
 			CVector3D vPA = vPoint - vA;
 
-			float fK = vBA.Dot(vPA) / vBA.Dot(vBA);
+			float32 fK = vBA.Dot(vPA) / vBA.Dot(vBA);
 
 			return vA + vBA * fK;
 		}
 
-		const float	SinRad(const float fAngle){
+		const float32	SinRad(const float32 fAngle){
 			return std::sinf(fAngle);
 		}
 
-		const float SinDeg(const float fAngle){
+		const float32 SinDeg(const float32 fAngle){
 			return std::sinf(fAngle * g_fDegToRad);
 		}
 
-		const float CosRad(const float fAngle){
+		const float32 CosRad(const float32 fAngle){
 			return std::cosf(fAngle);
 		}
 
-		const float CosDeg(const float fAngle){
+		const float32 CosDeg(const float32 fAngle){
 			return std::cosf(fAngle * g_fDegToRad);
 		}
 
@@ -555,7 +555,7 @@ namespace CB{
 		//		f(x) = ax+b
 		// Retourne FALSE si la droite est verticale.
 
-		const bool LineFunction(const CVector2D& vLineStart, const CVector2D& vLineEnd, float &fOutA, float &fOutB){
+		const bool LineFunction(const CVector2D& vLineStart, const CVector2D& vLineEnd, float32 &fOutA, float32 &fOutB){
 			if(IsNearZero(vLineStart.X - vLineEnd.X)){
 				fOutA = g_fHuge;
 				fOutB = vLineEnd.X;
@@ -569,9 +569,9 @@ namespace CB{
 		}
 
 
-		// Calcule la distance entre un plan ABC et un point P.
+		// Calcule la distance entre un plan ABC et un point32 P.
 
-		const float DistancePlanPoint(const CVector3D& vTriA, const CVector3D& vTriB,
+		const float32 DistancePlanPoint(const CVector3D& vTriA, const CVector3D& vTriB,
 												const CVector3D& vTriC, const CVector3D& vPoint)
 		{
 			CVector3D	vNormal = ComputeNormal(vTriA, vTriB, vTriC);
@@ -591,7 +591,7 @@ namespace CB{
 				return false;
 			}
 
-			float fDistance = DistancePlanPoint(pPlan1[0], pPlan1[1], pPlan1[2], pPlan2[0]);
+			float32 fDistance = DistancePlanPoint(pPlan1[0], pPlan1[1], pPlan1[2], pPlan2[0]);
 			if(fDistance > g_fEpsilon){
 				return false;
 			}
@@ -601,16 +601,16 @@ namespace CB{
 
 		// Retourne une valeur aléatoire comprise entre 0 et 1.
 
-		void	RandInit(const unsigned uSeed){
+		void	RandInit(const uint32 uSeed){
 			std::srand(uSeed);
 		}
 
-		const float	Rand(){
-			return float(std::rand())/float(RAND_MAX);
+		const float32	Rand(){
+			return float32(std::rand())/float32(RAND_MAX);
 		}
 
-		const unsigned RandUInt32(){
-			return unsigned(std::rand());
+		const uint32 RandUInt32(){
+			return uint32(std::rand());
 		}
 
 		// Gestion de la zone neutre d'un joystick.
@@ -621,7 +621,7 @@ namespace CB{
 		//                       dead
 		//  out:  -1       0         0       1
 
-		const float Neutral(const float fValue, const float fDead){
+		const float32 Neutral(const float32 fValue, const float32 fDead){
 			if(Absolute(fValue) <= fDead){
 				return 0.0f;
 			}
@@ -635,9 +635,9 @@ namespace CB{
 		// Calcule une valeur (radians) proportionnelle comprise
 		// entre a et b (degrés).
 
-		const float Prop(const int iA, const int iB, const float fP){
-			float fAA = float(iA) * g_fDegToRad;
-			float fBB = float(iB) * g_fDegToRad;
+		const float32 Prop(const int32 iA, const int32 iB, const float32 fP){
+			float32 fAA = float32(iA) * g_fDegToRad;
+			float32 fBB = float32(iB) * g_fDegToRad;
 
 			return fAA * (fBB - fAA) * fP;
 		}
@@ -646,8 +646,8 @@ namespace CB{
 		// sa valeur actuelle. Plus le temps est grand et plus la
 		// progression est rapide.
 
-		const float Smooth(const float fStart, const float fEnd, const float fTime){
-			float fNext = fStart + (fEnd - fStart) * fTime;
+		const float32 Smooth(const float32 fStart, const float32 fEnd, const float32 fTime){
+			float32 fNext = fStart + (fEnd - fStart) * fTime;
 
 			if(fEnd > fStart){
 				if(fNext > fEnd){
@@ -676,16 +676,16 @@ namespace CB{
 		//	0|      |       1
 		//	 |<---->|middle
 
-		const float	Bounce(const float fProgress){
+		const float32	Bounce(const float32 fProgress){
 			return Bounce(fProgress, 0.3f, 0.4f);
 		}
 
-		const float	Bounce(const float fProgress, const float fMiddle){
+		const float32	Bounce(const float32 fProgress, const float32 fMiddle){
 			return Bounce(fProgress, fMiddle, 0.4f);
 		}
 
-		const float Bounce(const float fProgress, const float fMiddle, const float fBounce){
-			float fClampProgress = 0.0f;
+		const float32 Bounce(const float32 fProgress, const float32 fMiddle, const float32 fBounce){
+			float32 fClampProgress = 0.0f;
 			if(fProgress < fMiddle){
 				fClampProgress = fProgress / fMiddle;
 				return 0.5f + std::sinf(fClampProgress * g_fPi - g_fPiDiv2) / 2.0f;
@@ -696,8 +696,8 @@ namespace CB{
 			}
 		}
 
-		const CColor	FromABGR(const unsigned uIndex){
-			unsigned char* pColor = (unsigned char*)&uIndex;
+		const CColor	FromABGR(const uint32 uIndex){
+			byte* pColor = (byte*)&uIndex;
 
 			CColor cResult;
 			cResult.Set(pColor[3], pColor[2], pColor[1], pColor[0]);
@@ -705,8 +705,8 @@ namespace CB{
 			return cResult;
 		}
 
-		const CColor	FromARGB(const unsigned uIndex){
-			unsigned char* pColor = (unsigned char*)&uIndex;
+		const CColor	FromARGB(const uint32 uIndex){
+			byte* pColor = (byte*)&uIndex;
 
 			CColor cResult;
 			cResult.Set(pColor[1], pColor[2], pColor[3], pColor[0]);
@@ -714,8 +714,8 @@ namespace CB{
 			return cResult;
 		}
 
-		const CColor	FromBGRA(const unsigned uIndex){
-			unsigned char* pColor = (unsigned char*)&uIndex;
+		const CColor	FromBGRA(const uint32 uIndex){
+			byte* pColor = (byte*)&uIndex;
 
 			CColor cResult;
 			cResult.Set(pColor[2], pColor[1], pColor[0], pColor[3]);
@@ -723,8 +723,8 @@ namespace CB{
 			return cResult;
 		}
 
-		const CColor	FromRGBA(const unsigned uIndex){
-			unsigned char* pColor = (unsigned char*)&uIndex;
+		const CColor	FromRGBA(const uint32 uIndex){
+			byte* pColor = (byte*)&uIndex;
 
 			CColor cResult;
 			cResult.Set(pColor[0], pColor[1], pColor[2], pColor[3]);
@@ -736,7 +736,7 @@ namespace CB{
 
 		const CColorHSV RGB2HSV(const CColor& Color){
 			CColorHSV	dest;
-			float	min, max, delta;
+			float32	min, max, delta;
 
 			min = Min(Color.Red, Color.Green, Color.Blue);
 			max = Max(Color.Red, Color.Green, Color.Blue);
@@ -776,7 +776,7 @@ namespace CB{
 			CColor		dest;
 			CColorHSV	src;
 			int		i;
-			float	f,v,p,q,t;
+			float32	f,v,p,q,t;
 
 			src.H = Clamp01(Color.H) * 360.0f;
 			src.S = Clamp01(Color.S);

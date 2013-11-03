@@ -6,68 +6,111 @@
 
 namespace CB{
 	namespace Manage{
+		//===================================================================================
+		//	CSingleton	DECLARATION
+		//===================================================================================
 		template <typename _Type>
 		class CSingleton{
 		protected:
 			static _Type*	ms_pInstance;
 
-			CSingleton(){
-				if(ms_pInstance != 0){
-					throw CB::Exception::CInvalidArgumentException(L"ms_Instance", CB::String::ToHexString((unsigned)ms_pInstance),
-						L"Singleton already exists while creating a new one.", __FUNCTIONW__, __FILEW__, __LINE__);
-				}
-				ms_pInstance = dynamic_cast<_Type*>(this);
-			}
-			virtual ~CSingleton(){
-				if(ms_pInstance == 0){
-					throw CB::Exception::CNullPointerException(L"ms_pInstance",
-						L"Singleton class not exists while deleting one.", __FUNCTIONW__, __FILEW__, __LINE__);
-				}
-				ms_pInstance = 0;
-			}
+			CSingleton();
+			virtual ~CSingleton();
 
-			const CSingleton<_Type>& operator=(const CSingleton& Singleton){
-				throw CB::Exception::CException(L"Not implemented.", __FUNCTIONW__, __FILEW__, __LINE__);
-			}
+			const CSingleton<_Type>& operator=(const CSingleton& Singleton);
 
 		public:
-			static _Type*	GetInstance(){
-				if(ms_pInstance){
-					return ms_pInstance;
-				}
-				return new _Type;
-			}
+			static _Type*	GetInstance();
 
-			void	Destroy(){
-				delete this;
-			}
+			void	Destroy();
 		};
 
+		//===================================================================================
+		//	CSingleton DEFINITION
+		//===================================================================================
+
+		template <typename _Type>
+		CSingleton<_Type>::CSingleton(){
+			if(ms_pInstance != 0){
+				throw CB::Exception::CInvalidArgumentException(L"ms_Instance", CB::String::ToHexString((uint32)ms_pInstance),
+					L"Singleton already exists while creating a new one.", CR_INFO());
+			}
+			ms_pInstance = dynamic_cast<_Type*>(this);
+		}
+
+		template <typename _Type>
+		CSingleton<_Type>::~CSingleton(){
+			if(ms_pInstance == 0){
+				throw CB::Exception::CNullPointerException(L"ms_pInstance",
+					L"Singleton class not exists while deleting one.", CR_INFO());
+			}
+			ms_pInstance = 0;
+		}
+
+		template <typename _Type>
+		const CSingleton<_Type>& CSingleton<_Type>::operator=(const CSingleton& Singleton){
+			CR_THROWNOTIMPLEMENTED();
+		}
+
+		template <typename _Type>
+		_Type*	CSingleton<_Type>::GetInstance(){
+			if(ms_pInstance){
+				return ms_pInstance;
+			}
+			return new _Type;
+		}
+
+		template <typename _Type>
+		void	CSingleton<_Type>::Destroy(){
+			delete this;
+		}
+
+		//===================================================================================
+		//	CRefSingleton DECLARATION
+		//===================================================================================
 		template <typename _Type>
 		class CRefSingleton{
 		protected:
 			static _Type*	ms_pInstance;
 
-			CRefSingleton(){
-				if(ms_pInstance != 0){
-					throw CB::Exception::CInvalidArgumentException(L"ms_Instance", CB::String::ToHexString((unsigned)ms_pInstance),
-						L"Singleton already exists while creating a new one.", __FUNCTIONW__, __FILEW__, __LINE__);
-				}
-				ms_pInstance = static_cast<_Type*>(this);
-			}
-			virtual ~CRefSingleton(){
-				ms_pInstance = 0;
-			}
+			CRefSingleton();
+			virtual ~CRefSingleton();
 
-			const CRefSingleton<_Type>& operator=(const CRefSingleton& Singleton){return *this;}
+			const CRefSingleton<_Type>& operator=(const CRefSingleton& Singleton);
 
 		public:
-			static CRefPtr<_Type>	GetInstance(){
-				if(ms_pInstance){
-					return ms_pInstance;
-				}
-				return new _Type;
-			}
+			static CRefPtr<_Type>	GetInstance();
 		};
+
+		//===================================================================================
+		//	CRefSingleton DECLARATION
+		//===================================================================================
+
+		template <typename _Type>
+		CRefSingleton<_Type>::CRefSingleton(){
+			if(ms_pInstance != 0){
+				throw CB::Exception::CInvalidArgumentException(L"ms_pInstance", CB::String::ToHexString((uint32)ms_pInstance),
+					L"Singleton already exists while creating a new one.", CR_INFO());
+			}
+			ms_pInstance = static_cast<_Type*>(this);
+		}
+
+		template <typename _Type>
+		CRefSingleton<_Type>::~CRefSingleton(){
+			ms_pInstance = 0;
+		}
+
+		template <typename _Type>
+		const CRefSingleton<_Type>& CRefSingleton<_Type>::operator=(const CRefSingleton& Singleton){
+			CR_THROWNOTIMPLEMENTED();
+		}
+
+		template <typename _Type>
+		CRefPtr<_Type>	CRefSingleton<_Type>::GetInstance(){
+			if(ms_pInstance){
+				return ms_pInstance;
+			}
+			return new _Type;
+		}
 	}
 }

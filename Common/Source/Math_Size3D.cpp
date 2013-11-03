@@ -3,25 +3,54 @@
 
 namespace CB{
 	namespace Math{
-		CSize3D::CSize3D() : CSize(), Depth(0){}
+		CSize3D::CSize3D() : 
+			Depth(0)
+		{}
 
-		CSize3D::CSize3D(const CSize3D& Size) : CSize(Size), Depth(Size.Depth){}
+		CSize3D::CSize3D(const CSize3D& Size) : 
+			CSize(Size), 
+			Depth(Size.Depth)
+		{}
 
-		CSize3D::CSize3D(const CPoint3D& Point) : CSize(Point), Depth(Point.Z > 0 ? Point.Z : 0){}
+		CSize3D::CSize3D(const CPoint3D& Point) : 
+			CSize(Point), 
+			Depth(Point.Z > 0 ? Point.Z : 0)
+		{}
 
-		CSize3D::CSize3D(const CSize& Size) : CSize(Size), Depth(0){}
+		CSize3D::CSize3D(const CSize& Size) : 
+			CSize(Size), 
+			Depth(0)
+		{}
 
-		CSize3D::CSize3D(const CSize& Size, const unsigned uDepth) : CSize(Size), Depth(uDepth){}
+		CSize3D::CSize3D(const CSize& Size, const uint32 uDepth) : 
+			CSize(Size), 
+			Depth(uDepth)
+		{}
 
-		CSize3D::CSize3D(const CPoint& Point) : CSize(Point), Depth(0){}
+		CSize3D::CSize3D(const CPoint& Point) : 
+			CSize(Point), 
+			Depth(0)
+		{}
 
-		CSize3D::CSize3D(const CPoint& Point, const unsigned uDepth) : CSize(Point), Depth(uDepth){}
+		CSize3D::CSize3D(const CPoint& Point, const uint32 uDepth) : 
+			CSize(Point), 
+			Depth(uDepth)
+		{}
 
-		CSize3D::CSize3D(const unsigned uValue) : CSize(uValue), Depth(uValue){}
+		CSize3D::CSize3D(const uint32 uValue) : 
+			CSize(uValue), 
+			Depth(uValue)
+		{}
 
-		CSize3D::CSize3D(const unsigned uWidth, const unsigned uHeight) : CSize(uWidth, uHeight), Depth(0){}
+		CSize3D::CSize3D(const uint32 uWidth, const uint32 uHeight) : 
+			CSize(uWidth, uHeight), 
+			Depth(0)
+		{}
 
-		CSize3D::CSize3D(const unsigned uWidth, const unsigned uHeight, const unsigned uDepth) : CSize(uWidth, uHeight), Depth(uDepth){}
+		CSize3D::CSize3D(const uint32 uWidth, const uint32 uHeight, const uint32 uDepth) : 
+			CSize(uWidth, uHeight), 
+			Depth(uDepth)
+		{}
 
 		void	CSize3D::SetZero(){
 			CSize::SetZero();
@@ -33,17 +62,17 @@ namespace CB{
 			this->Depth = Size.Depth;
 		}
 
-		void	CSize3D::Set(const unsigned uValue){
+		void	CSize3D::Set(const uint32 uValue){
 			CSize::Set(uValue);
 			this->Depth = uValue;
 		}
 
-		void	CSize3D::Set(const unsigned uWidth, const unsigned uHeight){
+		void	CSize3D::Set(const uint32 uWidth, const uint32 uHeight){
 			CSize::Set(uWidth, uHeight);
 			this->Depth = 0;
 		}
 
-		void	CSize3D::Set(const unsigned uWidth, const unsigned uHeight, const unsigned uDepth){
+		void	CSize3D::Set(const uint32 uWidth, const uint32 uHeight, const uint32 uDepth){
 			CSize::Set(uWidth, uHeight);
 			this->Depth = uDepth;
 		}
@@ -61,9 +90,9 @@ namespace CB{
 		}
 
 		const CString	CSize3D::ToString() const{
-			return L"Width: " + String::FromUInt32(this->Width) 
-				+ L", Height: " + String::FromUInt32(this->Height)
-				+ L", Depth: " + String::FromUInt32(this->Depth);
+			return L"Width: " + String::ToString(this->Width) 
+				+ L", Height: " + String::ToString(this->Height)
+				+ L", Depth: " + String::ToString(this->Depth);
 		}
 
 		const CPoint3D	CSize3D::ToPoint() const{
@@ -83,27 +112,25 @@ namespace CB{
 			return !this->IsEqual(Size);
 		}
 
-		const unsigned&	CSize3D::operator[](const unsigned uIndex) const{
-			switch (uIndex)
-			{
+		const uint32&	CSize3D::operator[](const uint32 uIndex) const{
+			switch (uIndex){
 			case 0:	return this->Width;
 			case 1:	return this->Height;
 			case 2:	return this->Depth;
 			default:
 				throw Exception::CInvalidArgumentException(L"uIndex", String::FromUInt32(uIndex),
-					L"Index out of range.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Index out of range.", CR_INFO());
 			}
 		}
 
-		unsigned&	CSize3D::operator[](const unsigned uIndex){
-			switch (uIndex)
-			{
+		uint32&	CSize3D::operator[](const uint32 uIndex){
+			switch (uIndex){
 			case 0:	return this->Width;
 			case 1:	return this->Height;
 			case 2:	return this->Depth;
 			default:
 				throw Exception::CInvalidArgumentException(L"uIndex", String::FromUInt32(uIndex),
-					L"Index out of range.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Index out of range.", CR_INFO());
 			}
 		}
 	}

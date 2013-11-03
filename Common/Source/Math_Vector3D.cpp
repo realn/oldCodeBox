@@ -4,28 +4,35 @@
 
 namespace CB{
 	namespace Math{
-		CVector3D::CVector3D() : CVector2D(), Z(0.0f){
+		CVector3D::CVector3D() : 
+			CVector2D(), 
+			Z(0.0f)
+		{}
+
+		CVector3D::CVector3D(const CVector3D& Vector) : 
+			CVector2D(Vector), 
+			Z(Vector.Z)
+		{}
+
+		CVector3D::CVector3D(const CVector2D& Vector) : 
+			CVector2D(Vector), 
+			Z(0.0f)
+		{}
+
+		CVector3D::CVector3D(const CVector2D& Vector, const float32 fZ) : 
+			CVector2D(Vector), Z(fZ){
 		}
 
-		CVector3D::CVector3D(const CVector3D& Vector) : CVector2D(Vector), Z(Vector.Z){
+		CVector3D::CVector3D(const CPoint3D& Point) : CVector2D(Point), Z((float32)Point.Z){
 		}
 
-		CVector3D::CVector3D(const CVector2D& Vector) : CVector2D(Vector), Z(0.0f){
+		CVector3D::CVector3D(const float32 fValue) : CVector2D(fValue), Z(fValue){
 		}
 
-		CVector3D::CVector3D(const CVector2D& Vector, const float fZ) : CVector2D(Vector), Z(fZ){
+		CVector3D::CVector3D(const float32 fX, const float32 fY) : CVector2D(fX, fY), Z(0.0f){
 		}
 
-		CVector3D::CVector3D(const CPoint3D& Point) : CVector2D(Point), Z((float)Point.Z){
-		}
-
-		CVector3D::CVector3D(const float fValue) : CVector2D(fValue), Z(fValue){
-		}
-
-		CVector3D::CVector3D(const float fX, const float fY) : CVector2D(fX, fY), Z(0.0f){
-		}
-
-		CVector3D::CVector3D(const float fX, const float fY, const float fZ) : CVector2D(fX, fY), Z(fZ){
+		CVector3D::CVector3D(const float32 fX, const float32 fY, const float32 fZ) : CVector2D(fX, fY), Z(fZ){
 		}
 
 		void	CVector3D::SetZero(){
@@ -37,18 +44,18 @@ namespace CB{
 			this->Set(Vector.X, Vector.Y, Vector.Z);
 		}
 
-		void	CVector3D::Set(const float fValue){
+		void	CVector3D::Set(const float32 fValue){
 			this->X = fValue;
 			this->Y = fValue;
 			this->Z = fValue;
 		}
 
-		void	CVector3D::Set(const float fX, const float fY){
+		void	CVector3D::Set(const float32 fX, const float32 fY){
 			CVector2D::Set(fX, fY);
 			this->Z = 0.0f;
 		}
 
-		void	CVector3D::Set(const float fX, const float fY, const float fZ){
+		void	CVector3D::Set(const float32 fX, const float32 fY, const float32 fZ){
 			CVector2D::Set(fX, fY);
 			this->Z = fZ;
 		}
@@ -75,16 +82,60 @@ namespace CB{
 				Math::IsNearEqual(this->Z, Vector.Z);
 		}
 
-		const float	CVector3D::GetLength() const{
-			return SqRoot(this->GetLengthSq());
+		const bool	CVector3D::IsEmpty() const{
+			return false;
 		}
 
-		const float CVector3D::GetLengthSq() const{
+		const uint32	CVector3D::GetLength() const{
+			return 3;
+		}
+
+		const uint32	CVector3D::GetSizeInBytes() const{
+			return this->GetLength() * sizeof(float32);
+		}
+
+		const float32&	CVector3D::Get(const uint32 uIndex) const{
+			switch (uIndex)
+			{
+			case 0:	return this->X;
+			case 1:	return this->Y;
+			case 2:	return this->Z;
+			default:
+				throw CB::Exception::CInvalidArgumentException(L"uIndex", CB::String::FromUInt32(uIndex),
+					L"Index out of range.", CR_INFO());
+			}
+		}
+
+		float32&	CVector3D::Get(const uint32 uIndex){
+			switch (uIndex)
+			{
+			case 0:	return this->X;
+			case 1:	return this->Y;
+			case 2:	return this->Z;
+			default:
+				throw CB::Exception::CInvalidArgumentException(L"uIndex", CB::String::FromUInt32(uIndex),
+					L"Index out of range.", CR_INFO());
+			}
+		}
+
+		const float32*	CVector3D::GetPointer() const{
+			return &this->X;
+		}
+
+		float32*	CVector3D::GetPointer(){
+			return &this->X;
+		}
+
+		const float32	CVector3D::GetVectorLength() const{
+			return SqRoot(this->GetVectorLengthSq());
+		}
+
+		const float32 CVector3D::GetVectorLengthSq() const{
 			return Power2(this->X) + Power2(this->Y) + Power2(this->Z);
 		}
 
 		const CVector3D	CVector3D::GetNormalized() const{
-			return this->Div(this->GetLength());
+			return this->Div(this->GetVectorLength());
 		}
 
 		void	CVector3D::Normalize(){
@@ -106,26 +157,26 @@ namespace CB{
 		const CVector3D	CVector3D::Div(const CVector3D& Vector) const{
 			if(Vector.IsPartialZero()){
 				throw CB::Exception::CInvalidArgumentException(L"Vector", Vector.ToString(),
-					L"Division by Zero", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Division by Zero", CR_INFO());
 			}
 
 			return CVector3D(this->X / Vector.X, this->Y / Vector.Y, this->Z / Vector.Z);
 		}
 
-		const CVector3D	CVector3D::Mul(const float fValue) const{
+		const CVector3D	CVector3D::Mul(const float32 fValue) const{
 			return CVector3D(this->X * fValue, this->Y * fValue, this->Z * fValue);
 		}
 
-		const CVector3D	CVector3D::Div(const float fValue) const{
+		const CVector3D	CVector3D::Div(const float32 fValue) const{
 			if(fValue == 0.0f){
-				throw CB::Exception::CInvalidArgumentException(L"fValue", CB::String::FromFloat(fValue),
-					L"Division by Zero", __FUNCTIONW__, __FILEW__, __LINE__);
+				throw CB::Exception::CInvalidArgumentException(L"fValue", CB::String::ToString(fValue),
+					L"Division by Zero", CR_INFO());
 			}
 
 			return CVector3D(this->X / fValue, this->Y / fValue, this->Z / fValue);
 		}
 
-		const float	CVector3D::Dot(const CVector3D& Vector) const{
+		const float32	CVector3D::Dot(const CVector3D& Vector) const{
 			return this->X * Vector.X + this->Y * Vector.Y + this->Z * Vector.Z;
 		}
 
@@ -137,23 +188,13 @@ namespace CB{
 		}
 
 		const CB::CString	CVector3D::ToString() const{
-			return L"X: " + String::FromFloat(this->X) + 
-				L", Y: " + String::FromFloat(this->Y) +
-				L", Z: " + String::FromFloat(this->Z);
+			return L"X: " + String::ToString(this->X) + 
+				L", Y: " + String::ToString(this->Y) +
+				L", Z: " + String::ToString(this->Z);
 		}
 
 		const CPoint3D	CVector3D::ToPoint() const{
 			return CPoint3D((int)this->X, (int)this->Y, (int)this->Z);
-		}
-
-		const float*	CVector3D::ToFloat() const{
-			return &this->X;
-		}
-
-		void	CVector3D::ToFloat(float* pFloat) const{
-			pFloat[0] = this->X;
-			pFloat[1] = this->Y;
-			pFloat[2] = this->Z;
 		}
 
 		const CVector3D&	CVector3D::operator=(const CVector3D& Vector){
@@ -185,11 +226,11 @@ namespace CB{
 			return this->Div(Vector);
 		}
 
-		const CVector3D	CVector3D::operator*(const float fValue) const{
+		const CVector3D	CVector3D::operator*(const float32 fValue) const{
 			return this->Mul(fValue);
 		}
 
-		const CVector3D	CVector3D::operator/(const float fValue) const{
+		const CVector3D	CVector3D::operator/(const float32 fValue) const{
 			return this->Div(fValue);
 		}
 
@@ -213,12 +254,12 @@ namespace CB{
 			return *this;
 		}
 
-		const CVector3D&	CVector3D::operator*=(const float fValue){
+		const CVector3D&	CVector3D::operator*=(const float32 fValue){
 			*this = this->Mul(fValue);
 			return *this;
 		}
 
-		const CVector3D&	CVector3D::operator/=(const float fValue){
+		const CVector3D&	CVector3D::operator/=(const float32 fValue){
 			*this = this->Div(fValue);
 			return *this;
 		}
@@ -231,28 +272,12 @@ namespace CB{
 			return !this->IsEqual(Vector);
 		}
 
-		const float&	CVector3D::operator[](const unsigned uIndex) const{
-			switch (uIndex)
-			{
-			case 0:	return this->X;
-			case 1:	return this->Y;
-			case 2:	return this->Z;
-			default:
-				throw CB::Exception::CInvalidArgumentException(L"uIndex", CB::String::FromUInt32(uIndex),
-					L"Index out of range.", __FUNCTIONW__, __FILEW__, __LINE__);
-			}
+		const float32&	CVector3D::operator[](const uint32 uIndex) const{
+			return this->Get(uIndex);
 		}
 
-		float&	CVector3D::operator[](const unsigned uIndex){
-			switch (uIndex)
-			{
-			case 0:	return this->X;
-			case 1:	return this->Y;
-			case 2:	return this->Z;
-			default:
-				throw CB::Exception::CInvalidArgumentException(L"uIndex", CB::String::FromUInt32(uIndex),
-					L"Index out of range.", __FUNCTIONW__, __FILEW__, __LINE__);
-			}
+		float32&	CVector3D::operator[](const uint32 uIndex){
+			return this->Get(uIndex);
 		}
 	}
 }

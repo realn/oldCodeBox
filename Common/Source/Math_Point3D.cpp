@@ -3,19 +3,39 @@
 
 namespace CB{
 	namespace Math{
-		CPoint3D::CPoint3D() : CPoint(), Z(0){}
+		CPoint3D::CPoint3D() :
+			Z(0)
+		{}
 
-		CPoint3D::CPoint3D(const CPoint3D& Point) : CPoint(Point), Z(Point.Z){}
+		CPoint3D::CPoint3D(const CPoint3D& Point) : 
+			CPoint(Point), 
+			Z(Point.Z)
+		{}
 
-		CPoint3D::CPoint3D(const CPoint& Point) : CPoint(Point), Z(0){}
+		CPoint3D::CPoint3D(const CPoint& Point) : 
+			CPoint(Point), 
+			Z(0)
+		{}
 
-		CPoint3D::CPoint3D(const CPoint& Point, const int iZ) : CPoint(Point), Z(iZ){}
+		CPoint3D::CPoint3D(const CPoint& Point, const int32 iZ) : 
+			CPoint(Point), 
+			Z(iZ)
+		{}
 
-		CPoint3D::CPoint3D(const int iValue) : CPoint(iValue), Z(iValue){}
+		CPoint3D::CPoint3D(const int32 iValue) : 
+			CPoint(iValue), 
+			Z(iValue)
+		{}
 
-		CPoint3D::CPoint3D(const int iX, const int iY) : CPoint(iX, iY), Z(0){}
+		CPoint3D::CPoint3D(const int32 iX, const int32 iY) : 
+			CPoint(iX, iY), 
+			Z(0)
+		{}
 
-		CPoint3D::CPoint3D(const int iX, const int iY, const int iZ) : CPoint(iX, iY), Z(iZ){}
+		CPoint3D::CPoint3D(const int32 iX, const int32 iY, const int32 iZ) : 
+			CPoint(iX, iY), 
+			Z(iZ)
+		{}
 
 		void	CPoint3D::Set(const CPoint3D& Point){
 			CPoint::Set(Point);
@@ -26,22 +46,22 @@ namespace CB{
 			CPoint::Set(Point);
 		}
 
-		void	CPoint3D::Set(const CPoint& Point, const int iZ){
+		void	CPoint3D::Set(const CPoint& Point, const int32 iZ){
 			this->Set(Point);
 			this->Z = iZ;
 		}
 
-		void	CPoint3D::Set(const int iValue){
+		void	CPoint3D::Set(const int32 iValue){
 			this->X = iValue;
 			this->Y = iValue;
 			this->Z = iValue;
 		}
 
-		void	CPoint3D::Set(const int iX, const int iY){
+		void	CPoint3D::Set(const int32 iX, const int32 iY){
 			CPoint::Set(iX, iY);
 		}
 
-		void	CPoint3D::Set(const int iX, const int iY, const int iZ){
+		void	CPoint3D::Set(const int32 iX, const int32 iY, const int32 iZ){
 			CPoint::Set(iX, iY);
 			this->Z = iZ;
 		}
@@ -78,20 +98,20 @@ namespace CB{
 			return CPoint3D(this->X % Point.X, this->Y % Point.Y, this->Z % Point.Z);
 		}
 
-		const CPoint3D	CPoint3D::Mul(const int iValue) const{
+		const CPoint3D	CPoint3D::Mul(const int32 iValue) const{
 			return CPoint3D(this->X * iValue, this->Y * iValue, this->Z * iValue);
 		}
 
-		const CPoint3D	CPoint3D::Div(const int iValue) const{
+		const CPoint3D	CPoint3D::Div(const int32 iValue) const{
 			return CPoint3D(this->X / iValue, this->Y / iValue, this->Z / iValue);
 		}
 
-		const CPoint3D	CPoint3D::Mod(const int iValue) const{
+		const CPoint3D	CPoint3D::Mod(const int32 iValue) const{
 			return CPoint3D(this->X % iValue, this->Y % iValue, this->Z % iValue);
 		}
 
 		const CString	CPoint3D::ToString() const{
-			return L"X: " + String::FromInt32(this->X) + L", Y: " + String::FromInt32(this->Y) + L", Z: " + String::FromInt32(this->Z);
+			return L"X: " + String::ToString(this->X) + L", Y: " + String::ToString(this->Y) + L", Z: " + String::ToString(this->Z);
 		}
 
 		const CPoint3D&	CPoint3D::operator=(const CPoint3D& Point){
@@ -127,15 +147,15 @@ namespace CB{
 			return this->Mod(Point);
 		}
 
-		const CPoint3D	CPoint3D::operator*(const int iValue) const{
+		const CPoint3D	CPoint3D::operator*(const int32 iValue) const{
 			return this->Mul(iValue);
 		}
 
-		const CPoint3D	CPoint3D::operator/(const int iValue) const{
+		const CPoint3D	CPoint3D::operator/(const int32 iValue) const{
 			return this->Div(iValue);
 		}
 
-		const CPoint3D	CPoint3D::operator%(const int iValue) const{
+		const CPoint3D	CPoint3D::operator%(const int32 iValue) const{
 			return this->Mod(iValue);
 		}
 
@@ -164,17 +184,17 @@ namespace CB{
 			return *this;
 		}
 
-		const CPoint3D&	CPoint3D::operator*=(const int iValue){
+		const CPoint3D&	CPoint3D::operator*=(const int32 iValue){
 			*this = this->Mul(iValue);
 			return *this;
 		}
 
-		const CPoint3D&	CPoint3D::operator/=(const int iValue){
+		const CPoint3D&	CPoint3D::operator/=(const int32 iValue){
 			*this = this->Div(iValue);
 			return *this;
 		}
 
-		const CPoint3D&	CPoint3D::operator%=(const int iValue){
+		const CPoint3D&	CPoint3D::operator%=(const int32 iValue){
 			*this = this->Mod(iValue);
 			return *this;
 		}
@@ -187,27 +207,27 @@ namespace CB{
 			return !this->IsEqual(Point);
 		}
 
-		const int&	CPoint3D::operator[](const unsigned uIndex) const{
+		const int32&	CPoint3D::operator[](const uint32 uIndex) const{
 			switch (uIndex)
 			{
 			case 0:	return this->X;
 			case 1:	return this->Y;
 			case 2:	return this->Z;
 			default:
-				throw Exception::CInvalidArgumentException(L"uIndex", String::FromUInt32(uIndex),
-					L"Index out of range.", __FUNCTIONW__, __FILEW__, __LINE__);
+				throw Exception::CInvalidArgumentException(L"uIndex", String::ToString(uIndex),
+					L"Index out of range.", CR_INFO());
 			}
 		}
 
-		int&	CPoint3D::operator[](const unsigned uIndex){
+		int32&	CPoint3D::operator[](const uint32 uIndex){
 			switch (uIndex)
 			{
 			case 0:	return this->X;
 			case 1:	return this->Y;
 			case 2:	return this->Z;
 			default:
-				throw CB::Exception::CInvalidArgumentException(L"uIndex", String::FromUInt32(uIndex),
-					L"Index out of range.", __FUNCTIONW__, __FILEW__, __LINE__);
+				throw CB::Exception::CInvalidArgumentException(L"uIndex", String::ToString(uIndex),
+					L"Index out of range.", CR_INFO());
 			}
 		}
 	}

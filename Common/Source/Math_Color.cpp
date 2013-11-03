@@ -4,48 +4,82 @@
 
 namespace CB{
 	namespace Math{
-		CColor::CColor() : Red(1.0f), Green(1.0f), Blue(1.0f), Alpha(1.0f){
-		}
+		CColor::CColor() : 
+			Red(1.0f), 
+			Green(1.0f), 
+			Blue(1.0f), 
+			Alpha(1.0f)
+		{}
 
-		CColor::CColor(const CColor& Color) : Red(Color.Red), Green(Color.Green), Blue(Color.Blue), Alpha(Color.Alpha){
-		}
+		CColor::CColor(const CColor& Color) : 
+			Red(Color.Red), 
+			Green(Color.Green), 
+			Blue(Color.Blue), 
+			Alpha(Color.Alpha)
+		{}
 
-		CColor::CColor(const CVector3D& Vector) : Red(Vector.X), Green(Vector.Y), Blue(Vector.Z), Alpha(1.0f){
-		}
+		CColor::CColor(const CVector3D& Vector) : 
+			Red(Vector.X), 
+			Green(Vector.Y), 
+			Blue(Vector.Z), 
+			Alpha(1.0f)
+		{}
 
-		CColor::CColor(const CVector3D& Vector, const float fAlpha) : Red(Vector.X), Green(Vector.Y), Blue(Vector.Z), Alpha(fAlpha){
-		}
+		CColor::CColor(const CVector3D& Vector, const float32 fAlpha) : 
+			Red(Vector.X), 
+			Green(Vector.Y), 
+			Blue(Vector.Z), 
+			Alpha(fAlpha)
+		{}
 
-		CColor::CColor(const CVector4D& Vector) : Red(Vector.X), Green(Vector.Y), Blue(Vector.Z), Alpha(Vector.W){
-		}
+		CColor::CColor(const CVector4D& Vector) : 
+			Red(Vector.X), 
+			Green(Vector.Y), 
+			Blue(Vector.Z), 
+			Alpha(Vector.W)
+		{}
 
 		CColor::CColor(const CPoint3D& Point) :
 			Red(Math::Convert0255to01(Point.X)),
 			Green(Math::Convert0255to01(Point.Y)),
 			Blue(Math::Convert0255to01(Point.Z)),
 			Alpha(1.0f)
-		{
-		}
+		{}
 
-		CColor::CColor(const CPoint3D& Point, const float fAlpha) :
+		CColor::CColor(const CPoint3D& Point, const float32 fAlpha) :
 			Red(Math::Convert0255to01(Point.X)),
 			Green(Math::Convert0255to01(Point.Y)),
 			Blue(Math::Convert0255to01(Point.Z)),
 			Alpha(fAlpha)
-		{
-		}
+		{}
 
-		CColor::CColor(const float fColor) : Red(fColor), Green(fColor), Blue(fColor), Alpha(1.0f){
-		}
+		CColor::CColor(const float32 fColor) : 
+			Red(fColor), 
+			Green(fColor), 
+			Blue(fColor), 
+			Alpha(1.0f)
+		{}
 
-		CColor::CColor(const float fColor, const float fAlpha) : Red(fColor), Green(fColor), Blue(fColor), Alpha(fAlpha){
-		}
+		CColor::CColor(const float32 fColor, const float32 fAlpha) : 
+			Red(fColor), 
+			Green(fColor), 
+			Blue(fColor), 
+			Alpha(fAlpha)
+		{}
 
-		CColor::CColor(const float fRed, const float fGreen, const float fBlue) : Red(fRed), Green(fGreen), Blue(fBlue), Alpha(1.0f){
-		}
+		CColor::CColor(const float32 fRed, const float32 fGreen, const float32 fBlue) : 
+			Red(fRed), 
+			Green(fGreen), 
+			Blue(fBlue), 
+			Alpha(1.0f)
+		{}
 
-		CColor::CColor(const float fRed, const float fGreen, const float fBlue, const float fAlpha) : Red(fRed), Blue(fBlue), Green(fGreen), Alpha(fAlpha){
-		}
+		CColor::CColor(const float32 fRed, const float32 fGreen, const float32 fBlue, const float32 fAlpha) : 
+			Red(fRed), 
+			Blue(fBlue), 
+			Green(fGreen), 
+			Alpha(fAlpha)
+		{}
 
 		void	CColor::Set(const CColor& Color){
 			this->Red	= Color.Red;
@@ -54,74 +88,74 @@ namespace CB{
 			this->Alpha = Color.Alpha;
 		}
 
-		void	CColor::Set(const float fColor){
-			const float fCol = Clamp01(fColor);
+		void	CColor::Set(const float32 fColor){
+			const float32 fCol = Clamp01(fColor);
 			this->Red	= fCol;
 			this->Green = fCol;
 			this->Blue	= fCol;
 			this->Alpha = 1.0f;
 		}
 
-		void	CColor::Set(const float fColor, const float fAlpha){
-			const float fCol = Clamp01(fColor);
+		void	CColor::Set(const float32 fColor, const float32 fAlpha){
+			const float32 fCol = Clamp01(fColor);
 			this->Red	= fCol;
 			this->Green = fCol;
 			this->Blue	= fCol;
 			this->Alpha = Clamp01(fAlpha);
 		}
 
-		void	CColor::Set(const float fRed, const float fGreen, const float fBlue){
+		void	CColor::Set(const float32 fRed, const float32 fGreen, const float32 fBlue){
 			this->Red	= Clamp01(fRed);
 			this->Green = Clamp01(fGreen);
 			this->Blue	= Clamp01(fBlue);
 			this->Alpha = 1.0f;
 		}
 
-		void	CColor::Set(const float fRed, const float fGreen, const float fBlue, const float fAlpha){
+		void	CColor::Set(const float32 fRed, const float32 fGreen, const float32 fBlue, const float32 fAlpha){
 			this->Red	= Clamp01(fRed);
 			this->Green = Clamp01(fGreen);
 			this->Blue	= Clamp01(fBlue);
 			this->Alpha = Clamp01(fAlpha);
 		}
 
-		void	CColor::Set(const unsigned char uColor){
-			const float fColor = Convert0255to01(uColor);
+		void	CColor::Set(const byte uColor){
+			const float32 fColor = Convert0255to01(uColor);
 			this->Red	= fColor;
 			this->Green = fColor;
 			this->Blue	= fColor;
 			this->Alpha = 1.0f;
 		}
 
-		void	CColor::Set(const unsigned char uColor, const unsigned char uAlpha){
+		void	CColor::Set(const byte uColor, const byte uAlpha){
 			this->Set(uColor);
 			this->Alpha = Convert0255to01(uAlpha);
 		}
 
-		void	CColor::Set(const unsigned char uRed, const unsigned char uGreen, const unsigned char uBlue){
+		void	CColor::Set(const byte uRed, const byte uGreen, const byte uBlue){
 			this->Red	= Convert0255to01(uRed);
 			this->Green	= Convert0255to01(uGreen);
 			this->Blue	= Convert0255to01(uBlue);
 			this->Alpha = 1.0f;
 		}
 
-		void	CColor::Set(const unsigned char uRed, const unsigned char uGreen, const unsigned char uBlue, const unsigned char uAlpha){
+		void	CColor::Set(const byte uRed, const byte uGreen, const byte uBlue, const byte uAlpha){
 			this->Set(uRed, uGreen, uBlue);
 			this->Alpha = Convert0255to01(uAlpha);
 		}
 
-		const unsigned char	CColor::GetRedByte() const{
+		const byte	CColor::GetRedByte() const{
 			return Convert01to0255(this->Red);
 		}
 
-		const unsigned char	CColor::GetGreenByte() const{
+		const byte	CColor::GetGreenByte() const{
 			return Convert01to0255(this->Green);
 		}
 
-		const unsigned char	CColor::GetBlueByte() const{
+		const byte	CColor::GetBlueByte() const{
 			return Convert01to0255(this->Blue);
 		}
 
-		const unsigned char CColor::GetAlphaByte() const{
+		const byte CColor::GetAlphaByte() const{
 			return Convert01to0255(this->Alpha);
 		}
 
@@ -175,13 +209,13 @@ namespace CB{
 				Math::IsNearEqual(this->Alpha, Color.Alpha);
 		}
 
-		const unsigned	CColor::ToABGR() const{
-			unsigned char uRed		= this->GetRedByte();
-			unsigned char uGreen	= this->GetGreenByte();
-			unsigned char uBlue		= this->GetBlueByte();
-			unsigned char uAlpha	= this->GetAlphaByte();
+		const uint32	CColor::ToABGR() const{
+			byte uRed	= this->GetRedByte();
+			byte uGreen	= this->GetGreenByte();
+			byte uBlue	= this->GetBlueByte();
+			byte uAlpha	= this->GetAlphaByte();
 
-			unsigned uReturn = 0;
+			uint32 uReturn = 0;
 
 			uReturn = uAlpha;
 			uReturn = uReturn << 8 | uBlue;
@@ -191,13 +225,13 @@ namespace CB{
 			return uReturn;
 		}
 
-		const unsigned	CColor::ToARGB() const{
-			unsigned char uRed		= this->GetRedByte();
-			unsigned char uGreen	= this->GetGreenByte();
-			unsigned char uBlue		= this->GetBlueByte();
-			unsigned char uAlpha	= this->GetAlphaByte();
+		const uint32	CColor::ToARGB() const{
+			byte uRed		= this->GetRedByte();
+			byte uGreen	= this->GetGreenByte();
+			byte uBlue		= this->GetBlueByte();
+			byte uAlpha	= this->GetAlphaByte();
 
-			unsigned uReturn = 0;
+			uint32 uReturn = 0;
 
 			uReturn = uAlpha;
 			uReturn = uReturn << 8 | uRed;
@@ -207,13 +241,13 @@ namespace CB{
 			return uReturn;
 		}
 
-		const unsigned	CColor::ToBGRA() const{
-			unsigned char uRed		= this->GetRedByte();
-			unsigned char uGreen	= this->GetGreenByte();
-			unsigned char uBlue		= this->GetBlueByte();
-			unsigned char uAlpha	= this->GetAlphaByte();
+		const uint32	CColor::ToBGRA() const{
+			byte uRed	= this->GetRedByte();
+			byte uGreen	= this->GetGreenByte();
+			byte uBlue	= this->GetBlueByte();
+			byte uAlpha	= this->GetAlphaByte();
 
-			unsigned uReturn = 0;
+			uint32 uReturn = 0;
 
 			uReturn = uBlue;
 			uReturn = uReturn << 8 | uGreen;
@@ -223,13 +257,13 @@ namespace CB{
 			return uReturn;
 		}
 
-		const unsigned	CColor::ToRGBA() const{
-			unsigned char uRed		= this->GetRedByte();
-			unsigned char uGreen	= this->GetGreenByte();
-			unsigned char uBlue		= this->GetBlueByte();
-			unsigned char uAlpha	= this->GetAlphaByte();
+		const uint32	CColor::ToRGBA() const{
+			byte uRed	= this->GetRedByte();
+			byte uGreen	= this->GetGreenByte();
+			byte uBlue	= this->GetBlueByte();
+			byte uAlpha	= this->GetAlphaByte();
 
-			unsigned uReturn = 0;
+			uint32 uReturn = 0;
 
 			uReturn = uRed;
 			uReturn = uReturn << 8 | uGreen;
@@ -254,7 +288,7 @@ namespace CB{
 		const CColor	CColor::Div(const CColor& Color) const{
 			if(Color.Red == 0.0f || Color.Green == 0.0f || Color.Blue == 0.0f || Color.Alpha == 0.0f){
 				throw CB::Exception::CInvalidArgumentException(L"Color", Color.ToString(),
-					L"Division by zero", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Division by zero", CR_INFO());
 			}
 
 			return CColor(this->Red / Color.Red, this->Green / Color.Green, this->Blue / Color.Blue, this->Alpha / Color.Alpha);
@@ -275,17 +309,17 @@ namespace CB{
 		const CColor	CColor::DivColor(const CColor& Color) const{
 			if(Color.Red == 0.0f || Color.Green == 0.0f || Color.Blue == 0.0f){
 				throw CB::Exception::CInvalidArgumentException(L"Color", Color.ToString(),
-					L"Division by zero", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Division by zero", CR_INFO());
 			}
 
 			return CColor(this->Red / Color.Red, this->Green / Color.Green, this->Blue / Color.Blue);
 		}
 
 		const CB::CString	CColor::ToString() const{
-			return L"Red: " + String::FromFloat(this->Red) + 
-				L", Green: " + String::FromFloat(this->Green) + 
-				L", Blue: " + String::FromFloat(this->Blue) + 
-				L", Alpha: " + String::FromFloat(this->Alpha);
+			return L"Red: " + String::ToString(this->Red) + 
+				L", Green: " + String::ToString(this->Green) + 
+				L", Blue: " + String::ToString(this->Blue) + 
+				L", Alpha: " + String::ToString(this->Alpha);
 		}
 
 		const CVector3D CColor::ToVector() const{
@@ -333,7 +367,7 @@ namespace CB{
 			return !this->IsEqual(Color);
 		}
 
-		const float&	CColor::operator[](const unsigned uIndex) const{
+		const float32&	CColor::operator[](const uint32 uIndex) const{
 			switch (uIndex)
 			{
 			case 0:	return this->Red;
@@ -341,12 +375,12 @@ namespace CB{
 			case 2:	return this->Blue;
 			case 3:	return this->Alpha;
 			default:
-				throw CB::Exception::CInvalidArgumentException(L"uIndex", CB::String::FromUInt32(uIndex),
-					L"Index out of range", __FUNCTIONW__, __FILEW__, __LINE__);
+				throw CB::Exception::CInvalidArgumentException(L"uIndex", CB::String::ToString(uIndex),
+					L"Index out of range", CR_INFO());
 			}
 		}
 
-		float&	CColor::operator[](const unsigned uIndex){
+		float32&	CColor::operator[](const uint32 uIndex){
 			switch (uIndex)
 			{
 			case 0:	return this->Red;
@@ -354,8 +388,8 @@ namespace CB{
 			case 2:	return this->Blue;
 			case 3:	return this->Alpha;
 			default:
-				throw CB::Exception::CInvalidArgumentException(L"uIndex", CB::String::FromUInt32(uIndex),
-					L"Index out of range", __FUNCTIONW__, __FILEW__, __LINE__);
+				throw CB::Exception::CInvalidArgumentException(L"uIndex", CB::String::ToString(uIndex),
+					L"Index out of range", CR_INFO());
 			}
 		}
 	}

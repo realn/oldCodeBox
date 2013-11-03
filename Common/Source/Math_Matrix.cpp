@@ -13,20 +13,22 @@
 
 namespace CB{
 	namespace Math{
+
+
 		const CMatrix	FromGLM(const glm::mat4& matrix){
 			return CMatrix(glm::value_ptr(glm::transpose(matrix)));
 		}
 
 		const glm::mat4	ToGLM(const CMatrix& matrix){
-			return glm::transpose(glm::make_mat4(matrix.ToFloat()));
+			return glm::transpose(glm::make_mat4(matrix.GetMatrixPointer()));
 		}
 
 		CMatrix::CMatrix(){
-			Memory::SetZero(&this->Row[0], 4*4*sizeof(float));
+			Memory::SetZero(&this->Row[0], 4*4*sizeof(float32));
 		}
 
-		CMatrix::CMatrix(const float* pMatrix){
-			Memory::Copy(pMatrix, &this->Row[0], 4*4*sizeof(float));
+		CMatrix::CMatrix(const float32* pMatrix){
+			Memory::Copy(pMatrix, &this->Row[0], 4*4*sizeof(float32));
 		}
 
 		CMatrix::CMatrix(const CMatrix& Matrix){
@@ -58,8 +60,8 @@ namespace CB{
 			this->Row[3] = Matrix[3];
 		}
 
-		void	CMatrix::Set(const float* pMatrix){
-			Memory::Copy(pMatrix, &this->Row[0], 4*4*sizeof(float));
+		void	CMatrix::Set(const float32* pMatrix){
+			Memory::Copy(pMatrix, &this->Row[0], 4*4*sizeof(float32));
 		}
 
 		void	CMatrix::Set(const CVector4D& vRow1, const CVector4D& vRow2, const CVector4D& vRow3, const CVector4D& vRow4){
@@ -74,15 +76,15 @@ namespace CB{
 			this->Row[3] = CVector4D(vPos, 1.0f);
 		}
 
-		void	CMatrix::SetTranslation(const float fX, const float fY, const float fZ){
+		void	CMatrix::SetTranslation(const float32 fX, const float32 fY, const float32 fZ){
 			this->SetTranslation(CVector3D(fX, fY, fZ));
 		}
 
-		void	CMatrix::SetRotation(const float fAngle, const CVector3D& vAxis){
-			this->Set(FromGLM(glm::rotate(glm::mat4(1.0f), fAngle, glm::make_vec3(vAxis.ToFloat()))));
+		void	CMatrix::SetRotation(const float32 fAngle, const CVector3D& vAxis){
+			this->Set(FromGLM(glm::rotate(glm::mat4(1.0f), fAngle, glm::make_vec3(vAxis.GetPointer()))));
 		}
 
-		void	CMatrix::SetRotation(const AxisOrientation uAxis, const float fAngle){
+		void	CMatrix::SetRotation(const AxisOrientation uAxis, const float32 fAngle){
 			switch(uAxis){
 			case AxisOrientation::AxisX:	this->SetRotation(fAngle, Math::CVector3D(1.0f, 0.0f, 0.0f));	break;
 			case AxisOrientation::AxisY:	this->SetRotation(fAngle, Math::CVector3D(0.0f, 1.0f, 0.0f));	break;
@@ -122,8 +124,8 @@ namespace CB{
 
 		void	CMatrix::Transpose(){
 			CMatrix temp = *this;
-			for(unsigned i = 0; i < 4; i++){
-				this->GetRow(i) = temp.GetColumn(i);
+			for(uint32 i = 0; i < 4; i++){
+				this->Get(i) = temp.GetColumn(i);
 			}
 		}
 
@@ -131,9 +133,37 @@ namespace CB{
 			this->Set(FromGLM(glm::inverse(ToGLM(*this))));
 		}
 
+		const uint32	CMatrix::GetLength() const{
+			return 4;
+		}
+
+		const uint32	CMatrix::GetSizeInBytes() const{
+			return this->GetLength() * sizeof(CVector4D);
+		}
+
+		const bool		CMatrix::IsEmpty() const{
+			return false;
+		}
+
+		const CVector4D*	CMatrix::GetPointer() const{
+			return this->Row.GetPointer();
+		}
+
+		CVector4D*			CMatrix::GetPointer() {
+			return this->Row.GetPointer();
+		}
+		
+		const float32*	CMatrix::GetMatrixPointer() const{
+			return this->Row[0].GetPointer();
+		}
+
+		float32*		CMatrix::GetMatrixPointer(){
+			return this->Row[0].GetPointer();
+		}
+
 		const CMatrix	CMatrix::GetTransposed() const{
 			CMatrix mOut;
-			for(unsigned i = 0; i < 4; i++){
+			for(uint32 i = 0; i < 4; i++){
 				mOut[i] = this->GetColumn(i);
 			}
 			return mOut;
@@ -146,7 +176,7 @@ namespace CB{
 		const CVector3D	CMatrix::Transform(const CVector3D& vVec) const{
 			CVector3D vOut;
 
-			for(unsigned i = 0; i < 3; i++){
+			for(uint32 i = 0; i < 3; i++){
 				vOut[i] = this->GetColumn(i).Dot(CVector4D(vVec, 1.0f));
 			}
 
@@ -156,18 +186,18 @@ namespace CB{
 		const CVector3D	CMatrix::TransformNormal(const CVector3D& vNormal) const{
 			CVector3D vOut;
 
-			for(unsigned i = 0; i < 3; i++){
+			for(uint32 i = 0; i < 3; i++){
 				vOut[i] = CVector3D(this->GetColumn(i)).Dot(vNormal);
 			}
 
 			return vOut;
 		}
 
-		const float	CMatrix::GetDeterminant() const{
+		const float32	CMatrix::GetDeterminant() const{
 			return glm::determinant(ToGLM(*this));
 		}
 
-		const CVector4D&	CMatrix::GetRow(const unsigned uIndex) const{
+		const CVector4D&	CMatrix::Get(const uint32 uIndex) const{
 			switch(uIndex){
 			case 0:	return this->Row[0];
 			case 1:	return this->Row[1];
@@ -179,7 +209,7 @@ namespace CB{
 			};
 		}
 
-		CVector4D&	CMatrix::GetRow(const unsigned uIndex){
+		CVector4D&	CMatrix::Get(const uint32 uIndex){
 			switch(uIndex){
 			case 0:	return this->Row[0];
 			case 1:	return this->Row[1];
@@ -191,7 +221,7 @@ namespace CB{
 			};
 		}
 
-		const CVector4D	CMatrix::GetColumn(const unsigned uIndex) const{
+		const CVector4D	CMatrix::GetColumn(const uint32 uIndex) const{
 			if(uIndex > 3){
 				throw CB::Exception::CInvalidArgumentException(L"uIndex", CB::String::FromUInt32(uIndex),
 					L"Index out of range.", __FUNCTIONW__, __FILEW__, __LINE__);
@@ -200,26 +230,26 @@ namespace CB{
 			return CVector4D(this->Row[0][uIndex], this->Row[1][uIndex], this->Row[2][uIndex], this->Row[3][uIndex]);
 		}
 
-		const float&	CMatrix::Get(const unsigned uRow, const unsigned uColumn) const{
-			return this->GetRow(uRow)[uColumn];
+		const float32&	CMatrix::Get(const uint32 uRow, const uint32 uColumn) const{
+			return this->Get(uRow)[uColumn];
 		}
 
-		float&	CMatrix::Get(const unsigned uRow, const unsigned uColumn){
-			return this->GetRow(uRow)[uColumn];
+		float32&	CMatrix::Get(const uint32 uRow, const uint32 uColumn){
+			return this->Get(uRow)[uColumn];
 		}
 
 		const CMatrix	CMatrix::Add(const CMatrix& Matrix) const{
 			CMatrix mOut;
-			for(unsigned uIndex = 0; uIndex < 4; uIndex++){
-				mOut[uIndex] = this->GetRow(uIndex) + Matrix[uIndex];
+			for(uint32 uIndex = 0; uIndex < 4; uIndex++){
+				mOut[uIndex] = this->Get(uIndex) + Matrix[uIndex];
 			}
 			return mOut;
 		}
 
 		const CMatrix	CMatrix::Sub(const CMatrix& Matrix) const{
 			CMatrix mOut;
-			for(unsigned uIndex = 0; uIndex < 4; uIndex++){
-				mOut[uIndex] = this->GetRow(uIndex) - Matrix[uIndex];
+			for(uint32 uIndex = 0; uIndex < 4; uIndex++){
+				mOut[uIndex] = this->Get(uIndex) - Matrix[uIndex];
 			}
 			return mOut;
 		}
@@ -228,23 +258,23 @@ namespace CB{
 			return FromGLM(ToGLM(*this) * ToGLM(Matrix));
 		}
 
-		const CMatrix CMatrix::Mul(const float fValue) const{
+		const CMatrix CMatrix::Mul(const float32 fValue) const{
 			CMatrix mOut;
-			for(unsigned uIndex = 0; uIndex < 4; uIndex++){
-				mOut[uIndex] = this->GetRow(uIndex) * fValue;
+			for(uint32 uIndex = 0; uIndex < 4; uIndex++){
+				mOut[uIndex] = this->Get(uIndex) * fValue;
 			}
 			return mOut;
 		}
 
-		const CMatrix CMatrix::Div(const float fValue) const{
+		const CMatrix CMatrix::Div(const float32 fValue) const{
 			if(fValue == 0.0f){
 				throw CB::Exception::CNullArgumentException(L"fValue",
 					L"Division by zero.", __FUNCTIONW__, __FILEW__, __LINE__);
 			}
 
 			CMatrix mOut;
-			for(unsigned uIndex = 0; uIndex < 4; uIndex++){
-				mOut[uIndex] = this->GetRow(uIndex) / fValue;
+			for(uint32 uIndex = 0; uIndex < 4; uIndex++){
+				mOut[uIndex] = this->Get(uIndex) / fValue;
 			}
 			return mOut;
 		}
@@ -255,11 +285,11 @@ namespace CB{
 
 		const CString	CMatrix::ToString(const bool bNewLine) const{
 			CString strOut;
-			for(unsigned uRow = 0; uRow < 4; uRow++){
-				for(unsigned uColumn = 0; uColumn < 4; uColumn++){
+			for(uint32 uRow = 0; uRow < 4; uRow++){
+				for(uint32 uColumn = 0; uColumn < 4; uColumn++){
 					strOut += L"m" + CB::String::FromUInt32(uRow+1) + 
 						CB::String::FromUInt32(uColumn+1) + L": " + 
-						CB::String::FromFloat(this->Get(uRow, uColumn));
+						CB::String::ToString(this->Get(uRow, uColumn));
 					if(uRow != 3){
 						strOut += L", ";
 					}
@@ -269,10 +299,6 @@ namespace CB{
 				}
 			}
 			return strOut;
-		}
-
-		const float*	CMatrix::ToFloat() const{
-			return this->Row[0].ToFloat();
 		}
 
 		const CMatrix& CMatrix::operator=(const CMatrix& Matrix){
@@ -292,11 +318,11 @@ namespace CB{
 			return this->Mul(Matrix);
 		}
 
-		const CMatrix	CMatrix::operator*(const float fValue) const{
+		const CMatrix	CMatrix::operator*(const float32 fValue) const{
 			return this->Mul(fValue);
 		}
 
-		const CMatrix	CMatrix::operator/(const float fValue) const{
+		const CMatrix	CMatrix::operator/(const float32 fValue) const{
 			return this->Div(fValue);
 		}
 
@@ -319,22 +345,22 @@ namespace CB{
 			return *this;
 		}
 
-		const CMatrix&	CMatrix::operator*=(const float fValue){
+		const CMatrix&	CMatrix::operator*=(const float32 fValue){
 			*this = this->Mul(fValue);
 			return *this;
 		}
 
-		const CMatrix&	CMatrix::operator/=(const float fValue){
+		const CMatrix&	CMatrix::operator/=(const float32 fValue){
 			*this = this->Div(fValue);
 			return *this;
 		}
 
-		const CVector4D&	CMatrix::operator[](const unsigned uIndex) const{
-			return this->GetRow(uIndex);
+		const CVector4D&	CMatrix::operator[](const uint32 uIndex) const{
+			return this->Get(uIndex);
 		}
 
-		CVector4D&	CMatrix::operator[](const unsigned uIndex){
-			return this->GetRow(uIndex);
+		CVector4D&	CMatrix::operator[](const uint32 uIndex){
+			return this->Get(uIndex);
 		}
 
 		const CMatrix	CMatrix::GetIdentity(){
@@ -343,7 +369,7 @@ namespace CB{
 			return mOut;
 		}
 
-		const CMatrix	CMatrix::GetTranslation(const float fX, const float fY, const float fZ){
+		const CMatrix	CMatrix::GetTranslation(const float32 fX, const float32 fY, const float32 fZ){
 			CMatrix mOut;
 			mOut.SetTranslation(fX, fY, fZ);
 			return mOut;
@@ -355,13 +381,13 @@ namespace CB{
 			return mOut;
 		}
 
-		const CMatrix CMatrix::GetRotation(const float fAngle, const CVector3D& vAxis){
+		const CMatrix CMatrix::GetRotation(const float32 fAngle, const CVector3D& vAxis){
 			CMatrix mOut;
 			mOut.SetRotation(fAngle, vAxis);
 			return mOut;
 		}
 
-		const CMatrix CMatrix::GetRotation(const AxisOrientation uAxis, const float fAngle){
+		const CMatrix CMatrix::GetRotation(const AxisOrientation uAxis, const float32 fAngle){
 			CMatrix mOut;
 			mOut.SetRotation(uAxis, fAngle);
 			return mOut;
@@ -373,17 +399,17 @@ namespace CB{
 			return mat;
 		}
 
-		const CMatrix	CMatrix::GetOrtho(const CVector2D& Size, const float fZNear, const float fZFar){
+		const CMatrix	CMatrix::GetOrtho(const CVector2D& Size, const float32 fZNear, const float32 fZFar){
 			return GetOrtho(Size.X, Size.Y, fZNear, fZFar);
 		}
 
-		const CMatrix	CMatrix::GetOrtho(const float fWidth, const float fHeight, const float fZNear, const float fZFar){
-			const float halfW = fWidth / 2.0f;
-			const float halfH = fHeight / 2.0f;
+		const CMatrix	CMatrix::GetOrtho(const float32 fWidth, const float32 fHeight, const float32 fZNear, const float32 fZFar){
+			const float32 halfW = fWidth / 2.0f;
+			const float32 halfH = fHeight / 2.0f;
 			return FromGLM(glm::ortho(-halfW, halfW, -halfH, halfH, fZNear, fZFar));
 		}
 
-		const CMatrix	CMatrix::GetPerspective(const float fAspect, const float fEyeAngle, const float fZNear, const float fZFar){
+		const CMatrix	CMatrix::GetPerspective(const float32 fAspect, const float32 fEyeAngle, const float32 fZNear, const float32 fZFar){
 			return FromGLM(glm::perspective(fEyeAngle, fAspect, fZNear, fZFar));
 		}
 	}
@@ -398,7 +424,7 @@ namespace CB{
 			case Math::AxisOrientation::AxisY:	return L"AxisY";
 			case Math::AxisOrientation::AxisZ:	return L"AxisZ";
 			default:
-				throw Exception::CInvalidArgumentException(L"uAxis", FromUInt32((unsigned)uAxis),
+				throw Exception::CInvalidArgumentException(L"uAxis", FromUInt32((uint32)uAxis),
 					L"Unknown axis type. cannot convert to string.", __FUNCTIONW__, __FILEW__, __LINE__);
 			}
 		}
@@ -410,7 +436,7 @@ namespace CB{
 			case Math::RotationOrder::XZY:	return L"XZY";
 			case Math::RotationOrder::ZXY:	return L"ZXY";
 			default:
-				throw Exception::CInvalidArgumentException(L"uOrder", FromUInt32((unsigned)uOrder),
+				throw Exception::CInvalidArgumentException(L"uOrder", FromUInt32((uint32)uOrder),
 					L"Unknown rotation order error, cannot convert to string.", __FUNCTIONW__, __FILEW__, __LINE__);
 			}
 		}

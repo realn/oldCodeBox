@@ -4,20 +4,30 @@
 
 namespace CB{
 	namespace Math{
-		CVector2D::CVector2D() : X(0.0f), Y(0.0f){
-		}
+		CVector2D::CVector2D() : 
+			X(0.0f), 
+			Y(0.0f)
+		{}
 
-		CVector2D::CVector2D(const CVector2D& Vector) : X(Vector.X), Y(Vector.Y){
-		}
+		CVector2D::CVector2D(const CVector2D& Vector) : 
+			X(Vector.X), 
+			Y(Vector.Y)
+		{}
 
-		CVector2D::CVector2D(const CPoint& Point) : X((float)Point.X), Y((float)Point.Y){
-		}
+		CVector2D::CVector2D(const CPoint& Point) : 
+			X((float32)Point.X), 
+			Y((float32)Point.Y)
+		{}
 
-		CVector2D::CVector2D(const float fValue) : X(fValue), Y(fValue){
-		}
+		CVector2D::CVector2D(const float32 fValue) : 
+			X(fValue), 
+			Y(fValue)
+		{}
 
-		CVector2D::CVector2D(const float fX, const float fY) : X(fX), Y(fY){
-		}
+		CVector2D::CVector2D(const float32 fX, const float32 fY) : 
+			X(fX), 
+			Y(fY)
+		{}
 
 		void	CVector2D::SetZero(){
 			this->X = 0.0f;
@@ -29,12 +39,12 @@ namespace CB{
 			this->Y = Vector.Y;
 		}
 
-		void	CVector2D::Set(const float fValue){
+		void	CVector2D::Set(const float32 fValue){
 			this->X = fValue;
 			this->Y = fValue;
 		}
 
-		void	CVector2D::Set(const float fX, const float fY){
+		void	CVector2D::Set(const float32 fX, const float32 fY){
 			this->X = fX;
 			this->Y = fY;
 		}
@@ -59,16 +69,56 @@ namespace CB{
 			return Math::IsNearEqual(this->X, Vector.X) && Math::IsNearEqual(this->Y, Vector.Y);
 		}
 
-		const float	CVector2D::GetLength() const{
-			return SqRoot(this->GetLengthSq());
+		const bool	CVector2D::IsEmpty() const{
+			return false;
 		}
 
-		const float CVector2D::GetLengthSq() const{
+		const uint32	CVector2D::GetLength() const{
+			return 2;
+		}
+
+		const uint32	CVector2D::GetSizeInBytes() const{
+			return this->GetLength() * sizeof(float32);
+		}
+
+		const float32&	CVector2D::Get(const uint32 uIndex) const{
+			switch (uIndex){
+			case 0:	return this->X;
+			case 1:	return this->Y;
+			default:
+				throw Exception::CInvalidArgumentException(L"uIndex", String::FromUInt32(uIndex),
+					L"Index out of range.", CR_INFO());
+			}
+		}
+
+		float32&	CVector2D::Get(const uint32 uIndex){
+			switch (uIndex){
+			case 0:	return this->X;
+			case 1:	return this->Y;
+			default:
+				throw Exception::CInvalidArgumentException(L"uIndex", CB::String::FromUInt32(uIndex),
+					L"Index out of range.", CR_INFO());
+			}
+		}
+
+		const float32*	CVector2D::GetPointer() const{
+			return &this->X;
+		}
+
+		float32*	CVector2D::GetPointer(){
+			return &this->X;
+		}
+
+		const float32	CVector2D::GetVectorLength() const{
+			return SqRoot(this->GetVectorLengthSq());
+		}
+
+		const float32 CVector2D::GetVectorLengthSq() const{
 			return Power2(this->X) + Power2(this->Y);
 		}
 
 		const CVector2D	CVector2D::GetNormalized() const{
-			return this->Div(this->GetLength());
+			return this->Div(this->GetVectorLength());
 		}
 
 		void	CVector2D::Normalize(){
@@ -89,45 +139,36 @@ namespace CB{
 
 		const CVector2D	CVector2D::Div(const CVector2D& Vector) const{
 			if(Vector.IsPartialZero()){
-				throw CB::Exception::CInvalidArgumentException(L"Vector", Vector.ToString(),
-					L"Division by Zero", __FUNCTIONW__, __FILEW__, __LINE__);
+				throw Exception::CInvalidArgumentException(L"Vector", Vector.ToString(),
+					L"Division by Zero", CR_INFO());
 			}
 
 			return CVector2D(this->X / Vector.X, this->Y / Vector.Y);
 		}
 
-		const CVector2D	CVector2D::Mul(const float fValue) const{
+		const CVector2D	CVector2D::Mul(const float32 fValue) const{
 			return CVector2D(this->X * fValue, this->Y * fValue);
 		}
 
-		const CVector2D	CVector2D::Div(const float fValue) const{
+		const CVector2D	CVector2D::Div(const float32 fValue) const{
 			if(fValue == 0.0f){
-				throw CB::Exception::CInvalidArgumentException(L"fValue", CB::String::FromFloat(fValue),
-					L"Division by Zero", __FUNCTIONW__, __FILEW__, __LINE__);
+				throw Exception::CInvalidArgumentException(L"fValue", CB::String::ToString(fValue),
+					L"Division by Zero", CR_INFO());
 			}
 
 			return CVector2D(this->X / fValue, this->Y / fValue);
 		}
 
-		const float	CVector2D::Dot(const CVector2D& Vector) const{
+		const float32	CVector2D::Dot(const CVector2D& Vector) const{
 			return this->X * Vector.X + this->Y * Vector.Y;
 		}
 
 		const CB::CString	CVector2D::ToString() const{
-			return L"X: " + String::FromFloat(this->X) + L", Y: " + String::FromFloat(this->Y);
+			return L"X: " + String::ToString(this->X) + L", Y: " + String::ToString(this->Y);
 		}
 
 		const CPoint	CVector2D::ToPoint() const{
 			return CPoint((int)this->X, (int)this->Y);
-		}
-
-		const float*	CVector2D::ToFloat() const{
-			return &this->X;
-		}
-
-		void	CVector2D::ToFloat(float* pFloat) const{
-			pFloat[0] = this->X;
-			pFloat[1] = this->Y;
 		}
 
 		const CVector2D&	CVector2D::operator=(const CVector2D& Vector){
@@ -159,11 +200,11 @@ namespace CB{
 			return this->Div(Vector);
 		}
 
-		const CVector2D	CVector2D::operator*(const float fValue) const{
+		const CVector2D	CVector2D::operator*(const float32 fValue) const{
 			return this->Mul(fValue);
 		}
 
-		const CVector2D	CVector2D::operator/(const float fValue) const{
+		const CVector2D	CVector2D::operator/(const float32 fValue) const{
 			return this->Div(fValue);
 		}
 
@@ -187,12 +228,12 @@ namespace CB{
 			return *this;
 		}
 
-		const CVector2D&	CVector2D::operator*=(const float fValue){
+		const CVector2D&	CVector2D::operator*=(const float32 fValue){
 			this->Set(this->Mul(fValue));
 			return *this;
 		}
 
-		const CVector2D&	CVector2D::operator/=(const float fValue){
+		const CVector2D&	CVector2D::operator/=(const float32 fValue){
 			this->Set(this->Div(fValue));
 			return *this;
 		}
@@ -205,26 +246,12 @@ namespace CB{
 			return !this->IsEqual(Vector);
 		}
 
-		const float&	CVector2D::operator[](const unsigned uIndex) const{
-			switch (uIndex)
-			{
-			case 0:	return this->X;
-			case 1:	return this->Y;
-			default:
-				throw CB::Exception::CInvalidArgumentException(L"uIndex", String::FromUInt32(uIndex),
-					L"Index out of range.", __FUNCTIONW__, __FILEW__, __LINE__);
-			}
+		const float32&	CVector2D::operator[](const uint32 uIndex) const{
+			return this->Get(uIndex);
 		}
 
-		float&	CVector2D::operator[](const unsigned uIndex){
-			switch (uIndex)
-			{
-			case 0:	return this->X;
-			case 1:	return this->Y;
-			default:
-				throw CB::Exception::CInvalidArgumentException(L"uIndex", CB::String::FromUInt32(uIndex),
-					L"Index out of range.", __FUNCTIONW__, __FILEW__, __LINE__);
-			}
+		float32&	CVector2D::operator[](const uint32 uIndex){
+			return this->Get(uIndex);
 		}
 	}
 }

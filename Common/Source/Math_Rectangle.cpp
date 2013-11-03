@@ -3,27 +3,35 @@
 
 namespace CB{
 	namespace Math{
-		CRectangle::CRectangle() : Position(), Size(){
-		}
+		CRectangle::CRectangle() : 
+			Position(), 
+			Size()
+		{}
 
-		CRectangle::CRectangle(const CRectangle& Rectangle) : Position(Rectangle.Position), Size(Rectangle.Size){
-		}
+		CRectangle::CRectangle(const CRectangle& Rectangle) : 
+			Position(Rectangle.Position), 
+			Size(Rectangle.Size)
+		{}
 
-		CRectangle::CRectangle(const CPoint& Position, const CSize& Size) 
-			: Position(Position), Size(Size){
-		}
+		CRectangle::CRectangle(const CPoint& Position, const CSize& Size) : 
+			Position(Position), 
+			Size(Size)
+		{}
 
-		CRectangle::CRectangle(const int iX, const int iY, const CSize& Size)
-			: Position(iX, iY), Size(Size){
-		}
+		CRectangle::CRectangle(const int iX, const int iY, const CSize& Size) : 
+			Position(iX, iY), 
+			Size(Size)
+		{}
 
-		CRectangle::CRectangle(const CPoint& Position, const unsigned uWidth, const unsigned uHeight)
-			: Position(Position), Size(uWidth, uHeight){
-		}
+		CRectangle::CRectangle(const CPoint& Position, const uint32 uWidth, const uint32 uHeight) : 
+			Position(Position), 
+			Size(uWidth, uHeight)
+		{}
 
-		CRectangle::CRectangle(const int iX, const int iY, const unsigned uWidth, const unsigned uHeight)
-			: Position(iX, iY), Size(uWidth, uHeight){
-		}
+		CRectangle::CRectangle(const int32 iX, const int32 iY, const uint32 uWidth, const uint32 uHeight) : 
+			Position(iX, iY), 
+			Size(uWidth, uHeight)
+		{}
 
 		void	CRectangle::SetZero(){
 			this->Position.SetZero();
@@ -35,7 +43,7 @@ namespace CB{
 			this->Size = Rect.Size;
 		}
 
-		void	CRectangle::Set(const int iX, const int iY, const unsigned uWidth, const unsigned uHeight){
+		void	CRectangle::Set(const int32 iX, const int32 iY, const uint32 uWidth, const uint32 uHeight){
 			this->Position.Set(iX, iY);
 			this->Size.Set(uWidth, uHeight);
 		}
@@ -52,42 +60,42 @@ namespace CB{
 			return this->Position.IsEqual(Rectangle.Position) && this->Size.IsEqual(Rectangle.Size);
 		}
 
-		const int	CRectangle::GetLeft() const{
+		const int32	CRectangle::GetXLower() const{
 			return this->Position.X;
 		}
 
-		const int	CRectangle::GetRight() const{
-			return this->Position.X + this->Size.Width;
+		const int32	CRectangle::GetXHigher() const{
+			return this->Position.X + (int32)this->Size.Width;
 		}
 
-		const int	CRectangle::GetTop() const{
+		const int32	CRectangle::GetYLower() const{
 			return this->Position.Y;
 		}
 
-		const int	CRectangle::GetBottom() const{
-			return this->Position.Y + this->Size.Height;
+		const int32 CRectangle::GetYHigher() const{
+			return this->Position.Y + (int32)this->Size.Height;
 		}
 
 		const bool	CRectangle::Contains(const CPoint& Point) const{
-			return Point.X >= this->GetLeft() && 
-				Point.X <= this->GetRight() && 
-				Point.Y >= this->GetTop() && 
-				Point.Y <= this->GetTop();
+			return Point.X >= this->GetXLower() && 
+				Point.X <= this->GetXHigher() && 
+				Point.Y >= this->GetYLower() && 
+				Point.Y <= this->GetYHigher();
 		}
 
 		const bool	CRectangle::Contains(const CRectangle& Rectangle) const{
-			return Rectangle.GetLeft() >= this->GetLeft() &&
-				Rectangle.GetRight() <= this->GetRight() &&
-				Rectangle.GetTop() >= this->GetTop() &&
-				Rectangle.GetBottom() <= this->GetBottom();
+			return Rectangle.GetXLower() >= this->GetXLower() &&
+				Rectangle.GetXHigher() <= this->GetXHigher() &&
+				Rectangle.GetYLower() >= this->GetYLower() &&
+				Rectangle.GetYHigher() <= this->GetYHigher();
 		}
 
 		const bool	CRectangle::Intersects(const CRectangle& Rectangle) const{
-			if((Rectangle.GetLeft() >= this->GetLeft() && Rectangle.GetLeft() <= this->GetRight()) || 
-				(Rectangle.GetRight() >= this->GetLeft() && Rectangle.GetRight() <= this->GetRight())){
+			if((Rectangle.GetXLower() >= this->GetXLower() && Rectangle.GetXLower() <= this->GetXHigher()) || 
+				(Rectangle.GetXHigher() >= this->GetXLower() && Rectangle.GetXHigher() <= this->GetXHigher())){
 
-				if((Rectangle.GetTop() >= this->GetTop() && Rectangle.GetTop() <= this->GetBottom()) ||
-					(Rectangle.GetBottom() >= this->GetTop() && Rectangle.GetBottom() <= this->GetBottom())){
+				if((Rectangle.GetYLower() >= this->GetYLower() && Rectangle.GetYLower() <= this->GetYHigher()) ||
+					(Rectangle.GetYHigher() >= this->GetYLower() && Rectangle.GetYHigher() <= this->GetYHigher())){
 					return true;
 				}
 			}
@@ -112,16 +120,16 @@ namespace CB{
 			return !this->IsEqual(Rectangle);
 		}
 
-		const int	CRectangle::operator[](const unsigned uIndex) const{
+		const int32	CRectangle::operator[](const uint32 uIndex) const{
 			switch (uIndex)
 			{
-			case 0:	return this->GetLeft();
-			case 1:	return this->GetTop();
-			case 2:	return this->GetRight();
-			case 3:	return this->GetBottom();
+			case 0:	return this->GetXLower();
+			case 1:	return this->GetYLower();
+			case 2:	return this->GetXHigher();
+			case 3:	return this->GetYHigher();
 			default:
-				throw CB::Exception::CInvalidArgumentException(L"uIndex", CB::String::FromUInt32(uIndex),
-					L"Index out of range.", __FUNCTIONW__, __FILEW__, __LINE__);
+				throw Exception::CInvalidArgumentException(L"uIndex", String::ToString(uIndex),
+					L"Index out of range.", CR_INFO());
 			}
 		}
 	}

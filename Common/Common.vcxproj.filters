@@ -261,6 +261,24 @@
     <ClInclude Include="Include\Logger_Consts.h">
       <Filter>Include\Logger</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Manage_EventInvoker.h">
+      <Filter>Include\Manage</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Manage_EventInvokerBase.h">
+      <Filter>Include\Manage</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Manage_EventHandlerGuard.h">
+      <Filter>Include\Manage</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Math_RectangleF.h">
+      <Filter>Include\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Math_Box.h">
+      <Filter>Include\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Math_BoxF.h">
+      <Filter>Include\Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Exception.cpp">
@@ -427,6 +445,15 @@
     </ClCompile>
     <ClCompile Include="Source\IO_SoundData.cpp">
       <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math_RectangleF.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math_Box.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math_BoxF.cpp">
+      <Filter>Source\Math</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

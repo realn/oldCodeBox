@@ -6,19 +6,19 @@ namespace CB{
 	namespace Math{
 		class COMMON_API CSize{
 		public:
-			unsigned Width;
-			unsigned Height;
+			uint32 Width;
+			uint32 Height;
 
 			CSize();
 			CSize(const CSize& Size);
 			CSize(const CPoint& Point);
-			CSize(const unsigned uValue);
-			CSize(const unsigned uWidth, const unsigned uHeight);
+			CSize(const uint32 uValue);
+			CSize(const uint32 uWidth, const uint32 uHeight);
 
 			void		SetZero();
 			void		Set(const CSize& Size);
-			void		Set(const unsigned uValue);
-			void		Set(const unsigned uWidth, const unsigned uHeight);
+			void		Set(const uint32 uValue);
+			void		Set(const uint32 uWidth, const uint32 uHeight);
 
 			const bool	IsZero() const;
 			const bool	IsPartialZero() const;
@@ -32,30 +32,32 @@ namespace CB{
 			const bool	operator==(const CSize& Size) const;
 			const bool	operator!=(const CSize& Size) const;
 
-			const unsigned&	operator[](const unsigned uIndex) const;
-			unsigned&		operator[](const unsigned uIndex);
+			const uint32&	operator[](const uint32 uIndex) const;
+			uint32&		operator[](const uint32 uIndex);
 		};
 
-		class COMMON_API CSize3D : public CSize{
+		class COMMON_API CSize3D : 
+			public CSize
+		{
 		public:
-			unsigned Depth;
+			uint32 Depth;
 
 			CSize3D();
 			CSize3D(const CSize3D& Size);
 			CSize3D(const CSize& Size);
-			CSize3D(const CSize& Size, const unsigned uDepth);
+			CSize3D(const CSize& Size, const uint32 uDepth);
 			CSize3D(const CPoint3D& Point);
 			CSize3D(const CPoint& Point);
-			CSize3D(const CPoint& Point, const unsigned uDepth);
-			CSize3D(const unsigned uValue);
-			CSize3D(const unsigned uWidth, const unsigned uHeight);
-			CSize3D(const unsigned uWidth, const unsigned uHeight, const unsigned uDepth);
+			CSize3D(const CPoint& Point, const uint32 uDepth);
+			CSize3D(const uint32 uValue);
+			CSize3D(const uint32 uWidth, const uint32 uHeight);
+			CSize3D(const uint32 uWidth, const uint32 uHeight, const uint32 uDepth);
 
 			void		SetZero();
 			void		Set(const CSize3D& Size);
-			void		Set(const unsigned uValue);
-			void		Set(const unsigned uWidth, const unsigned uHeight);
-			void		Set(const unsigned uWidth, const unsigned uHeight, const unsigned uDepth);
+			void		Set(const uint32 uValue);
+			void		Set(const uint32 uWidth, const uint32 uHeight);
+			void		Set(const uint32 uWidth, const uint32 uHeight, const uint32 uDepth);
 
 			const bool	IsZero() const;
 			const bool	IsPartialZero() const;
@@ -69,8 +71,8 @@ namespace CB{
 			const bool	operator==(const CSize3D& Size) const;
 			const bool	operator!=(const CSize3D& Size) const;
 
-			const unsigned&	operator[](const unsigned uIndex) const;
-			unsigned&		operator[](const unsigned uIndex);
+			const uint32&	operator[](const uint32 uIndex) const;
+			uint32&		operator[](const uint32 uIndex);
 		};
 	}
 }

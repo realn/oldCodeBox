@@ -5,7 +5,6 @@
 
 namespace CB{
 	namespace Math{
-		// oriented from top-left
 		class CRectangle{
 		public:
 			CPoint	Position;
@@ -14,13 +13,13 @@ namespace CB{
 			CRectangle();
 			CRectangle(const CRectangle& Rectangle);
 			CRectangle(const CPoint& Position, const CSize& Size);
-			CRectangle(const int iX, const int iY, const CSize& Size);
-			CRectangle(const CPoint& Position, const unsigned uWidth, const unsigned uHeight);
-			CRectangle(const int iX, const int iY, const unsigned uWidth, const unsigned uHeight);
+			CRectangle(const int32 iX, const int32 iY, const CSize& Size);
+			CRectangle(const CPoint& Position, const uint32 uWidth, const uint32 uHeight);
+			CRectangle(const int32 iX, const int32 iY, const uint32 uWidth, const uint32 uHeight);
 
 			void		SetZero();
 			void		Set(const CRectangle& Rect);
-			void		Set(const int iX, const int iY, const unsigned uWidth, const unsigned uHeight);
+			void		Set(const int32 iX, const int32 iY, const uint32 uWidth, const uint32 uHeight);
 
 			const bool	IsZero() const;
 			const bool	IsPartialZero() const;
@@ -30,10 +29,11 @@ namespace CB{
 			const bool	Contains(const CRectangle& Rectangle) const;
 			const bool	Intersects(const CRectangle& Rectangle) const;
 
-			const int	GetLeft() const;
-			const int	GetRight() const;
-			const int	GetTop() const;
-			const int	GetBottom() const;
+			const int32	GetXLower() const;	// Position.X
+			const int32	GetXHigher() const;	// Position.X + Size.Width
+
+			const int32	GetYLower() const;	// Position.Y
+			const int32	GetYHigher() const;	// Position.Y + Size.Height
 
 			const CB::CString	ToString() const;
 
@@ -42,7 +42,7 @@ namespace CB{
 			const bool	operator==(const CRectangle& Rectangle) const;
 			const bool	operator!=(const CRectangle& Rectangle) const;
 
-			const int	operator[](const unsigned uIndex) const;
+			const int32	operator[](const uint32 uIndex) const;
 		};
 	}
 }
