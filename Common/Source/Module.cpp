@@ -29,7 +29,10 @@ namespace CB{
 	}
 
 	CModule::~CModule(){
-		this->Unload();
+		try{
+			this->Unload();
+		}
+		catch(Exception::CException&){}
 	}
 
 	void	CModule::Load(){
@@ -40,11 +43,11 @@ namespace CB{
 		if(this->m_pHandle.IsNull()){
 			DWORD dwError = GetLastError();
 			if(dwError == ERROR_MOD_NOT_FOUND){
-				throw Exception::CModuleNotFoundException(this->m_strName, __FUNCTIONW__, __FILEW__, __LINE__);
+				throw Exception::CModuleNotFoundException(this->m_strName, CR_INFO());
 			}
 			else{
 				throw Exception::CModuleLoadException(this->m_strName,
-					CWindowsError(GetLastError()).GetMessage(), __FUNCTIONW__, __FILEW__, __LINE__);
+					CWindowsError(GetLastError()).GetMessage(), CR_INFO());
 			}
 		}
 	}
@@ -53,7 +56,7 @@ namespace CB{
 		if(this->m_pHandle.IsValid()){
 			if(!FreeLibrary(this->m_pHandle.GetCast<HMODULE>())){
 				throw Exception::CModuleException(this->m_strName,
-					L"Failed to unload module: " + CWindowsError(GetLastError()).GetMessage(), __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Failed to unload module: " + CWindowsError(GetLastError()).GetMessage(), CR_INFO());
 			}
 		}
 	}
@@ -61,12 +64,12 @@ namespace CB{
 	void*	CModule::GetFunction(const CString& strFunctionName){
 		if(this->m_pHandle.IsNull()){
 			throw Exception::CModuleException(this->m_strName,
-				L"Module not loaded.", __FUNCTIONW__, __FILEW__, __LINE__);
+				L"Module not loaded.", CR_INFO());
 		}
 
 		if(strFunctionName.IsEmpty()){
 			throw Exception::CModuleException(this->m_strName,
-				L"Cannot load function with empty name string.", __FUNCTIONW__, __FILEW__, __LINE__);
+				L"Cannot load function with empty name string.", CR_INFO());
 		}
 
 		Collection::CList<int8> szFuncName(strFunctionName.GetLength() + 1);
@@ -78,11 +81,11 @@ namespace CB{
 			DWORD dwError = GetLastError();
 
 			if(dwError == ERROR_PROC_NOT_FOUND){
-				throw Exception::CModuleFunctionNotFoundException(this->m_strName, strFunctionName, __FUNCTIONW__, __FILEW__, __LINE__);
+				throw Exception::CModuleFunctionNotFoundException(this->m_strName, strFunctionName, CR_INFO());
 			}
 			else{
 				throw Exception::CModuleFunctionLoadException(this->m_strName, strFunctionName,
-					CWindowsError(dwError).GetMessage(), __FUNCTIONW__, __FILEW__, __LINE__);
+					CWindowsError(dwError).GetMessage(), CR_INFO());
 			}
 		}
 

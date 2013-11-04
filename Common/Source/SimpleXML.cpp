@@ -61,23 +61,22 @@ namespace CB{
 		const CString	CNode::GetValue() const{
 			if(!this->m_bSet){
 				if(this->m_uOnValueProcess == ValueErrorReact::ThrowException){
-					throw Exception::CSXMLValueProcessingException(this->m_strName, 
-						__FUNCTIONW__, __FILEW__, __LINE__);
+					throw Exception::CSXMLValueProcessingException(this->m_strName, CR_INFO());
 				}
 				else return L"";
 			}
 			return this->m_strValue;
 		}
 
-		const int	CNode::GetInt32() const{
+		const int32	CNode::GetInt32() const{
 			return this->GetInt32(0);
 		}
 
-		const unsigned	CNode::GetUInt32() const{
+		const uint32	CNode::GetUInt32() const{
 			return this->GetUInt32(0);
 		}
 
-		const float	CNode::GetFloat() const{
+		const float32	CNode::GetFloat() const{
 			return this->GetFloat(0.0f);
 		}
 
@@ -88,19 +87,17 @@ namespace CB{
 		const CString	CNode::GetValue(const CString& strDefault) const{
 			if(!this->m_bSet){
 				if(this->m_uOnValueProcess == ValueErrorReact::ThrowException){
-					throw Exception::CSXMLValueProcessingException(this->m_strName, 
-						__FUNCTIONW__, __FILEW__, __LINE__);
+					throw Exception::CSXMLValueProcessingException(this->m_strName, CR_INFO());
 				}
 				return strDefault;
 			}
 			return this->m_strValue;
 		}
 
-		const int	CNode::GetInt32(const int iDefault) const{
+		const int32	CNode::GetInt32(const int32 iDefault) const{
 			if(!this->m_bSet){
 				if(this->m_uOnValueProcess == ValueErrorReact::ThrowException){
-					throw Exception::CSXMLValueProcessingException(this->m_strName, 
-						__FUNCTIONW__, __FILEW__, __LINE__);
+					throw Exception::CSXMLValueProcessingException(this->m_strName, CR_INFO());
 				}
 				return iDefault;
 			}
@@ -110,39 +107,36 @@ namespace CB{
 					return iDefault;
 				}
 				else{
-					throw CB::Exception::CSXMLValueParsingException(this->m_strName, this->m_strValue, 
-						__FUNCTIONW__, __FILEW__, __LINE__);
+					throw Exception::CSXMLValueParsingException(this->m_strName, this->m_strValue, 
+						CR_INFO());
 				}
 			}
 			return iValue;
 		}
 
-		const unsigned	CNode::GetUInt32(const unsigned uDefault) const{
+		const uint32	CNode::GetUInt32(const uint32 uDefault) const{
 			if(!this->m_bSet){
 				if(this->m_uOnValueProcess == ValueErrorReact::ThrowException){
-					throw Exception::CSXMLValueProcessingException(this->m_strName, 
-						__FUNCTIONW__, __FILEW__, __LINE__);
+					throw Exception::CSXMLValueProcessingException(this->m_strName, CR_INFO());
 				}
 				return uDefault;
 			}
-			unsigned uValue = 0;
+			uint32 uValue = 0;
 			if(!String::ToUInt32(this->m_strValue, uValue)){
 				if(this->m_uOnValueProcess == ValueErrorReact::UseDefault){
 					return uDefault;
 				}
 				else{
-					throw CB::Exception::CSXMLValueParsingException(this->m_strName, this->m_strValue, 
-						__FUNCTIONW__, __FILEW__, __LINE__);
+					throw Exception::CSXMLValueParsingException(this->m_strName, this->m_strValue, CR_INFO());
 				}
 			}
 			return uValue;
 		}
 
-		const float	CNode::GetFloat(const float fDefault) const{
+		const float32	CNode::GetFloat(const float32 fDefault) const{
 			if(!this->m_bSet){
 				if(this->m_uOnValueProcess == ValueErrorReact::ThrowException){
-					throw Exception::CSXMLValueProcessingException(this->m_strName, 
-						__FUNCTIONW__, __FILEW__, __LINE__);
+					throw Exception::CSXMLValueProcessingException(this->m_strName, CR_INFO());
 				}
 				return fDefault;
 			}
@@ -152,8 +146,7 @@ namespace CB{
 					return fDefault;
 				}
 				else{
-					throw CB::Exception::CSXMLValueParsingException(this->m_strName, this->m_strValue, 
-						__FUNCTIONW__, __FILEW__, __LINE__);
+					throw Exception::CSXMLValueParsingException(this->m_strName, this->m_strValue, CR_INFO());
 				}
 			}
 			return fValue;
@@ -162,8 +155,7 @@ namespace CB{
 		const bool	CNode::GetBool(const bool bDefault) const{
 			if(!this->m_bSet){
 				if(this->m_uOnValueProcess == ValueErrorReact::ThrowException){
-					throw Exception::CSXMLValueProcessingException(this->m_strName, 
-						__FUNCTIONW__, __FILEW__, __LINE__);
+					throw Exception::CSXMLValueProcessingException(this->m_strName, CR_INFO());
 				}
 				return bDefault;
 			}
@@ -173,8 +165,7 @@ namespace CB{
 					return bDefault;
 				}
 				else{
-					throw CB::Exception::CSXMLValueParsingException(this->m_strName, this->m_strValue, 
-						__FUNCTIONW__, __FILEW__, __LINE__);
+					throw Exception::CSXMLValueParsingException(this->m_strName, this->m_strValue, CR_INFO());
 				}
 			}
 			return bValue;
@@ -190,9 +181,9 @@ namespace CB{
 
 				return Node;
 			}
-			catch(CB::Exception::CException& Exception){
-				throw CB::Exception::CSXMLNodeException(this->m_strName, 
-					__FUNCTIONW__, __FILEW__, __LINE__, Exception);
+			catch(Exception::CException& Exception){
+				throw Exception::CSXMLNodeException(this->m_strName, 
+					CR_INFO(), Exception);
 			}
 		}
 
@@ -202,33 +193,30 @@ namespace CB{
 				Node.Set(strValue);
 				return Node;
 			}
-			catch(CB::Exception::CException& Exception){
-				throw CB::Exception::CSXMLNodeException(this->m_strName, 
-					__FUNCTIONW__, __FILEW__, __LINE__, Exception);
+			catch(Exception::CException& Exception){
+				throw Exception::CSXMLNodeException(this->m_strName, CR_INFO(), Exception);
 			}
 		}
 
-		CNode&	CNode::Add(const CString& strName, const int iValue){
+		CNode&	CNode::Add(const CString& strName, const int32 iValue){
 			try{
 				CNode& Node = this->Add(strName);
 				Node.Set(iValue);
 				return Node;
 			}
-			catch(CB::Exception::CException& Exception){
-				throw CB::Exception::CSXMLNodeException(this->m_strName, 
-					__FUNCTIONW__, __FILEW__, __LINE__, Exception);
+			catch(Exception::CException& Exception){
+				throw Exception::CSXMLNodeException(this->m_strName, CR_INFO(), Exception);
 			}
 		}
 
-		CNode&	CNode::Add(const CString& strName, const float fValue){
+		CNode&	CNode::Add(const CString& strName, const float32 fValue){
 			try{
 				CNode& Node = this->Add(strName);
 				Node.Set(fValue);
 				return Node;
 			}
-			catch(CB::Exception::CException& Exception){
-				throw CB::Exception::CSXMLNodeException(this->m_strName, 
-					__FUNCTIONW__, __FILEW__, __LINE__, Exception);
+			catch(Exception::CException& Exception){
+				throw Exception::CSXMLNodeException(this->m_strName, CR_INFO(), Exception);
 			}
 		}
 
@@ -238,9 +226,8 @@ namespace CB{
 				Node.Set(bValue);
 				return Node;
 			}
-			catch(CB::Exception::CException& Exception){
-				throw CB::Exception::CSXMLNodeException(this->m_strName, 
-					__FUNCTIONW__, __FILEW__, __LINE__, Exception);
+			catch(Exception::CException& Exception){
+				throw Exception::CSXMLNodeException(this->m_strName, CR_INFO(), Exception);
 			}
 		}
 
@@ -261,11 +248,11 @@ namespace CB{
 					return *this;
 				}
 			}
-			catch(CB::Exception::CException& Exception){
-				throw CB::Exception::CInvalidArgumentException(L"strName", strName, 
-					L"Node name not found.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+			catch(Exception::CException& Exception){
+				throw Exception::CInvalidArgumentException(L"strName", strName, 
+					L"Node name not found.", CR_INFO(), Exception);
 			}
-			throw CB::Exception::CSXMLNodeMissingException(strName, this->m_strName, __FUNCTIONW__, __FILEW__, __LINE__);
+			throw Exception::CSXMLNodeMissingException(strName, this->m_strName, CR_INFO());
 		}
 
 		const CNode&	CNode::Get(const CString& strName) const{
@@ -278,11 +265,27 @@ namespace CB{
 					return *this;
 				}
 			}
-			catch(CB::Exception::CException& Exception){
-				throw CB::Exception::CInvalidArgumentException(L"strName", strName, 
-					L"Node name not found.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+			catch(Exception::CException& Exception){
+				throw Exception::CInvalidArgumentException(L"strName", strName, 
+					L"Node name not found.", CR_INFO(), Exception);
 			}
-			throw CB::Exception::CSXMLNodeMissingException(strName, this->m_strName, __FUNCTIONW__, __FILEW__, __LINE__);
+			throw Exception::CSXMLNodeMissingException(strName, this->m_strName, CR_INFO());
+		}
+
+		const uint32	CNode::GetLength() const{
+			return this->m_NodeList.GetLength();
+		}
+
+		const bool	CNode::IsEmpty() const{
+			return this->m_NodeList.IsEmpty();
+		}
+
+		CNode&	CNode::Get(const uint32 uIndex){
+			return *this->m_NodeList.Get(uIndex);
+		}
+
+		const CNode&	CNode::Get(const uint32 uIndex) const {
+			return *this->m_NodeList.Get(uIndex);
 		}
 
 		CNode::CNodeEnumerator	CNode::GetEnumerator() const{
@@ -293,9 +296,9 @@ namespace CB{
 			try{
 				return Collection::Contains(this->m_NodeList, CompareNodeName, strName);
 			}
-			catch(CB::Exception::CException& Exception){
-				throw CB::Exception::CSXMLException(
-					L"Error while checking for node " + strName + L" existance if parent " + this->m_strName + L".", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+			catch(Exception::CException& Exception){
+				throw Exception::CSXMLException(
+					L"Error while checking for node " + strName + L" existance if parent " + this->m_strName + L".", CR_INFO(), Exception);
 			}
 		}
 
@@ -304,12 +307,12 @@ namespace CB{
 			this->m_bSet = true;
 		}
 
-		void	CNode::Set(const int iValue){
+		void	CNode::Set(const int32 iValue){
 			this->m_strValue = String::FromInt32(iValue);
 			this->m_bSet = true;
 		}
 
-		void	CNode::Set(const float fValue){
+		void	CNode::Set(const float32 fValue){
 			this->m_strValue = String::FromFloat(fValue);
 			this->m_bSet = true;
 		}
@@ -331,9 +334,9 @@ namespace CB{
 					CAutoPtr<CNode> pNode = this->m_NodeList.Remove(En);
 				}
 			}
-			catch(CB::Exception::CException& Exception){
-				throw CB::Exception::CSXMLNodeMissingException(strName, this->m_strName,
-					__FUNCTIONW__, __FILEW__, __LINE__, Exception);
+			catch(Exception::CException& Exception){
+				throw Exception::CSXMLNodeMissingException(strName, this->m_strName,
+					CR_INFO(), Exception);
 			}
 		}
 
@@ -343,13 +346,13 @@ namespace CB{
 					this->m_pParent->Remove(this->m_strName);
 				}
 				else{
-					throw CB::Exception::CSXMLException(
-						L"Parentless node L" + this->m_strName + L" cannot remove itself.", __FUNCTIONW__, __FILEW__, __LINE__);
+					throw Exception::CSXMLException(
+						L"Parentless node L" + this->m_strName + L" cannot remove itself.", CR_INFO());
 				}
 			}
-			catch(CB::Exception::CException& Exception){
-				throw CB::Exception::CSXMLNodeException(this->m_strName, 
-					__FUNCTIONW__, __FILEW__, __LINE__, Exception);
+			catch(Exception::CException& Exception){
+				throw Exception::CSXMLNodeException(this->m_strName, 
+					CR_INFO(), Exception);
 			}
 		}
 
@@ -369,6 +372,14 @@ namespace CB{
 			return this->Get(strName);
 		}
 
+		CNode&	CNode::operator[](const uint32 uIndex){
+			return this->Get(uIndex);
+		}
+
+		const CNode&	CNode::operator[](const uint32 uIndex) const{
+			return this->Get(uIndex);
+		}
+
 		const CString	CNode::ToString() const{
 			return this->ToString(false, false, 0);
 		}
@@ -381,11 +392,11 @@ namespace CB{
 			return this->ToString(bWithNewString, bNested, 0);
 		}
 
-		const unsigned	CNode::Parse(const CString& strText, const unsigned uStartIndex){
+		const uint32	CNode::Parse(const CString& strText, const uint32 uStartIndex){
 			try{
 				const Collection::CList<wchar_t> whiteList = String::ToArray(L" \t\n\r");
 
-				unsigned uIndex = uStartIndex;
+				uint32 uIndex = uStartIndex;
 				for(; uIndex < strText.GetLength(); uIndex++){
 					if(String::MultiCompare(strText, uIndex, whiteList)){
 						continue;
@@ -400,22 +411,22 @@ namespace CB{
 					}								
 				}
 			}
-			catch(CB::Exception::CException& Exception){
-				throw CB::Exception::CSXMLNodeException(this->m_strName, 
-					__FUNCTIONW__, __FILEW__, __LINE__, Exception);
+			catch(Exception::CException& Exception){
+				throw Exception::CSXMLNodeException(this->m_strName, 
+					CR_INFO(), Exception);
 			}
 			throw Exception::CSXMLException(
-				L"No ending tag for SXML node: " + this->m_strName + L".", __FUNCTIONW__, __FILEW__, __LINE__);
+				L"No ending tag for SXML node: " + this->m_strName + L".", CR_INFO());
 		}
 
-		const unsigned	CNode::ParseStartTag(const CString& strText, const unsigned uIndex){
-			unsigned uEndPos = uIndex;
+		const uint32	CNode::ParseStartTag(const CString& strText, const uint32 uIndex){
+			uint32 uEndPos = uIndex;
 			bool bEnded = false;
 			if(!strText.Find(L">", uIndex, uEndPos)){
-				throw Exception::CSXMLException(L"Failed to find ending bracet.", __FUNCTIONW__, __FILEW__, __LINE__);
+				throw Exception::CSXMLException(L"Failed to find ending bracet.", CR_INFO());
 			}
 			if(uIndex + 1 == uEndPos){
-				throw Exception::CSXMLException(L"No endging tag found.", __FUNCTIONW__, __FILEW__, __LINE__);
+				throw Exception::CSXMLException(L"No endging tag found.", CR_INFO());
 			}
 			if(strText.SubCompare(uEndPos - 1, L"/")){
 				bEnded = true;
@@ -431,24 +442,24 @@ namespace CB{
 			}
 			catch(Exception::CException& Exception){
 				throw Exception::CSXMLException(L"Error while adding new node to " + this->m_strName + L" node.", 
-					__FUNCTIONW__, __FILEW__, __LINE__, Exception);
+					CR_INFO(), Exception);
 			}
 		}
 
-		const unsigned	CNode::ParseEndTag(const CString& strText, const unsigned uStartIndex, const unsigned uIndex){
-			unsigned uEndPos = uIndex;
+		const uint32	CNode::ParseEndTag(const CString& strText, const uint32 uStartIndex, const uint32 uIndex){
+			uint32 uEndPos = uIndex;
 			if(!strText.Find(L">", uIndex, uEndPos)){
 				throw Exception::CSXMLException(
-					L"Didn't found ending bracet for tag.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Didn't found ending bracet for tag.", CR_INFO());
 			}
 			if(uIndex + 2 == uEndPos){
 				throw Exception::CSXMLException(
-					L"Invalid ending tag bracet position.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Invalid ending tag bracet position.", CR_INFO());
 			}
 
 			if(this->m_strName != strText.SubStringIndexed(uIndex + 2, uEndPos).Trim()){
 				throw Exception::CSXMLException(
-					L"Inalid enging tag for node: " + this->m_strName + L".", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Inalid enging tag for node: " + this->m_strName + L".", CR_INFO());
 			}
 
 			try{
@@ -459,7 +470,7 @@ namespace CB{
 			}
 			catch(Exception::CException& Exception){
 				throw Exception::CSXMLException(L"Error while concluding end tag parsing for node " + this->m_strName + L".",
-					__FUNCTIONW__, __FILEW__, __LINE__, Exception);
+					CR_INFO(), Exception);
 			}
 		}
 
@@ -470,18 +481,18 @@ namespace CB{
 			return L"";
 		}
 
-		const CString	CNode::CreateTabs(const bool bNested, const unsigned uNestLevel) const{
+		const CString	CNode::CreateTabs(const bool bNested, const uint32 uNestLevel) const{
 			if(!bNested){
 				return L"";
 			}
 			CString strReturn;
-			for(unsigned uIndex = 0; uIndex < uNestLevel; uIndex++){
+			for(uint32 uIndex = 0; uIndex < uNestLevel; uIndex++){
 				strReturn += L"\t";
 			}
 			return strReturn;
 		}
 
-		const CString	CNode::ToString(const bool bWithNewLines, const bool bNested, const unsigned uNestLevel) const{
+		const CString	CNode::ToString(const bool bWithNewLines, const bool bNested, const uint32 uNestLevel) const{
 			try{
 				if(!this->m_bSet && !this->HasNodes()){
 					return this->CreateTabs(bNested, uNestLevel) + L"<" + this->m_strName + L" />" + this->CreateNewLines(bWithNewLines);
@@ -511,14 +522,17 @@ namespace CB{
 			}
 			catch(Exception::CException& Exception){
 				throw Exception::CSXMLException(L"Error while converting node " + this->m_strName,
-					__FUNCTIONW__, __FILEW__, __LINE__, Exception);
+					CR_INFO(), Exception);
 			}
 		}
 
-		//	Root implementation
+		//=================================================================
+		//	Root DEFINITION
+		//=================================================================
 
-		CRoot::CRoot() : m_Root(0, L""){
-		}
+		CRoot::CRoot() : 
+			m_Root(0, L"")
+		{}
 
 		void	CRoot::SetOnMissingNode(const NodeErrorReact uReadReaction, const NodeErrorReact uWriteReaction){
 			this->m_Root.SetOnMissingNode(uReadReaction, uWriteReaction);
@@ -544,11 +558,11 @@ namespace CB{
 			return this->m_Root.Add(strName);
 		}
 
-		CNode&	CRoot::Add(const CString& strName, const int iValue){
+		CNode&	CRoot::Add(const CString& strName, const int32 iValue){
 			return this->m_Root.Add(strName, iValue);
 		}
 
-		CNode&	CRoot::Add(const CString& strName, const float fValue){
+		CNode&	CRoot::Add(const CString& strName, const float32 fValue){
 			return this->m_Root.Add(strName, fValue);
 		}
 
@@ -562,6 +576,14 @@ namespace CB{
 
 		const CNode&	CRoot::Get(const CString& strName) const{
 			return this->m_Root.Get(strName);
+		}
+
+		CNode&	CRoot::Get(const uint32 uIndex){
+			return this->m_Root.Get(uIndex);
+		}
+
+		const CNode&	CRoot::Get(const uint32 uIndex) const{
+			return this->m_Root.Get(uIndex);
 		}
 
 		CNode::CNodeEnumerator	CRoot::GetEnumerator() const{
@@ -588,6 +610,10 @@ namespace CB{
 			return !this->m_Root.HasNodes();
 		}
 
+		const uint32	CRoot::GetLength() const{
+			return this->m_Root.GetLength();
+		}
+
 		CNode&	CRoot::operator[](const CString& strName){
 			return this->m_Root.Get(strName);
 		}
@@ -596,10 +622,18 @@ namespace CB{
 			return this->m_Root.Get(strName);
 		}
 
+		CNode&	CRoot::operator[](const uint32 uIndex) {
+			return this->m_Root.Get(uIndex);
+		}
+
+		const CNode&	CRoot::operator[](const uint32 uIndex) const{
+			return this->m_Root.Get(uIndex);
+		}
+
 		void	CRoot::Parse(const CString& strText){
 			static const Collection::CList<wchar_t> whiteList = String::ToArray(L" \n\t\r");
 
-			for(unsigned uIndex = 0; uIndex < strText.GetLength(); uIndex++){
+			for(uint32 uIndex = 0; uIndex < strText.GetLength(); uIndex++){
 				if(String::MultiCompare(strText, uIndex, whiteList)){
 					continue;
 				}
@@ -632,9 +666,9 @@ namespace CB{
 
 				return RetList.ToString();
 			}
-			catch(CB::Exception::CException& Exception){
-				throw CB::Exception::CSXMLException(
-					L"Error while converting SXML Root to string.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+			catch(Exception::CException& Exception){
+				throw Exception::CSXMLException(
+					L"Error while converting SXML Root to string.", CR_INFO(), Exception);
 			}
 		}
 	}
@@ -647,12 +681,12 @@ namespace CB{
 		{
 		}
 
-		CSXMLException::CSXMLException(const CString& strMessage, const CString& strFunction, const CString& strFile, const unsigned uLine) :
+		CSXMLException::CSXMLException(const CString& strMessage, const CString& strFunction, const CString& strFile, const uint32 uLine) :
 			CException(strMessage, strFunction, strFile, uLine)
 		{
 		}
 
-		CSXMLException::CSXMLException(const CString& strMessage, const CString& strFunction, const CString& strFile, const unsigned uLine, const CException& Exception) :
+		CSXMLException::CSXMLException(const CString& strMessage, const CString& strFunction, const CString& strFile, const uint32 uLine, const CException& Exception) :
 			CException(strMessage, strFunction, strFile, uLine, Exception)
 		{
 		}
@@ -668,13 +702,13 @@ namespace CB{
 		{
 		}
 
-		CSXMLNodeException::CSXMLNodeException(const CString& strName, const CString& strFunction, const CString& strFile, const unsigned uLine) :
+		CSXMLNodeException::CSXMLNodeException(const CString& strName, const CString& strFunction, const CString& strFile, const uint32 uLine) :
 			CSXMLException(L"Error in Simple XML Node.", strFunction, strFile, uLine),
 			m_strNodeName(strName)
 		{
 		}
 
-		CSXMLNodeException::CSXMLNodeException(const CString& strName, const CString& strFunction, const CString& strFile, const unsigned uLine, const CException& InnerException) :
+		CSXMLNodeException::CSXMLNodeException(const CString& strName, const CString& strFunction, const CString& strFile, const uint32 uLine, const CException& InnerException) :
 			CSXMLException(L"Error in Simple XML Node {0}.", strFunction, strFile, uLine, InnerException),
 			m_strNodeName(strName)
 		{
@@ -702,14 +736,14 @@ namespace CB{
 			this->m_strMessage = g_strNodeMissingError;
 		}
 
-		CSXMLNodeMissingException::CSXMLNodeMissingException(const CString& strName, const CString& strParentName, const CString& strFunction, const CString& strFile, const unsigned uLine) :
+		CSXMLNodeMissingException::CSXMLNodeMissingException(const CString& strName, const CString& strParentName, const CString& strFunction, const CString& strFile, const uint32 uLine) :
 			CSXMLNodeException(strParentName, strFunction, strFile, uLine),
 			m_strChildName(strName)
 		{
 			this->m_strMessage = g_strNodeMissingError;
 		}
 
-		CSXMLNodeMissingException::CSXMLNodeMissingException(const CString& strName, const CString& strParentName, const CString& strFunction, const CString& strFile, const unsigned uLine, const CException& InnerException) :
+		CSXMLNodeMissingException::CSXMLNodeMissingException(const CString& strName, const CString& strParentName, const CString& strFunction, const CString& strFile, const uint32 uLine, const CException& InnerException) :
 			CSXMLNodeException(strParentName, strFunction, strFile, uLine, InnerException),
 			m_strChildName(strName)
 		{
@@ -738,13 +772,13 @@ namespace CB{
 			this->m_strMessage = g_strValueProcessingError;
 		}
 
-		CSXMLValueProcessingException::CSXMLValueProcessingException(const CString& strName, const CString& strFunction, const CString& strFile, const unsigned uLine) :
+		CSXMLValueProcessingException::CSXMLValueProcessingException(const CString& strName, const CString& strFunction, const CString& strFile, const uint32 uLine) :
 			CSXMLNodeException(strName, strFunction, strFile, uLine)
 		{
 			this->m_strMessage = g_strValueProcessingError;
 		}
 
-		CSXMLValueProcessingException::CSXMLValueProcessingException(const CString& strName, const CString& strFunction, const CString& strFile, const unsigned uLine, const CException& Exception) :
+		CSXMLValueProcessingException::CSXMLValueProcessingException(const CString& strName, const CString& strFunction, const CString& strFile, const uint32 uLine, const CException& Exception) :
 			CSXMLNodeException(strName, strFunction, strFile, uLine, Exception)
 		{
 			this->m_strMessage = g_strValueProcessingError;
@@ -764,14 +798,14 @@ namespace CB{
 			this->m_strMessage = g_strValueParsingError;
 		}
 
-		CSXMLValueParsingException::CSXMLValueParsingException(const CString& strName, const CString& strValue, const CString& strFunction, const CString& strFile, const unsigned uLine) :
+		CSXMLValueParsingException::CSXMLValueParsingException(const CString& strName, const CString& strValue, const CString& strFunction, const CString& strFile, const uint32 uLine) :
 			CSXMLValueProcessingException(strName, strFunction, strFile, uLine),
 			m_strValue(strValue)
 		{
 			this->m_strMessage = g_strValueParsingError;
 		}
 
-		CSXMLValueParsingException::CSXMLValueParsingException(const CString& strName, const CString& strValue, const CString& strFunction, const CString& strFile, const unsigned uLine, const CException& Exception) :
+		CSXMLValueParsingException::CSXMLValueParsingException(const CString& strName, const CString& strValue, const CString& strFunction, const CString& strFile, const uint32 uLine, const CException& Exception) :
 			CSXMLValueProcessingException(strName, strFunction, strFile, uLine, Exception),
 			m_strValue(strValue)
 		{

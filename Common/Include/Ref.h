@@ -6,29 +6,31 @@
 namespace CB{
 	class COMMON_API IRef{
 	private:
-		unsigned	m_uRefCount;
+		uint32	m_uRefCount;
 
 	protected:
 		IRef();
 		virtual ~IRef();
 
 	public:
-		const unsigned	AddRef();
-		const unsigned	Release();
+		const uint32	AddRef();
+		const uint32	Release();
 
-		const unsigned	GetRefCount() const;
+		const uint32	GetRefCount() const;
 	};
 
 	namespace Exception{
-		class COMMON_API CNotZeroReferenceException : public CException{
+		class COMMON_API CNotZeroReferenceException : 
+			public CException
+		{
 		public:
 			CNotZeroReferenceException(const CNotZeroReferenceException& Exception);
-			CNotZeroReferenceException(const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const unsigned uLine);
-			CNotZeroReferenceException(const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const unsigned uLine, const CException& InnerException);
+			CNotZeroReferenceException(const CString& strMessage, const CString& strFunction, const CString& strFile, const uint32 uLine);
+			CNotZeroReferenceException(const CString& strMessage, const CString& strFunction, const CString& strFile, const uint32 uLine, const CException& InnerException);
 
-			virtual const CB::CString	GetMessage() const;
+			virtual const CString	GetMessage() const override;
 
-			virtual CException*	CreateCopy() const;
+			virtual CException*	CreateCopy() const override;
 		};
 	}
 }

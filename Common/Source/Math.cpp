@@ -488,26 +488,26 @@ namespace CB{
 		// Retourne la distance entre deux points.
 
 		const float32 Distance(const CVector2D& vA, const CVector2D& vB){
-			return (vA - vB).GetLength();
+			return (vA - vB).GetVectorLength();
 		}
 
 		// Retourne la distance entre deux points.
 
 		const float32 Distance(const CVector3D& vA, const CVector3D& vB){
-			return (vA - vB).GetLength();
+			return (vA - vB).GetVectorLength();
 		}
 
 		// Retourne la distance "à plat" entre deux points.
 
 		const float32 Distance2D(const CVector3D& vA, const CVector3D& vB){
 			CVector3D vAB = vA - vB;
-			return CVector2D(vAB.X, vAB.Z).GetLength();
+			return CVector2D(vAB.X, vAB.Z).GetVectorLength();
 		}
 
 		// Retourne l'angle formé par deux vecteurs.
 
 		const float32 Angle(const CVector3D& vU, const CVector3D& vV){
-			float32 fLen = vU.GetLength() * vV.GetLength();
+			float32 fLen = vU.GetVectorLength() * vV.GetVectorLength();
 			float32 fA = std::acosf(vU.Dot(vV) / fLen);
 			//float32 fB = std::asinf(vU.Cross(vV).GetLength() / fLen);
 			return fA;

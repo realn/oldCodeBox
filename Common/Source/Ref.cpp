@@ -1,58 +1,64 @@
 #include "../Include/Ref.h"
 #include "../Include/CBStringEx.h"
 
-CB::IRef::IRef() : m_uRefCount(0){
-	this->m_uRefCount = 0;
-}
+namespace CB{
+	IRef::IRef() : 
+		m_uRefCount(0)
+	{}
 
-CB::IRef::~IRef(){
-	if(this->m_uRefCount != 0){
-		throw CB::Exception::CNotZeroReferenceException( 
-			L"Reference counter is not zero while deleting object.", __FUNCTIONW__, __FILEW__, __LINE__);
-	}
-}
-
-const unsigned CB::IRef::AddRef(){
-	this->m_uRefCount++;
-
-	return this->m_uRefCount;
-}
-
-const unsigned CB::IRef::Release(){
-	if(this->m_uRefCount > 0){
-		this->m_uRefCount--;
+	IRef::~IRef(){
+		try{
+			// Exception throw kept for VS2012 exception lookup.
+			if(this->m_uRefCount != 0){
+				throw Exception::CNotZeroReferenceException( 
+					L"Reference counter is not zero while deleting object.", __FUNCTIONW__, __FILEW__, __LINE__);
+			}
+		}
+		catch(Exception::CException&){}
 	}
 
-	if(this->m_uRefCount == 0){
-		delete this;
-		return 0;
+	const uint32 IRef::AddRef(){
+		this->m_uRefCount++;
+
+		return this->m_uRefCount;
 	}
 
-	return this->m_uRefCount;
-}
+	const uint32 IRef::Release(){
+		if(this->m_uRefCount > 0){
+			this->m_uRefCount--;
+		}
 
-const unsigned CB::IRef::GetRefCount() const{
-	return this->m_uRefCount;
-}
+		if(this->m_uRefCount == 0){
+			delete this;
+			return 0;
+		}
 
-//	Not zero reference exception
+		return this->m_uRefCount;
+	}
 
-CB::Exception::CNotZeroReferenceException::CNotZeroReferenceException(const CB::Exception::CNotZeroReferenceException& Exception)
-	: CException(Exception){
-}
+	const uint32 IRef::GetRefCount() const{
+		return this->m_uRefCount;
+	}
 
-CB::Exception::CNotZeroReferenceException::CNotZeroReferenceException(const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const unsigned uLine)
-	: CException(strMessage, strFunction, strFile, uLine){
-}
+	//	Not zero reference exception
 
-CB::Exception::CNotZeroReferenceException::CNotZeroReferenceException(const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const unsigned uLine, const CB::Exception::CException& InnerException)
-	: CException(strMessage, strFunction, strFile, uLine, InnerException){
-}
+	Exception::CNotZeroReferenceException::CNotZeroReferenceException(const Exception::CNotZeroReferenceException& Exception)
+		: CException(Exception)
+	{}
 
-const CB::CString	CB::Exception::CNotZeroReferenceException::GetMessage() const{
-	return L"Reference counter of object is not zero. " + this->m_strMessage;
-}
+	Exception::CNotZeroReferenceException::CNotZeroReferenceException(const CString& strMessage, const CString& strFunction, const CString& strFile, const uint32 uLine)
+		: CException(strMessage, strFunction, strFile, uLine)
+	{}
 
-CB::Exception::CException*	CB::Exception::CNotZeroReferenceException::CreateCopy() const{
-	return new CNotZeroReferenceException(*this);
+	Exception::CNotZeroReferenceException::CNotZeroReferenceException(const CString& strMessage, const CString& strFunction, const CString& strFile, const uint32 uLine, const Exception::CException& InnerException)
+		: CException(strMessage, strFunction, strFile, uLine, InnerException)
+	{}
+
+	const CString	Exception::CNotZeroReferenceException::GetMessage() const{
+		return L"Reference counter of object is not zero. " + this->m_strMessage;
+	}
+
+	Exception::CException*	Exception::CNotZeroReferenceException::CreateCopy() const{
+		return new CNotZeroReferenceException(*this);
+	}
 }

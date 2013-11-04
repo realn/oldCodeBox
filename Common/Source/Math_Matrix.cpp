@@ -13,8 +13,6 @@
 
 namespace CB{
 	namespace Math{
-
-
 		const CMatrix	FromGLM(const glm::mat4& matrix){
 			return CMatrix(glm::value_ptr(glm::transpose(matrix)));
 		}
@@ -91,7 +89,7 @@ namespace CB{
 			case AxisOrientation::AxisZ:	this->SetRotation(fAngle, Math::CVector3D(0.0f, 0.0f, 1.0f));	break;
 			default:
 				throw Exception::CInvalidArgumentException(L"uAxis", CB::String::ToString(uAxis),
-					L"Unknown axis.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Unknown axis.", CR_INFO());
 			}
 		}
 
@@ -118,7 +116,7 @@ namespace CB{
 
 			default:
 				throw CB::Exception::CInvalidArgumentException(L"uOrder", CB::String::ToString(uOrder),
-					L"Unknown axis order.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Unknown axis order.", CR_INFO());
 			}
 		}
 
@@ -205,7 +203,7 @@ namespace CB{
 			case 3:	return this->Row[3];
 			default:
 				throw CB::Exception::CInvalidArgumentException(L"uIndex", CB::String::FromUInt32(uIndex),
-					L"Index out of range.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Index out of range.", CR_INFO());
 			};
 		}
 
@@ -217,14 +215,14 @@ namespace CB{
 			case 3:	return this->Row[3];
 			default:
 				throw CB::Exception::CInvalidArgumentException(L"uIndex", CB::String::FromUInt32(uIndex),
-					L"Index out of range.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Index out of range.", CR_INFO());
 			};
 		}
 
 		const CVector4D	CMatrix::GetColumn(const uint32 uIndex) const{
 			if(uIndex > 3){
 				throw CB::Exception::CInvalidArgumentException(L"uIndex", CB::String::FromUInt32(uIndex),
-					L"Index out of range.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Index out of range.", CR_INFO());
 			}
 
 			return CVector4D(this->Row[0][uIndex], this->Row[1][uIndex], this->Row[2][uIndex], this->Row[3][uIndex]);
@@ -269,7 +267,7 @@ namespace CB{
 		const CMatrix CMatrix::Div(const float32 fValue) const{
 			if(fValue == 0.0f){
 				throw CB::Exception::CNullArgumentException(L"fValue",
-					L"Division by zero.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Division by zero.", CR_INFO());
 			}
 
 			CMatrix mOut;
@@ -425,7 +423,7 @@ namespace CB{
 			case Math::AxisOrientation::AxisZ:	return L"AxisZ";
 			default:
 				throw Exception::CInvalidArgumentException(L"uAxis", FromUInt32((uint32)uAxis),
-					L"Unknown axis type. cannot convert to string.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Unknown axis type. cannot convert to string.", CR_INFO());
 			}
 		}
 
@@ -437,7 +435,7 @@ namespace CB{
 			case Math::RotationOrder::ZXY:	return L"ZXY";
 			default:
 				throw Exception::CInvalidArgumentException(L"uOrder", FromUInt32((uint32)uOrder),
-					L"Unknown rotation order error, cannot convert to string.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Unknown rotation order error, cannot convert to string.", CR_INFO());
 			}
 		}
 	}

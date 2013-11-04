@@ -45,7 +45,9 @@ namespace CB{
 		}
 	};
 
-	class COMMON_API CModuleManager : public IRef{
+	class COMMON_API CModuleManager : 
+		public IRef
+	{
 	private:
 		Collection::CDictionary<CString,CModule> m_ModuleDictionary;
 
@@ -68,65 +70,75 @@ namespace CB{
 	};
 
 	namespace Exception{
-		class COMMON_API CModuleException : public CException{
+		class COMMON_API CModuleException : 
+			public CException
+		{
 		protected:
 			CString	m_strModuleName;
 
 		public:
 			CModuleException(const CModuleException& Exception);
-			CModuleException(const CString& strModuleName, const CString& strMessage, const CString& strFunction, const CString& strFile, const unsigned uLine);
-			CModuleException(const CString& strModuleName, const CString& strMessage, const CString& strFunction, const CString& strFile, const unsigned uLine, const CException& InnerException);
+			CModuleException(const CString& strModuleName, const CString& strMessage, const CString& strFunction, const CString& strFile, const uint32 uLine);
+			CModuleException(const CString& strModuleName, const CString& strMessage, const CString& strFunction, const CString& strFile, const uint32 uLine, const CException& InnerException);
 
-			virtual const CString	GetMessage() const;
+			virtual const CString	GetMessage() const override;
 
-			virtual CException*	CreateCopy() const;
+			virtual CException*	CreateCopy() const override;
 		};
 
-		class COMMON_API CModuleLoadException : public CModuleException{
+		class COMMON_API CModuleLoadException : 
+			public CModuleException
+		{
 		public:
 			CModuleLoadException(const CModuleLoadException& Exception);
-			CModuleLoadException(const CString& strModuleName, const CString& strError, const CString& strFunction, const CString& strFile, const unsigned uLine);
-			CModuleLoadException(const CString& strModuleName, const CString& strError, const CString& strFunction, const CString& strFile, const unsigned uLine, const Exception::CException& InnerException);
+			CModuleLoadException(const CString& strModuleName, const CString& strError, const CString& strFunction, const CString& strFile, const uint32 uLine);
+			CModuleLoadException(const CString& strModuleName, const CString& strError, const CString& strFunction, const CString& strFile, const uint32 uLine, const Exception::CException& InnerException);
 
-			virtual const CString	GetMessage() const;
+			virtual const CString	GetMessage() const override;
 
-			virtual Exception::CException*	CreateCopy() const;
+			virtual Exception::CException*	CreateCopy() const override;
 		};
 
-		class COMMON_API CModuleNotFoundException : public CModuleLoadException{
+		class COMMON_API CModuleNotFoundException : 
+			public CModuleLoadException
+		{
 		public:
 			CModuleNotFoundException(const CModuleNotFoundException& Exception);
-			CModuleNotFoundException(const CString& strModuleName, const CString& strFunction, const CString& strFile, const unsigned uLine);
-			CModuleNotFoundException(const CString& strModuleName, const CString& strFunction, const CString& strFile, const unsigned uLine, const Exception::CException& InnerException);
+			CModuleNotFoundException(const CString& strModuleName, const CString& strFunction, const CString& strFile, const uint32 uLine);
+			CModuleNotFoundException(const CString& strModuleName, const CString& strFunction, const CString& strFile, const uint32 uLine, const Exception::CException& InnerException);
 
-			virtual const CString	GetMessage() const;
+			virtual const CString	GetMessage() const override;
 
-			virtual Exception::CException*	CreateCopy() const;
+			virtual Exception::CException*	CreateCopy() const override;
 		};
 
-		class COMMON_API CModuleFunctionLoadException : public CModuleException{
+		class COMMON_API CModuleFunctionLoadException : 
+			public CModuleException
+		{
 		protected:
 			CString	m_strModuleFunction;
 
 		public:
 			CModuleFunctionLoadException(const CModuleFunctionLoadException& Exception);
-			CModuleFunctionLoadException(const CString& strModuleName, const CString& strModuleFunction, const CString& strError, const CString& strFunction, const CString& strFile, const unsigned uLine);
-			CModuleFunctionLoadException(const CString& strModuleName, const CString& strModuleFunction, const CString& strError, const CString& strFunction, const CString& strFile, const unsigned uLine, const Exception::CException& InnerException);
+			CModuleFunctionLoadException(const CString& strModuleName, const CString& strModuleFunction, const CString& strError, const CString& strFunction, const CString& strFile, const uint32 uLine);
+			CModuleFunctionLoadException(const CString& strModuleName, const CString& strModuleFunction, const CString& strError, const CString& strFunction, const CString& strFile, const uint32 uLine, const Exception::CException& InnerException);
 
-			virtual const CString	GetMessage() const;
+			virtual const CString	GetMessage() const override;
 
-			virtual Exception::CException*	CreateCopy() const;
+			virtual Exception::CException*	CreateCopy() const override;
 		};
 
-		class COMMON_API CModuleFunctionNotFoundException : public CModuleFunctionLoadException{
+		class COMMON_API CModuleFunctionNotFoundException : 
+			public CModuleFunctionLoadException
+		{
 		public:
 			CModuleFunctionNotFoundException(const CModuleFunctionNotFoundException& Exception);
-			CModuleFunctionNotFoundException(const CString& strModuleName, const CString& strModuleFunction, const CString& strFunction, const CString& strFile, const unsigned uLine);
-			CModuleFunctionNotFoundException(const CString& strModuleName, const CString& strModuleFunction, const CString& strFunction, const CString& strFile, const unsigned uLine, const Exception::CException& InnerException);
+			CModuleFunctionNotFoundException(const CString& strModuleName, const CString& strModuleFunction, const CString& strFunction, const CString& strFile, const uint32 uLine);
+			CModuleFunctionNotFoundException(const CString& strModuleName, const CString& strModuleFunction, const CString& strFunction, const CString& strFile, const uint32 uLine, const Exception::CException& InnerException);
 
-			virtual const CString	GetMessage() const;
+			virtual const CString	GetMessage() const override;
 
-			virtual Exception::CException*	CreateCopy() const;
+			virtual Exception::CException*	CreateCopy() const override;
 		};
 	}
 }

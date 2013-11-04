@@ -22,7 +22,9 @@ namespace CB{
 		
 		template class COMMON_API Collection::CLinkList<CPtr<CNode>>;
 
-		class COMMON_API CNode{
+		class COMMON_API CNode :
+			public Collection::ICountable<CNode>
+		{
 		public:
 			typedef Collection::CLinkList<CPtr<CNode>>	CNodeList;
 			typedef CNodeList::CEnumerator		CNodeEnumerator;
@@ -50,33 +52,39 @@ namespace CB{
 
 			const CString	GetName() const;
 			const CString	GetValue() const;
-			const int		GetInt32() const;
-			const unsigned	GetUInt32() const;
-			const float		GetFloat() const;
+			const int32		GetInt32() const;
+			const uint32	GetUInt32() const;
+			const float32	GetFloat() const;
 			const bool		GetBool() const;
 
 			const CString	GetValue(const CString& strDefault) const;
-			const int		GetInt32(const int iDefault) const;
-			const unsigned	GetUInt32(const unsigned uDefault) const;
-			const float		GetFloat(const float fDefault) const;
+			const int32		GetInt32(const int32 iDefault) const;
+			const uint32	GetUInt32(const uint32 uDefault) const;
+			const float32	GetFloat(const float32 fDefault) const;
 			const bool		GetBool(const bool bDefault) const;
 
 			CNode&	Add(const CString& strName);
 			CNode&	Add(const CString& strName, const CString& strValue);
-			CNode&	Add(const CString& strName, const int iValue);
-			CNode&	Add(const CString& strName, const float fValue);
+			CNode&	Add(const CString& strName, const int32 iValue);
+			CNode&	Add(const CString& strName, const float32 fValue);
 			CNode&	Add(const CString& strName, const bool bValue);
 
-			CNode&	Get(const CString& strName);
+			CNode&			Get(const CString& strName);
 			const CNode&	Get(const CString& strName) const;
+
+			CNode&			Get(const uint32 uIndex) override;
+			const CNode&	Get(const uint32 uIndex) const override;
+
+			const uint32	GetLength() const override;
+			const bool		IsEmpty() const override;
 
 			CNodeEnumerator	GetEnumerator() const;
 
 			const bool	Contains(const CString& strName) const;
 
 			void	Set(const CString& strValue);
-			void	Set(const int iValue);
-			void	Set(const float fValue);
+			void	Set(const int32 iValue);
+			void	Set(const float32 fValue);
 			void	Set(const bool bValue);
 			void	ResetValue();
 
@@ -91,23 +99,28 @@ namespace CB{
 			const CString	ToString(const bool bWithNewLines) const;
 			const CString	ToString(const bool bWithNewLines, const bool bNested) const;
 
-			CNode&	operator[](const CString& strName);
+			CNode&			operator[](const CString& strName);
 			const CNode&	operator[](const CString& strName) const;
+
+			CNode&			operator[](const uint32 uIndex) override;
+			const CNode&	operator[](const uint32 uIndex) const override;
 
 		private:
 			CNode(CNode* pParent, const CString& strName);
 			CNode(const CNode& Node);
 
-			const unsigned	Parse(const CString& strText, const unsigned uStartIndex);
-			const unsigned	ParseStartTag(const CString& strText, const unsigned uIndex);
-			const unsigned	ParseEndTag(const CString& strText, const unsigned uStartIndex, const unsigned uIndex);
+			const uint32	Parse(const CString& strText, const uint32 uStartIndex);
+			const uint32	ParseStartTag(const CString& strText, const uint32 uIndex);
+			const uint32	ParseEndTag(const CString& strText, const uint32 uStartIndex, const uint32 uIndex);
 
 			const CString	CreateNewLines(const bool bWithNewLines) const;
-			const CString	CreateTabs(const bool bNested, const unsigned uNestLevel) const;
-			const CString	ToString(const bool bWithNewLines, const bool bNested, const unsigned uNestLevel) const;
+			const CString	CreateTabs(const bool bNested, const uint32 uNestLevel) const;
+			const CString	ToString(const bool bWithNewLines, const bool bNested, const uint32 uNestLevel) const;
 		};
 
-		class COMMON_API CRoot{
+		class COMMON_API CRoot : 
+			public Collection::ICountable<CNode>
+		{
 		private:
 			CNode	m_Root;
 
@@ -123,8 +136,8 @@ namespace CB{
 
 			CNode&	Add(const CString& strName);
 			CNode&	Add(const CString& strName, const CString& strValue);
-			CNode&	Add(const CString& strName, const int iValue);
-			CNode&	Add(const CString& strName, const float fValue);
+			CNode&	Add(const CString& strName, const int32 iValue);
+			CNode&	Add(const CString& strName, const float32 fValue);
 			CNode&	Add(const CString& strName, const bool bValue);
 
 			CNode&	Get(const CString& strName);
@@ -135,14 +148,22 @@ namespace CB{
 			const bool Contains(const CB::CString& strName) const;
 
 			void	Remove(const CString& strName);
-			void	Remove(const unsigned uIndex);
+			void	Remove(const uint32 uIndex);
 			void	Clear();
 
 			const bool	HasNodes() const;
-			const bool	IsEmpty() const;
+			const bool	IsEmpty() const override;
+
+			const uint32	GetLength() const override;
+
+			const CNode&	Get(const uint32 uIndex) const override;
+			CNode&			Get(const uint32 uIndex) override;
 
 			const CNode&	operator[](const CString& strName) const;
 			CNode&			operator[](const CString& strName);
+
+			const CNode&	operator[](const uint32 uIndex) const override;
+			CNode&			operator[](const uint32 uIndex) override;
 
 			void			Parse(const CString& strText);
 
@@ -158,8 +179,8 @@ namespace CB{
 		{
 		public:
 			CSXMLException(const CSXMLException& Exception);
-			CSXMLException(const CString& strMessage, const CString& strFunction, const CString& strFile, const unsigned uLine);
-			CSXMLException(const CString& strMessage, const CString& strFunction, const CString& strFile, const unsigned uLine, const CException& Exception);
+			CSXMLException(const CString& strMessage, const CString& strFunction, const CString& strFile, const uint32 uLine);
+			CSXMLException(const CString& strMessage, const CString& strFunction, const CString& strFile, const uint32 uLine, const CException& Exception);
 
 			virtual CException*	CreateCopy() const override;
 		};
@@ -172,8 +193,8 @@ namespace CB{
 
 		public:
 			CSXMLNodeException(const CSXMLNodeException& Exception);
-			CSXMLNodeException(const CString& strName, const CString& strFunction, const CString& strFile, const unsigned uLine);
-			CSXMLNodeException(const CString& strName, const CString& strFunction, const CString& strFile, const unsigned uLine, const CException& Exception);
+			CSXMLNodeException(const CString& strName, const CString& strFunction, const CString& strFile, const uint32 uLine);
+			CSXMLNodeException(const CString& strName, const CString& strFunction, const CString& strFile, const uint32 uLine, const CException& Exception);
 
 			virtual const CString	GetMessage() const override;
 
@@ -188,8 +209,8 @@ namespace CB{
 
 		public:
 			CSXMLNodeMissingException(const CSXMLNodeMissingException& Exception);
-			CSXMLNodeMissingException(const CString& strName, const CString& strParent, const CString& strFunction, const CString& strFile, const unsigned uLine);
-			CSXMLNodeMissingException(const CString& strName, const CString& strParent, const CString& strFunction, const CString& strFile, const unsigned uLine, const CException& InnerException);
+			CSXMLNodeMissingException(const CString& strName, const CString& strParent, const CString& strFunction, const CString& strFile, const uint32 uLine);
+			CSXMLNodeMissingException(const CString& strName, const CString& strParent, const CString& strFunction, const CString& strFile, const uint32 uLine, const CException& InnerException);
 
 			virtual const CString	GetMessage() const override;
 
@@ -201,8 +222,8 @@ namespace CB{
 		{
 		public:
 			CSXMLValueProcessingException(const CSXMLValueProcessingException& Exception);
-			CSXMLValueProcessingException(const CString& strName, const CString& strFunction, const CString& strFile, const unsigned uLine);
-			CSXMLValueProcessingException(const CString& strName, const CString& strFunction, const CString& strFile, const unsigned uLine, const CException& Exception);
+			CSXMLValueProcessingException(const CString& strName, const CString& strFunction, const CString& strFile, const uint32 uLine);
+			CSXMLValueProcessingException(const CString& strName, const CString& strFunction, const CString& strFile, const uint32 uLine, const CException& Exception);
 
 			virtual CException*	CreateCopy() const override;
 		};
@@ -215,8 +236,8 @@ namespace CB{
 
 		public:
 			CSXMLValueParsingException(const CSXMLValueParsingException& Exception);
-			CSXMLValueParsingException(const CString& strName, const CString& strValue, const CString& strFunction, const CString& strFile, const unsigned uLine);
-			CSXMLValueParsingException(const CString& strName, const CString& strValue, const CString& strFunction, const CString& strFile, const unsigned uLine, const CException& Exception);
+			CSXMLValueParsingException(const CString& strName, const CString& strValue, const CString& strFunction, const CString& strFile, const uint32 uLine);
+			CSXMLValueParsingException(const CString& strName, const CString& strValue, const CString& strFunction, const CString& strFile, const uint32 uLine, const CException& Exception);
 
 			virtual const CString	GetMessage() const override;
 

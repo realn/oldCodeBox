@@ -279,6 +279,9 @@
     <ClInclude Include="Include\Math_BoxF.h">
       <Filter>Include\Math</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Threads.h">
+      <Filter>Include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Exception.cpp">
@@ -454,6 +457,12 @@
     </ClCompile>
     <ClCompile Include="Source\Math_BoxF.cpp">
       <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\WindowsErrors.cpp">
+      <Filter>Source\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Threads.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

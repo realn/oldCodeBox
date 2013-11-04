@@ -16,7 +16,7 @@ namespace CB{
 			}
 		}
 
-		CException::CException(const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const unsigned uLine) :
+		CException::CException(const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine) :
 			m_strMessage(strMessage),
 			m_strFunction(strFunction),
 			m_strFile(strFile),
@@ -24,7 +24,7 @@ namespace CB{
 			m_pException(0)
 		{}
 
-		CException::CException(const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const unsigned uLine, const CException& InnerException) : 
+		CException::CException(const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine, const CException& InnerException) : 
 			m_strMessage(strMessage),
 			m_strFunction(strFunction),
 			m_strFile(strFile),
@@ -53,7 +53,7 @@ namespace CB{
 			return this->m_strFile;
 		}
 
-		const unsigned	CException::GetLine() const{
+		const uint32	CException::GetLine() const{
 			return this->m_uLine;
 		}
 
@@ -77,13 +77,13 @@ namespace CB{
 			m_strValue(Exception.m_strValue)
 		{}
 
-		CInvalidArgumentException::CInvalidArgumentException(const CB::CString& strArgName, const CB::CString& strArgValue, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const unsigned uLine) : 
+		CInvalidArgumentException::CInvalidArgumentException(const CB::CString& strArgName, const CB::CString& strArgValue, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine) : 
 			CException(strMessage, strFunction, strFile, uLine),
 			m_strArgumentName(strArgName),
 			m_strValue(strArgValue)
 		{}
 
-		CInvalidArgumentException::CInvalidArgumentException(const CB::CString& strArgName, const CB::CString& strArgValue, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const unsigned uLine, const CException& InnerException) :
+		CInvalidArgumentException::CInvalidArgumentException(const CB::CString& strArgName, const CB::CString& strArgValue, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine, const CException& InnerException) :
 			CException(strMessage, strFunction, strFile, uLine, InnerException),
 			m_strArgumentName(strArgName),
 			m_strValue(strArgValue)
@@ -108,11 +108,11 @@ namespace CB{
 			CInvalidArgumentException(Exception)
 		{}
 
-		CNullArgumentException::CNullArgumentException(const CB::CString& strArgName, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const unsigned uLine) 
+		CNullArgumentException::CNullArgumentException(const CB::CString& strArgName, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine) 
 			: CInvalidArgumentException(strArgName, L"NULL", strMessage, strFunction, strFile, uLine){
 		}
 
-		CNullArgumentException::CNullArgumentException(const CB::CString& strArgName, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const unsigned uLine, const CException& InnerException)
+		CNullArgumentException::CNullArgumentException(const CB::CString& strArgName, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine, const CException& InnerException)
 			: CInvalidArgumentException(strArgName, L"NULL", strMessage, strFunction, strFile, uLine, InnerException){
 		}
 
@@ -134,11 +134,11 @@ namespace CB{
 			CInvalidArgumentException(Exception)
 		{}
 
-		CZeroLengthArgumentException::CZeroLengthArgumentException(const CB::CString& strArgName, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const unsigned uLine) 
+		CZeroLengthArgumentException::CZeroLengthArgumentException(const CB::CString& strArgName, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine) 
 			: CInvalidArgumentException(strArgName, L"0", strMessage, strFunction, strFile, uLine){
 		}
 
-		CZeroLengthArgumentException::CZeroLengthArgumentException(const CB::CString& strArgName, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const unsigned uLine, const CException& InnerException)
+		CZeroLengthArgumentException::CZeroLengthArgumentException(const CB::CString& strArgName, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine, const CException& InnerException)
 			: CInvalidArgumentException(strArgName, L"0", strMessage, strFunction, strFile, uLine, InnerException){
 		}
 
@@ -160,11 +160,11 @@ namespace CB{
 			CException(Exception){
 		}
 
-		COutOfMemoryException::COutOfMemoryException(const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const unsigned uLine) :
+		COutOfMemoryException::COutOfMemoryException(const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine) :
 			CException(strMessage, strFunction, strFile, uLine){
 		}
 
-		COutOfMemoryException::COutOfMemoryException(const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const unsigned uLine, const CException& InnerException) :
+		COutOfMemoryException::COutOfMemoryException(const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine, const CException& InnerException) :
 			CException(strMessage, strFunction, strFile, uLine, InnerException){
 		}
 
@@ -179,12 +179,12 @@ namespace CB{
 			m_strPointerName(Exception.m_strPointerName)
 		{}
 
-		CNullPointerException::CNullPointerException(const CB::CString& strPtrName, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const unsigned uLine)
+		CNullPointerException::CNullPointerException(const CB::CString& strPtrName, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine)
 			: CException(strMessage, strFunction, strFile, uLine),
 			m_strPointerName(strPtrName)
 		{}
 
-		CNullPointerException::CNullPointerException(const CB::CString& strPtrName, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const unsigned uLine, const CException& InnerException)
+		CNullPointerException::CNullPointerException(const CB::CString& strPtrName, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine, const CException& InnerException)
 			: CException(strMessage, strFunction, strFile, uLine, InnerException),
 			m_strPointerName(strPtrName)
 		{}
@@ -208,12 +208,12 @@ namespace CB{
 			m_strSenderName(Exception.m_strSenderName)
 		{}
 
-		CZeroLengthException::CZeroLengthException(const CB::CString& strSenderName, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const unsigned uLine) 
+		CZeroLengthException::CZeroLengthException(const CB::CString& strSenderName, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine) 
 			: CException(strMessage, strFunction, strFile, uLine),
 			m_strSenderName(strSenderName)
 		{}
 
-		CZeroLengthException::CZeroLengthException(const CB::CString& strSenderName, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const unsigned uLine, const CException& InnerException) 
+		CZeroLengthException::CZeroLengthException(const CB::CString& strSenderName, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine, const CException& InnerException) 
 			: CException(strMessage, strFunction, strFile, uLine, InnerException),
 			m_strSenderName(strSenderName)
 		{}
@@ -238,13 +238,13 @@ namespace CB{
 			m_strVarValue(Exception.m_strVarValue)
 		{}
 
-		CInvalidVarValueException::CInvalidVarValueException(const CB::CString& strVarName, const CB::CString& strVarValue, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const unsigned uLine) : 
+		CInvalidVarValueException::CInvalidVarValueException(const CB::CString& strVarName, const CB::CString& strVarValue, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine) : 
 			CException(strMessage, strFunction, strFile, uLine),
 			m_strVarName(strVarName),
 			m_strVarValue(strVarValue)
 		{}
 
-		CInvalidVarValueException::CInvalidVarValueException(const CB::CString& strVarName, const CB::CString& strVarValue, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const unsigned uLine, const CException& InnerException) : 
+		CInvalidVarValueException::CInvalidVarValueException(const CB::CString& strVarName, const CB::CString& strVarValue, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine, const CException& InnerException) : 
 			CException(strMessage, strFunction, strFile, uLine),
 			m_strVarName(strVarName),
 			m_strVarValue(strVarValue)

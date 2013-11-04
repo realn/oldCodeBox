@@ -22,19 +22,19 @@ namespace CB{
 			CString		m_strMessage;
 			CString		m_strFunction;
 			CString		m_strFile;
-			unsigned		m_uLine;
+			uint32		m_uLine;
 			CException*		m_pException;
 
 		public:
 			CException(const CException& Exception);
-			CException(const CString& strMessage, const CString& strFunction, const CString& strFile, const unsigned uLine);
-			CException(const CString& strMessage, const CString& strFunction, const CString& strFile, const unsigned uLine, const CException& InnerException);
+			CException(const CString& strMessage, const CString& strFunction, const CString& strFile, const uint32 uLine);
+			CException(const CString& strMessage, const CString& strFunction, const CString& strFile, const uint32 uLine, const CException& InnerException);
 			virtual ~CException();
 
 			virtual const CString	GetMessage() const;
 			const CString&			GetFunction() const;
 			const CString&			GetFile() const;
-			const unsigned			GetLine() const;
+			const uint32			GetLine() const;
 			const CException&		GetInnerException() const;
 
 			const bool HasInnerException() const;
@@ -49,8 +49,8 @@ namespace CB{
 
 		public:
 			CInvalidArgumentException(const CInvalidArgumentException& Exception);
-			CInvalidArgumentException(const CB::CString& strArgName, const CB::CString& strArgValue, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const unsigned uLine);
-			CInvalidArgumentException(const CB::CString& strArgName, const CB::CString& strArgValue, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const unsigned uLine, const CException& InnerException);
+			CInvalidArgumentException(const CB::CString& strArgName, const CB::CString& strArgValue, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine);
+			CInvalidArgumentException(const CB::CString& strArgName, const CB::CString& strArgValue, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine, const CException& InnerException);
 
 			virtual const CB::CString	GetMessage() const;
 
@@ -60,8 +60,8 @@ namespace CB{
 		class COMMON_API CNullArgumentException : public CInvalidArgumentException{
 		public:
 			CNullArgumentException(const CNullArgumentException& Exception);
-			CNullArgumentException(const CB::CString& strArgName, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const unsigned uLine);
-			CNullArgumentException(const CB::CString& strArgName, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const unsigned uLine, const CException& InnerException);
+			CNullArgumentException(const CB::CString& strArgName, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine);
+			CNullArgumentException(const CB::CString& strArgName, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine, const CException& InnerException);
 
 			virtual const CB::CString	GetMessage() const;
 
@@ -71,8 +71,8 @@ namespace CB{
 		class COMMON_API CZeroLengthArgumentException : public CInvalidArgumentException{
 		public:
 			CZeroLengthArgumentException(const CZeroLengthArgumentException& Exception);
-			CZeroLengthArgumentException(const CB::CString& strArgName, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const unsigned uLine);
-			CZeroLengthArgumentException(const CB::CString& strArgName, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const unsigned uLine, const CException& InnerException);
+			CZeroLengthArgumentException(const CB::CString& strArgName, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine);
+			CZeroLengthArgumentException(const CB::CString& strArgName, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine, const CException& InnerException);
 
 			virtual const CB::CString	GetMessage() const;
 
@@ -82,8 +82,8 @@ namespace CB{
 		class COMMON_API COutOfMemoryException : public CException{
 		public:
 			COutOfMemoryException(const COutOfMemoryException& Exception);
-			COutOfMemoryException(const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const unsigned uLine);
-			COutOfMemoryException(const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const unsigned uLine, const CException& InnerException);
+			COutOfMemoryException(const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine);
+			COutOfMemoryException(const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine, const CException& InnerException);
 
 			virtual CException*	CreateCopy() const;
 		};
@@ -94,8 +94,8 @@ namespace CB{
 
 		public:
 			CNullPointerException(const CNullPointerException& Exception);
-			CNullPointerException(const CB::CString& strPtrName, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const unsigned uLine);
-			CNullPointerException(const CB::CString& strPtrName, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const unsigned uLine, const CException& InnerException);
+			CNullPointerException(const CB::CString& strPtrName, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine);
+			CNullPointerException(const CB::CString& strPtrName, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine, const CException& InnerException);
 
 			virtual const CB::CString	GetMessage() const;
 
@@ -108,8 +108,8 @@ namespace CB{
 			
 		public:
 			CZeroLengthException(const CZeroLengthException& Exception);
-			CZeroLengthException(const CB::CString& strSenderName, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const unsigned uLine);
-			CZeroLengthException(const CB::CString& strSenderName, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const unsigned uLine, const CException& InnerException);
+			CZeroLengthException(const CB::CString& strSenderName, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine);
+			CZeroLengthException(const CB::CString& strSenderName, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine, const CException& InnerException);
 
 			virtual const CB::CString	GetMessage() const;
 
@@ -123,8 +123,8 @@ namespace CB{
 
 		public:
 			CInvalidVarValueException(const CInvalidVarValueException& Exception);
-			CInvalidVarValueException(const CB::CString& strVarName, const CB::CString& strVarValue, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const unsigned uLine);
-			CInvalidVarValueException(const CB::CString& strVarName, const CB::CString& strVarValue, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const unsigned uLine, const CException& InnerException);
+			CInvalidVarValueException(const CB::CString& strVarName, const CB::CString& strVarValue, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine);
+			CInvalidVarValueException(const CB::CString& strVarName, const CB::CString& strVarValue, const CB::CString& strMessage, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine, const CException& InnerException);
 
 			virtual const CB::CString	GetMessage() const;
 
@@ -138,8 +138,8 @@ namespace CB{
 
 		public:
 			CWindowException(const CWindowException& Exception);
-			CWindowException(const unsigned uError, const CString& strMessage, const CString& strFunction, const CString& strFile, const unsigned uLine);
-			CWindowException(const unsigned uError, const CString& strMessage, const CString& strFunction, const CString& strFile, const unsigned uLine, const CException& InnerException);
+			CWindowException(const uint32 uError, const CString& strMessage, const CString& strFunction, const CString& strFile, const uint32 uLine);
+			CWindowException(const uint32 uError, const CString& strMessage, const CString& strFunction, const CString& strFile, const uint32 uLine, const CException& InnerException);
 
 			virtual const CString	GetMessage() const;
 
@@ -148,12 +148,12 @@ namespace CB{
 
 		class COMMON_API CCOMException : public CException{
 		protected:
-			unsigned m_hResult;
+			uint32 m_hResult;
 
 		public:
 			CCOMException(const CCOMException& Exception);
-			CCOMException(const unsigned hResult, const CString& strMessage, const CString& strFunction, const CString& strFile, const unsigned uLine);
-			CCOMException(const unsigned hResult, const CString& strMessage, const CString& strFunction, const CString& strFile, const unsigned uLine, const CException& InnerException);
+			CCOMException(const uint32 hResult, const CString& strMessage, const CString& strFunction, const CString& strFile, const uint32 uLine);
+			CCOMException(const uint32 hResult, const CString& strMessage, const CString& strFunction, const CString& strFile, const uint32 uLine, const CException& InnerException);
 
 			virtual const CString	GetMessage() const;
 

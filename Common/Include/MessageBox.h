@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Macros.h"
-#include "../../Common/Include/CBString.h"
-#include "../../Common/Include/Exception.h"
+#include "CBString.h"
+#include "Exception.h"
 
 namespace CB{
 	namespace Message{

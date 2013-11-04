@@ -3,19 +3,23 @@
 namespace CB{
 	namespace Exception{
 		CApiMismatchException::CApiMismatchException(const CApiMismatchException& Exception) :
-			CException(Exception), m_strTargetApi(Exception.m_strTargetApi), m_strMismatchApi(Exception.m_strMismatchApi)
+			CException(Exception), 
+			m_strTargetApi(Exception.m_strTargetApi), 
+			m_strMismatchApi(Exception.m_strMismatchApi)
 		{
 		}
 
-		CApiMismatchException::CApiMismatchException(const unsigned uTargetApi, const unsigned uMismatchApi, const CString& strFunction, const CString& strFile, const unsigned uLine) :
+		CApiMismatchException::CApiMismatchException(const uint32 uTargetApi, const uint32 uMismatchApi, const CString& strFunction, const CString& strFile, const uint32 uLine) :
 			CException(L"Api Id mismatch.", strFunction, strFile, uLine),
-			m_strTargetApi(String::FromUInt32(uTargetApi)), m_strMismatchApi(String::FromUInt32(uMismatchApi))
+			m_strTargetApi(String::FromUInt32(uTargetApi)), 
+			m_strMismatchApi(String::FromUInt32(uMismatchApi))
 		{
 		}
 
-		CApiMismatchException::CApiMismatchException(const unsigned uTargetApi, const unsigned uMismatchApi, const CString& strFunction, const CString& strFile, const unsigned uLine, const CException& InnerException) :
+		CApiMismatchException::CApiMismatchException(const uint32 uTargetApi, const uint32 uMismatchApi, const CString& strFunction, const CString& strFile, const uint32 uLine, const CException& InnerException) :
 			CException(L"Api Id mismatch.", strFunction, strFile, uLine, InnerException),
-			m_strTargetApi(String::FromUInt32(uTargetApi)), m_strMismatchApi(String::FromUInt32(uMismatchApi))
+			m_strTargetApi(String::FromUInt32(uTargetApi)), 
+			m_strMismatchApi(String::FromUInt32(uMismatchApi))
 		{
 		}
 

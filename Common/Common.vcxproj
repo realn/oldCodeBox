@@ -145,6 +145,7 @@
     <ClInclude Include="Include\Math_Rectangle.h" />
     <ClInclude Include="Include\Math_Size.h" />
     <ClInclude Include="Include\Math_Vector.h" />
+    <ClInclude Include="Include\Threads.h" />
     <ClInclude Include="Include\Timer.h" />
     <ClInclude Include="Include\Types.h" />
     <ClInclude Include="Include\WindowsErrors.h" />
@@ -230,7 +231,9 @@
     <ClCompile Include="Source\CBString_Convert.cpp" />
     <ClCompile Include="Source\CBString_String.cpp" />
     <ClCompile Include="Source\IO_TextReader.cpp" />
+    <ClCompile Include="Source\Threads.cpp" />
     <ClCompile Include="Source\Timer.cpp" />
+    <ClCompile Include="Source\WindowsErrors.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

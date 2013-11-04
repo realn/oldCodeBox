@@ -37,6 +37,11 @@ namespace CB{
 			Z(iZ)
 		{}
 
+		void	CPoint3D::SetZero(){
+			CPoint::SetZero();
+			this->Z = 0;
+		}
+
 		void	CPoint3D::Set(const CPoint3D& Point){
 			CPoint::Set(Point);
 			this->Z = Point.Z;
