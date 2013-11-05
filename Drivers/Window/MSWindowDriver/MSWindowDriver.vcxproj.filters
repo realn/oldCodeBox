@@ -26,7 +26,7 @@
     <ClInclude Include="Internal\Window.h">
       <Filter>Internal</Filter>
     </ClInclude>
-    <ClInclude Include="Include\WindowDriver.h">
+    <ClInclude Include="Include\MSWindowDriver.h">
       <Filter>Include</Filter>
     </ClInclude>
   </ItemGroup>

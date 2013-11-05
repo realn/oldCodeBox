@@ -1,16 +1,16 @@
 #include "../Internal/Manager.h"
 #include "../Internal/Window.h"
-#include "../../Common/Include/Math.h"
-#include "../../Common/Include/Logger.h"
+#include <Math.h>
+#include <Logger.h>
 
 LRESULT CALLBACK WndCallbackProc(HWND hWindow, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 namespace CB{
-	const unsigned	g_uApiId = *((unsigned*)"MSW5");
+	const uint32	g_uApiId = *((uint32*)"MSW5");
 
 	CWindowManager::CWindowManager(CRefPtr<Window::IDriver> pDriver) :
 		m_pDriver(pDriver),
-		m_strClassName(L"WINCLS_" + String::FromUInt32(Math::RandUInt32()))
+		m_strClassName(L"WINCLS_" + String::ToString(Math::RandUInt32()))
 	{
 		Log::Write(L"Initialzing window manager...");
 
@@ -18,7 +18,7 @@ namespace CB{
 		Memory::SetZero(winClass);
 
 		winClass.cbSize = sizeof(WNDCLASSEXW);
-		winClass.lpszClassName = this->m_strClassName.ToConst();
+		winClass.lpszClassName = this->m_strClassName.GetPointer();
 		winClass.hInstance = GetModuleHandleW(0);
 		winClass.style = CS_OWNDC | CS_HREDRAW | CS_VREDRAW;
 		winClass.lpfnWndProc = WndCallbackProc;
@@ -35,19 +35,17 @@ namespace CB{
 			throw Exception::CWindowException(GetLastError(),
 				L"Failed to register class " + this->m_strClassName, __FUNCTIONW__, __FILEW__, __LINE__);
 		}
-
-		Log::Write(L"Window Manager initialized.");
 	}
 
 	CWindowManager::~CWindowManager(){
 		Log::Write(L"Deinitializing window manager...");
 		Log::Write(L"Destroing window class " + this->m_strClassName + L"...", Log::LogLevel::Debug);
-		if(!UnregisterClassW(this->m_strClassName.ToConst(), GetModuleHandleW(0))){
+		if(!UnregisterClassW(this->m_strClassName.GetPointer(), GetModuleHandleW(0))){
 			Log::Write(L"Failed to unregister window class " + this->m_strClassName + L".", Log::LogLevel::Error);
 		}
 	}
 
-	const unsigned	CWindowManager::GetApiId() const{
+	const uint32	CWindowManager::GetApiId() const{
 		return g_uApiId;
 	}
 
@@ -67,16 +65,16 @@ namespace CB{
 		this->ProcessEvents(0);
 	}
 
-	void	CWindowManager::ProcessEvents(const unsigned uMaxEvents){
+	void	CWindowManager::ProcessEvents(const uint32 uMaxEvents){
 		MSG msg;
-		unsigned uNumEvents = uMaxEvents != 0 ? uMaxEvents : 0xFFFFFFFF;
+		uint32 uNumEvents = uMaxEvents != 0 ? uMaxEvents : 0xFFFFFFFF;
 
 		for(uint32 uIndex = 0; uIndex < this->m_pObjectList.GetLength(); uIndex++){
 			Memory::SetZero(msg);
 
 			HWND hWindow = static_cast<HWND>(this->m_pObjectList[uIndex].Get()->GetHandle());
 
-			for(unsigned uIndex = 0; PeekMessageW(&msg, hWindow, 0, 0, PM_REMOVE) && uIndex < uNumEvents; uIndex++){
+			for(uint32 uIndex = 0; PeekMessageW(&msg, hWindow, 0, 0, PM_REMOVE) && uIndex < uNumEvents; uIndex++){
 				TranslateMessage(&msg);
 				DispatchMessageW(&msg);
 
@@ -90,8 +88,7 @@ namespace CB{
 	}
 
 	const bool	CWindowManager::SupportsStyle(const Window::Style uStyle) const{
-		switch (uStyle)
-		{
+		switch (uStyle){
 		case Window::Style::Pure:		return true;
 		case Window::Style::Single:		return true;
 		case Window::Style::Sizeable:	return true;

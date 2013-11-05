@@ -46,6 +46,7 @@
     <IntDir>$(SolutionDir)Intermediate\$(Configuration)\$(ProjectName)\</IntDir>
     <ReferencePath>$(SolutionDir)Output\$(Configuration);$(ReferencePath)</ReferencePath>
     <LibraryPath>$(SolutionDir)Output\$(Configuration);$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Drivers\Window\WindowDrvInterface\Include;$(SolutionDir)Common\Include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -85,7 +86,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Include\Macros.h" />
-    <ClInclude Include="Include\WindowDriver.h" />
+    <ClInclude Include="Include\MSWindowDriver.h" />
     <ClInclude Include="Internal\Manager.h" />
     <ClInclude Include="Internal\Window.h" />
     <ClInclude Include="Internal\WinPlatform.h" />
@@ -104,7 +105,7 @@
     <ClCompile Include="Source\WindowDriver.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Common\Common.vcxproj">
+    <ProjectReference Include="..\..\..\Common\Common.vcxproj">
       <Project>{844b7ab6-f789-496c-86d2-fc71e8328f23}</Project>
     </ProjectReference>
     <ProjectReference Include="..\WindowDrvInterface\WindowDrvInterface.vcxproj">

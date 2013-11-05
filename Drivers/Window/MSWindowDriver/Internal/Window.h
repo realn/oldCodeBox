@@ -23,18 +23,15 @@ namespace CB{
 		CRefPtr<Window::IManager>	GetManager() const override;
 
 		void	SetPosition(const Math::CPoint& Position) override;
-		const Math::CPoint	GetPosition() const override;
-
 		void	SetSize(const Math::CSize& Size) override;
-		const Math::CSize	GetSize() const override;
-
 		void	SetVisible(const bool bVisible) override;
-		const bool	IsVisible() const override;
-
 		void	SetTitle(const CString& strTitle) override;
-		const CString	GetTitle() const override;
-
 		void	SetStyle(const Window::Style uStyle) override;
+
+		const Math::CPoint	GetPosition() const override;
+		const Math::CSize	GetSize() const override;
+		const bool			IsVisible() const override;
+		const CString		GetTitle() const override;
 		const Window::Style	GetStyle() const override;
 
 		void*	GetHandle() const override;

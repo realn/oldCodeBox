@@ -52,18 +52,18 @@ namespace CB{
 
 		if(!GetMSWindowStyle(uStyle, dwStyle, dwExStyle)){
 			throw Exception::CInvalidArgumentException(L"uStyle", String::ToString(uStyle),
-				L"Unrecognized window style.", __FUNCTIONW__, __FILEW__, __LINE__);
+				L"Unrecognized window style.", CR_INFO());
 		}
 		Log::Write(L"Selected window style: " + String::ToString(uStyle) + L".", Log::LogLevel::Debug);
 
 		HINSTANCE hInstance = GetModuleHandleW(0);
 
-		this->m_hWindow = CreateWindowExW(WS_EX_OVERLAPPEDWINDOW, strClass.ToConst(), strTitle.ToConst(), WS_OVERLAPPEDWINDOW, 
+		this->m_hWindow = CreateWindowExW(WS_EX_OVERLAPPEDWINDOW, strClass.GetPointer(), strTitle.GetPointer(), WS_OVERLAPPEDWINDOW, 
 			Position.X, Position.Y, Size.Width, Size.Height, 0, 0, hInstance, this); 
 
 		if(this->m_hWindow == 0 || this->m_hWindow == INVALID_HANDLE_VALUE){
 			throw Exception::CWindowException(GetLastError(),
-				L"Fatal error durring window creation.", __FUNCTIONW__, __FILEW__, __LINE__);
+				L"Fatal error durring window creation.", CR_INFO());
 		}
 
 		this->OnClose.SetCombiner(ORCombiner);
@@ -86,14 +86,14 @@ namespace CB{
 				SetWindowLongPtrW(this->m_hWindow, GWLP_USERDATA, 0);
 				if(!DestroyWindow(this->m_hWindow)){
 					throw Exception::CWindowException(GetLastError(),
-						L"Failed to destroy window.", __FUNCTIONW__, __FILEW__, __LINE__);
+						L"Failed to destroy window.", CR_INFO());
 				}
 			}
 			this->m_hWindow = 0;
 		}
 	}
 
-	const unsigned	CWindow::GetApiId() const{
+	const uint32	CWindow::GetApiId() const{
 		return g_uApiId;
 	}
 
@@ -103,8 +103,8 @@ namespace CB{
 
 	void	CWindow::SetPosition(const Math::CPoint& Position){
 		if(!SetWindowPos(this->m_hWindow, 0, Position.X, Position.Y, 0, 0, SWP_NOSIZE | SWP_NOZORDER)){
-			throw Exception::CWindowException(GetLastError(),
-				L"Failed to set new window position. Pos: " + Position.ToString(), __FUNCTIONW__, __FILEW__, __LINE__);
+			throw Exception::CWindowException(GetLastError(), 
+				L"Failed to set new window position. Pos: " + Position.ToString(), CR_INFO());
 		}
 	}
 
@@ -113,7 +113,7 @@ namespace CB{
 		Memory::SetZero(rect);
 		if(!GetWindowRect(this->m_hWindow, &rect)){
 			throw Exception::CWindowException(GetLastError(),
-				L"Failed to get window position.", __FUNCTIONW__, __FILEW__, __LINE__);
+				L"Failed to get window position.", CR_INFO());
 		}
 		return Math::CPoint(rect.left, rect.top);		
 	}
@@ -121,7 +121,7 @@ namespace CB{
 	void	CWindow::SetSize(const Math::CSize& Size){
 		if(!SetWindowPos(this->m_hWindow, 0, 0, 0, Size.Width, Size.Height, SWP_NOMOVE | SWP_NOZORDER)){
 			throw Exception::CWindowException(GetLastError(),
-				L"Failed to set new window size, Size: " + Size.ToString(), __FUNCTIONW__, __FILEW__, __LINE__);
+				L"Failed to set new window size, Size: " + Size.ToString(), CR_INFO());
 		}
 	}
 
@@ -130,7 +130,7 @@ namespace CB{
 		Memory::SetZero(rect);
 		if(!GetWindowRect(this->m_hWindow, &rect)){
 			throw Exception::CWindowException(GetLastError(),
-				L"Failed to get window size.", __FUNCTIONW__, __FILEW__, __LINE__);
+				L"Failed to get window size.", CR_INFO());
 		}
 		return Math::CSize(rect.right - rect.left, rect.bottom - rect.top);
 	}
@@ -147,9 +147,9 @@ namespace CB{
 	}
 
 	void	CWindow::SetTitle(const CString& strTitle){
-		if(!SetWindowTextW(this->m_hWindow, strTitle.ToConst())){
+		if(!SetWindowTextW(this->m_hWindow, strTitle.GetPointer())){
 			throw Exception::CWindowException(GetLastError(),
-				L"Failed to set new window title, Title: " + strTitle, __FUNCTIONW__, __FILEW__, __LINE__);
+				L"Failed to set new window title, Title: " + strTitle, CR_INFO());
 		}
 	}
 
@@ -161,7 +161,7 @@ namespace CB{
 
 		if(iLen < 0){
 			throw Exception::CWindowException(GetLastError(),
-				L"Failed to get window title.", __FUNCTIONW__, __FILEW__, __LINE__);
+				L"Failed to get window title.", CR_INFO());
 		}
 
 		CString result;
@@ -169,7 +169,7 @@ namespace CB{
 
 		if(!GetWindowTextW(this->m_hWindow, &result[0], iLen + 1)){
 			throw Exception::CWindowException(GetLastError(),
-				L"Failed to get window title.", __FUNCTIONW__, __FILEW__, __LINE__);
+				L"Failed to get window title.", CR_INFO());
 		}
 
 		result = result.Trim();
@@ -180,7 +180,7 @@ namespace CB{
 		DWORD dwStyle = 0, dwExStyle = 0;
 		if(!GetMSWindowStyle(uStyle, dwStyle, dwExStyle)){
 			throw Exception::CInvalidArgumentException(L"uStyle", String::ToString(uStyle),
-				L"Unrecognized window style.", __FUNCTIONW__, __FILEW__, __LINE__);
+				L"Unrecognized window style.", CR_INFO());
 		}
 		Log::Write(L"Changed window style to: " + String::ToString(uStyle) + L".", Log::LogLevel::Debug);
 
@@ -197,7 +197,7 @@ namespace CB{
 		return static_cast<void*>(this->m_hWindow);
 	}
 
-	const bool	CWindow::ProcessMessage(const unsigned uMessage, const WPARAM wParam, const LPARAM lParam){
+	const bool	CWindow::ProcessMessage(const uint32 uMessage, const WPARAM wParam, const LPARAM lParam){
 		switch (uMessage)
 		{
 		case WM_CREATE:	
@@ -213,8 +213,7 @@ namespace CB{
 			break;
 
 		case WM_SIZE:
-			switch (wParam)
-			{
+			switch (wParam){
 			case SIZE_RESTORED:	
 				if(this->OnSizeChange.IsValid()){
 					return this->OnSizeChange(this, Math::CSize(LOWORD(lParam), HIWORD(lParam)), this->GetSize());

@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../Include/WindowDriver.h"
-#include "../../Common/Include/Manage_Object.h"
+#include "../Include/MSWindowDriver.h"
+#include <Manage_Object.h>
 #include "WinPlatform.h"
 
 namespace CB{
-	extern const unsigned g_uApiId;
+	extern const uint32 g_uApiId;
 
 	class CWindow;
 	class CWindowManager : 
@@ -22,14 +22,14 @@ namespace CB{
 
 		//IWindowManager implementation
 
-		const unsigned	GetApiId() const override;
+		const uint32	GetApiId() const override;
 
 		CRefPtr<Window::IWindow>	CreateWindow(const CString& strTitle, const Window::Style uStyle) override;
 		CRefPtr<Window::IWindow>	CreateWindow(const CString& strTitle, const Window::Style uStyle, const Math::CSize& Size) override;
 		CRefPtr<Window::IWindow>	CreateWindow(const CString& strTitle, const Window::Style uStyle, const Math::CSize& Size, const Math::CPoint& Position) override;
 
 		void	ProcessEvents() override;
-		void	ProcessEvents(const unsigned uMaxEvents) override;
+		void	ProcessEvents(const uint32 uMaxEvents) override;
 
 		const bool	SupportsMultiWindow() const override;
 		const bool	SupportsStyle(const Window::Style uStyle) const override;
