@@ -37,34 +37,34 @@
     <ClCompile Include="Source\dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\GraphicDriver_BlendInstDesc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\GraphicDriver_BlendStateDesc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\GraphicDriver_DepthStencilStateDesc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\GraphicDriver_DisplayMode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\GraphicDriver_RasterizerStateDesc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\GraphicDriver_StencilInstDesc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\GraphicDriver_Strings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\GraphicDriver_VertexElement.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\GraphicDriver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\GraphicDriver_DeviceDesc.cpp">
+    <ClCompile Include="Source\BlendInstDesc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BlendStateDesc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DepthStencilStateDesc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DeviceDesc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DisplayMode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RasterizerStateDesc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\StencilInstDesc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Strings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\VertexElement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

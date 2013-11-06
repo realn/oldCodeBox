@@ -44,6 +44,7 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Output\$(Configuration)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)Intermediate\$(Configuration)\$(ProjectName)\</IntDir>
+    <IncludePath>$(SolutionDir)Drivers\Window\WindowDrvInterface\Include;$(SolutionDir)Common\Include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -99,26 +100,26 @@
       </PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Source\GraphicDriver.cpp" />
-    <ClCompile Include="Source\GraphicDriver_BlendInstDesc.cpp" />
-    <ClCompile Include="Source\GraphicDriver_BlendStateDesc.cpp" />
-    <ClCompile Include="Source\GraphicDriver_DepthStencilStateDesc.cpp" />
-    <ClCompile Include="Source\GraphicDriver_DeviceDesc.cpp" />
-    <ClCompile Include="Source\GraphicDriver_DisplayMode.cpp" />
-    <ClCompile Include="Source\GraphicDriver_RasterizerStateDesc.cpp" />
-    <ClCompile Include="Source\GraphicDriver_StencilInstDesc.cpp" />
-    <ClCompile Include="Source\GraphicDriver_Strings.cpp" />
-    <ClCompile Include="Source\GraphicDriver_VertexElement.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Common\Common.vcxproj">
-      <Project>{844b7ab6-f789-496c-86d2-fc71e8328f23}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\WindowDrvInterface\WindowDrvInterface.vcxproj">
-      <Project>{ec070743-297f-4414-9e71-f107ebdb5057}</Project>
-    </ProjectReference>
+    <ClCompile Include="Source\BlendInstDesc.cpp" />
+    <ClCompile Include="Source\BlendStateDesc.cpp" />
+    <ClCompile Include="Source\DepthStencilStateDesc.cpp" />
+    <ClCompile Include="Source\DeviceDesc.cpp" />
+    <ClCompile Include="Source\DisplayMode.cpp" />
+    <ClCompile Include="Source\RasterizerStateDesc.cpp" />
+    <ClCompile Include="Source\StencilInstDesc.cpp" />
+    <ClCompile Include="Source\Strings.cpp" />
+    <ClCompile Include="Source\VertexElement.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="InterfaceDiagram.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\Common.vcxproj">
+      <Project>{844b7ab6-f789-496c-86d2-fc71e8328f23}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Window\WindowDrvInterface\WindowDrvInterface.vcxproj">
+      <Project>{ec070743-297f-4414-9e71-f107ebdb5057}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

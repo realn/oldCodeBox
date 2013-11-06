@@ -58,8 +58,13 @@ namespace CB{
 
 		HINSTANCE hInstance = GetModuleHandleW(0);
 
+		RECT winRect = {0, 0, Size.Width, Size.Height};
+		if(!AdjustWindowRectEx(&winRect, dwStyle, FALSE, dwExStyle)){
+			CR_THROW(L"Failed to adjust client area rect.");
+		}
+
 		this->m_hWindow = CreateWindowExW(WS_EX_OVERLAPPEDWINDOW, strClass.GetPointer(), strTitle.GetPointer(), WS_OVERLAPPEDWINDOW, 
-			Position.X, Position.Y, Size.Width, Size.Height, 0, 0, hInstance, this); 
+			Position.X, Position.Y, winRect.right - winRect.left, winRect.bottom - winRect.top, 0, 0, hInstance, this); 
 
 		if(this->m_hWindow == 0 || this->m_hWindow == INVALID_HANDLE_VALUE){
 			throw Exception::CWindowException(GetLastError(),
