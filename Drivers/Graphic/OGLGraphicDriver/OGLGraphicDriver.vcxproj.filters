@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Include">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Internal">
+      <UniqueIdentifier>{705f3380-7d8e-41b4-a0d8-98c4664c9c83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Internal\Buffer">
+      <UniqueIdentifier>{4daea361-1d1c-446e-8070-d9fc6b788bf2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Buffer">
+      <UniqueIdentifier>{dfde414e-ebaf-41ce-a3e8-b67aaed55817}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Internal\Shader">
+      <UniqueIdentifier>{4e434048-f7d2-43a0-bf77-bbeebaf51f24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Shader">
+      <UniqueIdentifier>{4c7fe2ad-14ec-445e-b825-6a6949baf0ec}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Include\OGLGraphicDriver.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Macros.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\WinPlatform.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\Manager.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\Adapter.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\Utils.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\Output.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\Device.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\OpenGLDef.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\Context.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\BaseBuffer.h">
+      <Filter>Internal\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\IndexBuffer.h">
+      <Filter>Internal\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\VertexBuffer.h">
+      <Filter>Internal\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\VertexDeclaration.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\BaseShader.h">
+      <Filter>Internal\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\VertexShader.h">
+      <Filter>Internal\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\FragmentShader.h">
+      <Filter>Internal\Shader</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\OGLGraphicDriver.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\dllmain.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Manager.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Adapter.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Output.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Device.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenGLDef.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BaseBuffer.cpp">
+      <Filter>Source\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IndexBuffer.cpp">
+      <Filter>Source\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\VertexBuffer.cpp">
+      <Filter>Source\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\VertexDeclaration.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BaseShader.cpp">
+      <Filter>Source\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\VertexShader.cpp">
+      <Filter>Source\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FragmentShader.cpp">
+      <Filter>Source\Shader</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

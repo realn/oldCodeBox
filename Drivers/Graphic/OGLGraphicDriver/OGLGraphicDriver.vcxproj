@@ -11,10 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{1894C896-BB26-4993-B035-7885AF9F507E}</ProjectGuid>
+    <ProjectGuid>{2F024E01-905B-45E3-A15C-B41710A9B11A}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>GraphicMngInterface</RootNamespace>
-    <ProjectName>GraphicDrvInterface</ProjectName>
+    <RootNamespace>OGLGraphicDriver</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -43,8 +42,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Output\$(Configuration)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Intermediate\$(Configuration)\$(ProjectName)\</IntDir>
-    <IncludePath>$(SolutionDir)Drivers\Window\WindowDrvInterface\Include;$(SolutionDir)Common\Include;$(IncludePath)</IncludePath>
+    <ExecutablePath>$(CG_BIN_PATH);$(ExecutablePath)</ExecutablePath>
+    <IncludePath>$(CG_INC_PATH);$(IncludePath)</IncludePath>
+    <LibraryPath>$(CG_LIB_PATH);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -54,16 +54,13 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;GRAPHICMNGINTERFACE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;OGLGRAPHICDRIVER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <PostBuildEvent>
-      <Command>@xcopy $(OutDir)*.dll $(SolutionDir)WorkArea\ /Y /Q</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -72,7 +69,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;GRAPHICMNGINTERFACE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;OGLGRAPHICDRIVER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -83,15 +80,29 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Include\GraphicDriver.h" />
-    <ClInclude Include="Include\GraphicDriver_Consts.h" />
-    <ClInclude Include="Include\GraphicDriver_Strings.h" />
-    <ClInclude Include="Include\GraphicDriver_Structs.h" />
-    <ClInclude Include="Internal\Driver.h" />
-    <ClInclude Include="Internal\WinPlatform.h" />
     <ClInclude Include="Include\Macros.h" />
+    <ClInclude Include="Include\OGLGraphicDriver.h" />
+    <ClInclude Include="Internal\Adapter.h" />
+    <ClInclude Include="Internal\BaseBuffer.h" />
+    <ClInclude Include="Internal\BaseShader.h" />
+    <ClInclude Include="Internal\Context.h" />
+    <ClInclude Include="Internal\Device.h" />
+    <ClInclude Include="Internal\FragmentShader.h" />
+    <ClInclude Include="Internal\IndexBuffer.h" />
+    <ClInclude Include="Internal\Manager.h" />
+    <ClInclude Include="Internal\OpenGLDef.h" />
+    <ClInclude Include="Internal\Output.h" />
+    <ClInclude Include="Internal\Utils.h" />
+    <ClInclude Include="Internal\VertexBuffer.h" />
+    <ClInclude Include="Internal\VertexDeclaration.h" />
+    <ClInclude Include="Internal\VertexShader.h" />
+    <ClInclude Include="Internal\WinPlatform.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Adapter.cpp" />
+    <ClCompile Include="Source\BaseBuffer.cpp" />
+    <ClCompile Include="Source\BaseShader.cpp" />
+    <ClCompile Include="Source\Device.cpp" />
     <ClCompile Include="Source\dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -100,22 +111,25 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
       </PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Source\Driver.cpp" />
-    <ClCompile Include="Source\BlendInstDesc.cpp" />
-    <ClCompile Include="Source\BlendStateDesc.cpp" />
-    <ClCompile Include="Source\DepthStencilStateDesc.cpp" />
-    <ClCompile Include="Source\DeviceDesc.cpp" />
-    <ClCompile Include="Source\DisplayMode.cpp" />
-    <ClCompile Include="Source\RasterizerStateDesc.cpp" />
-    <ClCompile Include="Source\StencilInstDesc.cpp" />
-    <ClCompile Include="Source\Strings.cpp" />
-    <ClCompile Include="Source\VertexElement.cpp" />
+    <ClCompile Include="Source\FragmentShader.cpp" />
+    <ClCompile Include="Source\IndexBuffer.cpp" />
+    <ClCompile Include="Source\Manager.cpp" />
+    <ClCompile Include="Source\OGLGraphicDriver.cpp" />
+    <ClCompile Include="Source\OpenGLDef.cpp" />
+    <ClCompile Include="Source\Output.cpp" />
+    <ClCompile Include="Source\Utils.cpp" />
+    <ClCompile Include="Source\VertexBuffer.cpp" />
+    <ClCompile Include="Source\VertexDeclaration.cpp" />
+    <ClCompile Include="Source\VertexShader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Common\Common.vcxproj">
+    <ProjectReference Include="..\Common\Common.vcxproj">
       <Project>{844b7ab6-f789-496c-86d2-fc71e8328f23}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\Window\WindowDrvInterface\WindowDrvInterface.vcxproj">
+    <ProjectReference Include="..\GraphicMngInterface\GraphicMngInterface.vcxproj">
+      <Project>{1894c896-bb26-4993-b035-7885af9f507e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\WindowDrvInterface\WindowDrvInterface.vcxproj">
       <Project>{ec070743-297f-4414-9e71-f107ebdb5057}</Project>
     </ProjectReference>
   </ItemGroup>
