@@ -3,14 +3,15 @@
 #include "Macros.h"
 #include <Types.h>
 #include <Ref.h>
-#include <SmartPointers.h>
-#include <Collection.h>
+#include <SmartPointers_RefPtr.h>
+#include <Collection_List.h>
 #include <Math_Size.h>
 #include <Math_Color.h>
 #include <Math_Matrix.h>
 #include <IO_Stream.h>
 #include <ApiObject.h>
 #include <WindowDriver.h>
+
 #include "GraphicDriver_Consts.h"
 #include "GraphicDriver_Structs.h"
 #include "GraphicDriver_Strings.h"

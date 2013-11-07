@@ -1,37 +1,37 @@
 #include "../Include/GraphicDriver_Structs.h"
 #include "../Include/GraphicDriver_Strings.h"
-#include "../../Common/Include/StringEx.h"
+#include <CBStringEx.h>
 
 namespace CB{
 	namespace Graphic{
 		CBlendStateDesc::CBlendStateDesc()
 		{
-			Memory::SetZeroArray(this->bEnabled, 8);
-			Memory::SetZeroArray(this->uWriteMask, 8);
+			Memory::SetZeroArray(this->bEnabled);
+			Memory::SetZeroArray(this->uWriteMask);
 		}
 
 		CBlendStateDesc::CBlendStateDesc(const CBlendStateDesc& Desc) :
 			AlphaBlend(Desc.AlphaBlend),
 			ColorBlend(Desc.ColorBlend)
 		{
-			Memory::CopyArray(Desc.bEnabled, this->bEnabled, 8);
-			Memory::CopyArray(Desc.uWriteMask, this->uWriteMask, 8);
+			Memory::CopyArray(Desc.bEnabled, this->bEnabled);
+			Memory::CopyArray(Desc.uWriteMask, this->uWriteMask);
 		}
 
-		CBlendStateDesc::CBlendStateDesc(const bool bEnabled, const CBlendInstDesc& ColorBlend, const CBlendInstDesc& AlphaBlend, const unsigned char uWriteMask) :
+		CBlendStateDesc::CBlendStateDesc(const bool bEnabled, const CBlendInstDesc& ColorBlend, const CBlendInstDesc& AlphaBlend, const byte uWriteMask) :
 			ColorBlend(ColorBlend),
 			AlphaBlend(AlphaBlend)
 		{
-			for(unsigned i = 0; i < 8; i++){
+			for(uint32 i = 0; i < this->bEnabled.GetLength(); i++){
 				this->bEnabled[i] = bEnabled;
 				this->uWriteMask[i] = uWriteMask;
 			}
 		}
 
-		void	CBlendStateDesc::Set(const bool bEnabled, const CBlendInstDesc& ColorBlend, const CBlendInstDesc& AlphaBlend, const unsigned char uWriteMask){
+		void	CBlendStateDesc::Set(const bool bEnabled, const CBlendInstDesc& ColorBlend, const CBlendInstDesc& AlphaBlend, const byte uWriteMask){
 			this->AlphaBlend = AlphaBlend;
 			this->ColorBlend = ColorBlend;
-			for(unsigned i = 0; i < 8; i++){
+			for(uint32 i = 0; i < this->bEnabled.GetLength(); i++){
 				this->bEnabled[i] = bEnabled;
 				this->uWriteMask[i] = uWriteMask;
 			}			
@@ -40,10 +40,8 @@ namespace CB{
 		const CBlendStateDesc&	CBlendStateDesc::operator=(const CBlendStateDesc& Desc){
 			this->ColorBlend = Desc.ColorBlend;
 			this->AlphaBlend = Desc.AlphaBlend;
-			for(unsigned i = 0; i < 8; i++){
-				this->bEnabled[i] = Desc.bEnabled[i];
-				this->uWriteMask[i] = Desc.uWriteMask[i];
-			}
+			Memory::CopyArray(Desc.bEnabled, this->bEnabled);
+			Memory::CopyArray(Desc.uWriteMask, this->uWriteMask);
 
 			return *this;
 		}
@@ -51,7 +49,7 @@ namespace CB{
 		const CString	CBlendStateDesc::ToString() const{
 			Collection::CStringList list;
 
-			for(unsigned i = 0; i < 8; i++){
+			for(uint32 i = 0; i < this->bEnabled.GetLength(); i++){
 				list.Add(L"Enabled[" + String::FromUInt32(i) + L"]: " + String::FromBool(this->bEnabled[i]));
 				list.Add(L"Write Mask[" + String::FromUInt32(i) + L"]: " + String::ToHexString(this->uWriteMask[i]));
 			}

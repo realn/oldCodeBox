@@ -7,6 +7,7 @@
 #include <ApiObject.h>
 #include <Signals_Slots.h>
 #include <SmartPointers_RefPtr.h>
+#include <CBString.h>
 
 namespace CB{
 	namespace Window{

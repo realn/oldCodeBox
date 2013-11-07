@@ -1,6 +1,6 @@
 #include "../Include/GraphicDriver_Structs.h"
 #include "../Include/GraphicDriver_Strings.h"
-#include "../../Common/Include/StringEx.h"
+#include <CBStringEx.h>
 
 namespace CB{
 	namespace Graphic{
@@ -17,14 +17,14 @@ namespace CB{
 		{
 		}
 
-		CDisplayMode::CDisplayMode(const Math::CSize& Size, const unsigned uRefreshRate, const BufferFormat uFormat) : 
+		CDisplayMode::CDisplayMode(const Math::CSize& Size, const uint32 uRefreshRate, const BufferFormat uFormat) : 
 			Size(Size), 
 			uRefreshRate(uRefreshRate), 
 			uFormat(uFormat)
 		{
 		}
 
-		void CDisplayMode::Set(const Math::CSize& Size, const unsigned uRefreshRate, const BufferFormat uFormat){
+		void CDisplayMode::Set(const Math::CSize& Size, const uint32 uRefreshRate, const BufferFormat uFormat){
 			this->Size = Size;
 			this->uRefreshRate = uRefreshRate;
 			this->uFormat = uFormat;

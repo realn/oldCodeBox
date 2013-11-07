@@ -1,6 +1,6 @@
 #include "../Include/GraphicDriver_Structs.h"
-#include "../../Common/Include/StringEx.h"
 #include "../Include/GraphicDriver_Strings.h"
+#include <CBStringEx.h>
 
 namespace CB{
 	namespace Graphic{
@@ -26,7 +26,7 @@ namespace CB{
 		{
 		}
 
-		CDepthStencilStateDesc::CDepthStencilStateDesc(const bool bDepthEnabled, const bool bDepthWrite, const CompareFunc uDepthFunc, const bool bStencilEnabled, const unsigned uStencilWrite, const unsigned uStencilRead, const CStencilInstDesc& Front, const CStencilInstDesc& Back):
+		CDepthStencilStateDesc::CDepthStencilStateDesc(const bool bDepthEnabled, const bool bDepthWrite, const CompareFunc uDepthFunc, const bool bStencilEnabled, const uint32 uStencilWrite, const uint32 uStencilRead, const CStencilInstDesc& Front, const CStencilInstDesc& Back):
 			bDepthTestEnabled(bDepthEnabled),
 			bDepthWrite(bDepthWrite),
 			uDepthFunction(uDepthFunc),
@@ -60,14 +60,14 @@ namespace CB{
 			this->StencilBack = BackDesc;
 		}
 
-		void	CDepthStencilStateDesc::SetStencil(const bool bEnabled, const unsigned uWriteMask, const unsigned uReadMask, const CStencilInstDesc& FrontDesc){
+		void	CDepthStencilStateDesc::SetStencil(const bool bEnabled, const uint32 uWriteMask, const uint32 uReadMask, const CStencilInstDesc& FrontDesc){
 			this->bStencilTestEnabled = bEnabled;
 			this->uStencilWriteMask = uWriteMask;
 			this->uStencilReadMask = uReadMask;
 			this->StencilFront = FrontDesc;
 		}
 
-		void	CDepthStencilStateDesc::SetStencil(const bool bEnabled, const unsigned uWriteMask, const unsigned uReadMask, const CStencilInstDesc& FrontDesc, const CStencilInstDesc& BackDesc){
+		void	CDepthStencilStateDesc::SetStencil(const bool bEnabled, const uint32 uWriteMask, const uint32 uReadMask, const CStencilInstDesc& FrontDesc, const CStencilInstDesc& BackDesc){
 			this->bStencilTestEnabled = bEnabled;
 			this->uStencilWriteMask = uWriteMask;
 			this->uStencilReadMask = uReadMask;

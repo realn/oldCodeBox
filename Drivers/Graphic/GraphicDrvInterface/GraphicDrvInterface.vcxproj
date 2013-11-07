@@ -87,6 +87,7 @@
     <ClInclude Include="Include\GraphicDriver_Consts.h" />
     <ClInclude Include="Include\GraphicDriver_Strings.h" />
     <ClInclude Include="Include\GraphicDriver_Structs.h" />
+    <ClInclude Include="Internal\Driver.h" />
     <ClInclude Include="Internal\WinPlatform.h" />
     <ClInclude Include="Include\Macros.h" />
   </ItemGroup>
@@ -99,7 +100,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
       </PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Source\GraphicDriver.cpp" />
+    <ClCompile Include="Source\Driver.cpp" />
     <ClCompile Include="Source\BlendInstDesc.cpp" />
     <ClCompile Include="Source\BlendStateDesc.cpp" />
     <ClCompile Include="Source\DepthStencilStateDesc.cpp" />

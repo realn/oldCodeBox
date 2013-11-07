@@ -33,7 +33,7 @@ namespace CB{
 			case Graphic::BufferFormat::R32G32B32A32F:	return L"R32G32B32A32F";
 
 			default:
-				return String::FromUInt32((unsigned)uFormat);
+				return String::FromUInt32((uint32)uFormat);
 			}
 		}
 
@@ -44,7 +44,7 @@ namespace CB{
 			case Graphic::BufferType::Texture:	return L"Texture";
 
 			default:
-				return String::FromUInt32((unsigned)uType);
+				return String::FromUInt32((uint32)uType);
 			}
 		}
 
@@ -56,7 +56,7 @@ namespace CB{
 			case Graphic::BufferUsage::Stream:	return L"Stream";
 
 			default:				
-				return String::FromUInt32((unsigned)uUsage);
+				return String::FromUInt32((uint32)uUsage);
 			}
 		}
 
@@ -68,7 +68,7 @@ namespace CB{
 			case Graphic::BufferAccess::ReadAndWrite:	return L"Read And Write";
 
 			default:
-				return String::FromUInt32((unsigned)uAccess);
+				return String::FromUInt32((uint32)uAccess);
 			}
 		}
 
@@ -80,7 +80,7 @@ namespace CB{
 			case Graphic::ShaderType::Fragment:	return L"Fragment";
 
 			default:
-				return String::FromUInt32((unsigned)uType);
+				return String::FromUInt32((uint32)uType);
 			}
 		}
 
@@ -93,7 +93,7 @@ namespace CB{
 			case Graphic::ShaderVersion::ShaderModel_4:		return L"Shader Model 4.0";
 			case Graphic::ShaderVersion::ShaderModel_5:		return L"Shader Model 5.0";
 			default:
-				return String::FromUInt32((unsigned)uVersion);
+				return String::FromUInt32((uint32)uVersion);
 			}
 		}
 
@@ -109,7 +109,7 @@ namespace CB{
 			case Graphic::CompareFunc::Always:	return L"Always";
 			case Graphic::CompareFunc::NotEqual:	return L"NotEqual";
 			default:
-				return String::FromUInt32((unsigned)uType);
+				return String::FromUInt32((uint32)uType);
 			}
 		}
 
@@ -119,7 +119,7 @@ namespace CB{
 			case Graphic::VertexType::Color32b:	return L"32b Color";
 
 			default:
-				return String::FromUInt32((unsigned)uType);
+				return String::FromUInt32((uint32)uType);
 			}
 		}
 
@@ -131,7 +131,7 @@ namespace CB{
 			case Graphic::InstanceDataType::PerVertexData:		return L"Per Vertex";
 
 			default:
-				return String::FromUInt32((unsigned)uType);
+				return String::FromUInt32((uint32)uType);
 			}
 		}
 
@@ -148,7 +148,7 @@ namespace CB{
 			case Graphic::StencilOperation::Zero:	return L"Zero";
 
 			default:
-				return String::FromUInt32((unsigned)uOp);
+				return String::FromUInt32((uint32)uOp);
 			}
 		}
 
@@ -162,7 +162,7 @@ namespace CB{
 			case Graphic::BlendOperation::Sub_Reverse:	return L"Sub Reverse";
 
 			default:
-				return String::FromUInt32((unsigned)uOp);
+				return String::FromUInt32((uint32)uOp);
 			}
 		}
 
@@ -181,7 +181,7 @@ namespace CB{
 			case Graphic::BlendOption::Zero:	return L"Zero";
 
 			default:
-				return String::FromUInt32((unsigned)uOption);
+				return String::FromUInt32((uint32)uOption);
 			}
 		}
 
@@ -193,7 +193,7 @@ namespace CB{
 			case Graphic::CullMode::None:		return L"None";
 
 			default:
-				return String::FromUInt32((unsigned)uCull);
+				return String::FromUInt32((uint32)uCull);
 			}
 		}
 
@@ -204,7 +204,7 @@ namespace CB{
 			case Graphic::FillMode::WireFrame:	return L"WireFrame";
 
 			default:
-				return String::FromUInt32((unsigned)uFill);
+				return String::FromUInt32((uint32)uFill);
 			}
 		}
 
@@ -216,7 +216,7 @@ namespace CB{
 			case Graphic::DeviceStateType::Rasterizer:		return L"Rasterizer";
 
 			default:
-				return String::FromUInt32((unsigned)uType);
+				return String::FromUInt32((uint32)uType);
 			}
 		}
 	}

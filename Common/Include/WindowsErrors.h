@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../Common/Include/CBString.h"
+#include "CBString.h"
 
 namespace CB{
 	class CWindowsError{

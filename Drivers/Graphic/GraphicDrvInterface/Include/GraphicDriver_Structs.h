@@ -2,9 +2,11 @@
 
 #include "Macros.h"
 #include "GraphicDriver_Consts.h"
-#include "../../Common/Include/Math.h"
-#include "../../Common/Include/SmartPointers_RefPtr.h"
-#include "../../WindowDrvInterface/Include/WindowDriver.h"
+
+#include <Math_Size.h>
+#include <SmartPointers_RefPtr.h>
+#include <Collection_Array.h>
+#include <WindowDriver.h>
 
 namespace CB{
 	namespace Graphic{
@@ -15,7 +17,7 @@ namespace CB{
 		class GRAPHICDRVINTERFACE_API CDisplayMode{
 		public:
 			Math::CSize		Size;
-			uint32		uRefreshRate;
+			uint32			uRefreshRate;
 			BufferFormat	uFormat;
 
 			CDisplayMode();
@@ -31,6 +33,8 @@ namespace CB{
 
 			const CString	ToString() const;
 		};
+
+		template class GRAPHICDRVINTERFACE_API CRefPtr<Window::IWindow>;
 
 		//===============================
 		//	Class describing device configuration.
@@ -98,8 +102,8 @@ namespace CB{
 			bool		bDepthWrite;
 			CompareFunc	uDepthFunction;
 			bool		bStencilTestEnabled;
-			uint32	uStencilReadMask;
-			uint32	uStencilWriteMask;
+			uint32		uStencilReadMask;
+			uint32		uStencilWriteMask;
 			CStencilInstDesc	StencilFront;
 			CStencilInstDesc	StencilBack;
 
@@ -136,18 +140,21 @@ namespace CB{
 			const CString	ToString() const;
 		};
 
+		template class GRAPHICDRVINTERFACE_API Collection::CArray<bool, 8>;
+		template class GRAPHICDRVINTERFACE_API Collection::CArray<byte, 8>;
+
 		class GRAPHICDRVINTERFACE_API CBlendStateDesc{
 		public:
-			bool			bEnabled[8];
-			CBlendInstDesc	ColorBlend;
-			CBlendInstDesc	AlphaBlend;
-			uint8			uWriteMask[8];
+			Collection::CArray<bool, 8>		bEnabled;
+			CBlendInstDesc					ColorBlend;
+			CBlendInstDesc					AlphaBlend;
+			Collection::CArray<byte, 8>		uWriteMask;
 
 			CBlendStateDesc();
 			CBlendStateDesc(const CBlendStateDesc& Desc);
-			CBlendStateDesc(const bool bEnabled, const CBlendInstDesc& ColorBelnd, const CBlendInstDesc& AlphaBlend, const uint8 uWriteMask);
+			CBlendStateDesc(const bool bEnabled, const CBlendInstDesc& ColorBelnd, const CBlendInstDesc& AlphaBlend, const byte uWriteMask);
 
-			void Set(const bool bEnabled, const CBlendInstDesc& ColorBelnd, const CBlendInstDesc& AlphaBlend, const uint8 uWriteMask);
+			void Set(const bool bEnabled, const CBlendInstDesc& ColorBelnd, const CBlendInstDesc& AlphaBlend, const byte uWriteMask);
 
 			const CBlendStateDesc& operator=(const CBlendStateDesc& Desc);
 

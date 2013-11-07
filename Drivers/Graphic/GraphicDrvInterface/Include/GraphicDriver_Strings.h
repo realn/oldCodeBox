@@ -2,7 +2,7 @@
 
 #include "Macros.h"
 #include "GraphicDriver_Consts.h"
-#include "../../Common/Include/String.h"
+#include <CBString.h>
 
 namespace CB{
 	namespace String{

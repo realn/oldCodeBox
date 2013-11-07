@@ -23,7 +23,7 @@ namespace CB{
 		m_pHandle(Module.m_pHandle)
 	{
 		if(this->m_pHandle.IsValid()){
-			// rainsing module reference count for proper handling
+			// raising module reference count for proper handling
 			this->m_pHandle.SetCast<HMODULE>(LoadLibraryW(this->m_strName.GetPointer()));
 		}
 	}
@@ -90,6 +90,14 @@ namespace CB{
 		}
 
 		return (void*)pFunc;
+	}
+
+	const bool	CModule::operator==(const CModule& Module) const{
+		return this->m_pHandle.GetCast<HANDLE>() == Module.m_pHandle.GetCast<HANDLE>();
+	}
+
+	const bool	CModule::operator!=(const CModule& Module) const{
+		return this->m_pHandle.GetCast<HANDLE>() != Module.m_pHandle.GetCast<HANDLE>();
 	}
 
 	CModuleRef::CModuleRef(const CModuleRef& Module) :

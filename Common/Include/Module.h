@@ -3,8 +3,8 @@
 #include "Macros.h"
 #include "CBString.h"
 #include "Ref.h"
-#include "SmartPointers.h"
-#include "Collection.h"
+#include "SmartPointers_Hidden.h"
+#include "Collection_Dictionary.h"
 
 namespace CB{
 	class COMMON_API CModule{
@@ -22,6 +22,9 @@ namespace CB{
 		void	Unload();
 
 		void*	GetFunction(const CString& strFunctionName);
+
+		const bool	operator==(const CModule& Module) const;
+		const bool	operator!=(const CModule& Module) const;
 
 		template<typename _T>
 		_T	Get(const CString& strFunctionName){
@@ -44,6 +47,8 @@ namespace CB{
 			return reinterpret_cast<_T>(this->GetFunction(strFunctionName));
 		}
 	};
+
+	template class COMMON_API Collection::CDictionary<CString, CModule>;
 
 	class COMMON_API CModuleManager : 
 		public IRef

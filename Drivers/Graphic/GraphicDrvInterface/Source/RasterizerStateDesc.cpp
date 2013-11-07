@@ -1,6 +1,6 @@
 #include "../Include/GraphicDriver_Strings.h"
 #include "../Include/GraphicDriver_Structs.h"
-#include "../../Common/Include/StringEx.h"
+#include <CBStringEx.h>
 
 namespace CB{
 	namespace Graphic{
