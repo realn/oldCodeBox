@@ -24,6 +24,9 @@
     <Filter Include="Source\Shader">
       <UniqueIdentifier>{4c7fe2ad-14ec-445e-b825-6a6949baf0ec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Internal\OpenGL">
+      <UniqueIdentifier>{aaca36e6-4835-4640-ab2c-9eed1e43107c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\OGLGraphicDriver.h">
@@ -50,9 +53,6 @@
     <ClInclude Include="Internal\Device.h">
       <Filter>Internal</Filter>
     </ClInclude>
-    <ClInclude Include="Internal\OpenGLDef.h">
-      <Filter>Internal</Filter>
-    </ClInclude>
     <ClInclude Include="Internal\Context.h">
       <Filter>Internal</Filter>
     </ClInclude>
@@ -76,6 +76,15 @@
     </ClInclude>
     <ClInclude Include="Internal\FragmentShader.h">
       <Filter>Internal\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\OpenGLDef.h">
+      <Filter>Internal\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\OpenGLDef_Core.h">
+      <Filter>Internal\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\OpenGL_CoreExt.h">
+      <Filter>Internal\OpenGL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -123,6 +132,9 @@
     </ClCompile>
     <ClCompile Include="Source\FragmentShader.cpp">
       <Filter>Source\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenGLDef_Core.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
