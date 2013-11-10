@@ -1,17 +1,18 @@
 #include "../Internal/Output.h"
 #include "../Internal/Utils.h"
+#include "../Internal/DisplayDeviceInfo.h"
 
 #include "../Internal/Context.h"
 
 namespace CB{
-	COGLOutput::COGLOutput(CRefPtr<COGLAdapter> pAdapter, const uint32 uIndex, const DISPLAY_DEVICEW& deviceInfo) :
+	COGLOutput::COGLOutput(CRefPtr<COGLAdapter> pAdapter, const uint32 uIndex, const CDisplayDeviceInfo& deviceInfo) :
 		Manage::IManagedObject<COGLAdapter, COGLOutput>(pAdapter),
 		m_uIndex(uIndex),
 		m_DeviceInfo(deviceInfo),
 		m_bDisplayChanged(false)
 	{
 		Log::Write(CString(L"Initializing OGL Output: ") + m_DeviceInfo.DeviceName);
-		CDeviceContext DC = CreateDCW(deviceInfo.DeviceName, 0, 0, 0);
+		CDeviceContext DC = CreateDCW(deviceInfo.Info.DeviceName, 0, 0, 0);
 
 		PIXELFORMATDESCRIPTOR pfd = { 0 };
 		int iMaxFormat = DescribePixelFormat(DC.Get(), 1, sizeof(PIXELFORMATDESCRIPTOR), &pfd);

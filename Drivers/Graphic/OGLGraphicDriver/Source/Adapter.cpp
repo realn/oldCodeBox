@@ -2,15 +2,17 @@
 #include "../Internal/Utils.h"
 #include "../Internal/Output.h"
 #include "../Internal/Device.h"
+#include "../Internal/DisplayDeviceInfo.h"
 
 namespace CB{
-	COGLAdapter::COGLAdapter(CRefPtr<COGLManager> pManager, const uint32 uIndex, const CString& strDeviceID, const DISPLAY_DEVICEW& DeviceInfo ) :
+	COGLAdapter::COGLAdapter(CRefPtr<COGLManager> pManager, const uint32 uIndex, const CDisplayDeviceInfo& DeviceInfo, const Collection::CDictionary<CString, C ) :
 		IManagedObject<COGLManager, COGLAdapter>(pManager),
 		m_uIndex(uIndex),
 		m_strDeviceID(strDeviceID),
-		m_DeviceInfo(DeviceInfo)
+		m_DeviceInfo(DeviceInfo),
+		m_strName(DeviceInfo.Info.DeviceString)
 	{
-		Log::Write(CString(L"Initializing OGL Adapter: ") + m_DeviceInfo.DeviceString);
+		Log::Write(L"Initializing OGL Adapter: " + m_strName);
 
 		DISPLAY_DEVICEW device = { 0 };
 		device.cb = sizeof(DISPLAY_DEVICEW);
@@ -21,11 +23,11 @@ namespace CB{
 				continue;
 
 			this->m_Outputs.Add(device);
-		}
+		}	
 	}
 
 	COGLAdapter::~COGLAdapter(){
-		Log::Write(CString(L"Deinitializing OGL Adapter: ") + m_DeviceInfo.DeviceString);
+		Log::Write(L"Deinitializing OGL Adapter: " + m_strName);
 	}
 
 	const uint32	COGLAdapter::GetApiId() const{
@@ -41,7 +43,7 @@ namespace CB{
 	}
 
 	const CString	COGLAdapter::GetName() const{
-		return this->m_DeviceInfo.DeviceString;
+		return this->m_strName;
 	}
 
 	const uint32	COGLAdapter::GetNumberOfOutputs() const{
@@ -63,6 +65,9 @@ namespace CB{
 	CRefPtr<Graphic::IDevice>	COGLAdapter::CreateDevice(CRefPtr<Window::IWindow> pWindow, const Graphic::CDeviceDesc& Desc, CRefPtr<Graphic::IOutput> pOutput){
 		CR_APICHECK(this, pOutput);
 
+		auto pOGLOutput = pOutput.Cast<COGLOutput>();
+
+
 		PIXELFORMATDESCRIPTOR pfd = { 0 };
 
 		pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
@@ -76,6 +81,10 @@ namespace CB{
 		GLUtils::SetPixelFormat(pfd, Desc.BackBuffer.uFormat);
 		GLUtils::SetPixelFormat(pfd, Desc.uDepthStencilFormat);
 
-		return new COGLDevice(this, pfd, Desc.OutputWindow, pOutput.Cast<COGLOutput>());
+		return new COGLDevice(this, pfd, Desc.OutputWindow, pOGLOutput);
+	}
+
+	const int32	COGLAdapter::FindPixelFormat(CRefPtr<Window::IWindow> pWindow, const Graphic::CDeviceDesc& Desc){
+
 	}
 }

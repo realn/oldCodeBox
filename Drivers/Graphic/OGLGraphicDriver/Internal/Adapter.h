@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Manager.h"
+#include "DisplayDeviceInfo.h"
 
 namespace CB{
 	class COGLOutput;
@@ -13,13 +14,14 @@ namespace CB{
 		public Manage::IObjectManager<COGLDevice>
 	{
 	private:
-		const uint32	m_uIndex;
-		const CString	m_strDeviceID;
-		DISPLAY_DEVICEW	m_DeviceInfo;
-		Collection::CList<DISPLAY_DEVICEW> m_Outputs;
+		const uint32		m_uIndex;
+		const CString		m_strDeviceID;
+		const CString		m_strName;
+		CDisplayDeviceInfo	m_DeviceInfo;
+		Collection::CList<CDisplayDeviceInfo> m_Outputs;
 
 	public:
-		COGLAdapter(CRefPtr<COGLManager> pManager, const uint32 uIndex, const CString& strDeviceID, const DISPLAY_DEVICEW& DeviceInfo);
+		COGLAdapter(CRefPtr<COGLManager> pManager, const uint32 uIndex, const CDisplayDeviceInfo& DeviceInfo, const Collection::CDictionary<CString, Math::CRectangle>& Monitors);
 		~COGLAdapter();
 
 		const uint32 GetApiId() const override;
@@ -35,5 +37,8 @@ namespace CB{
 
 		CRefPtr<Graphic::IDevice>	CreateDevice(CRefPtr<Window::IWindow> pWindow, const Graphic::CDeviceDesc& Desc) override;
 		CRefPtr<Graphic::IDevice>	CreateDevice(CRefPtr<Window::IWindow> pWindow, const Graphic::CDeviceDesc& Desc, CRefPtr<Graphic::IOutput> pOutput) override;
+
+	private:
+		const int32	FindPixelFormat(CRefPtr<Window::IWindow> pWindow, const Graphic::CDeviceDesc& Desc);
 	};
 }

@@ -3,18 +3,20 @@
 #include "Adapter.h"
 
 namespace CB{
+	class CDisplayDeviceInfo;
+
 	class COGLOutput : 
 		public Graphic::IOutput,
 		public Manage::IManagedObject<COGLAdapter, COGLOutput>
 	{
 	private:
 		const uint32		m_uIndex;
-		DISPLAY_DEVICEW		m_DeviceInfo;
+		CDisplayDeviceInfo		m_DeviceInfo;
 		Collection::CList<Graphic::BufferFormat> m_SupportedFormats;
 		bool	m_bDisplayChanged;
 
 	public:
-		COGLOutput(CRefPtr<COGLAdapter> pAdapter, const uint32 uIndex, const DISPLAY_DEVICEW& deviceInfo);
+		COGLOutput(CRefPtr<COGLAdapter> pAdapter, const uint32 uIndex, const CDisplayDeviceInfo& deviceInfo);
 		~COGLOutput();
 
 		HDC	CreateDeviceContext();
@@ -35,5 +37,7 @@ namespace CB{
 
 		const Graphic::CDisplayMode	GetCurrentMode() const;
 		void	SetCurrentMode(const Graphic::CDisplayMode& Mode);
+
+		void	AdjustWindowPosition(CRefPtr<Window::IWindow> pWindow);
 	};
 }

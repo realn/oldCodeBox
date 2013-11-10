@@ -1,39 +1,18 @@
 #pragma once
 
-#define CGGL_NO_OPENGL
+#include "OpenGL_Types.h"
 
 #ifndef APIENTRY
 #define APIENTRY __stdcall
 #endif
+
 #ifndef APIENTRYP 
 #define APIENTRYP APIENTRY *
 #endif
 
+#ifndef GLAPI
 #define GLAPI	extern "C" __declspec(dllimport)
-//#include "../../Ext/include/gl/glcorearb.h"
-//#include "../../Ext/include/gl/wglext.h"
-
-namespace CG{
-	typedef unsigned int	GLenum;
-	typedef float			GLfloat;
-	typedef int				GLint;
-	typedef int				GLsizei;
-	typedef void			GLvoid;
-	typedef unsigned int	GLbitfield;
-	typedef double			GLdouble;
-	typedef unsigned int	GLuint;
-	typedef unsigned char	GLboolean;
-	typedef unsigned char	GLubyte;
-
-	#include <Cg\cg.h>
-	#include <Cg\cgGL.h>
-}
-
-#pragma comment(lib, "cg.lib")
-#pragma comment(lib, "cgGL.lib")
-
-#undef CreateWindow
-#undef GetMessage
+#endif
 
 #pragma comment(lib, "opengl32.lib")
 
@@ -42,17 +21,6 @@ namespace CG{
 //======================
 
 namespace GL{
-	typedef unsigned int	GLenum;
-	typedef float			GLfloat;
-	typedef int				GLint;
-	typedef int				GLsizei;
-	typedef void			GLvoid;
-	typedef unsigned int	GLbitfield;
-	typedef double			GLdouble;
-	typedef unsigned int	GLuint;
-	typedef unsigned char	GLboolean;
-	typedef unsigned char	GLubyte;
-
 	//	VERSION_1_0
 	GLAPI void APIENTRY glCullFace (GLenum mode);
 	GLAPI void APIENTRY glFrontFace (GLenum mode);
@@ -102,9 +70,6 @@ namespace GL{
 	GLAPI GLboolean APIENTRY glIsEnabled (GLenum cap);
 	GLAPI void APIENTRY glDepthRange (GLdouble near, GLdouble far);
 	GLAPI void APIENTRY glViewport (GLint x, GLint y, GLsizei width, GLsizei height);
-
-	typedef float GLclampf;
-	typedef double GLclampd;
 
 	enum VERSION_1_1_TOKENS{
 		GL_DEPTH_BUFFER_BIT               = 0x00000100,
@@ -485,10 +450,13 @@ namespace GL{
 	extern void  glPointParameteriv (GLenum pname, const GLint *params);
 	extern void  glBlendColor (GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
 	extern void  glBlendEquation (GLenum mode);
+}
 
-	typedef ptrdiff_t GLsizeiptr;
-	typedef ptrdiff_t GLintptr;
+//=========================================
+//	OPENGL 1.5
+//=========================================
 
+namespace GL{
 	enum VERSION_1_5_TOKENS : GLenum{
 		GL_BUFFER_SIZE                    = 0x8764,
 		GL_BUFFER_USAGE                   = 0x8765,
@@ -548,109 +516,36 @@ namespace GL{
 	};
 }
 
-//==============================
-//	OpenGL WGL Extensions
-//==============================
+//==============================================
+//	CG headers and libs
+//==============================================
 
-#ifdef WIN32
+#define CGGL_NO_OPENGL
 
-namespace WGL{
-	DECLARE_HANDLE(HPBUFFERARB);
+#include <Cg\cg.h>
+#include <Cg\cgGL.h>
 
-	enum ARB_PBUFFER_TOKENS : GLenum{
-		WGL_DRAW_TO_PBUFFER_ARB           = 0x202D,
-		WGL_MAX_PBUFFER_PIXELS_ARB        = 0x202E,
-		WGL_MAX_PBUFFER_WIDTH_ARB         = 0x202F,
-		WGL_MAX_PBUFFER_HEIGHT_ARB        = 0x2030,
-		WGL_PBUFFER_LARGEST_ARB           = 0x2033,
-		WGL_PBUFFER_WIDTH_ARB             = 0x2034,
-		WGL_PBUFFER_HEIGHT_ARB            = 0x2035,
-		WGL_PBUFFER_LOST_ARB              = 0x2036,
-	};
+#pragma comment(lib, "cg.lib")
+#pragma comment(lib, "cgGL.lib")
 
-	//	WGL_ARB_pbuffer
-	extern HPBUFFERARB	wglCreatePbufferARB (HDC hDC, int iPixelFormat, int iWidth, int iHeight, const int *piAttribList);
-	extern HDC			wglGetPbufferDCARB (HPBUFFERARB hPbuffer);
-	extern int			wglReleasePbufferDCARB (HPBUFFERARB hPbuffer, HDC hDC);
-	extern BOOL			wglDestroyPbufferARB (HPBUFFERARB hPbuffer);
-	extern BOOL			wglQueryPbufferARB (HPBUFFERARB hPbuffer, int iAttribute, int *piValue);
+//===============================================
+//	Loading
+//===============================================
+namespace GL{
+	namespace Loader{
+		enum class Version{
+			V_1_2,
+			V_1_3,
+			V_1_4,
+			V_1_5,
+		};
 
-	enum ARB_PIXEL_FORMAT : GLenum{
-		WGL_NUMBER_PIXEL_FORMATS_ARB      = 0x2000,
-		WGL_DRAW_TO_WINDOW_ARB            = 0x2001,
-		WGL_DRAW_TO_BITMAP_ARB            = 0x2002,
-		WGL_ACCELERATION_ARB              = 0x2003,
-		WGL_NEED_PALETTE_ARB              = 0x2004,
-		WGL_NEED_SYSTEM_PALETTE_ARB       = 0x2005,
-		WGL_SWAP_LAYER_BUFFERS_ARB        = 0x2006,
-		WGL_SWAP_METHOD_ARB               = 0x2007,
-		WGL_NUMBER_OVERLAYS_ARB           = 0x2008,
-		WGL_NUMBER_UNDERLAYS_ARB          = 0x2009,
-		WGL_TRANSPARENT_ARB               = 0x200A,
-		WGL_TRANSPARENT_RED_VALUE_ARB     = 0x2037,
-		WGL_TRANSPARENT_GREEN_VALUE_ARB   = 0x2038,
-		WGL_TRANSPARENT_BLUE_VALUE_ARB    = 0x2039,
-		WGL_TRANSPARENT_ALPHA_VALUE_ARB   = 0x203A,
-		WGL_TRANSPARENT_INDEX_VALUE_ARB   = 0x203B,
-		WGL_SHARE_DEPTH_ARB               = 0x200C,
-		WGL_SHARE_STENCIL_ARB             = 0x200D,
-		WGL_SHARE_ACCUM_ARB               = 0x200E,
-		WGL_SUPPORT_GDI_ARB               = 0x200F,
-		WGL_SUPPORT_OPENGL_ARB            = 0x2010,
-		WGL_DOUBLE_BUFFER_ARB             = 0x2011,
-		WGL_STEREO_ARB                    = 0x2012,
-		WGL_PIXEL_TYPE_ARB                = 0x2013,
-		WGL_COLOR_BITS_ARB                = 0x2014,
-		WGL_RED_BITS_ARB                  = 0x2015,
-		WGL_RED_SHIFT_ARB                 = 0x2016,
-		WGL_GREEN_BITS_ARB                = 0x2017,
-		WGL_GREEN_SHIFT_ARB               = 0x2018,
-		WGL_BLUE_BITS_ARB                 = 0x2019,
-		WGL_BLUE_SHIFT_ARB                = 0x201A,
-		WGL_ALPHA_BITS_ARB                = 0x201B,
-		WGL_ALPHA_SHIFT_ARB               = 0x201C,
-		WGL_ACCUM_BITS_ARB                = 0x201D,
-		WGL_ACCUM_RED_BITS_ARB            = 0x201E,
-		WGL_ACCUM_GREEN_BITS_ARB          = 0x201F,
-		WGL_ACCUM_BLUE_BITS_ARB           = 0x2020,
-		WGL_ACCUM_ALPHA_BITS_ARB          = 0x2021,
-		WGL_DEPTH_BITS_ARB                = 0x2022,
-		WGL_STENCIL_BITS_ARB              = 0x2023,
-		WGL_AUX_BUFFERS_ARB               = 0x2024,
-		WGL_NO_ACCELERATION_ARB           = 0x2025,
-		WGL_GENERIC_ACCELERATION_ARB      = 0x2026,
-		WGL_FULL_ACCELERATION_ARB         = 0x2027,
-		WGL_SWAP_EXCHANGE_ARB             = 0x2028,
-		WGL_SWAP_COPY_ARB                 = 0x2029,
-		WGL_SWAP_UNDEFINED_ARB            = 0x202A,
-		WGL_TYPE_RGBA_ARB                 = 0x202B,
-		WGL_TYPE_COLORINDEX_ARB           = 0x202C,
-	};
+		enum class Extension{
+			VertexBufferObjects,
+		};
 
-	//	WGL_ARB_pixel_format
-	extern BOOL wglGetPixelFormatAttribivARB (HDC hdc, int iPixelFormat, int iLayerPlane, UINT nAttributes, const int *piAttributes, int *piValues);
-	extern BOOL wglGetPixelFormatAttribfvARB (HDC hdc, int iPixelFormat, int iLayerPlane, UINT nAttributes, const int *piAttributes, FLOAT *pfValues);
-	extern BOOL wglChoosePixelFormatARB (HDC hdc, const int *piAttribIList, const FLOAT *pfAttribFList, UINT nMaxFormats, int *piFormats, UINT *nNumFormats);
-
-	enum ARB_MAKE_CURRENT_READ_TOKENS : GLenum{
-		ERROR_INVALID_PIXEL_TYPE_ARB      = 0x2043,
-		ERROR_INCOMPATIBLE_DEVICE_CONTEXTS_ARB = 0x2054,
-	};
-
-	//	WGL_ARB_make_current_read
-	extern BOOL		wglMakeContextCurrentARB (HDC hDrawDC, HDC hReadDC, HGLRC hglrc);
-	extern HDC		wglGetCurrentReadDCARB (void);
+		extern const bool	IsSupported(const Extension uExtension);
+		extern const bool	Load(const Version uVersion);
+		extern const bool	Load(const Extension uExtension);
+	}
 }
-
-#endif
-
-//===============================
-//	Loading Functions
-//===============================
-
-extern const bool	Load_Version_1_2();
-extern const bool	Load_Version_1_3();
-extern const bool	Load_Version_1_4();
-extern const bool	Load_Version_1_5();
-
-extern const bool	Load_VertexBufferObjects();

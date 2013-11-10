@@ -27,6 +27,15 @@
     <Filter Include="Internal\OpenGL">
       <UniqueIdentifier>{aaca36e6-4835-4640-ab2c-9eed1e43107c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\OpenGL">
+      <UniqueIdentifier>{3437ad88-aed1-490c-8a9d-2a82b570a65a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Internal\Context">
+      <UniqueIdentifier>{75daae78-7301-448d-960d-4e41b42fd72f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Context">
+      <UniqueIdentifier>{1d05c0de-bd9f-49f0-8232-53d4bda6ff18}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\OGLGraphicDriver.h">
@@ -53,9 +62,6 @@
     <ClInclude Include="Internal\Device.h">
       <Filter>Internal</Filter>
     </ClInclude>
-    <ClInclude Include="Internal\Context.h">
-      <Filter>Internal</Filter>
-    </ClInclude>
     <ClInclude Include="Internal\BaseBuffer.h">
       <Filter>Internal\Buffer</Filter>
     </ClInclude>
@@ -77,14 +83,32 @@
     <ClInclude Include="Internal\FragmentShader.h">
       <Filter>Internal\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="Internal\OpenGLDef.h">
+    <ClInclude Include="Internal\OpenGL_Core.h">
       <Filter>Internal\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="Internal\OpenGLDef_Core.h">
+    <ClInclude Include="Internal\OpenGL_WGL.h">
       <Filter>Internal\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="Internal\OpenGL_CoreExt.h">
+    <ClInclude Include="Internal\OpenGL_Types.h">
       <Filter>Internal\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\OpenGL.h">
+      <Filter>Internal\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\DisplayDeviceInfo.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\DeviceContextInterface.h">
+      <Filter>Internal\Context</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\DeviceContext.h">
+      <Filter>Internal\Context</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\WindowDeviceContext.h">
+      <Filter>Internal\Context</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\RenderContext.h">
+      <Filter>Internal\Context</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -133,8 +157,20 @@
     <ClCompile Include="Source\FragmentShader.cpp">
       <Filter>Source\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="Source\OpenGLDef_Core.cpp">
-      <Filter>Source</Filter>
+    <ClCompile Include="Source\OpenGL_Core.cpp">
+      <Filter>Source\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenGL_WGL.cpp">
+      <Filter>Source\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RenderContext.cpp">
+      <Filter>Source\Context</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DeviceContext.cpp">
+      <Filter>Source\Context</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\WindowDeviceContext.cpp">
+      <Filter>Source\Context</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
