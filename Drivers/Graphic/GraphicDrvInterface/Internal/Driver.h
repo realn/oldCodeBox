@@ -2,7 +2,7 @@
 #include <Module.h>
 
 namespace CB{
-	typedef	Graphic::IManager*	(*CreateManagerProc)(Graphic::IDriver* pDriver);
+	typedef	Graphic::IManager*	(*CreateManagerProc)(Graphic::IDriver* pDriver, Window::IManager* pWindowManager);
 
 	class CDriver :
 		public Graphic::IDriver
@@ -15,6 +15,6 @@ namespace CB{
 		CDriver(const CString& strDriverName);
 		~CDriver();
 
-		CRefPtr<Graphic::IManager>	CreateManager() override;
+		CRefPtr<Graphic::IManager>	CreateManager(CRefPtr<Window::IManager> pWindowManager) override;
 	};
 }

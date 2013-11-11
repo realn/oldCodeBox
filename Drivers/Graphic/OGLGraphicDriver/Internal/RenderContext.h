@@ -10,7 +10,6 @@ namespace CB{
 
 	public:
 		CRenderContext();
-		CRenderContext(const IDeviceContext& DC);
 		~CRenderContext();
 
 		void	Free();
@@ -21,5 +20,9 @@ namespace CB{
 		HGLRC&	Get() const;
 
 		void	CreateContext(const IDeviceContext& DC);
+		void	CreateContext(const IDeviceContext& DC, const Collection::ICountable<int32>& Attribs);
+
+	private:
+
 	};
 }

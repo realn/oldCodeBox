@@ -89,10 +89,12 @@
     <ClInclude Include="Internal\Adapter.h" />
     <ClInclude Include="Internal\BaseBuffer.h" />
     <ClInclude Include="Internal\BaseShader.h" />
+    <ClInclude Include="Internal\CGContext.h" />
     <ClInclude Include="Internal\DeviceContext.h" />
     <ClInclude Include="Internal\DeviceContextInterface.h" />
     <ClInclude Include="Internal\Device.h" />
     <ClInclude Include="Internal\DisplayDeviceInfo.h" />
+    <ClInclude Include="Internal\DisplayOutputInfo.h" />
     <ClInclude Include="Internal\FragmentShader.h" />
     <ClInclude Include="Internal\IndexBuffer.h" />
     <ClInclude Include="Internal\Manager.h" />
@@ -113,6 +115,7 @@
     <ClCompile Include="Source\Adapter.cpp" />
     <ClCompile Include="Source\BaseBuffer.cpp" />
     <ClCompile Include="Source\BaseShader.cpp" />
+    <ClCompile Include="Source\CGContext.cpp" />
     <ClCompile Include="Source\Device.cpp" />
     <ClCompile Include="Source\DeviceContext.cpp" />
     <ClCompile Include="Source\dllmain.cpp">
@@ -127,7 +130,6 @@
     <ClCompile Include="Source\IndexBuffer.cpp" />
     <ClCompile Include="Source\Manager.cpp" />
     <ClCompile Include="Source\OGLGraphicDriver.cpp" />
-    <ClCompile Include="Source\OpenGLDef.cpp" />
     <ClCompile Include="Source\OpenGL_Core.cpp" />
     <ClCompile Include="Source\OpenGL_WGL.cpp" />
     <ClCompile Include="Source\Output.cpp" />

@@ -15,13 +15,14 @@ namespace CB{
 		public Manage::IObjectManager<COGLAdapter>
 	{
 	private:
+		CRefPtr<Window::IManager>	m_pWindowManager;
 		CRefPtr<Graphic::IDriver>	m_pDriver;
 
 		Collection::CDictionary<CString, CDisplayDeviceInfo>	m_AdapterList;
 		Collection::CDictionary<CString, Math::CRectangle>		m_Monitors;
 
 	public:
-		COGLManager(CRefPtr<Graphic::IDriver> pDriver);
+		COGLManager(CRefPtr<Graphic::IDriver> pDriver, CRefPtr<Window::IManager> pWindowManager);
 		~COGLManager();
 
 		const uint32	GetApiId() const override;
@@ -30,7 +31,7 @@ namespace CB{
 		CRefPtr<Graphic::IAdapter>	GetAdapter(const uint32 uIndex) override;
 		CRefPtr<Graphic::IAdapter>	GetDefaultAdapter() override;
 
-		void	AddMonitor(const CString& strDisplay, const Math::CRectangle& Rect, const bool bPrimary);
+		CRefPtr<Window::IManager>	GetWindowManager() const;
 	};
 
 	extern const uint32	g_uApiID;

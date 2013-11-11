@@ -1,25 +1,24 @@
 #pragma once
 
 #include "Adapter.h"
+#include <Math_Rectangle.h>
 
 namespace CB{
-	class CDisplayDeviceInfo;
-
 	class COGLOutput : 
 		public Graphic::IOutput,
 		public Manage::IManagedObject<COGLAdapter, COGLOutput>
 	{
 	private:
-		const uint32		m_uIndex;
-		CDisplayDeviceInfo		m_DeviceInfo;
+		const uint32			m_uIndex;
+		const CString			m_strName;
+		Math::CRectangle		m_Bounds;
+
 		Collection::CList<Graphic::BufferFormat> m_SupportedFormats;
 		bool	m_bDisplayChanged;
 
 	public:
-		COGLOutput(CRefPtr<COGLAdapter> pAdapter, const uint32 uIndex, const CDisplayDeviceInfo& deviceInfo);
+		COGLOutput(CRefPtr<COGLAdapter> pAdapter, const uint32 uIndex, const CString& strName);
 		~COGLOutput();
-
-		HDC	CreateDeviceContext();
 
 		//	INTERFACE IMPLEMENTATION	====================================
 
@@ -38,6 +37,10 @@ namespace CB{
 		const Graphic::CDisplayMode	GetCurrentMode() const;
 		void	SetCurrentMode(const Graphic::CDisplayMode& Mode);
 
-		void	AdjustWindowPosition(CRefPtr<Window::IWindow> pWindow);
+		void	AdjustWindowRect(CRefPtr<Window::IWindow> pWindow) const;
+
+		const bool	SetMonitor(const CString& strDisplay, const Math::CRectangle& Rect);
+	private:
+		void	ReadOutputBounds();
 	};
 }

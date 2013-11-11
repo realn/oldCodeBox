@@ -6,28 +6,16 @@
 namespace CB{
 	const uint32	g_uApiID = *((uint32*)"OGL1");
 
-	BOOL CALLBACK	MonitorProc(HMONITOR hMonitor, HDC hDC, LPRECT lpRect, LPARAM lParam){
-		auto pManager = reinterpret_cast<COGLManager*>(lParam);
-
-		MONITORINFOEXW info;
-		info.cbSize = sizeof(MONITORINFOEX);
-		if(GetMonitorInfoW(hMonitor, &info) && info.dwFlags){
-			Math::CRectangle rect(lpRect->left, lpRect->top, lpRect->right - lpRect->left, lpRect->bottom - lpRect->top);
-
-			pManager->AddMonitor(info.szDevice, rect, (info.dwFlags & MONITORINFOF_PRIMARY) > 0);
-		}
-
-		return true;
-	}
-
-	COGLManager::COGLManager(CRefPtr<Graphic::IDriver> pDriver) :
-		m_pDriver(pDriver)
+	COGLManager::COGLManager(CRefPtr<Graphic::IDriver> pDriver, CRefPtr<Window::IManager> pWindowManager) :
+		m_pDriver(pDriver),
+		m_pWindowManager(pWindowManager)
 	{
+		Log::Write(L"Initializing OGL Manager.");
+
 		if(!EnumDisplayMonitors(0, 0, MonitorProc, reinterpret_cast<LPARAM>(this))){
 			CR_THROWWIN(GetLastError(), L"Failed to enumerate all monitors.");
 		}
 
-		Log::Write(L"Initializing OGL Manager.");
 		DISPLAY_DEVICEW device = { 0 };
 		device.cb = sizeof(DISPLAY_DEVICEW);
 		for(uint32 uIndex = 0; EnumDisplayDevicesW(0, uIndex, &device, 0); uIndex++){
@@ -103,7 +91,7 @@ namespace CB{
 			return this->m_pObjectList[uFound].GetCast<Graphic::IAdapter>();
 		}
 
-		return new COGLAdapter(this, uIndex, this->m_AdapterList.GetKey(uIndex), this->m_AdapterList.GetValue(uIndex));
+		return new COGLAdapter(this, uIndex, this->m_AdapterList.GetValue(uIndex), this->m_Monitors);
 	}
 
 	CRefPtr<Graphic::IAdapter>	COGLManager::GetDefaultAdapter(){

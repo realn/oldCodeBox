@@ -20,8 +20,8 @@ namespace CB{
 	CDriver::~CDriver(){
 	}
 
-	CRefPtr<Graphic::IManager>	CDriver::CreateManager(){
-		return this->m_pCreate(this);
+	CRefPtr<Graphic::IManager>	CDriver::CreateManager(CRefPtr<Window::IManager> pWindowManager){
+		return this->m_pCreate(this, pWindowManager.Get());
 	}
 
 	namespace Graphic{

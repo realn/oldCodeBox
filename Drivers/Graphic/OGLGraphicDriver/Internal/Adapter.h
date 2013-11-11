@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Manager.h"
-#include "DisplayDeviceInfo.h"
+#include "DisplayOutputInfo.h"
 
 namespace CB{
 	class COGLOutput;
@@ -18,10 +18,9 @@ namespace CB{
 		const CString		m_strDeviceID;
 		const CString		m_strName;
 		CDisplayDeviceInfo	m_DeviceInfo;
-		Collection::CList<CDisplayDeviceInfo> m_Outputs;
 
 	public:
-		COGLAdapter(CRefPtr<COGLManager> pManager, const uint32 uIndex, const CDisplayDeviceInfo& DeviceInfo, const Collection::CDictionary<CString, Math::CRectangle>& Monitors);
+		COGLAdapter(CRefPtr<COGLManager> pManager, const uint32 uIndex, const CDisplayDeviceInfo& DeviceInfo);
 		~COGLAdapter();
 
 		const uint32 GetApiId() const override;
@@ -31,13 +30,13 @@ namespace CB{
 		const uint32	GetIndex() const override;
 		const CString	GetName() const override;
 
-		virtual const uint32				GetNumberOfOutputs() const override;
-		virtual CRefPtr<Graphic::IOutput>	GetOutput(const uint32 uIndex) override;
-		virtual CRefPtr<Graphic::IOutput>	GetDefaultOutput() override;
+		const uint32				GetNumberOfOutputs() const override;
+		CRefPtr<Graphic::IOutput>	GetOutput(const uint32 uIndex) override;
+		CRefPtr<Graphic::IOutput>	GetDefaultOutput() override;
+		CRefPtr<Graphic::IOutput>	GetOutputForWindow(CRefPtr<Window::IWindow> pWindow) override;
 
 		CRefPtr<Graphic::IDevice>	CreateDevice(CRefPtr<Window::IWindow> pWindow, const Graphic::CDeviceDesc& Desc) override;
 		CRefPtr<Graphic::IDevice>	CreateDevice(CRefPtr<Window::IWindow> pWindow, const Graphic::CDeviceDesc& Desc, CRefPtr<Graphic::IOutput> pOutput) override;
-
 	private:
 		const int32	FindPixelFormat(CRefPtr<Window::IWindow> pWindow, const Graphic::CDeviceDesc& Desc);
 	};

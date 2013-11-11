@@ -2,9 +2,11 @@
 
 #include "Output.h"
 #include "Adapter.h"
-#include "Context.h"
+#include "DeviceContext.h"
+#include "WindowDeviceContext.h"
+#include "CGContext.h"
 
-#include "OpenGLDef.h"
+#include "OpenGL.h"
 
 namespace CB{
 	class IOGLBaseBuffer;
@@ -23,7 +25,7 @@ namespace CB{
 		CDeviceContext				m_DC;
 		CGLContext					m_GLRC;
 		CWindowDeviceContext		m_WindowDC;
-		CGcontext					m_CGContext;
+		CCGContext					m_CGContext;
 
 		GLenum	m_uPrimitiveMode;
 

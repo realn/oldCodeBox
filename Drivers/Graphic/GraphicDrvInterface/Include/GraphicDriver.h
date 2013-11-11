@@ -151,15 +151,16 @@ namespace CB{
 		{
 		public:
 			virtual CRefPtr<IAdapter>			GetAdapter() const = 0;
+			virtual CRefPtr<IOutput>			GetOutput() const = 0;
+			virtual CRefPtr<Window::IWindow>	GetOutputWindow() const = 0;
+
+			virtual	void	SetOutputWindow(CRefPtr<Window::IWindow> pWindow) = 0;
 
 			virtual CRefPtr<IVertexDeclaration>	CreateVertexDeclaration(CRefPtr<IShader> pVertexShader, const Collection::ICountable<CVertexElement>& Elements) = 0;
-
 			virtual CRefPtr<IBuffer>			CreateBuffer(const BufferType uType, const BufferUsage uUsage, const BufferAccess uAccess, const uint32 uLength) = 0;
 			virtual CRefPtr<IBuffer>			CreateBuffer(const BufferType uType, const BufferUsage uUsage, const BufferAccess uAccess, const uint32 uLength, const void* pData) = 0;
-
-			virtual CRefPtr<ITexture2D>			CreateTexture(const Math::CSize& Size, const BufferUsage uUsage, const BufferAccess uAccess, const BufferFormat uFormat) = 0;
-			virtual CRefPtr<ITexture2D>			CreateTexture(const Math::CSize& Size, const BufferUsage uUsage, const BufferAccess uAccess, const BufferFormat uFormat, const uint32 uLength, const void* pData) = 0;
-
+			virtual CRefPtr<ITexture2D>			CreateTexture2D(const Math::CSize& Size, const BufferUsage uUsage, const BufferAccess uAccess, const BufferFormat uFormat) = 0;
+			virtual CRefPtr<ITexture2D>			CreateTexture2D(const Math::CSize& Size, const BufferUsage uUsage, const BufferAccess uAccess, const BufferFormat uFormat, const uint32 uLength, const void* pData) = 0;
 			virtual CRefPtr<IBlendState>		CreateState(const CBlendStateDesc& Desc) = 0;
 			virtual CRefPtr<IDepthStencilState>	CreateState(const CDepthStencilStateDesc& Desc) = 0;
 			virtual CRefPtr<IRasterizerState>	CreateState(const CRasterizerStateDesc& Desc) = 0;
@@ -167,30 +168,27 @@ namespace CB{
 			virtual CRefPtr<IShader>			Compile(const ShaderType uType, const ShaderVersion uVersion, const CString& strSource) = 0;
 			virtual CRefPtr<IShader>			Compile(const ShaderType uType, const ShaderVersion uVersion, const CString& strSource, const CString& strEntryPoint) = 0;
 
-			virtual const CString				GetLastCompilationLog() const = 0;
-
 			virtual void	SetVertexDeclaration(CRefPtr<IVertexDeclaration> pDeclaration) = 0;
-			virtual void	FreeVertexDeclaration() = 0;
-			virtual CRefPtr<IVertexDeclaration>	GetVertexDeclaration() const = 0;
-
 			virtual void	SetIndexBuffer(CRefPtr<IBuffer> pBuffer) = 0;
-			virtual void	FreeIndexBuffer() = 0;
-			virtual CRefPtr<IBuffer>	GetIndexBuffer() const = 0;
-
 			virtual void	SetVertexBuffer(const uint32 uStream, CRefPtr<IBuffer> pBuffer) = 0;
-			virtual void	FreeVertexBuffer(const uint32 uStream) = 0;
-			virtual CRefPtr<IBuffer>	GetVertexBuffer(const uint32 uStream) const = 0;
-
 			virtual void	SetShader(CRefPtr<IShader> pShader) = 0;
-			virtual void	FreeShader(const ShaderType uType) = 0;
-			virtual CRefPtr<IShader>	GetShader(const ShaderType uType) const = 0;
-
-			virtual void	SetRenderPrimitive(const PrimitiveType uType) = 0;
-			virtual const PrimitiveType	GetRenderPrimitive() const = 0;
-
 			virtual void	SetState(CRefPtr<IDeviceState> pState) = 0;
+			virtual void	SetRenderPrimitive(const PrimitiveType uType) = 0;
+
+			virtual void	FreeVertexDeclaration() = 0;
+			virtual void	FreeIndexBuffer() = 0;
+			virtual void	FreeVertexBuffer(const uint32 uStream) = 0;
+			virtual void	FreeShader(const ShaderType uType) = 0;
 			virtual void	FreeState(const DeviceStateType uType) = 0;
-			virtual CRefPtr<IDeviceState>	GetState(const DeviceStateType uType) const = 0;
+
+			virtual CRefPtr<IVertexDeclaration>	GetVertexDeclaration() const = 0;
+			virtual CRefPtr<IBuffer>			GetIndexBuffer() const = 0;
+			virtual CRefPtr<IBuffer>			GetVertexBuffer(const uint32 uStream) const = 0;
+			virtual CRefPtr<IShader>			GetShader(const ShaderType uType) const = 0;
+			virtual CRefPtr<IDeviceState>		GetState(const DeviceStateType uType) const = 0;
+			virtual const PrimitiveType			GetRenderPrimitive() const = 0;
+			virtual const uint32				GetNumberOfStreams() const = 0;
+			virtual const CString				GetLastCompilationLog() const = 0;
 
 			virtual	void	Render(const uint32 uPrimitiveCount) = 0;
 			virtual void	Render(const uint32 uPrimitiveCount, const uint32 uStartVertex) = 0;
@@ -210,12 +208,7 @@ namespace CB{
 			virtual void	Clear(const Math::CColor& Color) = 0;
 			virtual void	Clear(const float fZDepth, const uint32 uStencil) = 0;
 			
-			virtual	void	SetOutputWindow(CRefPtr<Window::IWindow> pWindow) = 0;
-			virtual CRefPtr<Window::IWindow>	GetOutputWindow() const = 0;
 			virtual void	Swap() = 0;
-
-			//	Device Information
-			virtual const uint32	GetNumberOfStreams() const = 0;
 
 			template<typename _T>
 			CRefPtr<IBuffer>	CreateBuffer(const BufferType uType, const BufferUsage uUsage, const BufferAccess uAccess, const Collection::IPacked<_T>& Array){
@@ -259,6 +252,7 @@ namespace CB{
 			virtual const uint32		GetNumberOfOutputs() const = 0;
 			virtual CRefPtr<IOutput>	GetOutput(const uint32 uIndex) = 0;
 			virtual CRefPtr<IOutput>	GetDefaultOutput() = 0;
+			virtual CRefPtr<IOutput>	GetOutputForWindow(CRefPtr<Window::IWindow> pWindow) = 0;
 
 			virtual CRefPtr<IDevice>	CreateDevice(CRefPtr<Window::IWindow> pFocusWindow, const CDeviceDesc& DeviceDesc) = 0;
 			virtual CRefPtr<IDevice>	CreateDevice(CRefPtr<Window::IWindow> pFocusWindow, const CDeviceDesc& DeviceDesc, CRefPtr<IOutput> pOutput) = 0;
@@ -284,7 +278,7 @@ namespace CB{
 			public IRef
 		{
 		public:
-			virtual CRefPtr<IManager>	CreateManager() = 0;
+			virtual CRefPtr<IManager>	CreateManager(CRefPtr<Window::IManager> pWindowManager) = 0;
 		};
 
 		//==========================================================================

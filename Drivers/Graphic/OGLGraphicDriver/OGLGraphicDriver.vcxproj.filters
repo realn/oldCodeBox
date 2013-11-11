@@ -110,6 +110,12 @@
     <ClInclude Include="Internal\RenderContext.h">
       <Filter>Internal\Context</Filter>
     </ClInclude>
+    <ClInclude Include="Internal\DisplayOutputInfo.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\CGContext.h">
+      <Filter>Internal\Context</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\OGLGraphicDriver.cpp">
@@ -131,9 +137,6 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\Device.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\OpenGLDef.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\BaseBuffer.cpp">
@@ -170,6 +173,9 @@
       <Filter>Source\Context</Filter>
     </ClCompile>
     <ClCompile Include="Source\WindowDeviceContext.cpp">
+      <Filter>Source\Context</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CGContext.cpp">
       <Filter>Source\Context</Filter>
     </ClCompile>
   </ItemGroup>

@@ -40,8 +40,6 @@ namespace CB{
 	}
 
 	void	CRenderContext::CreateContext(const IDeviceContext& DC){
-		
-
 		this->m_GLContext = wglCreateContext(DC.Get());
 		if(this->m_GLContext == 0){
 			CR_THROWWIN(GetLastError(), L"Failed to create GL Legacy Context.");

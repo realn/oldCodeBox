@@ -1,6 +1,7 @@
 #pragma once
 
 #include "DeviceContextInterface.h"
+#include <CBString.h>
 
 namespace CB{
 	//====================================
@@ -14,6 +15,7 @@ namespace CB{
 
 	public:
 		CDeviceContext();
+		CDeviceContext(const CString& strDeviceName);
 		CDeviceContext(HDC hDC);
 		~CDeviceContext();
 
