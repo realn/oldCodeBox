@@ -316,4 +316,12 @@ namespace WGL{
 			}
 		}
 	}
+
+	void	ReportGLBindMismatch(const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine){
+#ifdef CR_GL_ERROR_AS_EXCEPTION
+		throw Exception::CException(L"Incorrect gl or device context currently bound.", strFunction, strFile, uLine);
+#else
+		CB::Log::Write(CB::CString(L"Incorrect GL or Device context currently bound. ") + strFunction + L", " + strFile + L", " + CB::String::ToString(uLine), CB::Log::LogLevel::Warning);
+#endif // CR_GL_ERROR_AS_EXCEPTION
+	}
 }

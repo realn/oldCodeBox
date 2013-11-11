@@ -91,21 +91,14 @@ namespace CB{
 			return this->m_pObjectList[uFound].GetCast<Graphic::IAdapter>();
 		}
 
-		return new COGLAdapter(this, uIndex, this->m_AdapterList.GetValue(uIndex), this->m_Monitors);
+		return new COGLAdapter(this, uIndex, this->m_AdapterList.GetValue(uIndex));
 	}
 
 	CRefPtr<Graphic::IAdapter>	COGLManager::GetDefaultAdapter(){
 		return this->GetAdapter(0);
 	}
 
-	void	COGLManager::AddMonitor(const CString& strDevice, const Math::CRectangle& Rect, const bool bPrimary){
-		if(!this->m_Monitors.Contains(strDevice)){
-			if(bPrimary){
-				this->m_Monitors.Insert(0, strDevice, Rect);
-			}
-			else{
-				this->m_Monitors.Add(strDevice, Rect);
-			}
-		}
+	CRefPtr<Window::IManager>	COGLManager::GetWindowManager() const{
+		return this->m_pWindowManager;
 	}
 }

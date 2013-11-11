@@ -532,4 +532,14 @@ namespace GL{
 			}
 		}
 	}
+
+	void	ReportGLError(GLenum uError, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine){
+		CB::CString strError = L"GL Error: " + CB::String::FromUInt32(uError);
+#ifdef CR_GL_ERROR_AS_EXCEPTION
+		throw Exception::CException(strError, strFunction, strFile, uLine);
+#else
+		CB::Log::Write(strError + L", " + strFunction + L", " + strFile + L", " + CB::String::ToString(uLine), CB::Log::LogLevel::Error);
+#endif
+	}
+
 }

@@ -1,17 +1,13 @@
 #include "../Internal/RenderContext.h"
 #include "../Internal/OpenGL_WGL.h"
 #include <Exception.h>
+#include <Collection_List.h>
+#include <Logger.h>
 
 namespace CB{
 	CRenderContext::CRenderContext() :
 		m_GLContext(0)
 	{}
-
-	CRenderContext::CRenderContext(const IDeviceContext& DC) : 
-		m_GLContext(0)
-	{
-		this->CreateContext(DC);
-	}
 
 	CRenderContext::~CRenderContext(){
 		this->Free();
@@ -44,5 +40,40 @@ namespace CB{
 		if(this->m_GLContext == 0){
 			CR_THROWWIN(GetLastError(), L"Failed to create GL Legacy Context.");
 		}
+	}
+
+	const bool	CRenderContext::CreateContext(const IDeviceContext& DC, const Collection::ICountable<int32>& Attribs){
+		if(!WGL::Loader::IsSupported(WGL::Loader::Extension::CreateContext)){
+			return false;
+		}
+		if(Attribs.GetLength() % 2 != 0){
+			CR_THROW(L"Incorrect length attrib array for render context creation (not multiple of 2).");
+		}
+
+		Collection::CList<int32> newAttribs(Attribs);
+
+		if(!WGL::Loader::IsSupported(WGL::Loader::Extension::CreateContextProfile)){
+			Log::Write(L"Context Profile extension unsupproted, removing attributes from array.");
+
+			for(uint32 uIndex = newAttribs.GetLength(); uIndex > 0; uIndex -= 2){
+				if(newAttribs[uIndex - 1] == WGL::WGL_CONTEXT_PROFILE_MASK){
+					newAttribs.Remove(uIndex - 1);
+					newAttribs.Remove(uIndex - 1);
+				}
+			}
+		}
+
+		uint32 uLen = newAttribs.GetLength();
+		if(newAttribs.GetLength() > 0 && newAttribs[uLen - 1] != 0 && newAttribs[uLen - 2] != 0){
+			newAttribs.Add(0);
+			newAttribs.Add(0);
+		}
+
+		this->m_GLContext = WGL::wglCreateContextAttribs(DC.Get(), 0, newAttribs.GetPointer());
+		if(this->m_GLContext == 0){
+			CR_THROWWIN(GetLastError(), L"Failed to create GL Core Context.");
+		}
+
+		return true;
 	}
 }

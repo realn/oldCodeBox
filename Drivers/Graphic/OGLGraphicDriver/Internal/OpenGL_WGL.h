@@ -1,11 +1,14 @@
 #pragma once
 
 #include <Types.h>
+#include <Exception.h>
 #include "OpenGL_Types.h"
 
 #include "WinPlatform.h"
 
 DECLARE_HANDLE(HPBUFFER);
+
+#define CR_GLBINDCHECK(DC,RC)	{ HDC __hDC = wglGetCurrentDC(); HGLRC __hRC = wglGetCurrentContext(); if(__hDC != (DC) || __hRC != (RC)){ WGL::ReportGLBindMismatch(CR_INFO()); } } 
 
 namespace WGL{
 	//	WGL_extensions_string
@@ -135,4 +138,6 @@ namespace WGL{
 		extern const bool	IsSupported(const Extension uExtension);
 		extern const bool	Load(const Extension uExtension);
 	}
+
+	extern void	ReportGLBindMismatch(const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine);
 }

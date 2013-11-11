@@ -1,5 +1,5 @@
 #include "../Internal/Device.h"
-#include "../../Common/Include/StringEx.h"
+#include <CBStringEx.h>
 
 #include "../Internal/VertexBuffer.h"
 #include "../Internal/IndexBuffer.h"
@@ -8,49 +8,73 @@
 #include "../Internal/VertexDeclaration.h"
 #include "../Internal/Utils.h"
 
+#include "../Internal/OpenGL_WGL.h"
+
 namespace CB{
 	//==========================================================
 	//	Function Callbacks
 	//==========================================================
 	void ErrorCallback(){
 		CGerror uError = cgGetError();
-		GLenum	uGLError = glGetError();
+		GLenum	uGLError = GL::glGetError();
 
 		auto strGLerror = L"GLError: " + String::FromUInt32(uGLError);
-		auto strCGError = L"CGError: " + String::FromANSI(cgGetErrorString(uError));
+		auto strCGError = L"CGError: " + String::FromANSI(reinterpret_cast<const int8*>(cgGetErrorString(uError)));
 
-		Log::Write(strCGError);
-		Log::Write(strGLerror);
-	}
-
-	void	ReportGLError(GLenum uError, const CString& strFunction, const CString& strFile, const uint32 uLine){
-		CString strError = L"GL Error: " + String::FromUInt32(uError);
-#ifdef CR_GL_ERROR_AS_EXCEPTION
-		throw Exception::CException(strError, strFunction, strFile, uLine);
-#else
-		Log::Write(strError + L", " + strFunction + L", " + strFile + L", " + String::FromUInt32(uLine), Log::LogLevel::Error);
-#endif
-	}
-
-	void	ReportGLBindMismatch(const CString& strFunction, const CString& strFile, const uint32 uLine){
-#ifdef CR_GL_ERROR_AS_EXCEPTION
-		throw Exception::CException(L"Incorrect gl or device context currently bound.", strFunction, strFile, uLine);
-#else
-		Log::Write(CString(L"Incorrect GL or Device context currently bound. ") + strFunction + L", " + strFile + L", " + uLine, Log::LogLevel::Warning);
-#endif // CR_GL_ERROR_AS_EXCEPTION
+		Log::Write(L"CG error encoutered: " + strGLerror + L" " + strCGError);
 	}
 
 	//==========================================================
 	//	OpenGL Device implementation.
 	//==========================================================
 
-	COGLDevice::COGLDevice(CRefPtr<COGLAdapter> pAdapter, const PIXELFORMATDESCRIPTOR& pfd, CRefPtr<Window::IWindow> pOutputWindow, CRefPtr<COGLOutput> pOutput) :
-		m_pOutputWindow(pOutputWindow),
-		m_CGContext(0),
-		m_uPrimitiveMode(GL_TRIANGLES),
+	COGLDevice::COGLDevice(CRefPtr<COGLAdapter> pAdapter, CRefPtr<Window::IWindow> pWindow, Graphic::CDeviceDesc& Desc, CRefPtr<COGLOutput> pOutput) :
+		m_pOutputWindow(pWindow),
+		m_pOutput(pOutput),
+		m_uPrimitiveMode(GL::GL_TRIANGLES),
 		Manage::IManagedObject<COGLAdapter, COGLDevice>(pAdapter)
 	{
 		Log::Write(L"OpenGL Device initialization...");
+
+		if(Desc.bFullScreen){
+			m_pOutput->SetCurrentMode(Desc.BackBuffer);
+		}
+
+		auto pWinManager = this->m_pParent->GetParent()->GetWindowManager();
+		auto pTempWindow = pWinManager->CreateWindow(L"TempGLContextWindow", Window::Style::Pure);
+
+		this->m_pOutput->AdjustWindowRect(pTempWindow);
+
+		CWindowDeviceContext tempWinDC(pTempWindow);
+
+		PIXELFORMATDESCRIPTOR pfd = { 0 };
+		pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
+		pfd.nVersion = 1;
+		pfd.cColorBits = 32;
+		pfd.cDepthBits = 24;
+		pfd.cStencilBits = 8;
+		pfd.iPixelType = PFD_TYPE_RGBA;
+		pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+
+		int iPixelFormat = ChoosePixelFormat(tempWinDC.Get(), &pfd);
+		if(iPixelFormat == 0){
+			CR_THROWWIN(GetLastError(), L"Failed to choose temp pixel format.");
+		}
+
+		if(!SetPixelFormat(tempWinDC.Get(), iPixelFormat, &pfd)){
+			CR_THROWWIN(GetLastError(), L"Failed to set temp pixel format to temp window.");
+		}
+
+		CRenderContext tempRC;
+		tempRC.CreateContext(tempWinDC);
+		tempRC.Bind(tempWinDC);
+
+		if(!WGL::Loader::Load(WGL::Loader::Extension::ExtensionsString)){
+			CR_THROW(L"Failed to load extension string extension (WTF!?).");
+		}
+
+		const bool bCoreCreate = WGL::Loader::Load(WGL::Loader::Extension::CreateContext);
+		const bool bCorePixelFormat = WGL::Loader::Load(WGL::Loader::Extension::PixelFormat);
 
 		//this->m_DC = pOutput->CreateDeviceContext();
 		this->m_WindowDC = this->m_pOutputWindow;

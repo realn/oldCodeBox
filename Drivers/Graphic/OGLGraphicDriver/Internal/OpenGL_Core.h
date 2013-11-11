@@ -16,6 +16,8 @@
 
 #pragma comment(lib, "opengl32.lib")
 
+#define CR_GLCHECK()	{ GLenum __uError = GL::glGetError(); if(__uError != GL_NO_ERROR){ GL::ReportGLError(__uError, CR_INFO()); } }
+
 //======================
 //	OPENGL 1.0 - 1.4 CORE
 //======================
@@ -548,4 +550,6 @@ namespace GL{
 		extern const bool	Load(const Version uVersion);
 		extern const bool	Load(const Extension uExtension);
 	}
+
+	extern void	ReportGLError(GLenum uError, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine);
 }
