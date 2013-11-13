@@ -14,6 +14,7 @@ namespace CB{
 	//==========================================================
 	//	Function Callbacks
 	//==========================================================
+
 	void ErrorCallback(){
 		CGerror uError = cgGetError();
 		GLenum	uGLError = GL::glGetError();
@@ -28,7 +29,7 @@ namespace CB{
 	//	OpenGL Device implementation.
 	//==========================================================
 
-	COGLDevice::COGLDevice(CRefPtr<COGLAdapter> pAdapter, CRefPtr<Window::IWindow> pWindow, Graphic::CDeviceDesc& Desc, CRefPtr<COGLOutput> pOutput) :
+	COGLDevice::COGLDevice(CRefPtr<COGLAdapter> pAdapter, CRefPtr<Window::IWindow> pWindow, const Graphic::CDeviceDesc& Desc, CRefPtr<COGLOutput> pOutput) :
 		m_pOutputWindow(pWindow),
 		m_pOutput(pOutput),
 		m_uPrimitiveMode(GL::GL_TRIANGLES),
@@ -56,19 +57,17 @@ namespace CB{
 		pfd.iPixelType = PFD_TYPE_RGBA;
 		pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
 
-		int iPixelFormat = ChoosePixelFormat(tempWinDC.Get(), &pfd);
+		int32 iPixelFormat = tempWinDC.ChoosePixelFormat(pfd);
 		if(iPixelFormat == 0){
 			CR_THROWWIN(GetLastError(), L"Failed to choose temp pixel format.");
 		}
-
-		if(!SetPixelFormat(tempWinDC.Get(), iPixelFormat, &pfd)){
-			CR_THROWWIN(GetLastError(), L"Failed to set temp pixel format to temp window.");
-		}
+		tempWinDC.SetPixelFormat(iPixelFormat);
 
 		CRenderContext tempRC;
 		tempRC.CreateContext(tempWinDC);
 		tempRC.Bind(tempWinDC);
 
+		WGL::Loader::SetDeviceContext(tempWinDC.Get());
 		if(!WGL::Loader::Load(WGL::Loader::Extension::ExtensionsString)){
 			CR_THROW(L"Failed to load extension string extension (WTF!?).");
 		}
@@ -76,52 +75,115 @@ namespace CB{
 		const bool bCoreCreate = WGL::Loader::Load(WGL::Loader::Extension::CreateContext);
 		const bool bCorePixelFormat = WGL::Loader::Load(WGL::Loader::Extension::PixelFormat);
 
-		//this->m_DC = pOutput->CreateDeviceContext();
-		this->m_WindowDC = this->m_pOutputWindow;
+		this->m_pOutput->AdjustWindowRect(this->m_pOutputWindow);
+		this->m_WindowDC.SetWindow(this->m_pOutputWindow);
 
-		int iFormat = ChoosePixelFormat(this->m_WindowDC.Get(), &pfd);
-		if(iFormat < 1){
-			CR_THROWWIN(GetLastError(), L"Failed to choose pixel format.");
+		if(bCorePixelFormat){
+			Collection::CList<int32> Attribs;
+
+			Attribs.Add(WGL::WGL_ACCELERATION);
+			Attribs.Add(WGL::WGL_FULL_ACCELERATION);
+
+			Attribs.Add(WGL::WGL_PIXEL_TYPE);
+			Attribs.Add(WGL::WGL_TYPE_RGBA);
+
+			Attribs.Add(WGL::WGL_DRAW_TO_WINDOW);
+			Attribs.Add(GL::GL_TRUE);
+
+			Attribs.Add(WGL::WGL_DOUBLE_BUFFER);
+			Attribs.Add(GL::GL_TRUE);
+
+			Attribs.Add(WGL::WGL_SUPPORT_OPENGL);
+			Attribs.Add(GL::GL_TRUE);
+
+			GLUtils::SetPixelFormat(Attribs, Desc.BackBuffer.uFormat);
+			GLUtils::SetPixelFormat(Attribs, Desc.uDepthStencilFormat);
+
+			int32 iFormat = this->m_WindowDC.ChoosePixelFormat(Attribs);
+			if(iFormat < 1){
+				CR_THROWWIN(GetLastError(), L"Failed to choose pixel format.");
+			}
+
+			this->m_WindowDC.SetPixelFormat(iFormat);
+		}
+		else{
+			Memory::SetZero(pfd);
+
+			pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
+			pfd.nVersion = 1;
+			pfd.iPixelType = PFD_TYPE_RGBA;
+			pfd.dwFlags = PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER | PFD_DRAW_TO_WINDOW;
+
+			GLUtils::SetPixelFormat(pfd, Desc.BackBuffer.uFormat);
+			GLUtils::SetPixelFormat(pfd, Desc.uDepthStencilFormat);
+
+			int32 iFormat = this->m_WindowDC.ChoosePixelFormat(pfd);
+			if(iFormat < 1){
+				CR_THROWWIN(GetLastError(), L"Failed to choose pixel format.");
+			}
+
+			this->m_WindowDC.SetPixelFormat(iFormat);
 		}
 
-		//if(!SetPixelFormat(this->m_DC.Get(), iFormat, &pfd)){
-		//	CR_THROWWIN(GetLastError(), L"Failed to set pixel format.");
-		//}
+		if(bCoreCreate){
+			Collection::CList<int32> attribs;
 
-		if(!SetPixelFormat(this->m_WindowDC.Get(), iFormat, &pfd)){
-			CR_THROWWIN(GetLastError(), L"Failed to set pixel format.");
+			attribs.Add(WGL::WGL_CONTEXT_MAJOR_VERSION);
+			attribs.Add(3);
+
+			attribs.Add(WGL::WGL_CONTEXT_MINOR_VERSION);
+			attribs.Add(0);
+
+			if(WGL::Loader::IsSupported(WGL::Loader::Extension::CreateContextProfile)){
+				attribs.Add(WGL::WGL_CONTEXT_PROFILE_MASK);
+				attribs.Add(WGL::WGL_CONTEXT_CORE_PROFILE_BIT);
+			}
+
+			this->m_RenderContext.CreateContext(this->m_WindowDC, attribs);
+		}
+		else{
+			this->m_RenderContext.CreateContext(this->m_WindowDC);
 		}
 
-		this->m_GLRC.CreateContext(this->m_WindowDC);
-		this->m_GLRC.Bind(this->m_WindowDC);
+		tempRC.Unbind();
+		tempRC.Free();
+		tempWinDC.Release();
+		pTempWindow->Release();
 
-		this->m_CGContext = cgCreateContext();
-		if(this->m_CGContext == 0){
-			CR_THROW(L"Failed to create CG context");
+		this->m_RenderContext.Bind(this->m_WindowDC);
+
+		WGL::Loader::SetDeviceContext(this->m_WindowDC.Get());
+		WGL::Loader::Load(WGL::Loader::Extension::ExtensionsString);
+		WGL::Loader::Load(WGL::Loader::Extension::CreateContext);
+		WGL::Loader::Load(WGL::Loader::Extension::CreateContextProfile);
+		WGL::Loader::Load(WGL::Loader::Extension::MakeCurrentRead);
+		WGL::Loader::Load(WGL::Loader::Extension::PixelBuffer);
+		WGL::Loader::Load(WGL::Loader::Extension::PixelFormat);
+
+		if(!GL::Loader::Load(GL::Loader::Version::V_1_2)){
+			CR_THROW(L"Failed to load GL version 1.2");
+		}
+		if(!GL::Loader::Load(GL::Loader::Version::V_1_3)){
+			CR_THROW(L"Failed to load GL version 1.3");
+		}
+		if(!GL::Loader::Load(GL::Loader::Version::V_1_4)){
+			CR_THROW(L"Failed to load GL version 1.3");
+		}
+
+		if(!GL::Loader::Load(GL::Loader::Extension::VertexBufferObjects)){
+			CR_THROW(L"Failed to load extension for Vertex Buffer Objects.");
 		}
 
 		cgSetErrorCallback(ErrorCallback);
-
 		this->m_pVertexStream.Resize(this->GetNumberOfStreams());
 
-		if(!Load_Version_1_2())
-			CR_THROW(L"Failed to load GL version 1.2");
-		if(!Load_Version_1_3())
-			CR_THROW(L"Failed to load GL version 1.3");
-		if(!Load_VertexBufferObjects())
-			CR_THROW(L"Failed to load Vertex Buffer Objects GL Extension.");
-
-		glDisable(GL_CULL_FACE);
-		glDisable(GL_DEPTH_TEST);
-		glDisable(GL_TEXTURE_2D);
+		GL::glDisable(GL::GL_CULL_FACE);
+		GL::glDisable(GL::GL_DEPTH_TEST);
+		GL::glDisable(GL::GL_TEXTURE_2D);
 	}
 
 	COGLDevice::~COGLDevice(){
 		Log::Write(L"Destroing OpenGL Device...");
-		if(this->m_CGContext){
-			cgDestroyContext(this->m_CGContext);
-			this->m_CGContext = 0;
-		}
 	}
 
 	HDC	COGLDevice::GetWindowContext() const{
@@ -129,19 +191,17 @@ namespace CB{
 	}
 
 	HGLRC	COGLDevice::GetRenderContext() const{
-		return this->m_GLRC.Get();
+		return this->m_RenderContext.Get();
 	}
 
 	CGcontext	COGLDevice::GetCGContext() const{
-		return this->m_CGContext;
+		return this->m_CGContext.Get();
 	}
 
 	CGprofile	COGLDevice::GetCGProfile(const Graphic::ShaderVersion uVersion, const Graphic::ShaderType uType) const{
-		switch (uType)
-		{
+		switch (uType){
 		case Graphic::ShaderType::Vertex:
-			switch (uVersion)
-			{
+			switch (uVersion){
 			case Graphic::ShaderVersion::ShaderModel_2:	return CG_PROFILE_ARBVP1;
 			case Graphic::ShaderVersion::ShaderModel_3:	return CG_PROFILE_GLSLV;
 			case Graphic::ShaderVersion::ShaderModel_4:	return CG_PROFILE_GP4VP;
@@ -154,8 +214,7 @@ namespace CB{
 			}
 
 		case Graphic::ShaderType::Fragment:
-			switch (uVersion)
-			{
+			switch (uVersion){
 			case Graphic::ShaderVersion::ShaderModel_2:	return CG_PROFILE_ARBFP1;
 			case Graphic::ShaderVersion::ShaderModel_3:	return CG_PROFILE_GLSLF;
 			case Graphic::ShaderVersion::ShaderModel_4:	return CG_PROFILE_GP4FP;
@@ -176,8 +235,7 @@ namespace CB{
 	//	OVERRIDES	==========================================================================
 
 	void	COGLDevice::RemoveObject(CPtr<IOGLBaseBuffer> pBuffer){
-		switch (pBuffer->GetType())
-		{
+		switch (pBuffer->GetType()){
 		case Graphic::BufferType::Index:
 			if(this->m_pIndexStream == pBuffer){
 				this->FreeIndexBuffer();
@@ -200,8 +258,7 @@ namespace CB{
 	}
 
 	void	COGLDevice::RemoveObject(CPtr<IOGLBaseShader> pShader){
-		switch (pShader->GetType())
-		{
+		switch (pShader->GetType()){
 		case Graphic::ShaderType::Vertex:
 			if(this->m_pVertexShader == pShader){
 				this->FreeShader(Graphic::ShaderType::Vertex);
@@ -240,6 +297,26 @@ namespace CB{
 		return this->m_pParent.Cast<Graphic::IAdapter>();
 	}
 
+	CRefPtr<Graphic::IOutput>	COGLDevice::GetOutput() const{
+		return this->m_pOutput.Cast<Graphic::IOutput>();
+	}
+
+	CRefPtr<Window::IWindow>	COGLDevice::GetOutputWindow() const{
+		return this->m_pOutputWindow;
+	}
+
+	void	COGLDevice::SetOutputWindow(CRefPtr<Window::IWindow> pWindow){
+		this->m_pOutputWindow = pWindow;
+		this->m_RenderContext.Unbind();
+
+		this->m_pOutput->AdjustWindowRect(this->m_pOutputWindow);
+
+		this->m_WindowDC.SetWindow(this->m_pOutputWindow);
+		this->m_RenderContext.Bind(this->m_WindowDC);
+	}
+
+
+
 	CRefPtr<Graphic::IVertexDeclaration>	COGLDevice::CreateVertexDeclaration(CRefPtr<Graphic::IShader> pVertexShader, const Collection::ICountable<Graphic::CVertexElement>& Elements){
 		CR_APICHECK(this, pVertexShader);
 
@@ -267,11 +344,11 @@ namespace CB{
 		}
 	}
 
-	CRefPtr<Graphic::ITexture2D>	COGLDevice::CreateTexture(const Math::CSize& Size, const Graphic::BufferUsage uUsage, const Graphic::BufferAccess uAccess, const Graphic::BufferFormat uFormat){
-		return this->CreateTexture(Size, uUsage, uAccess, uFormat, 0, 0);
+	CRefPtr<Graphic::ITexture2D>	COGLDevice::CreateTexture2D(const Math::CSize& Size, const Graphic::BufferUsage uUsage, const Graphic::BufferAccess uAccess, const Graphic::BufferFormat uFormat){
+		return this->CreateTexture2D(Size, uUsage, uAccess, uFormat, 0, 0);
 	}
 
-	CRefPtr<Graphic::ITexture2D>	COGLDevice::CreateTexture(const Math::CSize& Size, const Graphic::BufferUsage uUsage, const Graphic::BufferAccess uAccess, const Graphic::BufferFormat uFormat, const uint32 uLength, const void* pData){
+	CRefPtr<Graphic::ITexture2D>	COGLDevice::CreateTexture2D(const Math::CSize& Size, const Graphic::BufferUsage uUsage, const Graphic::BufferAccess uAccess, const Graphic::BufferFormat uFormat, const uint32 uLength, const void* pData){
 		//CRefPtr<Graphic::ITexture2D> pTexture = new CDX9Texture2D(this, Size, bDynamic, uFormat);
 		//if(pData != 0){
 		//	auto pStream = pTexture->Map(false, true, true);
@@ -296,6 +373,8 @@ namespace CB{
 		CR_THROWNOTIMPLEMENTED();
 	}
 
+
+
 	CRefPtr<Graphic::IShader>	COGLDevice::Compile(const Graphic::ShaderType uType, const Graphic::ShaderVersion uVersion, const CString& strSource){
 		return this->Compile(uType, uVersion, strSource, L"main");
 	}
@@ -314,13 +393,7 @@ namespace CB{
 		}
 	}
 
-	const CString	COGLDevice::GetLastCompilationLog() const{
-		const char* szLog = cgGetLastListing(this->m_CGContext);
-		if(szLog == 0){
-			return CString();
-		}
-		return String::FromANSI(szLog);
-	}
+
 
 	void	COGLDevice::SetVertexDeclaration(CRefPtr<Graphic::IVertexDeclaration> pDeclaration){
 		CR_APICHECK(this, pDeclaration);
@@ -333,15 +406,6 @@ namespace CB{
 		this->BindAllStreams();
 	}
 
-	void	COGLDevice::FreeVertexDeclaration(){
-		this->m_pVertexDeclaration.Reset();
-		this->UnbindAllStreams();
-	}
-
-	CRefPtr<Graphic::IVertexDeclaration>	COGLDevice::GetVertexDeclaration() const{
-		return this->m_pVertexDeclaration.Get();
-	}
-
 	void	COGLDevice::SetIndexBuffer(CRefPtr<Graphic::IBuffer> pBuffer){
 		CR_APICHECK(this, pBuffer);
 
@@ -351,31 +415,6 @@ namespace CB{
 		}
 
 		this->m_pIndexStream = pBuffer.GetCast<COGLIndexBuffer>();
-	}
-
-	void	COGLDevice::FreeIndexBuffer(){
-		this->m_pIndexStream.Reset();
-	}
-
-	CRefPtr<Graphic::IBuffer>	COGLDevice::GetIndexBuffer() const{
-		//LPDIRECT3DINDEXBUFFER9 pBuffer = 0;
-		//HRESULT hResult = this->GetDX()->GetIndices(&pBuffer);
-		//if(hResult != S_OK){
-		//	throw Exception::CCOMException(hResult,
-		//		L"Failed to retrieve current index buffer.", __FUNCTIONW__, __FILEW__, __LINE__);
-		//}
-		//if(this->m_pIndexBuffer.IsNull() && pBuffer == 0){
-		//	return CRefPtr<Graphic::IBuffer>();
-		//}
-
-		//if(this->m_pIndexBuffer->GetDX() != pBuffer){
-		//	throw Exception::CException(
-		//		L"Index buffer mismatch from DX api.", __FUNCTIONW__, __FILEW__, __LINE__);
-		//}
-
-		//pBuffer->Release();
-		//return this->m_pIndexBuffer.Get();
-		CR_THROWNOTIMPLEMENTED();
 	}
 
 	void	COGLDevice::SetVertexBuffer(const uint32 uStream, CRefPtr<Graphic::IBuffer> pBuffer){
@@ -394,17 +433,6 @@ namespace CB{
 		this->FreeVertexBuffer(uStream);
 		this->m_pVertexStream[uStream] = pBuffer.GetCast<COGLVertexBuffer>();
 		this->BindStream(uStream);
-	}
-
-	void	COGLDevice::FreeVertexBuffer(const uint32 uStream){
-		if(this->m_pVertexStream[uStream].IsValid()){
-			this->UnbindStream(uStream);
-			this->m_pVertexStream[uStream].Reset();
-		}
-	}
-
-	CRefPtr<Graphic::IBuffer>	COGLDevice::GetVertexBuffer(const uint32 uStream) const{
-		return this->m_pVertexStream[uStream].GetCast<Graphic::IBuffer>();
 	}
 
 	void	COGLDevice::SetShader(CRefPtr<Graphic::IShader> pShader){
@@ -431,6 +459,139 @@ namespace CB{
 		}
 	}
 
+	void	COGLDevice::SetState(CRefPtr<Graphic::IDeviceState> pState){
+		//CR_APICHECK(this, pState);
+
+		//switch (pState->GetType())
+		//{
+		//case Graphic::DeviceStateType::Rasterizer:	
+		//	this->SetStateRasterizer(pState.Cast<CDX9RasterizerState>());
+		//	break;
+
+		//case Graphic::DeviceStateType::Blend:
+		//	this->SetStateBlend(pState.Cast<CDX9BlendState>());
+		//	break;
+
+		//case Graphic::DeviceStateType::DepthStencil:
+		//	this->SetStateDepthStencil(pState.Cast<CDX9DepthStencilState>());
+		//	break;
+
+		//default:
+		//	throw Exception::CInvalidArgumentException(L"pState->GetType()", String::ToString(pState->GetType()),
+		//		L"Unknown device state type.", CR_INFO());
+		//}
+	}
+
+	void	COGLDevice::SetRenderPrimitive(const Graphic::PrimitiveType uType){
+		switch (uType)
+		{
+		case Graphic::PrimitiveType::Points:	this->m_uPrimitiveMode = GL::GL_POINTS;	break;
+		case Graphic::PrimitiveType::Lines:		this->m_uPrimitiveMode = GL::GL_LINES;	break;
+		case Graphic::PrimitiveType::Triangles:	this->m_uPrimitiveMode = GL::GL_TRIANGLES;	break;
+		default:
+			throw Exception::CInvalidArgumentException(L"uType", String::FromUInt32((uint32)uType),
+				L"Unknown primitive type.", CR_INFO());
+		}
+	}
+
+	
+
+	CRefPtr<Graphic::IVertexDeclaration>	COGLDevice::GetVertexDeclaration() const{
+		return this->m_pVertexDeclaration.Get();
+	}
+
+	CRefPtr<Graphic::IBuffer>	COGLDevice::GetIndexBuffer() const{
+		return this->m_pIndexStream.GetCast<Graphic::IBuffer>();
+	}
+
+	CRefPtr<Graphic::IBuffer>	COGLDevice::GetVertexBuffer(const uint32 uStream) const{
+		return this->m_pVertexStream[uStream].GetCast<Graphic::IBuffer>();
+	}
+
+	CRefPtr<Graphic::IShader>	COGLDevice::GetShader(const Graphic::ShaderType uType) const{
+		switch (uType)
+		{
+		case Graphic::ShaderType::Vertex:	return this->m_pVertexShader.Get();
+		case Graphic::ShaderType::Fragment:	return this->m_pFragmentShader.Get();
+		default:
+			throw Exception::CInvalidArgumentException(L"uType", String::ToString(uType),
+				L"Invalid shader type.", CR_INFO());
+		}
+	}
+
+	CRefPtr<Graphic::IDeviceState>	COGLDevice::GetState(const Graphic::DeviceStateType uType) const{
+		//switch (uType)
+		//{
+		//case Graphic::DeviceStateType::Blend:
+		//	if(this->m_pStateBlend.IsNull())
+		//		return new CDX9BlendState(this, Graphic::CBlendStateDesc());
+		//	else
+		//		return this->m_pStateBlend.Get();
+		//	break;
+
+		//case Graphic::DeviceStateType::DepthStencil:
+		//	if(this->m_pStateDepthStencil.IsNull())
+		//		return new CDX9DepthStencilState(this, Graphic::CDepthStencilStateDesc());
+		//	else
+		//		return this->m_pStateDepthStencil.Get();
+		//	break;
+
+		//case Graphic::DeviceStateType::Rasterizer:
+		//	if(this->m_pStateRasterizer.IsNull())
+		//		return new CDX9RasterizerState(this, Graphic::CRasterizerStateDesc());
+		//	else
+		//		return this->m_pStateRasterizer.Get();
+		//	break;
+
+		//default:
+		//	throw Exception::CInvalidArgumentException(L"uType", String::ToString(uType),
+		//		L"Unknown state type.", __FUNCTIONW__, __FILEW__, __LINE__);
+		//}
+		CR_THROWNOTIMPLEMENTED();
+	}
+
+	const Graphic::PrimitiveType	COGLDevice::GetRenderPrimitive() const{
+		switch (this->m_uPrimitiveMode)
+		{
+		case GL::GL_POINTS:		return Graphic::PrimitiveType::Points;
+		case GL::GL_LINES:		return Graphic::PrimitiveType::Lines;
+		case GL::GL_TRIANGLES:	return Graphic::PrimitiveType::Triangles;
+		default:
+			throw Exception::CInvalidVarValueException(L"m_uPrimitiveType", String::ToString(this->m_uPrimitiveMode),
+				L"Unimplemented primitive type.", CR_INFO());
+		}
+	}
+
+	const CString	COGLDevice::GetLastCompilationLog() const{
+		const char* szLog = cgGetLastListing(this->m_CGContext.Get());
+		if(szLog == 0){
+			return CString();
+		}
+		return String::FromANSI(reinterpret_cast<const int8*>(szLog));
+	}
+
+	const uint32	COGLDevice::GetNumberOfStreams() const{
+		return 16;
+	}
+
+
+
+	void	COGLDevice::FreeVertexDeclaration(){
+		this->m_pVertexDeclaration.Reset();
+		this->UnbindAllStreams();
+	}
+
+	void	COGLDevice::FreeIndexBuffer(){
+		this->m_pIndexStream.Reset();
+	}
+
+	void	COGLDevice::FreeVertexBuffer(const uint32 uStream){
+		if(this->m_pVertexStream[uStream].IsValid()){
+			this->UnbindStream(uStream);
+			this->m_pVertexStream[uStream].Reset();
+		}
+	}
+
 	void	COGLDevice::FreeShader(const Graphic::ShaderType uType){
 		switch (uType)
 		{
@@ -453,64 +614,6 @@ namespace CB{
 			throw Exception::CInvalidArgumentException(L"uType", String::ToString(uType),
 				L"Invalid shader type.", __FUNCTIONW__, __FILEW__, __LINE__);
 		}
-	}
-
-	CRefPtr<Graphic::IShader>	COGLDevice::GetShader(const Graphic::ShaderType uType) const{
-		switch (uType)
-		{
-		case Graphic::ShaderType::Vertex:	return this->m_pVertexShader.Get();
-		case Graphic::ShaderType::Fragment:	return this->m_pFragmentShader.Get();
-		default:
-			throw Exception::CInvalidArgumentException(L"uType", String::ToString(uType),
-				L"Invalid shader type.", CR_INFO());
-		}
-	}
-
-	void	COGLDevice::SetRenderPrimitive(const Graphic::PrimitiveType uType){
-		switch (uType)
-		{
-		case Graphic::PrimitiveType::Points:	this->m_uPrimitiveMode = GL_POINTS;	break;
-		case Graphic::PrimitiveType::Lines:		this->m_uPrimitiveMode = GL_LINES;	break;
-		case Graphic::PrimitiveType::Triangles:	this->m_uPrimitiveMode = GL_TRIANGLES;	break;
-		default:
-			throw Exception::CInvalidArgumentException(L"uType", String::FromUInt32((uint32)uType),
-				L"Unknown primitive type.", CR_INFO());
-		}
-	}
-
-	const Graphic::PrimitiveType	COGLDevice::GetRenderPrimitive() const{
-		switch (this->m_uPrimitiveMode)
-		{
-		case GL_POINTS:		return Graphic::PrimitiveType::Points;
-		case GL_LINES:		return Graphic::PrimitiveType::Lines;
-		case GL_TRIANGLES:	return Graphic::PrimitiveType::Triangles;
-		default:
-			throw Exception::CInvalidVarValueException(L"m_uPrimitiveType", String::FromUInt32(this->m_uPrimitiveMode),
-				L"Unimplemented primitive type.", CR_INFO());
-		}
-	}
-
-	void	COGLDevice::SetState(CRefPtr<Graphic::IDeviceState> pState){
-		//CR_APICHECK(this, pState);
-
-		//switch (pState->GetType())
-		//{
-		//case Graphic::DeviceStateType::Rasterizer:	
-		//	this->SetStateRasterizer(pState.Cast<CDX9RasterizerState>());
-		//	break;
-
-		//case Graphic::DeviceStateType::Blend:
-		//	this->SetStateBlend(pState.Cast<CDX9BlendState>());
-		//	break;
-
-		//case Graphic::DeviceStateType::DepthStencil:
-		//	this->SetStateDepthStencil(pState.Cast<CDX9DepthStencilState>());
-		//	break;
-
-		//default:
-		//	throw Exception::CInvalidArgumentException(L"pState->GetType()", String::ToString(pState->GetType()),
-		//		L"Unknown device state type.", CR_INFO());
-		//}
 	}
 
 	void	COGLDevice::FreeState(const Graphic::DeviceStateType uType){
@@ -546,56 +649,27 @@ namespace CB{
 		//}
 	}
 
-	CRefPtr<Graphic::IDeviceState>	COGLDevice::GetState(const Graphic::DeviceStateType uType) const{
-		//switch (uType)
-		//{
-		//case Graphic::DeviceStateType::Blend:
-		//	if(this->m_pStateBlend.IsNull())
-		//		return new CDX9BlendState(this, Graphic::CBlendStateDesc());
-		//	else
-		//		return this->m_pStateBlend.Get();
-		//	break;
 
-		//case Graphic::DeviceStateType::DepthStencil:
-		//	if(this->m_pStateDepthStencil.IsNull())
-		//		return new CDX9DepthStencilState(this, Graphic::CDepthStencilStateDesc());
-		//	else
-		//		return this->m_pStateDepthStencil.Get();
-		//	break;
-
-		//case Graphic::DeviceStateType::Rasterizer:
-		//	if(this->m_pStateRasterizer.IsNull())
-		//		return new CDX9RasterizerState(this, Graphic::CRasterizerStateDesc());
-		//	else
-		//		return this->m_pStateRasterizer.Get();
-		//	break;
-
-		//default:
-		//	throw Exception::CInvalidArgumentException(L"uType", String::ToString(uType),
-		//		L"Unknown state type.", __FUNCTIONW__, __FILEW__, __LINE__);
-		//}
-		CR_THROWNOTIMPLEMENTED();
-	}
 
 	void	COGLDevice::Render(const uint32 uPrimitiveCount){
 		this->Render(uPrimitiveCount, 0);
 	}
 
 	void	COGLDevice::Render(const uint32 uPrimitiveCount, const uint32 uStartVertex){
-		CR_GLBINDCHECK(this->m_WindowDC.Get(), this->m_GLRC.Get());
+		CR_GLBINDCHECK(this->m_WindowDC.Get(), this->m_RenderContext.Get());
 
 		uint32 uVertexCount = 0;
 		switch (this->m_uPrimitiveMode)
 		{
-		case GL_POINTS:	uVertexCount = uPrimitiveCount;	break;
-		case GL_LINES:	uVertexCount = uPrimitiveCount * 2; break;
-		case GL_TRIANGLES:	uVertexCount = uPrimitiveCount * 3; break;
+		case GL::GL_POINTS:		uVertexCount = uPrimitiveCount;	break;
+		case GL::GL_LINES:		uVertexCount = uPrimitiveCount * 2; break;
+		case GL::GL_TRIANGLES:	uVertexCount = uPrimitiveCount * 3; break;
 		default:
 			throw Exception::CInvalidVarValueException(L"m_uPrimitiveMode", String::FromUInt32(this->m_uPrimitiveMode),
 				L"Unknown primitive mode.", CR_INFO());
 		}
 
-		glDrawArrays(this->m_uPrimitiveMode, uStartVertex, uVertexCount);	CR_GLCHECK();
+		GL::glDrawArrays(this->m_uPrimitiveMode, uStartVertex, uVertexCount);	CR_GLCHECK();
 	}
 	
 	void	COGLDevice::RenderIndexed(const uint32 uPrimitiveCount){
@@ -607,7 +681,7 @@ namespace CB{
 	}
 
 	void	COGLDevice::RenderIndexed(const uint32 uPrimitiveCount, const uint32 uStartVertex, const uint32 uStartIndex){
-		CR_GLBINDCHECK(this->m_WindowDC.Get(), this->m_GLRC.Get());
+		CR_GLBINDCHECK(this->m_WindowDC.Get(), this->m_RenderContext.Get());
 
 		if(this->m_pIndexStream.IsNull()){
 			CR_THROW(L"Index buffer not set.");
@@ -616,13 +690,13 @@ namespace CB{
 		uint32 uVertexCount = 0;
 		switch (this->m_uPrimitiveMode)
 		{
-		case GL_POINTS:		uVertexCount = uPrimitiveCount;	break;
-		case GL_LINES:		uVertexCount = uPrimitiveCount * 2; break;
-		case GL_TRIANGLES:	uVertexCount = uPrimitiveCount * 3; break;
+		case GL::GL_POINTS:		uVertexCount = uPrimitiveCount;	break;
+		case GL::GL_LINES:		uVertexCount = uPrimitiveCount * 2; break;
+		case GL::GL_TRIANGLES:	uVertexCount = uPrimitiveCount * 3; break;
 		}
 
 		this->m_pIndexStream->Bind();
-		glDrawRangeElements(this->m_uPrimitiveMode, uStartVertex, uStartVertex + uVertexCount, uPrimitiveCount, GL_UNSIGNED_SHORT, reinterpret_cast<const void*>(uStartIndex));
+		GL::glDrawRangeElements(this->m_uPrimitiveMode, uStartVertex, uStartVertex + uVertexCount, uPrimitiveCount, GL::GL_UNSIGNED_SHORT, reinterpret_cast<const void*>(uStartIndex));
 		this->m_pIndexStream->Unbind();
 	}
 
@@ -730,6 +804,8 @@ namespace CB{
 		//}
 	}
 
+
+
 	void	COGLDevice::BeginRender(){
 
 	}
@@ -738,39 +814,27 @@ namespace CB{
 
 	}
 
+
+
 	void	COGLDevice::Clear(const Math::CColor& Color){
-		CR_GLBINDCHECK(this->m_WindowDC.Get(), this->m_GLRC.Get());
+		CR_GLBINDCHECK(this->m_WindowDC.Get(), this->m_RenderContext.Get());
 		
-		glClearColor(Color.Red, Color.Green, Color.Blue, Color.Alpha);	CR_GLCHECK();
-		glClear(GL_COLOR_BUFFER_BIT);	CR_GLCHECK();
+		GL::glClearColor(Color.Red, Color.Green, Color.Blue, Color.Alpha);	CR_GLCHECK();
+		GL::glClear(GL::GL_COLOR_BUFFER_BIT);	CR_GLCHECK();
 	}
 
 	void	COGLDevice::Clear(const float fZDepth, const uint32 uStencil){
-		CR_GLBINDCHECK(this->m_WindowDC.Get(), this->m_GLRC.Get());
+		CR_GLBINDCHECK(this->m_WindowDC.Get(), this->m_RenderContext.Get());
 
-		glClearDepth(fZDepth);		CR_GLCHECK();
-		glClearStencil(uStencil);	CR_GLCHECK();
-		glClear(GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);	CR_GLCHECK();
-	}
-
-	void	COGLDevice::SetOutputWindow(CRefPtr<Window::IWindow> pWindow){
-		this->m_pOutputWindow = pWindow;
-		this->m_WindowDC = this->m_pOutputWindow;
-		this->m_GLRC.Bind(this->m_WindowDC);
-	}
-
-	CRefPtr<Window::IWindow>	COGLDevice::GetOutputWindow() const{
-		return this->m_pOutputWindow;
+		GL::glClearDepth(fZDepth);		CR_GLCHECK();
+		GL::glClearStencil(uStencil);	CR_GLCHECK();
+		GL::glClear(GL::GL_DEPTH_BUFFER_BIT | GL::GL_STENCIL_BUFFER_BIT);	CR_GLCHECK();
 	}
 
 	void	COGLDevice::Swap(){
 		if(!SwapBuffers(this->m_WindowDC.Get())){
 			CR_THROWWIN(GetLastError(), L"Failed to swap buffer.");
 		}
-	}
-
-	const uint32	COGLDevice::GetNumberOfStreams() const{
-		return 16;
 	}
 
 	//	END OF IMPLEMENTATION	===================================================================

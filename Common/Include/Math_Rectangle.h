@@ -5,7 +5,7 @@
 
 namespace CB{
 	namespace Math{
-		class CRectangle{
+		class COMMON_API CRectangle{
 		public:
 			CPoint	Position;
 			CSize	Size;

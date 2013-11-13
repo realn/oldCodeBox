@@ -8,6 +8,8 @@
 #include <Collection_Array.h>
 #include <WindowDriver.h>
 
+#pragma warning(disable : 4251)
+
 namespace CB{
 	namespace Graphic{
 		//==============================
@@ -34,7 +36,7 @@ namespace CB{
 			const CString	ToString() const;
 		};
 
-		template class GRAPHICDRVINTERFACE_API CRefPtr<Window::IWindow>;
+		//template class GRAPHICDRVINTERFACE_API CRefPtr<Window::IWindow>;
 
 		//===============================
 		//	Class describing device configuration.

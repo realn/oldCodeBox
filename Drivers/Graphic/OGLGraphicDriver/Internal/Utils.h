@@ -1,8 +1,9 @@
 #pragma once
 
-#include "../../GraphicMngInterface/Include/GraphicDriver.h"
+#include <GraphicDriver.h>
 #include "WinPlatform.h"
-#include "OpenGLDef.h"
+#include "OpenGL.h"
+#include <Collection_List.h>
 
 namespace CB{
 	namespace GLUtils{
@@ -11,6 +12,7 @@ namespace CB{
 		extern const Graphic::BufferFormat	ToColorBufferFormat(const PIXELFORMATDESCRIPTOR& pfd);
 
 		extern void	SetPixelFormat(PIXELFORMATDESCRIPTOR& pfd, const Graphic::BufferFormat uFormat);
+		extern void	SetPixelFormat(Collection::CList<int32>& Attribs, const Graphic::BufferFormat uFormat);
 
 		extern const GLenum	ToBufferUsage(const Graphic::BufferUsage uUsage, const Graphic::BufferAccess uAccess);
 

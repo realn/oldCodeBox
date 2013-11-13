@@ -23,5 +23,10 @@ namespace CB{
 		CRefPtr<Window::IWindow>	GetWindow() const;
 
 		HDC&	Get() const override;
+
+		const int32	ChoosePixelFormat(const PIXELFORMATDESCRIPTOR& pfd) const;
+		const int32	ChoosePixelFormat(const Collection::ICountable<int32>& Attribs) const;
+
+		void	SetPixelFormat(const int32 iFormat);
 	};
 }

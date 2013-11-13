@@ -2,6 +2,7 @@
 
 #include "DeviceContextInterface.h"
 #include "WinPlatform.h"
+#include <Collection_Interface.h>
 
 namespace CB{
 	class CRenderContext{
@@ -16,6 +17,7 @@ namespace CB{
 
 		void	Bind(const IDeviceContext& DC);
 		void	Unbind();
+		const bool	IsBinded() const;
 
 		HGLRC&	Get() const;
 

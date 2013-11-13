@@ -1,5 +1,5 @@
 #include "../Internal/BaseShader.h"
-#include "../../Common/Include/StringEx.h"
+#include <CBStringEx.h>
 
 namespace CB{
 	IOGLBaseShader::IOGLBaseShader(CRefPtr<COGLDevice> pDevice, const Graphic::ShaderType uType, const Graphic::ShaderVersion uVersion, CGenum uSourceType, CGprofile uProfile, const CString& strSource, const CString& strEntryPoint) :
@@ -9,14 +9,14 @@ namespace CB{
 		Manage::IManagedObject<COGLDevice, IOGLBaseShader>(pDevice)
 	{
 		if(!cgIsProfileSupported(uProfile)){
-			throw Exception::CInvalidArgumentException(L"uProfile", String::FromANSI(cgGetProfileString(uProfile)),
+			throw Exception::CInvalidArgumentException(L"uProfile", String::FromANSI(reinterpret_cast<const int8*>(cgGetProfileString(uProfile))),
 				L"Unsupported shader profile.", CR_INFO());
 		}
 
 		auto szSource = String::ToANSI(strSource);
 		auto szEntryPoint = String::ToANSI(strEntryPoint);
 
-		this->m_uProgram = cgCreateProgram(this->GetParent()->GetCGContext(), uSourceType, &szSource.First(), uProfile, &szEntryPoint.First(), 0);
+		this->m_uProgram = cgCreateProgram(this->GetParent()->GetCGContext(), uSourceType, reinterpret_cast<const char*>(szSource.GetPointer()), uProfile, reinterpret_cast<const char*>(szEntryPoint.GetPointer()), 0);
 		if(!cgIsProgram(this->m_uProgram)){
 			CR_THROW(L"Failed to create shader program.");
 		}
@@ -47,7 +47,7 @@ namespace CB{
 	CGparameter	IOGLBaseShader::GetParameter(const CString& strName){
 		auto szName = String::ToANSI(strName);
 
-		auto uParam = cgGetNamedParameter(this->m_uProgram, &szName.First());
+		auto uParam = cgGetNamedParameter(this->m_uProgram, reinterpret_cast<const char*>(szName.GetPointer()));
 		if(uParam == 0 || !cgIsParameter(uParam)){
 			CR_THROW(L"Failed to find parameter: " + strName);
 		}
@@ -113,7 +113,7 @@ namespace CB{
 	void	IOGLBaseShader::SetUniform(const CString& strName, const Math::CMatrix& mValue){
 		auto uParam = this->GetParameter(strName);
 
-		cgGLSetMatrixParameterfr(uParam, mValue.ToFloat());
+		cgGLSetMatrixParameterfr(uParam, mValue[0].GetPointer());
 	}
 
 	void	IOGLBaseShader::SetSampler(const CString& strName, CRefPtr<Graphic::IBaseTexture> pTexture){

@@ -125,7 +125,7 @@ namespace WGL{
 		template<typename _Type>
 		_Type LoadGLProc(const CB::CString& strProcName, const CB::CString& strSufix){
 			auto szProcName = CB::String::ToANSI(strProcName + strSufix);
-			_Type pProc = reinterpret_cast<_Type>(wglGetProcAddress(szProcName.GetPointer()));
+			_Type pProc = reinterpret_cast<_Type>(wglGetProcAddress(reinterpret_cast<const char*>(szProcName.GetPointer())));
 			if(pProc){
 				CB::Log::Write(L"Loading GL Procedure " + strProcName + strSufix, CB::Log::LogLevel::Debug);
 				return pProc;

@@ -22,6 +22,7 @@ namespace CB{
 		class IDevice;
 		class IManager;
 		class IAdapter;
+		class IOutput;
 
 		//==========================================================================
 		//	Represents a per vertex definition

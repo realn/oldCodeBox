@@ -86,27 +86,9 @@ namespace CB{
 	CRefPtr<Graphic::IDevice>	COGLAdapter::CreateDevice(CRefPtr<Window::IWindow> pFocusWindow, const Graphic::CDeviceDesc& Desc, CRefPtr<Graphic::IOutput> pOutput){
 		CR_APICHECK(this, pOutput);
 
-		auto pOGLOutput = pOutput.Cast<COGLOutput>();
-		auto pWindow = Desc.OutputWindow.IsValid() ? Desc.OutputWindow : pFocusWindow;
+		CRefPtr<COGLOutput>	pOGLOutput = pOutput.Cast<COGLOutput>();
+		CRefPtr<Window::IWindow> pWindow = Desc.OutputWindow.IsValid() ? Desc.OutputWindow : pFocusWindow;
 
-
-		PIXELFORMATDESCRIPTOR pfd = { 0 };
-
-		pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
-		pfd.nVersion = 1;
-
-		pfd.iPixelType = PFD_TYPE_RGBA;
-		pfd.iLayerType = PFD_MAIN_PLANE;
-
-		pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
-
-		GLUtils::SetPixelFormat(pfd, Desc.BackBuffer.uFormat);
-		GLUtils::SetPixelFormat(pfd, Desc.uDepthStencilFormat);
-
-		return new COGLDevice(this, pfd, Desc.OutputWindow, pOGLOutput);
-	}
-
-	const int32	COGLAdapter::FindPixelFormat(CRefPtr<Window::IWindow> pWindow, const Graphic::CDeviceDesc& Desc){
-
+		return new COGLDevice(this, pWindow, Desc, pOGLOutput);
 	}
 }

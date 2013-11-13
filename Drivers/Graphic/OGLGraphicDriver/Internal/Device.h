@@ -39,7 +39,7 @@ namespace CB{
 		CPtr<COGLVertexDeclaration>	m_pVertexDeclaration;
 
 	public:
-		COGLDevice(CRefPtr<COGLAdapter> pAdapter, CRefPtr<Window::IWindow> pWindow, Graphic::CDeviceDesc& Desc, CRefPtr<COGLOutput> pOutput);
+		COGLDevice(CRefPtr<COGLAdapter> pAdapter, CRefPtr<Window::IWindow> pWindow, const Graphic::CDeviceDesc& Desc, CRefPtr<COGLOutput> pOutput);
 		~COGLDevice();
 
 		HDC		GetWindowContext() const;
@@ -92,6 +92,8 @@ namespace CB{
 		CRefPtr<Graphic::IDeviceState>			GetState(const Graphic::DeviceStateType uType) const override;
 		const Graphic::PrimitiveType			GetRenderPrimitive() const override;
 		const CString							GetLastCompilationLog() const override;
+		const uint32							GetNumberOfStreams() const override;
+
 
 		void	FreeVertexDeclaration() override;
 		void	FreeIndexBuffer() override;
@@ -117,8 +119,6 @@ namespace CB{
 		void	Clear(const float fZDepth, const unsigned uStencil) override;
 
 		void	Swap() override;
-
-		const uint32	GetNumberOfStreams() const override;
 
 		//	END OF INTERFACE IMPLEMENTATION	================================
 

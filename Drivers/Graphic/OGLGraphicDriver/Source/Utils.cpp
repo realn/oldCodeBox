@@ -1,5 +1,4 @@
 #include "../Internal/Utils.h"
-#include "../../GraphicMngInterface/Include/GraphicDriver_Strings.h"
 
 namespace CB{
 	namespace GLUtils{
@@ -212,33 +211,106 @@ namespace CB{
 			}
 		}
 
+		void	SetPixelFormat(Collection::CList<int32>& Attribs, const uint32 uDepthBits, const uint32 uStencilBits){
+			Attribs.Add(WGL::WGL_DEPTH_BITS);
+			Attribs.Add(uDepthBits);
+
+			Attribs.Add(WGL::WGL_STENCIL_BITS);
+			Attribs.Add(uStencilBits);
+		}
+
+		void	SetPixelFormat(Collection::CList<int32>& Attribs, const uint32 uColorBits, const uint32 uR, const uint32 uG, const uint32 uB, const uint32 uA, const uint32 uRS, const uint32 uGS, const uint32 uBS, const uint32 uAS){
+			Attribs.Add(WGL::WGL_COLOR_BITS);
+			Attribs.Add(uColorBits);
+
+			Attribs.Add(WGL::WGL_RED_SHIFT);
+			Attribs.Add(uRS);
+
+			Attribs.Add(WGL::WGL_GREEN_SHIFT);
+			Attribs.Add(uGS);
+
+			Attribs.Add(WGL::WGL_BLUE_SHIFT);
+			Attribs.Add(uBS);
+
+			Attribs.Add(WGL::WGL_ALPHA_SHIFT);
+			Attribs.Add(uAS);
+
+			Attribs.Add(WGL::WGL_RED_BITS);
+			Attribs.Add(uR);
+
+			Attribs.Add(WGL::WGL_GREEN_BITS);
+			Attribs.Add(uG);
+
+			Attribs.Add(WGL::WGL_BLUE_BITS);
+			Attribs.Add(uB);
+
+			Attribs.Add(WGL::WGL_ALPHA_BITS);
+			Attribs.Add(uA);
+		}
+
+		void	SetPixelFormat(Collection::CList<int32>& Attribs, const Graphic::BufferFormat uFormat){
+			switch(uFormat){
+			case Graphic::BufferFormat::D16:		SetPixelFormat(Attribs, 16, 0);	break;
+			case Graphic::BufferFormat::D24X8:		SetPixelFormat(Attribs, 24, 0); break;
+			case Graphic::BufferFormat::D24S8:		SetPixelFormat(Attribs, 24, 8);	break;
+			case Graphic::BufferFormat::D32F:		
+			case Graphic::BufferFormat::D32FS8X24U:
+				throw Exception::CException(L"Cannot set float pixel format: " + String::ToString(uFormat), CR_INFO());
+
+			case Graphic::BufferFormat::R1:			SetPixelFormat(Attribs, 1, 1, 0, 0, 0, 0, 0, 0, 0);	break;
+			case Graphic::BufferFormat::R8:			SetPixelFormat(Attribs, 8, 8, 0, 0, 0, 0, 0, 0, 0);	break;
+			case Graphic::BufferFormat::A8:			SetPixelFormat(Attribs, 8, 0, 0, 0, 8, 0, 0, 0, 0);	break;
+			case Graphic::BufferFormat::R16:		SetPixelFormat(Attribs, 16, 16, 0, 0, 0, 0, 0, 0, 0);	break;
+			case Graphic::BufferFormat::R32:		SetPixelFormat(Attribs, 32, 32, 0, 0, 0, 0, 0, 0, 0);	break;
+			case Graphic::BufferFormat::R8G8:		SetPixelFormat(Attribs, 16, 8, 0, 8, 0, 0, 8, 0, 0);	break;
+			case Graphic::BufferFormat::R16G16:		SetPixelFormat(Attribs, 32, 16, 0, 16, 0, 0, 16, 0, 0);	break;
+			case Graphic::BufferFormat::R32G32:		SetPixelFormat(Attribs, 64, 32, 0, 32, 0, 0, 32, 0, 0);	break;
+			case Graphic::BufferFormat::B8G8R8A8:		SetPixelFormat(Attribs, 32, 8, 8, 8, 8, 16, 8, 0, 24);	break;
+			case Graphic::BufferFormat::B8G8R8A8_sRGB:	SetPixelFormat(Attribs, 32, 8, 8, 8, 8, 16, 8, 0, 24);	break;
+			case Graphic::BufferFormat::B8G8R8X8:		SetPixelFormat(Attribs, 32, 8, 8, 8, 0, 16, 8, 0, 0);	break;
+			case Graphic::BufferFormat::B8G8R8X8_sRGB:	SetPixelFormat(Attribs, 32, 8, 8, 8, 0, 16, 8, 0, 0);	break;
+			case Graphic::BufferFormat::R8G8B8A8:		SetPixelFormat(Attribs, 32, 8, 8, 8, 8, 0, 8, 16, 24);	break;
+			case Graphic::BufferFormat::R8G8B8A8_sRGB:	SetPixelFormat(Attribs, 32, 8, 8, 8, 8, 0, 8, 16, 24);	break;
+			case Graphic::BufferFormat::R16G16B16A16:	SetPixelFormat(Attribs, 64, 16, 16, 16, 16, 0, 16, 32, 48);	break;
+			case Graphic::BufferFormat::R32G32B32A32:	SetPixelFormat(Attribs, 128, 32, 32, 32, 32, 0, 32, 64, 96);	break;
+
+			case Graphic::BufferFormat::R16F:		
+			case Graphic::BufferFormat::R32F:		
+			case Graphic::BufferFormat::R16G16F:	
+			case Graphic::BufferFormat::R32G32F:		
+			case Graphic::BufferFormat::R16G16B16A16F:	
+			case Graphic::BufferFormat::R32G32B32A32F:	
+				throw Exception::CException(L"Cannot set float pixel format: " + String::ToString(uFormat), CR_INFO());
+			}
+		}
+
 		const GLenum	ToBufferUsage(const Graphic::BufferUsage uUsage, const Graphic::BufferAccess uAccess){
 			switch(uUsage)
 			{
 			case Graphic::BufferUsage::Static:
 				switch (uAccess)
 				{
-				case Graphic::BufferAccess::Read:	return GL_STATIC_READ;
-				case Graphic::BufferAccess::Write:	return GL_STATIC_DRAW;
-				case Graphic::BufferAccess::ReadAndWrite:	return GL_STATIC_COPY;
+				case Graphic::BufferAccess::Read:			return GL::GL_STATIC_READ;
+				case Graphic::BufferAccess::Write:			return GL::GL_STATIC_DRAW;
+				case Graphic::BufferAccess::ReadAndWrite:	return GL::GL_STATIC_COPY;
 				}
 				break;
 
 			case Graphic::BufferUsage::Stream:
 				switch (uAccess)
 				{
-				case Graphic::BufferAccess::Read:	return GL_STREAM_READ;
-				case Graphic::BufferAccess::Write:	return GL_STREAM_DRAW;
-				case Graphic::BufferAccess::ReadAndWrite:	return GL_STATIC_COPY;
+				case Graphic::BufferAccess::Read:			return GL::GL_STREAM_READ;
+				case Graphic::BufferAccess::Write:			return GL::GL_STREAM_DRAW;
+				case Graphic::BufferAccess::ReadAndWrite:	return GL::GL_STATIC_COPY;
 				}
 				break;
 
 			case Graphic::BufferUsage::Dynamic:
 				switch (uAccess)
 				{
-				case Graphic::BufferAccess::Read:	return GL_DYNAMIC_READ;
-				case Graphic::BufferAccess::Write:	return GL_DYNAMIC_DRAW;
-				case Graphic::BufferAccess::ReadAndWrite:	return GL_DYNAMIC_COPY;
+				case Graphic::BufferAccess::Read:			return GL::GL_DYNAMIC_READ;
+				case Graphic::BufferAccess::Write:			return GL::GL_DYNAMIC_DRAW;
+				case Graphic::BufferAccess::ReadAndWrite:	return GL::GL_DYNAMIC_COPY;
 				}
 				break;
 			}
@@ -251,8 +323,8 @@ namespace CB{
 		const GLenum	ToVertexType(const Graphic::VertexType uType){
 			switch (uType)
 			{
-			case Graphic::VertexType::Float:	return GL_FLOAT;
-			case Graphic::VertexType::Color32b:	return GL_UNSIGNED_INT;
+			case Graphic::VertexType::Float:	return GL::GL_FLOAT;
+			case Graphic::VertexType::Color32b:	return GL::GL_UNSIGNED_INT;
 
 			default:
 				throw Exception::CInvalidArgumentException(L"uType", String::ToString(uType),
@@ -279,15 +351,15 @@ namespace CB{
 		const uint32	GetTypeSize(const GLenum uType){
 			switch (uType)
 			{
-			case GL_BYTE:
-			case GL_UNSIGNED_BYTE:	return 1;
+			case GL::GL_BYTE:
+			case GL::GL_UNSIGNED_BYTE:	return 1;
 
-			case GL_SHORT:
-			case GL_UNSIGNED_SHORT:	return 2;
+			case GL::GL_SHORT:
+			case GL::GL_UNSIGNED_SHORT:	return 2;
 
-			case GL_INT:
-			case GL_UNSIGNED_INT:
-			case GL_FLOAT:	return 4;
+			case GL::GL_INT:
+			case GL::GL_UNSIGNED_INT:
+			case GL::GL_FLOAT:	return 4;
 
 			default:
 				throw Exception::CInvalidArgumentException(L"uType", String::FromUInt32(uType),

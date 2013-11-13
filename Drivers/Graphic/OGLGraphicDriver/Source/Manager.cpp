@@ -12,10 +12,6 @@ namespace CB{
 	{
 		Log::Write(L"Initializing OGL Manager.");
 
-		if(!EnumDisplayMonitors(0, 0, MonitorProc, reinterpret_cast<LPARAM>(this))){
-			CR_THROWWIN(GetLastError(), L"Failed to enumerate all monitors.");
-		}
-
 		DISPLAY_DEVICEW device = { 0 };
 		device.cb = sizeof(DISPLAY_DEVICEW);
 		for(uint32 uIndex = 0; EnumDisplayDevicesW(0, uIndex, &device, 0); uIndex++){

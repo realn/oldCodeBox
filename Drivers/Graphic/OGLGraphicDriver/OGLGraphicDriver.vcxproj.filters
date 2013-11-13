@@ -36,6 +36,9 @@
     <Filter Include="Source\Context">
       <UniqueIdentifier>{1d05c0de-bd9f-49f0-8232-53d4bda6ff18}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Internal\State">
+      <UniqueIdentifier>{570c7223-e4f1-4e3d-b29e-1a43769cdd67}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\OGLGraphicDriver.h">
@@ -116,6 +119,9 @@
     <ClInclude Include="Internal\CGContext.h">
       <Filter>Internal\Context</Filter>
     </ClInclude>
+    <ClInclude Include="Internal\BufferStream.h">
+      <Filter>Internal\Buffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\OGLGraphicDriver.cpp">
@@ -177,6 +183,9 @@
     </ClCompile>
     <ClCompile Include="Source\CGContext.cpp">
       <Filter>Source\Context</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BufferStream.cpp">
+      <Filter>Source\Buffer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

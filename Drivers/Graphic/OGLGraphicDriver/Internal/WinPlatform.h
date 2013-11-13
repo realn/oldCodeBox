@@ -7,3 +7,4 @@
 #include <windows.h>
 
 #undef CreateWindow
+#undef GetMessage

@@ -3,15 +3,18 @@
 #include "Device.h"
 
 namespace CB{
+	class COGLBufferStream;
+
 	class IOGLBaseBuffer : 
 		public Graphic::IBuffer,
-		public Manage::IManagedObject<COGLDevice, IOGLBaseBuffer>
+		public Manage::IManagedObject<COGLDevice, IOGLBaseBuffer>,
+		public Manage::IObjectManager<COGLBufferStream>
 	{
 	private:
 		const Graphic::BufferType	m_uType;
-		const GLenum	m_uBufferTarget;
-		const uint32	m_uLength;
-		GLuint			m_uBuffer;
+		const GLenum				m_uBufferTarget;
+		const uint32				m_uLength;
+		GLuint						m_uBuffer;
 		const Graphic::BufferUsage	m_uUsage;
 		const Graphic::BufferAccess m_uAccess;
 
@@ -21,6 +24,8 @@ namespace CB{
 
 		void	Bind();
 		void	Unbind();
+
+		const GLenum	GetTarget() const;
 
 		//	INTERFACE IMPLEMENTATION	===============================
 

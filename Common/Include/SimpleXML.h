@@ -20,7 +20,7 @@ namespace CB{
 		class CRoot;
 		class CNode;
 		
-		template class COMMON_API Collection::CLinkList<CPtr<CNode>>;
+		//template class COMMON_API Collection::CLinkList<CPtr<CNode>>;
 
 		class COMMON_API CNode :
 			public Collection::ICountable<CNode>

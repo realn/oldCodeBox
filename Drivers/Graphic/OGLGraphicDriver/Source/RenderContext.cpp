@@ -15,7 +15,9 @@ namespace CB{
 
 	void	CRenderContext::Free(){
 		if(this->m_GLContext){
-			wglMakeCurrent(0, 0);
+			if(this->IsBinded()){
+				wglMakeCurrent(0, 0);
+			}
 			wglDeleteContext(this->m_GLContext);
 			this->m_GLContext = 0;
 		}
@@ -29,6 +31,10 @@ namespace CB{
 
 	void	CRenderContext::Unbind(){
 		wglMakeCurrent(0, 0);
+	}
+
+	const bool	CRenderContext::IsBinded() const{
+		return wglGetCurrentContext() == this->m_GLContext;
 	}
 
 	HGLRC&	CRenderContext::Get() const {
