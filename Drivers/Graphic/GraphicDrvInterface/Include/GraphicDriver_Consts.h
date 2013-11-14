@@ -3,21 +3,27 @@
 namespace CB{
 	namespace Graphic{
 		enum class FeatureLevel{
-			//	SM: 1-2
-			//	RT: 1
-			Generation_1,	// DX9 / OGL1.4-1.5
+			/*
+				Generation 1 level hardware:
+				Direct3D 9, SM 2 (asm)
+				OpenGL 1.4 + VBO + MipMap Gen + Anisotropy, ARB Shader (asm)
+			*/
+			Level_1,	// DX9 / OGL1.4-1.5
 
-			//	SM:	2
-			//	RT:	4
-			Generation_2,	// DX9 / OGL2.0-2.1
+			/*
+				Generation 2 level hardware:
+				Direct3D 9, SM 3 (HLSL)
+				OpenGL 2.0, GLSL Shader
+			*/
+			Level_2,	// DX9 / OGL2.0-2.1
 
 			//	SM:	3
 			//	RT:	8
-			Generation_3,	// DX10 / OGL3.0-3.3
+			Level_3,	// DX10 / OGL3.0-3.3
 
 			//	SM: 4
 			//	RT: 8
-			Generation_4,	// DX11 / OGL4.0
+			Level_4,	// DX11 / OGL4.0
 		};
 
 		enum class DeviceStateType{

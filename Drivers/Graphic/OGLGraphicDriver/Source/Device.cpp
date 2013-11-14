@@ -29,7 +29,7 @@ namespace CB{
 	//	OpenGL Device implementation.
 	//==========================================================
 
-	COGLDevice::COGLDevice(CRefPtr<COGLAdapter> pAdapter, CRefPtr<Window::IWindow> pWindow, const Graphic::CDeviceDesc& Desc, CRefPtr<COGLOutput> pOutput) :
+	COGLDevice::COGLDevice(CRefPtr<COGLAdapter> pAdapter, CRefPtr<Window::IWindow> pWindow, const Graphic::CDeviceDesc& Desc, const Collection::ICountable<Graphic::FeatureLevel>& FeatureLevels, CRefPtr<COGLOutput> pOutput) :
 		m_pOutputWindow(pWindow),
 		m_pOutput(pOutput),
 		m_uPrimitiveMode(GL::GL_TRIANGLES),
@@ -41,138 +41,112 @@ namespace CB{
 			m_pOutput->SetCurrentMode(Desc.BackBuffer);
 		}
 
-		auto pWinManager = this->m_pParent->GetParent()->GetWindowManager();
-		auto pTempWindow = pWinManager->CreateWindow(L"TempGLContextWindow", Window::Style::Pure);
+		{
+			auto pWinManager = this->m_pParent->GetParent()->GetWindowManager();
+			auto pTempWindow = pWinManager->CreateWindow(L"TempGLContextWindow", Window::Style::Pure);
 
-		this->m_pOutput->AdjustWindowRect(pTempWindow);
+			this->m_pOutput->AdjustWindowRect(pTempWindow);
 
-		CWindowDeviceContext tempWinDC(pTempWindow);
+			CWindowDeviceContext tempWinDC(pTempWindow);
 
-		PIXELFORMATDESCRIPTOR pfd = { 0 };
-		pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
-		pfd.nVersion = 1;
-		pfd.cColorBits = 32;
-		pfd.cDepthBits = 24;
-		pfd.cStencilBits = 8;
-		pfd.iPixelType = PFD_TYPE_RGBA;
-		pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
-
-		int32 iPixelFormat = tempWinDC.ChoosePixelFormat(pfd);
-		if(iPixelFormat == 0){
-			CR_THROWWIN(GetLastError(), L"Failed to choose temp pixel format.");
-		}
-		tempWinDC.SetPixelFormat(iPixelFormat);
-
-		CRenderContext tempRC;
-		tempRC.CreateContext(tempWinDC);
-		tempRC.Bind(tempWinDC);
-
-		WGL::Loader::SetDeviceContext(tempWinDC.Get());
-		if(!WGL::Loader::Load(WGL::Loader::Extension::ExtensionsString)){
-			CR_THROW(L"Failed to load extension string extension (WTF!?).");
-		}
-
-		const bool bCoreCreate = WGL::Loader::Load(WGL::Loader::Extension::CreateContext);
-		const bool bCorePixelFormat = WGL::Loader::Load(WGL::Loader::Extension::PixelFormat);
-
-		this->m_pOutput->AdjustWindowRect(this->m_pOutputWindow);
-		this->m_WindowDC.SetWindow(this->m_pOutputWindow);
-
-		if(bCorePixelFormat){
-			Collection::CList<int32> Attribs;
-
-			Attribs.Add(WGL::WGL_ACCELERATION);
-			Attribs.Add(WGL::WGL_FULL_ACCELERATION);
-
-			Attribs.Add(WGL::WGL_PIXEL_TYPE);
-			Attribs.Add(WGL::WGL_TYPE_RGBA);
-
-			Attribs.Add(WGL::WGL_DRAW_TO_WINDOW);
-			Attribs.Add(GL::GL_TRUE);
-
-			Attribs.Add(WGL::WGL_DOUBLE_BUFFER);
-			Attribs.Add(GL::GL_TRUE);
-
-			Attribs.Add(WGL::WGL_SUPPORT_OPENGL);
-			Attribs.Add(GL::GL_TRUE);
-
-			GLUtils::SetPixelFormat(Attribs, Desc.BackBuffer.uFormat);
-			GLUtils::SetPixelFormat(Attribs, Desc.uDepthStencilFormat);
-
-			int32 iFormat = this->m_WindowDC.ChoosePixelFormat(Attribs);
-			if(iFormat < 1){
-				CR_THROWWIN(GetLastError(), L"Failed to choose pixel format.");
-			}
-
-			this->m_WindowDC.SetPixelFormat(iFormat);
-		}
-		else{
-			Memory::SetZero(pfd);
-
+			PIXELFORMATDESCRIPTOR pfd = { 0 };
 			pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
 			pfd.nVersion = 1;
+			pfd.cColorBits = 32;
+			pfd.cDepthBits = 24;
+			pfd.cStencilBits = 8;
 			pfd.iPixelType = PFD_TYPE_RGBA;
-			pfd.dwFlags = PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER | PFD_DRAW_TO_WINDOW;
+			pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
 
-			GLUtils::SetPixelFormat(pfd, Desc.BackBuffer.uFormat);
-			GLUtils::SetPixelFormat(pfd, Desc.uDepthStencilFormat);
+			int32 iPixelFormat = tempWinDC.ChoosePixelFormat(pfd);
+			if(iPixelFormat == 0){
+				CR_THROWWIN(GetLastError(), L"Failed to choose temp pixel format.");
+			}
+			tempWinDC.SetPixelFormat(iPixelFormat);
 
-			int32 iFormat = this->m_WindowDC.ChoosePixelFormat(pfd);
-			if(iFormat < 1){
-				CR_THROWWIN(GetLastError(), L"Failed to choose pixel format.");
+			CRenderContext tempRC;
+			tempRC.CreateContext(tempWinDC);
+			tempRC.Bind(tempWinDC);
+
+			if(!WGL::LoadExtensionInfo()){
+				CR_THROW(L"Failed to load extension string extension (WTF!?).");
 			}
 
-			this->m_WindowDC.SetPixelFormat(iFormat);
-		}
+			const bool bCorePixelFormat = WGL::Load(WGL::Extension::PixelFormat);
 
-		if(bCoreCreate){
-			Collection::CList<int32> attribs;
+			this->m_pOutput->AdjustWindowRect(this->m_pOutputWindow);
+			this->m_WindowDC.SetWindow(this->m_pOutputWindow);
 
-			attribs.Add(WGL::WGL_CONTEXT_MAJOR_VERSION);
-			attribs.Add(3);
+			if(bCorePixelFormat){
+				Collection::CList<int32> Attribs;
 
-			attribs.Add(WGL::WGL_CONTEXT_MINOR_VERSION);
-			attribs.Add(0);
+				Attribs.Add(WGL::WGL_ACCELERATION);
+				Attribs.Add(WGL::WGL_FULL_ACCELERATION);
 
-			if(WGL::Loader::IsSupported(WGL::Loader::Extension::CreateContextProfile)){
-				attribs.Add(WGL::WGL_CONTEXT_PROFILE_MASK);
-				attribs.Add(WGL::WGL_CONTEXT_CORE_PROFILE_BIT);
+				Attribs.Add(WGL::WGL_PIXEL_TYPE);
+				Attribs.Add(WGL::WGL_TYPE_RGBA);
+
+				Attribs.Add(WGL::WGL_DRAW_TO_WINDOW);
+				Attribs.Add(GL::GL_TRUE);
+
+				Attribs.Add(WGL::WGL_DOUBLE_BUFFER);
+				Attribs.Add(GL::GL_TRUE);
+
+				Attribs.Add(WGL::WGL_SUPPORT_OPENGL);
+				Attribs.Add(GL::GL_TRUE);
+
+				GLUtils::SetPixelFormat(Attribs, Desc.BackBuffer.uFormat);
+				GLUtils::SetPixelFormat(Attribs, Desc.uDepthStencilFormat);
+
+				int32 iFormat = this->m_WindowDC.ChoosePixelFormat(Attribs);
+				if(iFormat < 1){
+					CR_THROWWIN(GetLastError(), L"Failed to choose pixel format.");
+				}
+
+				this->m_WindowDC.SetPixelFormat(iFormat);
+			}
+			else{
+				Memory::SetZero(pfd);
+
+				pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
+				pfd.nVersion = 1;
+				pfd.iPixelType = PFD_TYPE_RGBA;
+				pfd.dwFlags = PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER | PFD_DRAW_TO_WINDOW;
+
+				GLUtils::SetPixelFormat(pfd, Desc.BackBuffer.uFormat);
+				GLUtils::SetPixelFormat(pfd, Desc.uDepthStencilFormat);
+
+				int32 iFormat = this->m_WindowDC.ChoosePixelFormat(pfd);
+				if(iFormat < 1){
+					CR_THROWWIN(GetLastError(), L"Failed to choose pixel format.");
+				}
+
+				this->m_WindowDC.SetPixelFormat(iFormat);
 			}
 
-			this->m_RenderContext.CreateContext(this->m_WindowDC, attribs);
-		}
-		else{
-			this->m_RenderContext.CreateContext(this->m_WindowDC);
-		}
+			bool bFound = false;
+			for(uint32 uFLIndex = 0; uFLIndex < FeatureLevels.GetLength(); uFLIndex++){
+				if(!WGL::LoadExtensionInfo()){
+						CR_THROW(L"Failed to load extension string extension (WTF!?) while feature level checking.");
+				}
+				const bool bCoreCreate = WGL::Load(WGL::Extension::CreateContext);
 
-		tempRC.Unbind();
-		tempRC.Free();
-		tempWinDC.Release();
-		pTempWindow->Release();
+				Log::Write(L"Loading feature level: " + String::ToString(FeatureLevels[uFLIndex]));
+				if(!this->LoadFeatureLevel(FeatureLevels[uFLIndex], bCoreCreate)){
+					this->m_uFeatureLevel = FeatureLevels[uFLIndex];
+					bFound = true;
+					break;
+				}
+			}
 
+			if(!bFound){
+				CR_THROW(L"Failed to load any suggested feature level.");
+			}
+			else{
+				Log::Write(L"Selected feature level: " + String::ToString(this->m_uFeatureLevel));
+			}
+		}
 		this->m_RenderContext.Bind(this->m_WindowDC);
-
-		WGL::Loader::SetDeviceContext(this->m_WindowDC.Get());
-		WGL::Loader::Load(WGL::Loader::Extension::ExtensionsString);
-		WGL::Loader::Load(WGL::Loader::Extension::CreateContext);
-		WGL::Loader::Load(WGL::Loader::Extension::CreateContextProfile);
-		WGL::Loader::Load(WGL::Loader::Extension::MakeCurrentRead);
-		WGL::Loader::Load(WGL::Loader::Extension::PixelBuffer);
-		WGL::Loader::Load(WGL::Loader::Extension::PixelFormat);
-
-		if(!GL::Loader::Load(GL::Loader::Version::V_1_2)){
-			CR_THROW(L"Failed to load GL version 1.2");
-		}
-		if(!GL::Loader::Load(GL::Loader::Version::V_1_3)){
-			CR_THROW(L"Failed to load GL version 1.3");
-		}
-		if(!GL::Loader::Load(GL::Loader::Version::V_1_4)){
-			CR_THROW(L"Failed to load GL version 1.3");
-		}
-
-		if(!GL::Loader::Load(GL::Loader::Extension::VertexBufferObjects)){
-			CR_THROW(L"Failed to load extension for Vertex Buffer Objects.");
-		}
 
 		cgSetErrorCallback(ErrorCallback);
 		this->m_pVertexStream.Resize(this->GetNumberOfStreams());
@@ -562,6 +536,10 @@ namespace CB{
 		}
 	}
 
+	const Graphic::FeatureLevel	COGLDevice::GetFeatureLevel() const{
+		return this->m_uFeatureLevel;
+	}
+
 	const CString	COGLDevice::GetLastCompilationLog() const{
 		const char* szLog = cgGetLastListing(this->m_CGContext.Get());
 		if(szLog == 0){
@@ -884,6 +862,109 @@ namespace CB{
 	void	COGLDevice::UnbindAllStreams(){
 		for(uint32 uIndex = 0; uIndex < this->GetNumberOfStreams(); uIndex++){
 			this->UnbindStream(uIndex);
+		}
+	}
+
+	const bool	COGLDevice::LoadFeatureLevel(const Graphic::FeatureLevel uLevel, const bool bCoreCreate){
+		CRCBindGuard bind;	//	current device and render context guard.
+
+		switch (uLevel)
+		{
+		case Graphic::FeatureLevel::Level_1:
+			if(!this->CreateRenderContext(1, 4, bCoreCreate))
+				return false;
+
+			this->m_RenderContext.Bind(this->m_DeviceContext);
+
+			if(!GL::LoadExtensionInfo()){
+				return false;
+			}
+			if(!GL::Load(GL::Version::V_1_2))
+				return false;
+			if(!GL::Load(GL::Version::V_1_3))
+				return false;
+			if(!GL::Load(GL::Version::V_1_4))
+				return false;
+			if(!GL::Load(GL::Extension::VertexBufferObjects))
+				return false;
+			if(!GL::Load(GL::Extension::AnisotropicFiltering))
+				return false;
+			if(!GL::Load(GL::Extension::MipMapGeneration))
+				return false;
+
+			if(!WGL::LoadExtensionInfo())
+				return false;
+
+			if(!WGL::Load(WGL::Extension::PixelBuffer))
+				return false;
+			if(!WGL::Load(WGL::Extension::MakeCurrentRead))
+				return false;
+
+			return true;
+
+		case Graphic::FeatureLevel::Level_2:
+			CR_THROWNOTIMPLEMENTED();
+			return true;
+
+		case Graphic::FeatureLevel::Level_3:
+			if(!bCoreCreate){
+				return false;
+			}
+
+			CR_THROWNOTIMPLEMENTED();
+			return true;
+
+		case Graphic::FeatureLevel::Level_4:
+			if(!bCoreCreate){
+				return false;
+			}
+
+			CR_THROWNOTIMPLEMENTED();
+			return true;
+
+		default:
+			return false;
+		}
+	}
+
+	const bool	COGLDevice::CreateRenderContext(const uint32 uMajorVersion, const uint32 uMinorVersion, const bool bCoreCreate){
+		if(bCoreCreate){
+			Collection::CList<int32> attribs;
+
+			attribs.Add(WGL::WGL_CONTEXT_MAJOR_VERSION);
+			attribs.Add(uMajorVersion);
+
+			attribs.Add(WGL::WGL_CONTEXT_MINOR_VERSION);
+			attribs.Add(uMinorVersion);
+
+			if(WGL::IsSupported(WGL::Extension::CreateContextProfile)){
+				attribs.Add(WGL::WGL_CONTEXT_PROFILE_MASK);
+				attribs.Add(WGL::WGL_CONTEXT_CORE_PROFILE_BIT);
+			}
+
+			return this->m_RenderContext.CreateContext(this->m_WindowDC, attribs);
+		}
+		else{
+			this->m_RenderContext.CreateContext(this->m_WindowDC);
+			auto hDC = wglGetCurrentDC();
+			auto hRC = wglGetCurrentContext();
+
+			this->m_RenderContext.Bind(this->m_WindowDC);
+			auto szVersion = GL::glGetString(GL::GL_VERSION);
+			wglMakeCurrent(hDC, hRC);
+
+			auto strVersion = String::FromANSI(reinterpret_cast<const int8*>(szVersion));
+
+			uint32 uVMaj;
+			uint32 uVMin;
+			if(GLUtils::GetVersion(strVersion, uVMaj, uVMin)){
+				if(uVMaj >= uMajorVersion && uVMin >= uMinorVersion){
+					return true;
+				}
+			}
+
+			this->m_RenderContext.Free();
+			return false;
 		}
 	}
 }

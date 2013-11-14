@@ -21,5 +21,7 @@ namespace CB{
 		extern const Graphic::VertexType	ToVertexType(const GLenum uType, const uint32 uNumber);
 
 		extern const uint32	GetTypeSize(const GLenum uType);
+
+		extern const bool	GetVersion(const CString& strVersion, uint32& uOutMajorVersion, uint32& uOutMinorVersion);
 	}
 }

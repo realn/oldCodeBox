@@ -219,5 +219,16 @@ namespace CB{
 				return String::FromUInt32((uint32)uType);
 			}
 		}
+
+		const CString	ToString(const Graphic::FeatureLevel uLevel){
+			switch (uLevel){
+			case Graphic::FeatureLevel::Level_1:	return L"Level 1";
+			case Graphic::FeatureLevel::Level_2:	return L"Level 2";
+			case Graphic::FeatureLevel::Level_3:	return L"Level 3";
+			case Graphic::FeatureLevel::Level_4:	return L"Level 4";
+			default:
+				return String::ToString((uint32)uLevel);
+			}
+		}
 	}
 }

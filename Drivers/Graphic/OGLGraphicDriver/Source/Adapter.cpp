@@ -77,18 +77,18 @@ namespace CB{
 		return this->GetOutput(this->m_DeviceInfo.strDisplayList.IndexOf(info.szDevice));
 	}
 
-	CRefPtr<Graphic::IDevice>	COGLAdapter::CreateDevice(CRefPtr<Window::IWindow> pFocusWindow, const Graphic::CDeviceDesc& Desc){
+	CRefPtr<Graphic::IDevice>	COGLAdapter::CreateDevice(CRefPtr<Window::IWindow> pFocusWindow, const Graphic::CDeviceDesc& Desc, const Collection::ICountable<Graphic::FeatureLevel>& FeatureLevels){
 		CRefPtr<Window::IWindow> pWindow = Desc.OutputWindow.IsValid() ? Desc.OutputWindow : pFocusWindow;
 
-		return this->CreateDevice(pFocusWindow, Desc, this->GetOutputForWindow(pWindow));
+		return this->CreateDevice(pFocusWindow, Desc, FeatureLevels, this->GetOutputForWindow(pWindow));
 	}
 
-	CRefPtr<Graphic::IDevice>	COGLAdapter::CreateDevice(CRefPtr<Window::IWindow> pFocusWindow, const Graphic::CDeviceDesc& Desc, CRefPtr<Graphic::IOutput> pOutput){
+	CRefPtr<Graphic::IDevice>	COGLAdapter::CreateDevice(CRefPtr<Window::IWindow> pFocusWindow, const Graphic::CDeviceDesc& Desc, const Collection::ICountable<Graphic::FeatureLevel>& FeatureLevels, CRefPtr<Graphic::IOutput> pOutput){
 		CR_APICHECK(this, pOutput);
 
 		CRefPtr<COGLOutput>	pOGLOutput = pOutput.Cast<COGLOutput>();
 		CRefPtr<Window::IWindow> pWindow = Desc.OutputWindow.IsValid() ? Desc.OutputWindow : pFocusWindow;
 
-		return new COGLDevice(this, pWindow, Desc, pOGLOutput);
+		return new COGLDevice(this, pWindow, Desc, FeatureLevels, pOGLOutput);
 	}
 }

@@ -43,13 +43,13 @@ namespace CB{
 		return ::ChoosePixelFormat(this->m_hDC, &pfd);
 	}
 	const int32	CWindowDeviceContext::ChoosePixelFormat(const Collection::ICountable<int32>& Attribs) const{
-		if(!WGL::Loader::IsSupported(WGL::Loader::Extension::PixelFormat)){
+		if(!WGL::IsSupported(WGL::Extension::PixelFormat)){
 			CR_THROW(L"Pixel format WGL extension not supported.");
 		}
 		if(Attribs.GetLength() % 2 != 0){
 			CR_THROW(L"Attribs arrays for pixel format is not multiple of 2.");
 		}
-		const bool bMultisample = WGL::Loader::IsSupported(WGL::Loader::Extension::Multisample);
+		const bool bMultisample = WGL::IsSupported(WGL::Extension::Multisample);
 		if(!bMultisample){
 			Log::Write(L"Multisample not supported - removing from attribute array.");
 		}

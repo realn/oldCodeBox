@@ -13,56 +13,54 @@
 
 namespace GL{
 	//	VERSION_1_0
-	extern "C"{
-		__declspec(dllimport) void __stdcall glCullFace (GLenum mode);
-		__declspec(dllimport) void __stdcall glFrontFace (GLenum mode);
-		__declspec(dllimport) void __stdcall glHint (GLenum target, GLenum mode);
-		__declspec(dllimport) void __stdcall glLineWidth (GLfloat width);
-		__declspec(dllimport) void __stdcall glPointSize (GLfloat size);
-		__declspec(dllimport) void __stdcall glPolygonMode (GLenum face, GLenum mode);
-		__declspec(dllimport) void __stdcall glScissor (GLint x, GLint y, GLsizei width, GLsizei height);
-		__declspec(dllimport) void __stdcall glTexParameterf (GLenum target, GLenum pname, GLfloat param);
-		__declspec(dllimport) void __stdcall glTexParameterfv (GLenum target, GLenum pname, const GLfloat *params);
-		__declspec(dllimport) void __stdcall glTexParameteri (GLenum target, GLenum pname, GLint param);
-		__declspec(dllimport) void __stdcall glTexParameteriv (GLenum target, GLenum pname, const GLint *params);
-		__declspec(dllimport) void __stdcall glTexImage1D (GLenum target, GLint level, GLint internalformat, GLsizei width, GLint border, GLenum format, GLenum type, const GLvoid *pixels);
-		__declspec(dllimport) void __stdcall glTexImage2D (GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid *pixels);
-		__declspec(dllimport) void __stdcall glDrawBuffer (GLenum mode);
-		__declspec(dllimport) void __stdcall glClear (GLbitfield mask);
-		__declspec(dllimport) void __stdcall glClearColor (GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
-		__declspec(dllimport) void __stdcall glClearStencil (GLint s);
-		__declspec(dllimport) void __stdcall glClearDepth (GLdouble depth);
-		__declspec(dllimport) void __stdcall glStencilMask (GLuint mask);
-		__declspec(dllimport) void __stdcall glColorMask (GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha);
-		__declspec(dllimport) void __stdcall glDepthMask (GLboolean flag);
-		__declspec(dllimport) void __stdcall glDisable (GLenum cap);
-		__declspec(dllimport) void __stdcall glEnable (GLenum cap);
-		__declspec(dllimport) void __stdcall glFinish (void);
-		__declspec(dllimport) void __stdcall glFlush (void);
-		__declspec(dllimport) void __stdcall glBlendFunc (GLenum sfactor, GLenum dfactor);
-		__declspec(dllimport) void __stdcall glLogicOp (GLenum opcode);
-		__declspec(dllimport) void __stdcall glStencilFunc (GLenum func, GLint ref, GLuint mask);
-		__declspec(dllimport) void __stdcall glStencilOp (GLenum fail, GLenum zfail, GLenum zpass);
-		__declspec(dllimport) void __stdcall glDepthFunc (GLenum func);
-		__declspec(dllimport) void __stdcall glPixelStoref (GLenum pname, GLfloat param);
-		__declspec(dllimport) void __stdcall glPixelStorei (GLenum pname, GLint param);
-		__declspec(dllimport) void __stdcall glReadBuffer (GLenum mode);
-		__declspec(dllimport) void __stdcall glReadPixels (GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid *pixels);
-		__declspec(dllimport) void __stdcall glGetBooleanv (GLenum pname, GLboolean *params);
-		__declspec(dllimport) void __stdcall glGetDoublev (GLenum pname, GLdouble *params);
-		__declspec(dllimport) GLenum __stdcall glGetError (void);
-		__declspec(dllimport) void __stdcall glGetFloatv (GLenum pname, GLfloat *params);
-		__declspec(dllimport) void __stdcall glGetIntegerv (GLenum pname, GLint *params);
-		__declspec(dllimport) const GLubyte *__stdcall glGetString (GLenum name);
-		__declspec(dllimport) void __stdcall glGetTexImage (GLenum target, GLint level, GLenum format, GLenum type, GLvoid *pixels);
-		__declspec(dllimport) void __stdcall glGetTexParameterfv (GLenum target, GLenum pname, GLfloat *params);
-		__declspec(dllimport) void __stdcall glGetTexParameteriv (GLenum target, GLenum pname, GLint *params);
-		__declspec(dllimport) void __stdcall glGetTexLevelParameterfv (GLenum target, GLint level, GLenum pname, GLfloat *params);
-		__declspec(dllimport) void __stdcall glGetTexLevelParameteriv (GLenum target, GLint level, GLenum pname, GLint *params);
-		__declspec(dllimport) GLboolean __stdcall glIsEnabled (GLenum cap);
-		__declspec(dllimport) void __stdcall glDepthRange (GLdouble near, GLdouble far);
-		__declspec(dllimport) void __stdcall glViewport (GLint x, GLint y, GLsizei width, GLsizei height);
-	}
+	extern void glCullFace (GLenum mode);
+	extern void glFrontFace (GLenum mode);
+	extern void glHint (GLenum target, GLenum mode);
+	extern void glLineWidth (GLfloat width);
+	extern void glPointSize (GLfloat size);
+	extern void glPolygonMode (GLenum face, GLenum mode);
+	extern void glScissor (GLint x, GLint y, GLsizei width, GLsizei height);
+	extern void glTexParameterf (GLenum target, GLenum pname, GLfloat param);
+	extern void glTexParameterfv (GLenum target, GLenum pname, const GLfloat *params);
+	extern void glTexParameteri (GLenum target, GLenum pname, GLint param);
+	extern void glTexParameteriv (GLenum target, GLenum pname, const GLint *params);
+	extern void glTexImage1D (GLenum target, GLint level, GLint internalformat, GLsizei width, GLint border, GLenum format, GLenum type, const GLvoid *pixels);
+	extern void glTexImage2D (GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid *pixels);
+	extern void glDrawBuffer (GLenum mode);
+	extern void glClear (GLbitfield mask);
+	extern void glClearColor (GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
+	extern void glClearStencil (GLint s);
+	extern void glClearDepth (GLdouble depth);
+	extern void glStencilMask (GLuint mask);
+	extern void glColorMask (GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha);
+	extern void glDepthMask (GLboolean flag);
+	extern void glDisable (GLenum cap);
+	extern void glEnable (GLenum cap);
+	extern void glFinish (void);
+	extern void glFlush (void);
+	extern void glBlendFunc (GLenum sfactor, GLenum dfactor);
+	extern void glLogicOp (GLenum opcode);
+	extern void glStencilFunc (GLenum func, GLint ref, GLuint mask);
+	extern void glStencilOp (GLenum fail, GLenum zfail, GLenum zpass);
+	extern void glDepthFunc (GLenum func);
+	extern void glPixelStoref (GLenum pname, GLfloat param);
+	extern void glPixelStorei (GLenum pname, GLint param);
+	extern void glReadBuffer (GLenum mode);
+	extern void glReadPixels (GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid *pixels);
+	extern void glGetBooleanv (GLenum pname, GLboolean *params);
+	extern void glGetDoublev (GLenum pname, GLdouble *params);
+	extern GLenum glGetError (void);
+	extern void glGetFloatv (GLenum pname, GLfloat *params);
+	extern void glGetIntegerv (GLenum pname, GLint *params);
+	extern const GLubyte *glGetString (GLenum name);
+	extern void glGetTexImage (GLenum target, GLint level, GLenum format, GLenum type, GLvoid *pixels);
+	extern void glGetTexParameterfv (GLenum target, GLenum pname, GLfloat *params);
+	extern void glGetTexParameteriv (GLenum target, GLenum pname, GLint *params);
+	extern void glGetTexLevelParameterfv (GLenum target, GLint level, GLenum pname, GLfloat *params);
+	extern void glGetTexLevelParameteriv (GLenum target, GLint level, GLenum pname, GLint *params);
+	extern GLboolean glIsEnabled (GLenum cap);
+	extern void glDepthRange (GLdouble near, GLdouble far);
+	extern void glViewport (GLint x, GLint y, GLsizei width, GLsizei height);
 
 	enum VERSION_1_1_TOKENS{
 		GL_DEPTH_BUFFER_BIT               = 0x00000100,
@@ -272,22 +270,20 @@ namespace GL{
 	};
 	
 	//	VERSION_1_1
-	extern "C"{
-		__declspec(dllimport) void __stdcall glDrawArrays (GLenum mode, GLint first, GLsizei count);
-		__declspec(dllimport) void __stdcall glDrawElements (GLenum mode, GLsizei count, GLenum type, const GLvoid *indices);
-		__declspec(dllimport) void __stdcall glGetPointerv (GLenum pname, GLvoid **params);
-		__declspec(dllimport) void __stdcall glPolygonOffset (GLfloat factor, GLfloat units);
-		__declspec(dllimport) void __stdcall glCopyTexImage1D (GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLint border);
-		__declspec(dllimport) void __stdcall glCopyTexImage2D (GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border);
-		__declspec(dllimport) void __stdcall glCopyTexSubImage1D (GLenum target, GLint level, GLint xoffset, GLint x, GLint y, GLsizei width);
-		__declspec(dllimport) void __stdcall glCopyTexSubImage2D (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height);
-		__declspec(dllimport) void __stdcall glTexSubImage1D (GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, const GLvoid *pixels);
-		__declspec(dllimport) void __stdcall glTexSubImage2D (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid *pixels);
-		__declspec(dllimport) void __stdcall glBindTexture (GLenum target, GLuint texture);
-		__declspec(dllimport) void __stdcall glDeleteTextures (GLsizei n, const GLuint *textures);
-		__declspec(dllimport) void __stdcall glGenTextures (GLsizei n, GLuint *textures);
-		__declspec(dllimport) GLboolean __stdcall glIsTexture (GLuint texture);
-	}
+	extern void glDrawArrays (GLenum mode, GLint first, GLsizei count);
+	extern void glDrawElements (GLenum mode, GLsizei count, GLenum type, const GLvoid *indices);
+	extern void glGetPointerv (GLenum pname, GLvoid **params);
+	extern void glPolygonOffset (GLfloat factor, GLfloat units);
+	extern void glCopyTexImage1D (GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLint border);
+	extern void glCopyTexImage2D (GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border);
+	extern void glCopyTexSubImage1D (GLenum target, GLint level, GLint xoffset, GLint x, GLint y, GLsizei width);
+	extern void glCopyTexSubImage2D (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height);
+	extern void glTexSubImage1D (GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, const GLvoid *pixels);
+	extern void glTexSubImage2D (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid *pixels);
+	extern void glBindTexture (GLenum target, GLuint texture);
+	extern void glDeleteTextures (GLsizei n, const GLuint *textures);
+	extern void glGenTextures (GLsizei n, GLuint *textures);
+	extern GLboolean glIsTexture (GLuint texture);
 
 	enum VERSION_1_2_TOKENS : GLenum{
 		GL_UNSIGNED_BYTE_3_3_2            = 0x8032,
@@ -527,22 +523,23 @@ namespace GL{
 //	Loading
 //===============================================
 namespace GL{
-	namespace Loader{
-		enum class Version{
-			V_1_2,
-			V_1_3,
-			V_1_4,
-			V_1_5,
-		};
+	enum class Version{
+		V_1_2,
+		V_1_3,
+		V_1_4,
+		V_1_5,
+	};
+	
+	enum class Extension{
+		VertexBufferObjects,
+		MipMapGeneration,
+		AnisotropicFiltering,
+	};
 
-		enum class Extension{
-			VertexBufferObjects,
-		};
-
-		extern const bool	IsSupported(const Extension uExtension);
-		extern const bool	Load(const Version uVersion);
-		extern const bool	Load(const Extension uExtension);
-	}
+	extern const bool	LoadExtensionInfo();
+	extern const bool	IsSupported(const Extension uExtension);
+	extern const bool	Load(const Version uVersion);
+	extern const bool	Load(const Extension uExtension);
 
 	extern void	ReportGLError(GLenum uError, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine);
 }

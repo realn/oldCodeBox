@@ -42,6 +42,8 @@ namespace CB{
 	}
 
 	void	CRenderContext::CreateContext(const IDeviceContext& DC){
+		this->Free();
+
 		this->m_GLContext = wglCreateContext(DC.Get());
 		if(this->m_GLContext == 0){
 			CR_THROWWIN(GetLastError(), L"Failed to create GL Legacy Context.");
@@ -49,7 +51,7 @@ namespace CB{
 	}
 
 	const bool	CRenderContext::CreateContext(const IDeviceContext& DC, const Collection::ICountable<int32>& Attribs){
-		if(!WGL::Loader::IsSupported(WGL::Loader::Extension::CreateContext)){
+		if(!WGL::IsSupported(WGL::Extension::CreateContext)){
 			return false;
 		}
 		if(Attribs.GetLength() % 2 != 0){
@@ -58,7 +60,7 @@ namespace CB{
 
 		Collection::CList<int32> newAttribs(Attribs);
 
-		if(!WGL::Loader::IsSupported(WGL::Loader::Extension::CreateContextProfile)){
+		if(!WGL::IsSupported(WGL::Extension::CreateContextProfile)){
 			Log::Write(L"Context Profile extension unsupproted, removing attributes from array.");
 
 			for(uint32 uIndex = newAttribs.GetLength(); uIndex > 0; uIndex -= 2){
@@ -75,11 +77,26 @@ namespace CB{
 			newAttribs.Add(0);
 		}
 
+		this->Free();
 		this->m_GLContext = WGL::wglCreateContextAttribs(DC.Get(), 0, newAttribs.GetPointer());
 		if(this->m_GLContext == 0){
-			CR_THROWWIN(GetLastError(), L"Failed to create GL Core Context.");
+			return false;
 		}
 
 		return true;
+	}
+
+
+
+	CRCBindGuard::CRCBindGuard() :
+		m_hDC(0),
+		m_hRC(0)
+	{
+		this->m_hDC = wglGetCurrentDC();
+		this->m_hRC = wglGetCurrentContext();
+	}
+
+	CRCBindGuard::~CRCBindGuard(){
+		wglMakeCurrent(this->m_hDC, this->m_hRC);
 	}
 }

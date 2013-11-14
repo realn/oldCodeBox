@@ -2,6 +2,7 @@
 
 #include <Types.h>
 #include <Exception.h>
+#include <CBString.h>
 #include "OpenGL_Types.h"
 
 #include "WinPlatform.h"
@@ -123,21 +124,19 @@ namespace WGL{
 		WGL_SAMPLES                   = 0x2042,
 	};
 
-	namespace Loader{
-		enum class Extension{
-			ExtensionsString,
-			PixelBuffer,
-			PixelFormat,
-			MakeCurrentRead,
-			CreateContext,
-			CreateContextProfile,
-			Multisample,
-		};
+	enum class Extension{
+		ExtensionsString,
+		PixelBuffer,
+		PixelFormat,
+		MakeCurrentRead,
+		CreateContext,
+		CreateContextProfile,
+		Multisample,
+	};
 
-		extern const bool	SetDeviceContext(HDC hDC);
-		extern const bool	IsSupported(const Extension uExtension);
-		extern const bool	Load(const Extension uExtension);
-	}
+	extern const bool	LoadExtensionInfo();
+	extern const bool	IsSupported(const Extension uExtension);
+	extern const bool	Load(const Extension uExtension);
 
 	extern void	ReportGLBindMismatch(const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine);
 }

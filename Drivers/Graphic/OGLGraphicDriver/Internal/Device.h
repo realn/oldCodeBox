@@ -30,7 +30,8 @@ namespace CB{
 		CWindowDeviceContext		m_WindowDC;
 		CCGContext					m_CGContext;
 
-		GLenum	m_uPrimitiveMode;
+		GLenum					m_uPrimitiveMode;
+		Graphic::FeatureLevel	m_uFeatureLevel;
 
 		Collection::CList<CPtr<IOGLBaseBuffer>>	m_pVertexStream;
 		CPtr<IOGLBaseBuffer>		m_pIndexStream;
@@ -39,7 +40,7 @@ namespace CB{
 		CPtr<COGLVertexDeclaration>	m_pVertexDeclaration;
 
 	public:
-		COGLDevice(CRefPtr<COGLAdapter> pAdapter, CRefPtr<Window::IWindow> pWindow, const Graphic::CDeviceDesc& Desc, CRefPtr<COGLOutput> pOutput);
+		COGLDevice(CRefPtr<COGLAdapter> pAdapter, CRefPtr<Window::IWindow> pWindow, const Graphic::CDeviceDesc& Desc, const Collection::ICountable<Graphic::FeatureLevel>& FeatureLevels, CRefPtr<COGLOutput> pOutput);
 		~COGLDevice();
 
 		HDC		GetWindowContext() const;
@@ -90,6 +91,8 @@ namespace CB{
 		CRefPtr<Graphic::IBuffer>				GetVertexBuffer(const unsigned uStream) const override;
 		CRefPtr<Graphic::IShader>				GetShader(const Graphic::ShaderType uType) const override;
 		CRefPtr<Graphic::IDeviceState>			GetState(const Graphic::DeviceStateType uType) const override;
+
+		const Graphic::FeatureLevel				GetFeatureLevel() const override;
 		const Graphic::PrimitiveType			GetRenderPrimitive() const override;
 		const CString							GetLastCompilationLog() const override;
 		const uint32							GetNumberOfStreams() const override;
@@ -127,5 +130,8 @@ namespace CB{
 		void BindAllStreams();
 		void UnbindStream(const uint32 uStream);
 		void UnbindAllStreams();
+
+		const bool	LoadFeatureLevel(const Graphic::FeatureLevel uLevel, const bool bCoreCreate);
+		const bool	CreateRenderContext(const uint32 uMajorVersion, const uint32 uMinorVersion, const bool bCoreCreate);
 	};
 }

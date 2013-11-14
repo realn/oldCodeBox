@@ -35,7 +35,7 @@ namespace CB{
 		CRefPtr<Graphic::IOutput>	GetDefaultOutput() override;
 		CRefPtr<Graphic::IOutput>	GetOutputForWindow(CRefPtr<Window::IWindow> pWindow) override;
 
-		CRefPtr<Graphic::IDevice>	CreateDevice(CRefPtr<Window::IWindow> pWindow, const Graphic::CDeviceDesc& Desc) override;
-		CRefPtr<Graphic::IDevice>	CreateDevice(CRefPtr<Window::IWindow> pWindow, const Graphic::CDeviceDesc& Desc, CRefPtr<Graphic::IOutput> pOutput) override;
+		CRefPtr<Graphic::IDevice>	CreateDevice(CRefPtr<Window::IWindow> pWindow, const Graphic::CDeviceDesc& Desc, const Collection::ICountable<Graphic::FeatureLevel>& FeatureLevels) override;
+		CRefPtr<Graphic::IDevice>	CreateDevice(CRefPtr<Window::IWindow> pWindow, const Graphic::CDeviceDesc& Desc, const Collection::ICountable<Graphic::FeatureLevel>& FeatureLevels, CRefPtr<Graphic::IOutput> pOutput) override;
 	};
 }

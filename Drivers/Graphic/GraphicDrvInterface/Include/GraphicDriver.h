@@ -187,6 +187,8 @@ namespace CB{
 			virtual CRefPtr<IBuffer>			GetVertexBuffer(const uint32 uStream) const = 0;
 			virtual CRefPtr<IShader>			GetShader(const ShaderType uType) const = 0;
 			virtual CRefPtr<IDeviceState>		GetState(const DeviceStateType uType) const = 0;
+			
+			virtual const FeatureLevel			GetFeatureLevel() const = 0;
 			virtual const PrimitiveType			GetRenderPrimitive() const = 0;
 			virtual const uint32				GetNumberOfStreams() const = 0;
 			virtual const CString				GetLastCompilationLog() const = 0;
@@ -216,8 +218,8 @@ namespace CB{
 				return this->CreateBuffer(uType, uUsage, uAccess, Array.GetSizeInBytes(), Array.GetPointer());
 			}
 			template<typename _T>
-			CRefPtr<ITexture2D>	CreateTexture(const Math::CSize& Size, const BufferAccess uAccess, const BufferFormat uFormat, const Collection::IPacked<_T>& Array){
-				return this->CreateTexture(Size, uAccess, uFormat, Array.GetSizeInBytes(), Array.GetPointer());
+			CRefPtr<ITexture2D>	CreateTexture2D(const Math::CSize& Size, const BufferAccess uAccess, const BufferFormat uFormat, const Collection::IPacked<_T>& Array){
+				return this->CreateTexture2D(Size, uAccess, uFormat, Array.GetSizeInBytes(), Array.GetPointer());
 			}
 		};
 
@@ -255,8 +257,8 @@ namespace CB{
 			virtual CRefPtr<IOutput>	GetDefaultOutput() = 0;
 			virtual CRefPtr<IOutput>	GetOutputForWindow(CRefPtr<Window::IWindow> pWindow) = 0;
 
-			virtual CRefPtr<IDevice>	CreateDevice(CRefPtr<Window::IWindow> pFocusWindow, const CDeviceDesc& DeviceDesc) = 0;
-			virtual CRefPtr<IDevice>	CreateDevice(CRefPtr<Window::IWindow> pFocusWindow, const CDeviceDesc& DeviceDesc, CRefPtr<IOutput> pOutput) = 0;
+			virtual CRefPtr<IDevice>	CreateDevice(CRefPtr<Window::IWindow> pFocusWindow, const CDeviceDesc& DeviceDesc, const Collection::ICountable<FeatureLevel>& FeatureLevels) = 0;
+			virtual CRefPtr<IDevice>	CreateDevice(CRefPtr<Window::IWindow> pFocusWindow, const CDeviceDesc& DeviceDesc, const Collection::ICountable<FeatureLevel>& FeatureLevels, CRefPtr<IOutput> pOutput) = 0;
 		};
 
 		//==========================================================================

@@ -366,5 +366,47 @@ namespace CB{
 					L"Unknown opengl data type.", CR_INFO());
 			}
 		}
+
+		const bool	GetVersion(const CString& strVersion, uint32& uOutMajorVersion, uint32& uOutMinorVersion){
+			uint32 uDotPos = 0;
+			if(strVersion.Find(L".", uDotPos)){
+				uint32 uDot2Pos = 0;
+				uint32 uWPos = 0;
+
+				if(strVersion.Find(L".", uDotPos + 1, uDot2Pos) && strVersion.Find(L" ", uDotPos + 1, uWPos)){
+					if(uDot2Pos < uWPos){
+						if(String::ToUInt32(strVersion.SubString(0, uDotPos), uOutMajorVersion) && 
+							String::ToUInt32(strVersion.SubStringIndexed(uDotPos+1, uDot2Pos), uOutMinorVersion)){
+							return true;
+						}
+					}
+					else{
+						if(String::ToUInt32(strVersion.SubString(0, uDotPos), uOutMajorVersion) && 
+							String::ToUInt32(strVersion.SubStringIndexed(uDotPos+1, uWPos), uOutMinorVersion)){
+							return true;
+						}
+					}
+				}
+				else if(strVersion.Find(L".", uDotPos + 1, uDot2Pos)){
+					if(String::ToUInt32(strVersion.SubString(0, uDotPos), uOutMajorVersion) && 
+						String::ToUInt32(strVersion.SubStringIndexed(uDotPos+1, uDot2Pos), uOutMinorVersion)){
+						return true;
+					}
+				}
+				else if(strVersion.Find(L" ", uDotPos + 1, uWPos)){
+					if(String::ToUInt32(strVersion.SubString(0, uDotPos), uOutMajorVersion) && 
+						String::ToUInt32(strVersion.SubStringIndexed(uDotPos+1, uWPos), uOutMinorVersion)){
+						return true;
+					}
+				}
+				else{
+					if(String::ToUInt32(strVersion.SubString(0, uDotPos), uOutMajorVersion) && 
+						String::ToUInt32(strVersion.SubString(uDotPos+1), uOutMinorVersion)){
+						return true;
+					}
+				}
+			}
+			return false;
+		}
 	}
 }

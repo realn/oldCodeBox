@@ -21,5 +21,6 @@ namespace CB{
 		extern GRAPHICDRVINTERFACE_API const CString	ToString(const Graphic::CullMode uCull);
 		extern GRAPHICDRVINTERFACE_API const CString	ToString(const Graphic::FillMode uFill);
 		extern GRAPHICDRVINTERFACE_API const CString	ToString(const Graphic::DeviceStateType uType);
+		extern GRAPHICDRVINTERFACE_API const CString	ToString(const Graphic::FeatureLevel uLevel);
 	}
 }

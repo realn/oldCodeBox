@@ -27,4 +27,14 @@ namespace CB{
 	private:
 
 	};
+
+	class CRCBindGuard{
+	private:
+		HDC		m_hDC;
+		HGLRC	m_hRC;
+
+	public:
+		CRCBindGuard();
+		~CRCBindGuard();
+	};
 }

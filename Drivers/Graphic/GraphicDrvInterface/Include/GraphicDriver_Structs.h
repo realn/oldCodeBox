@@ -12,10 +12,10 @@
 
 namespace CB{
 	namespace Graphic{
-		//==============================
+		//==================================================================
 		//	Class representing outputs display modes. Can be used to define 
 		//	a device back buffer.
-		//==============================
+		//==================================================================
 		class GRAPHICDRVINTERFACE_API CDisplayMode{
 		public:
 			Math::CSize		Size;
@@ -36,11 +36,9 @@ namespace CB{
 			const CString	ToString() const;
 		};
 
-		//template class GRAPHICDRVINTERFACE_API CRefPtr<Window::IWindow>;
-
-		//===============================
+		//==================================================================
 		//	Class describing device configuration.
-		//===============================
+		//==================================================================
 		class GRAPHICDRVINTERFACE_API CDeviceDesc{
 		public:
 			CRefPtr<Window::IWindow>	OutputWindow;
