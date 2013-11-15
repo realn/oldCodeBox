@@ -505,6 +505,20 @@ namespace GL{
 		GL_GENERATE_MIPMAP                = 0x8191,
 		GL_GENERATE_MIPMAP_HINT           = 0x8192,
 	};
+
+	//	GL_EXT_stencil_two_side
+	enum STENCIL_TWO_SIDE_TOKENS{
+		GL_STENCIL_TEST_TWO_SIDE      = 0x8910,
+		GL_ACTIVE_STENCIL_FACE        = 0x8911,
+	};
+
+	extern void glActiveStencilFace (GLenum face);
+
+	// GL_EXT_stencil_wrap
+	enum STENCIL_WRAP_TOKENS{
+		GL_INCR_WRAP                  = 0x8507,
+		GL_DECR_WRAP                  = 0x8508,
+	};
 }
 
 //==============================================
@@ -534,6 +548,8 @@ namespace GL{
 		VertexBufferObjects,
 		MipMapGeneration,
 		AnisotropicFiltering,
+		StencilTwoSide,
+		StencilWrap,
 	};
 
 	extern const bool	LoadExtensionInfo();

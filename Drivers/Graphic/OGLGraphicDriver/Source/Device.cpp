@@ -5,6 +5,9 @@
 #include "../Internal/IndexBuffer.h"
 #include "../Internal/VertexShader.h"
 #include "../Internal/FragmentShader.h"
+#include "../Internal/DepthStencilState.h"
+#include "../Internal/BlendState.h"
+#include "../Internal/RasterizerState.h"
 #include "../Internal/VertexDeclaration.h"
 #include "../Internal/Utils.h"
 
@@ -252,6 +255,19 @@ namespace CB{
 		Manage::IObjectManager<IOGLBaseShader>::RemoveObject(pShader);
 	}
 
+	void	COGLDevice::RemoveObject(CPtr<IOGLBaseState> pState){
+		if(this->m_pRasterizerState == pState){
+			this->FreeState(Graphic::DeviceStateType::Rasterizer);
+		}
+		if(this->m_pDepthStencilState == pState){
+			this->FreeState(Graphic::DeviceStateType::DepthStencil);
+		}
+		if(this->m_pBlendState == pState){
+			this->FreeState(Graphic::DeviceStateType::Blend);
+		}
+		Manage::IObjectManager<IOGLBaseState>::RemoveObject(pState);
+	}
+
 	void	COGLDevice::RemoveObject(CPtr<COGLVertexDeclaration> pDeclaration){
 		if(this->m_pVertexDeclaration == pDeclaration){
 			this->FreeVertexDeclaration();
@@ -296,7 +312,7 @@ namespace CB{
 
 		if(pVertexShader->GetType() != Graphic::ShaderType::Vertex){
 			throw Exception::CInvalidArgumentException(L"pVertexShader", String::ToString(pVertexShader->GetType()),
-				L"Invalid shader type.", __FUNCTIONW__, __FILEW__, __LINE__);
+				L"Invalid shader type.", CR_INFO());
 		}
 
 		return new COGLVertexDeclaration(this, Elements);
@@ -333,18 +349,15 @@ namespace CB{
 	}
 
 	CRefPtr<Graphic::IRasterizerState>	COGLDevice::CreateState(const Graphic::CRasterizerStateDesc& Desc){
-		//return new CDX9RasterizerState(this, Desc);
-		CR_THROWNOTIMPLEMENTED();
+		return new COGLRasterizerState(this, Desc);
 	}
 
 	CRefPtr<Graphic::IBlendState>	COGLDevice::CreateState(const Graphic::CBlendStateDesc& Desc){
-		//return new CDX9BlendState(this, Desc);
-		CR_THROWNOTIMPLEMENTED();
+		return new COGLBlendState(this, Desc);
 	}
 
 	CRefPtr<Graphic::IDepthStencilState>	COGLDevice::CreateState(const Graphic::CDepthStencilStateDesc& Desc){
-		//return new CDX9DepthStencilState(this, Desc);
-		CR_THROWNOTIMPLEMENTED();
+		return new COGLDepthStencilState(this, Desc);
 	}
 
 
@@ -363,7 +376,7 @@ namespace CB{
 
 		default:
 			throw Exception::CInvalidArgumentException(L"uType", String::ToString(uType),
-				L"Invalid shader type.", __FUNCTIONW__, __FILEW__, __LINE__);
+				L"Invalid shader type.", CR_INFO());
 		}
 	}
 
@@ -385,7 +398,7 @@ namespace CB{
 
 		if(pBuffer->GetType() != Graphic::BufferType::Index){
 			throw Exception::CInvalidArgumentException(L"pBuffer", String::ToString(pBuffer->GetType()),
-				L"Invalid buffer type for index buffer.", __FUNCTIONW__, __FILEW__, __LINE__);
+				L"Invalid buffer type for index buffer.", CR_INFO());
 		}
 
 		this->m_pIndexStream = pBuffer.GetCast<COGLIndexBuffer>();
@@ -396,12 +409,12 @@ namespace CB{
 
 		if(this->m_pVertexDeclaration.IsNull()){
 			throw Exception::CNullPointerException(L"m_pVertexDeclaration",
-				L"Vertex declaration must be set before attaching vertex buffer.", __FUNCTIONW__, __FILEW__, __LINE__);
+				L"Vertex declaration must be set before attaching vertex buffer.", CR_INFO());
 		}
 
 		if(pBuffer->GetType() != Graphic::BufferType::Vertex){
 			throw Exception::CInvalidArgumentException(L"pBuffer", String::ToString(pBuffer->GetType()),
-				L"Invalid buffer type for vertex buffer.", __FUNCTIONW__, __FILEW__, __LINE__);
+				L"Invalid buffer type for vertex buffer.", CR_INFO());
 		}
 
 		this->FreeVertexBuffer(uStream);
@@ -434,26 +447,30 @@ namespace CB{
 	}
 
 	void	COGLDevice::SetState(CRefPtr<Graphic::IDeviceState> pState){
-		//CR_APICHECK(this, pState);
+		CR_APICHECK(this, pState);
+		CR_GLBINDCHECK(this->m_DeviceContext.Get(), this->m_RenderContext.Get());
 
-		//switch (pState->GetType())
-		//{
-		//case Graphic::DeviceStateType::Rasterizer:	
-		//	this->SetStateRasterizer(pState.Cast<CDX9RasterizerState>());
-		//	break;
+		switch (pState->GetType())
+		{
+		case Graphic::DeviceStateType::Rasterizer:	
+			this->m_pRasterizerState = pState.Cast<IOGLBaseState>();
+			this->SetGLState(this->m_pRasterizerState.GetCast<COGLRasterizerState>()->GetDesc());
+			break;
 
-		//case Graphic::DeviceStateType::Blend:
-		//	this->SetStateBlend(pState.Cast<CDX9BlendState>());
-		//	break;
+		case Graphic::DeviceStateType::Blend:
+			this->m_pBlendState = pState.Cast<IOGLBaseState>();
+			this->SetGLState(this->m_pBlendState.GetCast<COGLBlendState>()->GetDesc());
+			break;
 
-		//case Graphic::DeviceStateType::DepthStencil:
-		//	this->SetStateDepthStencil(pState.Cast<CDX9DepthStencilState>());
-		//	break;
+		case Graphic::DeviceStateType::DepthStencil:
+			this->m_pDepthStencilState = pState.Cast<IOGLBaseState>();
+			this->SetGLState(this->m_pDepthStencilState.GetCast<COGLDepthStencilState>()->GetDesc());
+			break;
 
-		//default:
-		//	throw Exception::CInvalidArgumentException(L"pState->GetType()", String::ToString(pState->GetType()),
-		//		L"Unknown device state type.", CR_INFO());
-		//}
+		default:
+			throw Exception::CInvalidArgumentException(L"pState->GetType()", String::ToString(pState->GetType()),
+				L"Unknown device state type.", CR_INFO());
+		}
 	}
 
 	void	COGLDevice::SetRenderPrimitive(const Graphic::PrimitiveType uType){
@@ -494,34 +511,33 @@ namespace CB{
 	}
 
 	CRefPtr<Graphic::IDeviceState>	COGLDevice::GetState(const Graphic::DeviceStateType uType) const{
-		//switch (uType)
-		//{
-		//case Graphic::DeviceStateType::Blend:
-		//	if(this->m_pStateBlend.IsNull())
-		//		return new CDX9BlendState(this, Graphic::CBlendStateDesc());
-		//	else
-		//		return this->m_pStateBlend.Get();
-		//	break;
+		switch (uType)
+		{
+		case Graphic::DeviceStateType::Blend:
+			if(this->m_pBlendState.IsNull())
+				return new COGLBlendState(this, Graphic::CBlendStateDesc());
+			else
+				return this->m_pBlendState.Get();
+			break;
 
-		//case Graphic::DeviceStateType::DepthStencil:
-		//	if(this->m_pStateDepthStencil.IsNull())
-		//		return new CDX9DepthStencilState(this, Graphic::CDepthStencilStateDesc());
-		//	else
-		//		return this->m_pStateDepthStencil.Get();
-		//	break;
+		case Graphic::DeviceStateType::DepthStencil:
+			if(this->m_pDepthStencilState.IsNull())
+				return new COGLDepthStencilState(this, Graphic::CDepthStencilStateDesc());
+			else
+				return this->m_pDepthStencilState.Get();
+			break;
 
-		//case Graphic::DeviceStateType::Rasterizer:
-		//	if(this->m_pStateRasterizer.IsNull())
-		//		return new CDX9RasterizerState(this, Graphic::CRasterizerStateDesc());
-		//	else
-		//		return this->m_pStateRasterizer.Get();
-		//	break;
+		case Graphic::DeviceStateType::Rasterizer:
+			if(this->m_pRasterizerState.IsNull())
+				return new COGLRasterizerState(this, Graphic::CRasterizerStateDesc());
+			else
+				return this->m_pRasterizerState.Get();
+			break;
 
-		//default:
-		//	throw Exception::CInvalidArgumentException(L"uType", String::ToString(uType),
-		//		L"Unknown state type.", __FUNCTIONW__, __FILEW__, __LINE__);
-		//}
-		CR_THROWNOTIMPLEMENTED();
+		default:
+			throw Exception::CInvalidArgumentException(L"uType", String::ToString(uType),
+				L"Unknown state type.", CR_INFO());
+		}
 	}
 
 	const Graphic::PrimitiveType	COGLDevice::GetRenderPrimitive() const{
@@ -590,41 +606,32 @@ namespace CB{
 
 		default:
 			throw Exception::CInvalidArgumentException(L"uType", String::ToString(uType),
-				L"Invalid shader type.", __FUNCTIONW__, __FILEW__, __LINE__);
+				L"Invalid shader type.", CR_INFO());
 		}
 	}
 
 	void	COGLDevice::FreeState(const Graphic::DeviceStateType uType){
-		//switch (uType)
-		//{
-		//case Graphic::DeviceStateType::Blend:
-		//	{
-		//		CRefPtr<CDX9BlendState> pBlend = new CDX9BlendState(this, Graphic::CBlendStateDesc());
-		//		this->SetStateBlend(pBlend);
-		//		this->m_pStateBlend.Reset();
-		//	}
-		//	break;
+		switch (uType)
+		{
+		case Graphic::DeviceStateType::Blend:
+			this->m_pBlendState.Reset();
+			this->SetGLState(Graphic::CBlendStateDesc());
+			break;
 
-		//case Graphic::DeviceStateType::DepthStencil:
-		//	{
-		//		CRefPtr<CDX9DepthStencilState> pDepth = new CDX9DepthStencilState(this, Graphic::CDepthStencilStateDesc());
-		//		this->SetStateDepthStencil(pDepth);
-		//		this->m_pStateDepthStencil.Reset();
-		//	}
-		//	break;
+		case Graphic::DeviceStateType::DepthStencil:
+			this->m_pDepthStencilState.Reset();
+			this->SetGLState(Graphic::CDepthStencilStateDesc());
+			break;
 
-		//case Graphic::DeviceStateType::Rasterizer:
-		//	{
-		//		CRefPtr<CDX9RasterizerState> pRasterizer = new CDX9RasterizerState(this, Graphic::CRasterizerStateDesc());
-		//		this->SetStateRasterizer(pRasterizer);
-		//		this->m_pStateRasterizer.Reset();
-		//	}
-		//	break;
+		case Graphic::DeviceStateType::Rasterizer:
+			this->m_pRasterizerState.Reset();
+			this->SetGLState(Graphic::CRasterizerStateDesc());
+			break;
 
-		//default:
-		//	throw Exception::CInvalidArgumentException(L"uType", String::ToString(uType),
-		//		L"Unknown state type for clearing.", __FUNCTIONW__, __FILEW__, __LINE__);
-		//}
+		default:
+			throw Exception::CInvalidArgumentException(L"uType", String::ToString(uType),
+				L"Unknown state type for clearing.", CR_INFO());
+		}
 	}
 
 
@@ -685,7 +692,7 @@ namespace CB{
 	void	COGLDevice::RenderInstanced(const uint32 uInstanceCount, const uint32 uPrimitiveCount, const uint32 uStartVertex){
 		//if(this->m_pCurrentDeclaration.IsNull()){
 		//	throw Exception::CNullPointerException(L"m_pCurrentDeclaration", 
-		//		L"Vertex declaration must be set for instanced rendering.", __FUNCTIONW__, __FILEW__, __LINE__);
+		//		L"Vertex declaration must be set for instanced rendering.", CR_INFO());
 		//}
 		//
 		//HRESULT hResult = S_OK;
@@ -705,7 +712,7 @@ namespace CB{
 
 		//		if(hResult != S_OK){
 		//			throw Exception::CCOMException(hResult,
-		//				L"Failed to set instance number for stream " + String::FromUInt32(uIndex) + L".", __FUNCTIONW__, __FILEW__, __LINE__);
+		//				L"Failed to set instance number for stream " + String::FromUInt32(uIndex) + L".", CR_INFO());
 		//		}
 		//	}
 		//}
@@ -714,7 +721,7 @@ namespace CB{
 		//}
 		//catch(Exception::CException& Exception){
 		//	throw Exception::CException(
-		//		L"Failed to render instanced data.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+		//		L"Failed to render instanced data.", CR_INFO(), Exception);
 		//}
 
 		//for(uint32 uIndex = 0; uIndex < this->m_pVertexBufferList.GetLength(); uIndex++){
@@ -722,7 +729,7 @@ namespace CB{
 		//		hResult = this->m_pDXObject->SetStreamSourceFreq(uIndex, 1);
 		//		if(hResult != S_OK){
 		//			throw Exception::CCOMException(hResult,
-		//				L"Failed to free instance number for stream " + String::FromUInt32(uIndex) + L".", __FUNCTIONW__, __FILEW__, __LINE__);
+		//				L"Failed to free instance number for stream " + String::FromUInt32(uIndex) + L".", CR_INFO());
 		//		}
 		//	}
 		//}
@@ -739,7 +746,7 @@ namespace CB{
 	void	COGLDevice::RenderInstancedIndexed(const uint32 uInstanceCount, const uint32 uPrimitiveCount, const uint32 uStartVertex, const uint32 uStartIndex){
 		//if(this->m_pCurrentDeclaration.IsNull()){
 		//	throw Exception::CNullPointerException(L"m_pCurrentDeclaration", 
-		//		L"Vertex declaration must be set for instanced rendering.", __FUNCTIONW__, __FILEW__, __LINE__);
+		//		L"Vertex declaration must be set for instanced rendering.", CR_INFO());
 		//}
 		//
 		//HRESULT hResult = S_OK;
@@ -759,7 +766,7 @@ namespace CB{
 
 		//		if(hResult != S_OK){
 		//			throw Exception::CCOMException(hResult,
-		//				L"Failed to set instance number for stream " + String::FromUInt32(uIndex) + L".", __FUNCTIONW__, __FILEW__, __LINE__);
+		//				L"Failed to set instance number for stream " + String::FromUInt32(uIndex) + L".", CR_INFO());
 		//		}
 		//	}
 		//}
@@ -768,7 +775,7 @@ namespace CB{
 		//}
 		//catch(Exception::CException& Exception){
 		//	throw Exception::CException(
-		//		L"Failed to render instanced data.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+		//		L"Failed to render instanced data.", CR_INFO(), Exception);
 		//}
 
 		//for(uint32 uIndex = 0; uIndex < this->m_pVertexBufferList.GetLength(); uIndex++){
@@ -776,7 +783,7 @@ namespace CB{
 		//		hResult = this->m_pDXObject->SetStreamSourceFreq(uIndex, 1);
 		//		if(hResult != S_OK){
 		//			throw Exception::CCOMException(hResult,
-		//				L"Failed to free instance number for stream " + String::FromUInt32(uIndex) + L".", __FUNCTIONW__, __FILEW__, __LINE__);
+		//				L"Failed to free instance number for stream " + String::FromUInt32(uIndex) + L".", CR_INFO());
 		//		}
 		//	}
 		//}
@@ -967,4 +974,78 @@ namespace CB{
 			return false;
 		}
 	}
+
+	void	COGLDevice::SetGLState(const Graphic::CRasterizerStateDesc& Desc){
+		if(Desc.bFrontCounterClockWise){
+			GL::glFrontFace(GL::GL_CCW);	CR_GLCHECK();
+		}
+		else{
+			GL::glFrontFace(GL::GL_CW);		CR_GLCHECK();
+		}
+
+		if(Desc.uCullMode != Graphic::CullMode::None){
+			GL::glEnable(GL::GL_CULL_FACE);	CR_GLCHECK();
+			switch (Desc.uCullMode)
+			{
+			case Graphic::CullMode::Front:	
+				GL::glCullFace(GL::GL_FRONT);	CR_GLCHECK();	
+				break;
+
+			case Graphic::CullMode::Back:
+				GL::glCullFace(GL::GL_BACK);	CR_GLCHECK();
+				break;
+
+			default:
+				throw Exception::CInvalidVarValueException(L"Desc.uCullMode", String::ToString(Desc.uCullMode),
+					L"Unknown culling mode.", CR_INFO());
+			}
+		}
+		else{
+			GL::glDisable(GL::GL_CULL_FACE);	CR_GLCHECK();
+		}
+		
+		switch (Desc.uFillMode)
+		{
+		case Graphic::FillMode::Solid:	
+			GL::glPolygonMode(GL::GL_FRONT_AND_BACK, GL::GL_FILL);	CR_GLCHECK();
+			break;
+
+		case Graphic::FillMode::WireFrame:
+			CR_THROWNOTIMPLEMENTED();
+			//GL::glPolygonMode(GL::GL_FRONT_AND_BACK, 0);
+		default:
+			break;
+		}
+	}
+
+	void	COGLDevice::SetGLState(const Graphic::CDepthStencilStateDesc& Desc){
+		if(Desc.bDepthTestEnabled){
+			GL::glEnable(GL::GL_DEPTH_TEST);	CR_GLCHECK();
+		}
+		else{
+			GL::glDisable(GL::GL_DEPTH_TEST);	CR_GLCHECK();
+		}
+		if(Desc.bDepthWrite){
+			GL::glDepthMask(false);
+		}
+		else{
+			GL::glDepthMask(true);
+		}
+		GL::glDepthFunc(GLUtils::ToCompareFunc(Desc.uDepthFunction));	CR_GLCHECK();
+
+		if(GL::IsSupported(GL::Extension::StencilTwoSide)){
+			if(Desc.bStencilTestEnabled){
+				GL::glEnable(GL::GL_STENCIL_TEST_TWO_SIDE);
+				this->SetGLStateStencilFace(Desc.StencilFront, GL::GL_FRONT);
+				this->SetGLStateStencilFace(Desc.StencilBack, GL::GL_BACK);
+			}
+			else{
+				GL::glDisable(GL::GL_STENCIL_TEST_TWO_SIDE);
+			}
+		}
+	}
+
+	void	COGLDevice::SetGLStateStencilFace(const Graphic::CStencilInstDesc& Desc, const GLenum uFace){
+	}
+
 }

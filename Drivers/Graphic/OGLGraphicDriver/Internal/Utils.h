@@ -19,6 +19,7 @@ namespace CB{
 		extern const GLenum	ToVertexType(const Graphic::VertexType uType);
 		extern const uint32	ToVertexTypeNumber(const Graphic::VertexType uType);
 		extern const Graphic::VertexType	ToVertexType(const GLenum uType, const uint32 uNumber);
+		extern const GLenum ToCompareFunc(const Graphic::CompareFunc uFunc);
 
 		extern const uint32	GetTypeSize(const GLenum uType);
 

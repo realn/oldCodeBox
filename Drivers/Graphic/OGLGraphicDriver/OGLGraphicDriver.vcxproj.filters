@@ -39,6 +39,9 @@
     <Filter Include="Internal\State">
       <UniqueIdentifier>{570c7223-e4f1-4e3d-b29e-1a43769cdd67}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\State">
+      <UniqueIdentifier>{ce024d85-1443-4349-8ba5-d4f8859381be}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\OGLGraphicDriver.h">
@@ -122,6 +125,18 @@
     <ClInclude Include="Internal\BufferStream.h">
       <Filter>Internal\Buffer</Filter>
     </ClInclude>
+    <ClInclude Include="Internal\BaseState.h">
+      <Filter>Internal\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\DepthStencilState.h">
+      <Filter>Internal\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\BlendState.h">
+      <Filter>Internal\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\RasterizerState.h">
+      <Filter>Internal\State</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\OGLGraphicDriver.cpp">
@@ -186,6 +201,18 @@
     </ClCompile>
     <ClCompile Include="Source\BufferStream.cpp">
       <Filter>Source\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BaseState.cpp">
+      <Filter>Source\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DepthStencilState.cpp">
+      <Filter>Source\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BlendState.cpp">
+      <Filter>Source\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RasterizerState.cpp">
+      <Filter>Source\State</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

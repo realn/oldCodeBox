@@ -129,6 +129,9 @@ namespace GL{
 		typedef GLboolean (APIENTRYP PFNGLUNMAPBUFFERPROC) (GLenum target);
 		typedef void (APIENTRYP PFNGLGETBUFFERPARAMETERIVPROC) (GLenum target, GLenum pname, GLint *params);
 		typedef void (APIENTRYP PFNGLGETBUFFERPOINTERVPROC) (GLenum target, GLenum pname, GLvoid **params);
+
+		//	GL_EXT_STENCIL_TWO_SIDE
+		typedef void (APIENTRYP PFNGLACTIVESTENCILFACEPROC) (GLenum face);
 	}
 
 	namespace PROC{
@@ -183,6 +186,8 @@ namespace GL{
 		GL_PROC(PFNGLGETBUFFERPARAMETERIVPROC, glGetBufferParameteriv);
 		GL_PROC(PFNGLGETBUFFERPOINTERVPROC, glGetBufferPointerv);
 		
+		GL_PROC(PFNGLACTIVESTENCILFACEPROC, glActiveStencilFace);
+
 #undef GL_PROC
 	}
 
@@ -557,6 +562,10 @@ namespace GL{
 
 #pragma endregion
 
+	void	glActiveStencilFace(GLenum face){
+		PROC::glActiveStencilFace(face);
+	}
+
 	//============================================================
 	//	Proc loading functions
 	//============================================================
@@ -667,6 +676,12 @@ namespace GL{
 		return true;
 	}
 
+	const bool LoadProcStencilTwoSide(const CB::CString& strSufix){
+		GL_PROC(PFNGLACTIVESTENCILFACEPROC, glActiveStencilFace);
+		
+		return true;
+	}
+
 #undef GL_PROC
 
 	//========================================================
@@ -713,6 +728,11 @@ namespace GL{
 	const bool LoadVBO(){
 		CB::Log::Write(L"Loading GL Vertex Buffer Objects Extension.", CB::Log::LogLevel::Debug);
 		return LoadProcs<LoadProcVBO>();
+	}
+
+	const bool LoadStencilTwoSide(){
+		CB::Log::Write(L"Loading GL Stencil two side Extension.", CB::Log::LogLevel::Debug);
+		return LoadProcs<LoadProcStencilTwoSide>();
 	}
 
 	//========================================================
@@ -782,7 +802,11 @@ namespace GL{
 		case Extension::AnisotropicFiltering:
 			return IsGLExtensionSupported(L"texture_filter_anisotropic");
 
-			
+		case Extension::StencilTwoSide:
+			return IsGLExtensionSupported(L"stencil_two_side");
+
+		case Extension::StencilWrap:
+			return IsGLExtensionSupported(L"stencil_wrap");
 
 		default:
 			return false;
@@ -815,8 +839,12 @@ namespace GL{
 		case Extension::VertexBufferObjects:
 			return LoadVBO();
 
+		case Extension::StencilTwoSide:
+			return LoadStencilTwoSide();
+
 		case Extension::AnisotropicFiltering:
 		case Extension::MipMapGeneration:
+		case Extension::StencilWrap:
 			return IsSupported(uExtension);
 
 		default:

@@ -12,6 +12,7 @@
 namespace CB{
 	class IOGLBaseBuffer;
 	class IOGLBaseShader;
+	class IOGLBaseState;
 	class COGLVertexDeclaration;
 
 	class COGLDevice : 
@@ -19,6 +20,7 @@ namespace CB{
 		public Manage::IManagedObject<COGLAdapter, COGLDevice>,
 		public Manage::IObjectManager<IOGLBaseBuffer>,
 		public Manage::IObjectManager<IOGLBaseShader>,
+		public Manage::IObjectManager<IOGLBaseState>,
 		public Manage::IObjectManager<COGLVertexDeclaration>
 	{
 	private:
@@ -35,8 +37,14 @@ namespace CB{
 
 		Collection::CList<CPtr<IOGLBaseBuffer>>	m_pVertexStream;
 		CPtr<IOGLBaseBuffer>		m_pIndexStream;
-		CPtr<IOGLBaseShader>		m_pVertexShader;
-		CPtr<IOGLBaseShader>		m_pFragmentShader;
+		
+		CPtr<IOGLBaseShader>	m_pVertexShader;
+		CPtr<IOGLBaseShader>	m_pFragmentShader;
+
+		CPtr<IOGLBaseState>		m_pDepthStencilState;
+		CPtr<IOGLBaseState>		m_pBlendState;
+		CPtr<IOGLBaseState>		m_pRasterizerState;
+
 		CPtr<COGLVertexDeclaration>	m_pVertexDeclaration;
 
 	public:
@@ -53,6 +61,7 @@ namespace CB{
 
 		void	RemoveObject(CPtr<IOGLBaseBuffer> pBuffer) override;
 		void	RemoveObject(CPtr<IOGLBaseShader> pShader) override;
+		void	RemoveObject(CPtr<IOGLBaseState> pState) override;
 		void	RemoveObject(CPtr<COGLVertexDeclaration> pDeclaration) override;
 
 		//	END OF OVERRIDES	============================================
@@ -133,5 +142,11 @@ namespace CB{
 
 		const bool	LoadFeatureLevel(const Graphic::FeatureLevel uLevel, const bool bCoreCreate);
 		const bool	CreateRenderContext(const uint32 uMajorVersion, const uint32 uMinorVersion, const bool bCoreCreate);
+
+		void	SetGLState(const Graphic::CDepthStencilStateDesc& Desc);
+		void	SetGLState(const Graphic::CRasterizerStateDesc& Desc);
+		void	SetGLState(const Graphic::CBlendStateDesc& Desc);
+
+		void	SetGLStateStencilFace(const Graphic::CStencilInstDesc& Desc, const GLenum uFace);
 	};
 }

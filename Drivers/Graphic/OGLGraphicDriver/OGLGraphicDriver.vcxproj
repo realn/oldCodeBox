@@ -89,8 +89,11 @@
     <ClInclude Include="Internal\Adapter.h" />
     <ClInclude Include="Internal\BaseBuffer.h" />
     <ClInclude Include="Internal\BaseShader.h" />
+    <ClInclude Include="Internal\BaseState.h" />
+    <ClInclude Include="Internal\BlendState.h" />
     <ClInclude Include="Internal\BufferStream.h" />
     <ClInclude Include="Internal\CGContext.h" />
+    <ClInclude Include="Internal\DepthStencilState.h" />
     <ClInclude Include="Internal\DeviceContext.h" />
     <ClInclude Include="Internal\DeviceContextInterface.h" />
     <ClInclude Include="Internal\Device.h" />
@@ -104,6 +107,7 @@
     <ClInclude Include="Internal\OpenGL_Types.h" />
     <ClInclude Include="Internal\OpenGL_WGL.h" />
     <ClInclude Include="Internal\Output.h" />
+    <ClInclude Include="Internal\RasterizerState.h" />
     <ClInclude Include="Internal\RenderContext.h" />
     <ClInclude Include="Internal\Utils.h" />
     <ClInclude Include="Internal\VertexBuffer.h" />
@@ -116,8 +120,11 @@
     <ClCompile Include="Source\Adapter.cpp" />
     <ClCompile Include="Source\BaseBuffer.cpp" />
     <ClCompile Include="Source\BaseShader.cpp" />
+    <ClCompile Include="Source\BaseState.cpp" />
+    <ClCompile Include="Source\BlendState.cpp" />
     <ClCompile Include="Source\BufferStream.cpp" />
     <ClCompile Include="Source\CGContext.cpp" />
+    <ClCompile Include="Source\DepthStencilState.cpp" />
     <ClCompile Include="Source\Device.cpp" />
     <ClCompile Include="Source\DeviceContext.cpp" />
     <ClCompile Include="Source\dllmain.cpp">
@@ -135,6 +142,7 @@
     <ClCompile Include="Source\OpenGL_Core.cpp" />
     <ClCompile Include="Source\OpenGL_WGL.cpp" />
     <ClCompile Include="Source\Output.cpp" />
+    <ClCompile Include="Source\RasterizerState.cpp" />
     <ClCompile Include="Source\RenderContext.cpp" />
     <ClCompile Include="Source\Utils.cpp" />
     <ClCompile Include="Source\VertexBuffer.cpp" />

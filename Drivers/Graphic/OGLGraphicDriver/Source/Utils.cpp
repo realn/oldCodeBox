@@ -348,6 +348,23 @@ namespace CB{
 			CR_THROWNOTIMPLEMENTED();
 		}
 
+		const GLenum ToCompareFunc(const Graphic::CompareFunc uFunc){
+			switch (uFunc)
+			{
+			case Graphic::CompareFunc::Always:		return GL::GL_ALWAYS;
+			case Graphic::CompareFunc::Equal:		return GL::GL_EQUAL;
+			case Graphic::CompareFunc::Greater:		return GL::GL_GREATER;
+			case Graphic::CompareFunc::GreaterEqual:	return GL::GL_GEQUAL;
+			case Graphic::CompareFunc::Less:		return GL::GL_LESS;
+			case Graphic::CompareFunc::LessEqual:	return GL::GL_LEQUAL;
+			case Graphic::CompareFunc::Never:		return GL::GL_NEVER;
+			case Graphic::CompareFunc::NotEqual:	return GL::GL_NOTEQUAL;
+			default:
+				throw Exception::CInvalidArgumentException(L"uFunc", String::ToString(uFunc),
+					L"Unknown compare func value.", CR_INFO());
+			}
+		}
+
 		const uint32	GetTypeSize(const GLenum uType){
 			switch (uType)
 			{
