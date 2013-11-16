@@ -36,6 +36,9 @@ namespace CB{
 		m_pOutputWindow(pWindow),
 		m_pOutput(pOutput),
 		m_uPrimitiveMode(GL::GL_TRIANGLES),
+		m_uSampleMask(0xFFFFFFFF),
+		m_uStencilRef(0),
+		m_BlendFactor(0.0f),
 		Manage::IManagedObject<COGLAdapter, COGLDevice>(pAdapter)
 	{
 		Log::Write(L"OpenGL Device initialization...");
@@ -448,7 +451,7 @@ namespace CB{
 
 	void	COGLDevice::SetState(CRefPtr<Graphic::IDeviceState> pState){
 		CR_APICHECK(this, pState);
-		CR_GLBINDCHECK(this->m_DeviceContext.Get(), this->m_RenderContext.Get());
+		CR_GLBINDCHECK(this->m_WindowDC.Get(), this->m_RenderContext.Get());
 
 		switch (pState->GetType())
 		{
@@ -473,9 +476,27 @@ namespace CB{
 		}
 	}
 
+	void	COGLDevice::SetState(CRefPtr<Graphic::IBlendState> pState, const Math::CColor& BlendFactor, const uint32 uSampleMask){
+		CR_APICHECK(this, pState);
+		CR_GLBINDCHECK(this->m_WindowDC.Get(), this->m_RenderContext.Get());
+
+		this->m_BlendFactor = BlendFactor;
+		this->m_uSampleMask = uSampleMask;
+		this->m_pBlendState = pState.Cast<IOGLBaseState>();
+		this->SetGLState(this->m_pBlendState.GetCast<COGLBlendState>()->GetDesc());
+	}
+
+	void	COGLDevice::SetState(CRefPtr<Graphic::IDepthStencilState> pState, const uint32 uStencilRef){
+		CR_APICHECK(this, pState);
+		CR_GLBINDCHECK(this->m_WindowDC.Get(), this->m_RenderContext.Get());
+
+		this->m_uStencilRef = uStencilRef;
+		this->m_pDepthStencilState = pState.Cast<IOGLBaseState>();
+		this->SetGLState(this->m_pDepthStencilState.GetCast<COGLDepthStencilState>()->GetDesc());
+	}
+
 	void	COGLDevice::SetRenderPrimitive(const Graphic::PrimitiveType uType){
-		switch (uType)
-		{
+		switch (uType){
 		case Graphic::PrimitiveType::Points:	this->m_uPrimitiveMode = GL::GL_POINTS;	break;
 		case Graphic::PrimitiveType::Lines:		this->m_uPrimitiveMode = GL::GL_LINES;	break;
 		case Graphic::PrimitiveType::Triangles:	this->m_uPrimitiveMode = GL::GL_TRIANGLES;	break;
@@ -485,7 +506,18 @@ namespace CB{
 		}
 	}
 
+	void	COGLDevice::SetScissorRect(const Math::CRectangle& Rect){
+		CR_GLBINDCHECK(this->m_WindowDC.Get(), this->m_RenderContext.Get());
+
+		GL::glScissor(Rect.Position.X, Rect.Position.Y, Rect.Size.Width, Rect.Size.Height);	CR_GLCHECK();
+	}
 	
+	void	COGLDevice::SetViewport(const Math::CRectangle& Viewport){
+		CR_GLBINDCHECK(this->m_WindowDC.Get(), this->m_RenderContext.Get());
+
+		GL::glViewport(Viewport.Position.X, Viewport.Position.Y, Viewport.Size.Width, Viewport.Size.Height);	CR_GLCHECK();
+	}
+
 
 	CRefPtr<Graphic::IVertexDeclaration>	COGLDevice::GetVertexDeclaration() const{
 		return this->m_pVertexDeclaration.Get();
@@ -568,6 +600,13 @@ namespace CB{
 		return 16;
 	}
 
+	const Math::CRectangle	COGLDevice::GetScissorRect() const{
+		return this->m_ScissorRect;
+	}
+
+	const Math::CRectangle	COGLDevice::GetViewport() const{
+		return this->m_Viewport;
+	}
 
 
 	void	COGLDevice::FreeVertexDeclaration(){
@@ -633,7 +672,6 @@ namespace CB{
 				L"Unknown state type for clearing.", CR_INFO());
 		}
 	}
-
 
 
 	void	COGLDevice::Render(const uint32 uPrimitiveCount){
@@ -790,7 +828,6 @@ namespace CB{
 	}
 
 
-
 	void	COGLDevice::BeginRender(){
 
 	}
@@ -798,7 +835,6 @@ namespace CB{
 	void	COGLDevice::EndRender(){
 
 	}
-
 
 
 	void	COGLDevice::Clear(const Math::CColor& Color){
@@ -881,7 +917,7 @@ namespace CB{
 			if(!this->CreateRenderContext(1, 4, bCoreCreate))
 				return false;
 
-			this->m_RenderContext.Bind(this->m_DeviceContext);
+			this->m_RenderContext.Bind(this->m_WindowDC);
 
 			if(!GL::LoadExtensionInfo()){
 				return false;
@@ -897,6 +933,8 @@ namespace CB{
 			if(!GL::Load(GL::Extension::AnisotropicFiltering))
 				return false;
 			if(!GL::Load(GL::Extension::MipMapGeneration))
+				return false;
+			if(!GL::Load(GL::Extension::StencilTwoSide))
 				return false;
 
 			if(!WGL::LoadExtensionInfo())
@@ -957,7 +995,7 @@ namespace CB{
 			auto hRC = wglGetCurrentContext();
 
 			this->m_RenderContext.Bind(this->m_WindowDC);
-			auto szVersion = GL::glGetString(GL::GL_VERSION);
+			auto szVersion = GL::glGetString(GL::GL_VERSION);	CR_GLCHECK();
 			wglMakeCurrent(hDC, hRC);
 
 			auto strVersion = String::FromANSI(reinterpret_cast<const int8*>(szVersion));
@@ -1011,10 +1049,18 @@ namespace CB{
 			break;
 
 		case Graphic::FillMode::WireFrame:
-			CR_THROWNOTIMPLEMENTED();
-			//GL::glPolygonMode(GL::GL_FRONT_AND_BACK, 0);
+			GL::glPolygonMode(GL::GL_FRONT_AND_BACK, GL::GL_LINE);	CR_GLCHECK();
+
 		default:
-			break;
+			throw Exception::CInvalidArgumentException(L"Desc.uFillMode", String::ToString(Desc.uFillMode),
+				L"Unknown fill mode.", CR_INFO());
+		}
+
+		if(Desc.bScissorEnabled){
+			GL::glEnable(GL::GL_SCISSOR_TEST);	CR_GLCHECK();
+		}
+		else{
+			GL::glDisable(GL::GL_SCISSOR_TEST);	CR_GLCHECK();
 		}
 	}
 
@@ -1025,27 +1071,53 @@ namespace CB{
 		else{
 			GL::glDisable(GL::GL_DEPTH_TEST);	CR_GLCHECK();
 		}
-		if(Desc.bDepthWrite){
-			GL::glDepthMask(false);
-		}
-		else{
-			GL::glDepthMask(true);
-		}
+
+		GL::glDepthMask(Desc.bDepthWrite);
 		GL::glDepthFunc(GLUtils::ToCompareFunc(Desc.uDepthFunction));	CR_GLCHECK();
 
 		if(GL::IsSupported(GL::Extension::StencilTwoSide)){
 			if(Desc.bStencilTestEnabled){
-				GL::glEnable(GL::GL_STENCIL_TEST_TWO_SIDE);
-				this->SetGLStateStencilFace(Desc.StencilFront, GL::GL_FRONT);
-				this->SetGLStateStencilFace(Desc.StencilBack, GL::GL_BACK);
+				GL::glEnable(GL::GL_STENCIL_TEST_TWO_SIDE);	CR_GLCHECK();
+				this->SetGLStateStencilFace(Desc, Desc.StencilFront, GL::GL_FRONT);
+				this->SetGLStateStencilFace(Desc, Desc.StencilBack, GL::GL_BACK);
 			}
 			else{
-				GL::glDisable(GL::GL_STENCIL_TEST_TWO_SIDE);
+				GL::glDisable(GL::GL_STENCIL_TEST_TWO_SIDE);	CR_GLCHECK();
 			}
 		}
 	}
 
-	void	COGLDevice::SetGLStateStencilFace(const Graphic::CStencilInstDesc& Desc, const GLenum uFace){
+	void	COGLDevice::SetGLState(const Graphic::CBlendStateDesc& Desc){
+		if(Desc.bEnabled[0]){
+			GL::glEnable(GL::GL_BLEND);		CR_GLCHECK();
+		}
+		else{
+			GL::glDisable(GL::GL_BLEND);	CR_GLCHECK();
+		}
+
+		GL::glBlendColor(this->m_BlendFactor.Red, this->m_BlendFactor.Green, this->m_BlendFactor.Blue, this->m_BlendFactor.Alpha);	CR_GLCHECK();
+
+		GL::glBlendEquation(GLUtils::ToBlendEquation(Desc.ColorBlend.uOperation));	CR_GLCHECK();
+		GL::glBlendFuncSeparate(
+			GLUtils::ToBlendOption(Desc.ColorBlend.uSourceOperand), GLUtils::ToBlendOption(Desc.ColorBlend.uDestOperand),
+			GLUtils::ToBlendOption(Desc.AlphaBlend.uSourceOperand), GLUtils::ToBlendOption(Desc.AlphaBlend.uDestOperand)
+			);	CR_GLCHECK();
+
+		auto bR = (Desc.uWriteMask[0] & 0x1) > 0;
+		auto bG = (Desc.uWriteMask[0] & 0x2) > 0;
+		auto bB = (Desc.uWriteMask[0] & 0x4) > 0;
+		auto bA = (Desc.uWriteMask[0] & 0x8) > 0;
+
+		GL::glColorMask(bR, bG, bB, bA);	CR_GLCHECK();
 	}
 
+	void	COGLDevice::SetGLStateStencilFace(const Graphic::CDepthStencilStateDesc& StencilDesc, const Graphic::CStencilInstDesc& Desc, const GLenum uFace){
+		if(GL::IsSupported(GL::Extension::StencilTwoSide)){
+			GL::glActiveStencilFace(uFace);	CR_GLCHECK();
+
+			GL::glStencilFunc(GLUtils::ToCompareFunc(Desc.uStencilFunc), this->m_uStencilRef, StencilDesc.uStencilReadMask);	CR_GLCHECK();
+			GL::glStencilOp(GLUtils::ToStencilOp(Desc.uStencilFail), GLUtils::ToStencilOp(Desc.uDepthTestFail), GLUtils::ToStencilOp(Desc.uStencilPass));	CR_GLCHECK();
+			GL::glStencilMask(StencilDesc.uStencilWriteMask);	CR_GLCHECK();
+		}
+	}
 }

@@ -27,16 +27,20 @@ namespace CB{
 		CRefPtr<Window::IWindow>	m_pOutputWindow;
 		CRefPtr<COGLOutput>			m_pOutput;
 
-		CDeviceContext				m_DeviceContext;
 		CRenderContext				m_RenderContext;
 		CWindowDeviceContext		m_WindowDC;
 		CCGContext					m_CGContext;
 
+		Math::CColor			m_BlendFactor;
+		uint32					m_uSampleMask;
+		uint32					m_uStencilRef;
 		GLenum					m_uPrimitiveMode;
 		Graphic::FeatureLevel	m_uFeatureLevel;
+		Math::CRectangle		m_ScissorRect;
+		Math::CRectangle		m_Viewport;
 
 		Collection::CList<CPtr<IOGLBaseBuffer>>	m_pVertexStream;
-		CPtr<IOGLBaseBuffer>		m_pIndexStream;
+		CPtr<IOGLBaseBuffer>	m_pIndexStream;
 		
 		CPtr<IOGLBaseShader>	m_pVertexShader;
 		CPtr<IOGLBaseShader>	m_pFragmentShader;
@@ -93,7 +97,11 @@ namespace CB{
 		void	SetVertexBuffer(const unsigned uStream, CRefPtr<Graphic::IBuffer> pBuffer) override;
 		void	SetShader(CRefPtr<Graphic::IShader> pShader) override;
 		void	SetState(CRefPtr<Graphic::IDeviceState> pState) override;
+		void	SetState(CRefPtr<Graphic::IBlendState> pState, const Math::CColor& BlendFactor, const uint32 uSampleMask) override;
+		void	SetState(CRefPtr<Graphic::IDepthStencilState> pState, const uint32 uStencilRef) override;
 		void	SetRenderPrimitive(const Graphic::PrimitiveType uType) override;
+		void	SetScissorRect(const Math::CRectangle& Rect) override;
+		void	SetViewport(const Math::CRectangle& Viewport) override;
 
 		CRefPtr<Graphic::IVertexDeclaration>	GetVertexDeclaration() const override;
 		CRefPtr<Graphic::IBuffer>				GetIndexBuffer() const override;
@@ -105,6 +113,8 @@ namespace CB{
 		const Graphic::PrimitiveType			GetRenderPrimitive() const override;
 		const CString							GetLastCompilationLog() const override;
 		const uint32							GetNumberOfStreams() const override;
+		const Math::CRectangle					GetScissorRect() const override;
+		const Math::CRectangle					GetViewport() const override;
 
 
 		void	FreeVertexDeclaration() override;
@@ -112,6 +122,7 @@ namespace CB{
 		void	FreeVertexBuffer(const unsigned uStream) override;
 		void	FreeShader(const Graphic::ShaderType uType) override;
 		void	FreeState(const Graphic::DeviceStateType uType) override;
+
 
 		void	Render(const unsigned uPrimitiveCount) override;
 		void	Render(const unsigned uPrimitiveCount, const unsigned uStartVertex) override;
@@ -147,6 +158,6 @@ namespace CB{
 		void	SetGLState(const Graphic::CRasterizerStateDesc& Desc);
 		void	SetGLState(const Graphic::CBlendStateDesc& Desc);
 
-		void	SetGLStateStencilFace(const Graphic::CStencilInstDesc& Desc, const GLenum uFace);
+		void	SetGLStateStencilFace(const Graphic::CDepthStencilStateDesc& StencilDesc, const Graphic::CStencilInstDesc& Desc, const GLenum uFace);
 	};
 }

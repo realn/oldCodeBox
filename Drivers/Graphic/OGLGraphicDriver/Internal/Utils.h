@@ -2,8 +2,8 @@
 
 #include <GraphicDriver.h>
 #include "WinPlatform.h"
-#include "OpenGL.h"
 #include <Collection_List.h>
+#include "OpenGL.h"
 
 namespace CB{
 	namespace GLUtils{
@@ -20,6 +20,9 @@ namespace CB{
 		extern const uint32	ToVertexTypeNumber(const Graphic::VertexType uType);
 		extern const Graphic::VertexType	ToVertexType(const GLenum uType, const uint32 uNumber);
 		extern const GLenum ToCompareFunc(const Graphic::CompareFunc uFunc);
+		extern const GLenum	ToStencilOp(const Graphic::StencilOperation uOp);
+		extern const GLenum ToBlendEquation(const Graphic::BlendOperation uOp);
+		extern const GLenum ToBlendOption(const Graphic::BlendOption uOption);
 
 		extern const uint32	GetTypeSize(const GLenum uType);
 

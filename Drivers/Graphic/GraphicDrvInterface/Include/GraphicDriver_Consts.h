@@ -139,8 +139,8 @@ namespace CB{
 			Keep,
 			Zero,
 			Replace,
-			Incr_Saturate,
-			Decr_Saturate,
+			Incr_Wrap,
+			Decr_Wrap,
 			Invert,
 			Incr,
 			Decr
@@ -172,6 +172,8 @@ namespace CB{
 			OneMinusSourceAlpha,
 			DestAlpha,
 			OneMinusDestAlpha,
+			BlendFactor,
+			OneMinusBlendFactor,
 		};
 
 		enum class FillMode{

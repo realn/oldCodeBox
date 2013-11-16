@@ -132,6 +132,9 @@ namespace GL{
 
 		//	GL_EXT_STENCIL_TWO_SIDE
 		typedef void (APIENTRYP PFNGLACTIVESTENCILFACEPROC) (GLenum face);
+
+		//	GL_EXT_BLEND_FUNC_SEPARATE
+		typedef void (APIENTRYP PFNGLBLENDFUNCSEPARATEPROC) (GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha);
 	}
 
 	namespace PROC{
@@ -185,7 +188,8 @@ namespace GL{
 		GL_PROC(PFNGLUNMAPBUFFERPROC, glUnmapBuffer);
 		GL_PROC(PFNGLGETBUFFERPARAMETERIVPROC, glGetBufferParameteriv);
 		GL_PROC(PFNGLGETBUFFERPOINTERVPROC, glGetBufferPointerv);
-		
+
+		//	EXT Stencil Two Side
 		GL_PROC(PFNGLACTIVESTENCILFACEPROC, glActiveStencilFace);
 
 #undef GL_PROC
@@ -562,6 +566,7 @@ namespace GL{
 
 #pragma endregion
 
+	//	EXT Stencil Two Face
 	void	glActiveStencilFace(GLenum face){
 		PROC::glActiveStencilFace(face);
 	}
@@ -791,8 +796,7 @@ namespace GL{
 	}
 
 	const bool	IsSupported(const Extension uExtension){
-		switch (uExtension)
-		{
+		switch (uExtension){
 		case Extension::VertexBufferObjects:
 			return IsGLExtensionSupported(L"vertex_buffer_object");
 
@@ -805,17 +809,13 @@ namespace GL{
 		case Extension::StencilTwoSide:
 			return IsGLExtensionSupported(L"stencil_two_side");
 
-		case Extension::StencilWrap:
-			return IsGLExtensionSupported(L"stencil_wrap");
-
 		default:
 			return false;
 		}
 	}
 
 	const bool	Load(const Version uVersion){
-		switch (uVersion)
-		{
+		switch (uVersion){
 		case Version::V_1_2:
 			return LoadVersion12();
 
@@ -834,8 +834,7 @@ namespace GL{
 	}
 
 	const bool	Load(const Extension uExtension){
-		switch (uExtension)
-		{
+		switch (uExtension){
 		case Extension::VertexBufferObjects:
 			return LoadVBO();
 
@@ -844,7 +843,6 @@ namespace GL{
 
 		case Extension::AnisotropicFiltering:
 		case Extension::MipMapGeneration:
-		case Extension::StencilWrap:
 			return IsSupported(uExtension);
 
 		default:
@@ -860,5 +858,4 @@ namespace GL{
 		CB::Log::Write(strError + L", " + strFunction + L", " + strFile + L", " + CB::String::ToString(uLine), CB::Log::LogLevel::Error);
 #endif
 	}
-
 }

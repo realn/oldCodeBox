@@ -365,6 +365,55 @@ namespace CB{
 			}
 		}
 
+		const GLenum	ToStencilOp(const Graphic::StencilOperation uOp){
+			switch (uOp)
+			{
+			case Graphic::StencilOperation::Decr:		return GL::GL_DECR;
+			case Graphic::StencilOperation::Decr_Wrap:	return GL::GL_DECR_WRAP;
+			case Graphic::StencilOperation::Incr:		return GL::GL_INCR;
+			case Graphic::StencilOperation::Incr_Wrap:	return GL::GL_INCR_WRAP;
+			case Graphic::StencilOperation::Invert:		return GL::GL_INVERT;
+			case Graphic::StencilOperation::Keep:		return GL::GL_KEEP;
+			case Graphic::StencilOperation::Replace:	return GL::GL_REPLACE;
+			case Graphic::StencilOperation::Zero:		return GL::GL_ZERO;
+
+			default:
+				throw Exception::CInvalidArgumentException(L"uOp", String::ToString(uOp),
+					L"Unknwon stencil operation.", CR_INFO());
+			}
+		}
+
+		const GLenum	ToBlendEquation(const Graphic::BlendOperation uOp){
+			switch (uOp){
+			case Graphic::BlendOperation::Add:	return GL::GL_FUNC_ADD;
+			case Graphic::BlendOperation::Max:	return GL::GL_MAX;
+			case Graphic::BlendOperation::Min:	return GL::GL_MIN;
+			case Graphic::BlendOperation::Sub:	return GL::GL_FUNC_SUBTRACT;
+			case Graphic::BlendOperation::Sub_Reverse:	return GL::GL_FUNC_REVERSE_SUBTRACT;
+
+			default:
+				throw Exception::CInvalidArgumentException(L"uOp", String::ToString(uOp),
+					L"Unknown blend operation.", CR_INFO());
+			}
+		}
+
+		const GLenum ToBlendOption(const Graphic::BlendOption uOption){
+			switch (uOption){
+			case Graphic::BlendOption::DestAlpha:			return GL::GL_DST_ALPHA;
+			case Graphic::BlendOption::DestColor:			return GL::GL_DST_COLOR;
+			case Graphic::BlendOption::One:					return GL::GL_ONE;
+			case Graphic::BlendOption::OneMinusDestAlpha:	return GL::GL_ONE_MINUS_DST_ALPHA;
+			case Graphic::BlendOption::OneMinusDestColor:	return GL::GL_ONE_MINUS_DST_COLOR;
+			case Graphic::BlendOption::OneMinusSourceAlpha:	return GL::GL_ONE_MINUS_SRC_ALPHA;
+			case Graphic::BlendOption::OneMinusSourceColor:	return GL::GL_ONE_MINUS_SRC_COLOR;
+			case Graphic::BlendOption::SourceAlpha:
+				
+			default:
+				break;
+			}
+		}
+
+
 		const uint32	GetTypeSize(const GLenum uType){
 			switch (uType)
 			{

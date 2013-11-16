@@ -441,13 +441,7 @@ namespace GL{
 	extern void  glPointParameteriv (GLenum pname, const GLint *params);
 	extern void  glBlendColor (GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
 	extern void  glBlendEquation (GLenum mode);
-}
 
-//=========================================
-//	OPENGL 1.5
-//=========================================
-
-namespace GL{
 	enum VERSION_1_5_TOKENS : GLenum{
 		GL_BUFFER_SIZE                    = 0x8764,
 		GL_BUFFER_USAGE                   = 0x8765,
@@ -513,12 +507,6 @@ namespace GL{
 	};
 
 	extern void glActiveStencilFace (GLenum face);
-
-	// GL_EXT_stencil_wrap
-	enum STENCIL_WRAP_TOKENS{
-		GL_INCR_WRAP                  = 0x8507,
-		GL_DECR_WRAP                  = 0x8508,
-	};
 }
 
 //==============================================
@@ -538,10 +526,16 @@ namespace GL{
 //===============================================
 namespace GL{
 	enum class Version{
-		V_1_2,
-		V_1_3,
-		V_1_4,
-		V_1_5,
+		V_1_2 = 2,
+		V_1_3 = 3,
+		V_1_4 = 4,
+		V_1_5 = 5,
+		V_2_0 = 6,
+		V_2_1 = 7,
+		V_3_0 = 8,
+		V_3_1 = 9,
+		V_3_2 = 10,
+		V_3_3 = 11,
 	};
 	
 	enum class Extension{
@@ -549,7 +543,6 @@ namespace GL{
 		MipMapGeneration,
 		AnisotropicFiltering,
 		StencilTwoSide,
-		StencilWrap,
 	};
 
 	extern const bool	LoadExtensionInfo();

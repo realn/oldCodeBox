@@ -8,6 +8,7 @@
 #include <Math_Size.h>
 #include <Math_Color.h>
 #include <Math_Matrix.h>
+#include <Math_Rectangle.h>
 #include <IO_Stream.h>
 #include <ApiObject.h>
 #include <WindowDriver.h>
@@ -174,7 +175,11 @@ namespace CB{
 			virtual void	SetVertexBuffer(const uint32 uStream, CRefPtr<IBuffer> pBuffer) = 0;
 			virtual void	SetShader(CRefPtr<IShader> pShader) = 0;
 			virtual void	SetState(CRefPtr<IDeviceState> pState) = 0;
+			virtual void	SetState(CRefPtr<IBlendState> pState, const Math::CColor& BlendFactor, const uint32 uSampleMask) = 0;
+			virtual void	SetState(CRefPtr<IDepthStencilState> pState, const uint32 uStencilRef) = 0;
 			virtual void	SetRenderPrimitive(const PrimitiveType uType) = 0;
+			virtual void	SetScissorRect(const Math::CRectangle& Rect) = 0;
+			virtual void	SetViewport(const Math::CRectangle& Rect) = 0;
 
 			virtual void	FreeVertexDeclaration() = 0;
 			virtual void	FreeIndexBuffer() = 0;
@@ -192,6 +197,8 @@ namespace CB{
 			virtual const PrimitiveType			GetRenderPrimitive() const = 0;
 			virtual const uint32				GetNumberOfStreams() const = 0;
 			virtual const CString				GetLastCompilationLog() const = 0;
+			virtual const Math::CRectangle		GetScissorRect() const = 0;
+			virtual const Math::CRectangle		GetViewport() const = 0;
 
 			virtual	void	Render(const uint32 uPrimitiveCount) = 0;
 			virtual void	Render(const uint32 uPrimitiveCount, const uint32 uStartVertex) = 0;

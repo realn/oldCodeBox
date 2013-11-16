@@ -138,14 +138,14 @@ namespace CB{
 		const CString	ToString(const Graphic::StencilOperation uOp){
 			switch (uOp)
 			{
-			case Graphic::StencilOperation::Decr:	return L"Decrement";
-			case Graphic::StencilOperation::Decr_Saturate:	return L"Decrement & Saturate";
-			case Graphic::StencilOperation::Incr:	return L"Increment";
-			case Graphic::StencilOperation::Incr_Saturate:	return L"Increment & Saturate";
-			case Graphic::StencilOperation::Invert:	return L"Invert";
-			case Graphic::StencilOperation::Keep:	return L"Keep";
+			case Graphic::StencilOperation::Decr:		return L"Decrement";
+			case Graphic::StencilOperation::Decr_Wrap:	return L"Decrement & Wrap";
+			case Graphic::StencilOperation::Incr:		return L"Increment";
+			case Graphic::StencilOperation::Incr_Wrap:	return L"Increment & Wrap";
+			case Graphic::StencilOperation::Invert:		return L"Invert";
+			case Graphic::StencilOperation::Keep:		return L"Keep";
 			case Graphic::StencilOperation::Replace:	return L"Replace";
-			case Graphic::StencilOperation::Zero:	return L"Zero";
+			case Graphic::StencilOperation::Zero:		return L"Zero";
 
 			default:
 				return String::FromUInt32((uint32)uOp);
@@ -169,19 +169,21 @@ namespace CB{
 		const CString	ToString(const Graphic::BlendOption uOption){
 			switch (uOption)
 			{
-			case Graphic::BlendOption::DestAlpha:	return L"Dest Alpha";
-			case Graphic::BlendOption::DestColor:	return L"Dest Color";
-			case Graphic::BlendOption::One:			return L"One";
+			case Graphic::BlendOption::DestAlpha:			return L"Dest Alpha";
+			case Graphic::BlendOption::DestColor:			return L"Dest Color";
+			case Graphic::BlendOption::One:					return L"One";
 			case Graphic::BlendOption::OneMinusDestAlpha:	return L"One Minus Dest Alpha";
 			case Graphic::BlendOption::OneMinusDestColor:	return L"One Minus Dest Color";
 			case Graphic::BlendOption::OneMinusSourceAlpha:	return L"One Minus Source Alpha";
 			case Graphic::BlendOption::OneMinusSourceColor:	return L"One Minus Source Color";
-			case Graphic::BlendOption::SourceAlpha:	return L"Source Alpha";
-			case Graphic::BlendOption::SourceColor:	return L"Source Color";
-			case Graphic::BlendOption::Zero:	return L"Zero";
+			case Graphic::BlendOption::SourceAlpha:			return L"Source Alpha";
+			case Graphic::BlendOption::SourceColor:			return L"Source Color";
+			case Graphic::BlendOption::Zero:				return L"Zero";
+			case Graphic::BlendOption::BlendFactor:			return L"Blend Factor";
+			case Graphic::BlendOption::OneMinusBlendFactor:	return L"One Minus Blend Factor";
 
 			default:
-				return String::FromUInt32((uint32)uOption);
+				return String::ToString((uint32)uOption);
 			}
 		}
 
