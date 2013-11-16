@@ -22,7 +22,7 @@ namespace CB{
 		if(m_hDC){ 
 			ReleaseDC((HWND)this->m_pWindow->GetHandle(), this->m_hDC); 
 			this->m_hDC = 0;
-			this->m_pWindow->Release();
+			this->m_pWindow.Release();
 		} 
 	}
 

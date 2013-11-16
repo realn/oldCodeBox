@@ -11,7 +11,7 @@ namespace CB{
 			// Exception throw kept for VS2012 exception lookup.
 			if(this->m_uRefCount != 0){
 				throw Exception::CNotZeroReferenceException( 
-					L"Reference counter is not zero while deleting object.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Reference counter is not zero while deleting object.", CR_INFO());
 			}
 		}
 		catch(Exception::CException&){}
@@ -26,6 +26,10 @@ namespace CB{
 	const uint32 IRef::Release(){
 		if(this->m_uRefCount > 0){
 			this->m_uRefCount--;
+		}
+		else{
+			throw Exception::CInvalidVarValueException(L"m_uRefCount", L"0",
+				L"Release should not EVER be called when reference counter is 0!", CR_INFO());
 		}
 
 		if(this->m_uRefCount == 0){

@@ -7,9 +7,9 @@
 
 namespace CB{
 	namespace Math{
-		class COMMON_API CVector2D :
-			public Collection::ICountable<float32>,
-			public Collection::IPacked<float32>
+		class COMMON_API CVector2D //:
+			//public Collection::ICountable<float32>,
+			//public Collection::IPacked<float32>
 		{
 		public:
 			float32	X;
@@ -32,15 +32,15 @@ namespace CB{
 			const bool	IsEqual(const CVector2D& Vector) const;
 			const bool	IsNearEqual(const CVector2D& Vector) const;
 
-			const bool		IsEmpty() const override;
-			const uint32	GetLength() const override;
-			const uint32	GetSizeInBytes() const override;
+			const bool		IsEmpty() const ;
+			const uint32	GetLength() const ;
+			const uint32	GetSizeInBytes() const ;
 
-			const float32&	Get(const uint32 uIndex) const override;
-			float32&		Get(const uint32 uIndex) override;
+			const float32&	Get(const uint32 uIndex) const ;
+			float32&		Get(const uint32 uIndex) ;
 
-			const float32*	GetPointer() const override;
-			float32*		GetPointer() override;
+			const float32*	GetPointer() const ;
+			float32*		GetPointer() ;
 
 			const float32	GetVectorLength() const;
 			const float32	GetVectorLengthSq() const;
@@ -85,8 +85,8 @@ namespace CB{
 			const bool	operator==(const CVector2D& Vector) const;
 			const bool	operator!=(const CVector2D& Vector) const;
 
-			const float32&	operator[](const uint32 uIndex) const;
-			float32&			operator[](const uint32 uIndex);
+			const float32&	operator[](const uint32 uIndex) const ;
+			float32&		operator[](const uint32 uIndex) ;
 		};
 
 		class COMMON_API CVector3D : 
@@ -116,15 +116,15 @@ namespace CB{
 			const bool	IsEqual(const CVector3D& Vector) const;
 			const bool	IsNearEqual(const CVector3D& Vector) const;
 
-			const bool		IsEmpty() const override;
-			const uint32	GetLength() const override;
-			const uint32	GetSizeInBytes() const override;
+			const bool		IsEmpty() const ;
+			const uint32	GetLength() const ;
+			const uint32	GetSizeInBytes() const ;
 
-			const float32&	Get(const uint32 uIndex) const override;
-			float32&		Get(const uint32 uIndex) override;
+			const float32&	Get(const uint32 uIndex) const ;
+			float32&		Get(const uint32 uIndex) ;
 
-			const float32*	GetPointer() const override;
-			float32*		GetPointer() override;
+			const float32*	GetPointer() const ;
+			float32*		GetPointer() ;
 
 			const float32	GetVectorLength() const;
 			const float32	GetVectorLengthSq() const;
@@ -170,8 +170,8 @@ namespace CB{
 			const bool	operator==(const CVector3D& Vector) const;
 			const bool	operator!=(const CVector3D& Vector) const;
 
-			const float32&	operator[](const uint32 uIndex) const;
-			float32&			operator[](const uint32 uIndex);
+			const float32&	operator[](const uint32 uIndex) const ;
+			float32&		operator[](const uint32 uIndex) ;
 		};
 
 		class COMMON_API CVector4D : 
@@ -207,15 +207,15 @@ namespace CB{
 			const bool	IsEqual(const CVector4D& Vector) const;
 			const bool	IsNearEqual(const CVector4D& Vector) const;
 
-			const bool		IsEmpty() const override;
-			const uint32	GetLength() const override;
-			const uint32	GetSizeInBytes() const override;
+			const bool		IsEmpty() const ;
+			const uint32	GetLength() const ;
+			const uint32	GetSizeInBytes() const ;
 
-			const float32&	Get(const uint32 uIndex) const override;
-			float32&		Get(const uint32 uIndex) override;
+			const float32&	Get(const uint32 uIndex) const ;
+			float32&		Get(const uint32 uIndex) ;
 
-			const float32*	GetPointer() const override;
-			float32*		GetPointer() override;
+			const float32*	GetPointer() const ;
+			float32*		GetPointer() ;
 
 			const float32	GetVectorLength() const;
 			const float32	GetVectorLengthSq() const;
@@ -260,8 +260,8 @@ namespace CB{
 			const bool	operator==(const CVector4D& Vector) const;
 			const bool	operator!=(const CVector4D& Vector) const;
 
-			const float32&	operator[](const uint32 uIndex) const;
-			float32&			operator[](const uint32 uIndex);
+			const float32&	operator[](const uint32 uIndex) const ;
+			float32&		operator[](const uint32 uIndex) ;
 		};
 	}
 }

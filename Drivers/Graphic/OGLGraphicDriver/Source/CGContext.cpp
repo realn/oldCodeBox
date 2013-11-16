@@ -6,7 +6,7 @@ namespace CB{
 		m_Context(0)
 	{
 		this->m_Context = cgCreateContext();
-		if(!this->m_Context == 0){
+		if(this->m_Context == 0){
 			CR_THROW(L"Failed to create CG context.");
 		}
 	}

@@ -144,11 +144,11 @@ namespace CB{
 		}
 
 		const CVector4D*	CMatrix::GetPointer() const{
-			return this->Row.GetPointer();
+			return &this->Row[0];// this->Row.GetPointer();
 		}
 
 		CVector4D*			CMatrix::GetPointer() {
-			return this->Row.GetPointer();
+			return &this->Row[0];// this->Row.GetPointer();
 		}
 		
 		const float32*	CMatrix::GetMatrixPointer() const{

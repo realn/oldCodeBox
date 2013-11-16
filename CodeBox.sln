@@ -17,6 +17,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphicDrvInterface", "Driv
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OGLGraphicDriver", "Drivers\Graphic\OGLGraphicDriver\OGLGraphicDriver.vcxproj", "{2F024E01-905B-45E3-A15C-B41710A9B11A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTest", "UnitTest\UnitTest.vcxproj", "{0AF72086-0AB0-4BC0-8DAC-79C47812CB1B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -43,6 +45,10 @@ Global
 		{2F024E01-905B-45E3-A15C-B41710A9B11A}.Debug|Win32.Build.0 = Debug|Win32
 		{2F024E01-905B-45E3-A15C-B41710A9B11A}.Release|Win32.ActiveCfg = Release|Win32
 		{2F024E01-905B-45E3-A15C-B41710A9B11A}.Release|Win32.Build.0 = Release|Win32
+		{0AF72086-0AB0-4BC0-8DAC-79C47812CB1B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0AF72086-0AB0-4BC0-8DAC-79C47812CB1B}.Debug|Win32.Build.0 = Debug|Win32
+		{0AF72086-0AB0-4BC0-8DAC-79C47812CB1B}.Release|Win32.ActiveCfg = Release|Win32
+		{0AF72086-0AB0-4BC0-8DAC-79C47812CB1B}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

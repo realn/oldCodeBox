@@ -198,7 +198,7 @@ namespace CB{
 
 	void	COGLOutput::ReadOutputBounds(){
 		if(!EnumDisplayMonitors(0, 0, MonitorProc, reinterpret_cast<LPARAM>(this))){
-			CR_THROWWIN(GetLastError(), L"Failed to read bounds of output " + this->m_strName);
+			//CR_THROWWIN(GetLastError(), L"Failed to read bounds of output " + this->m_strName);
 		}
 	}
 }

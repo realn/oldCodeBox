@@ -140,9 +140,6 @@ namespace CB{
 			const CString	ToString() const;
 		};
 
-		template class GRAPHICDRVINTERFACE_API Collection::CArray<bool, 8>;
-		template class GRAPHICDRVINTERFACE_API Collection::CArray<byte, 8>;
-
 		class GRAPHICDRVINTERFACE_API CBlendStateDesc{
 		public:
 			Collection::CArray<bool, 8>		bEnabled;

@@ -41,7 +41,7 @@ namespace CB{
 		m_BlendFactor(0.0f),
 		Manage::IManagedObject<COGLAdapter, COGLDevice>(pAdapter)
 	{
-		Log::Write(L"OpenGL Device initialization...");
+		Log::Write(L"Initializing OpenGL Device.");
 
 		if(Desc.bFullScreen){
 			m_pOutput->SetCurrentMode(Desc.BackBuffer);
@@ -50,7 +50,6 @@ namespace CB{
 		{
 			auto pWinManager = this->m_pParent->GetParent()->GetWindowManager();
 			auto pTempWindow = pWinManager->CreateWindow(L"TempGLContextWindow", Window::Style::Pure);
-
 			this->m_pOutput->AdjustWindowRect(pTempWindow);
 
 			CWindowDeviceContext tempWinDC(pTempWindow);
@@ -138,7 +137,7 @@ namespace CB{
 				const bool bCoreCreate = WGL::Load(WGL::Extension::CreateContext);
 
 				Log::Write(L"Loading feature level: " + String::ToString(FeatureLevels[uFLIndex]));
-				if(!this->LoadFeatureLevel(FeatureLevels[uFLIndex], bCoreCreate)){
+				if(this->LoadFeatureLevel(FeatureLevels[uFLIndex], bCoreCreate)){
 					this->m_uFeatureLevel = FeatureLevels[uFLIndex];
 					bFound = true;
 					break;
@@ -151,6 +150,7 @@ namespace CB{
 			else{
 				Log::Write(L"Selected feature level: " + String::ToString(this->m_uFeatureLevel));
 			}
+			
 		}
 		this->m_RenderContext.Bind(this->m_WindowDC);
 
@@ -163,7 +163,7 @@ namespace CB{
 	}
 
 	COGLDevice::~COGLDevice(){
-		Log::Write(L"Destroing OpenGL Device...");
+		Log::Write(L"Deinitializing OpenGL Device...");
 	}
 
 	HDC	COGLDevice::GetWindowContext() const{
@@ -982,7 +982,7 @@ namespace CB{
 			attribs.Add(WGL::WGL_CONTEXT_MINOR_VERSION);
 			attribs.Add(uMinorVersion);
 
-			if(WGL::IsSupported(WGL::Extension::CreateContextProfile)){
+			if(WGL::IsSupported(WGL::Extension::CreateContextProfile) && uMajorVersion >= 3 && uMinorVersion >= 0){
 				attribs.Add(WGL::WGL_CONTEXT_PROFILE_MASK);
 				attribs.Add(WGL::WGL_CONTEXT_CORE_PROFILE_BIT);
 			}

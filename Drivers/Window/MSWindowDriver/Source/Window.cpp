@@ -85,16 +85,21 @@ namespace CB{
 	}
 
 	CWindow::~CWindow(){
-		Log::Write(L"Deinitializing window...", Log::LogLevel::Debug);
-		if(this->m_hWindow != 0 && this->m_hWindow != INVALID_HANDLE_VALUE){
-			if(IsWindow(this->m_hWindow)){
-				SetWindowLongPtrW(this->m_hWindow, GWLP_USERDATA, 0);
-				if(!DestroyWindow(this->m_hWindow)){
-					throw Exception::CWindowException(GetLastError(),
-						L"Failed to destroy window.", CR_INFO());
+		try{
+			Log::Write(L"Deinitializing window...", Log::LogLevel::Debug);
+			if(this->m_hWindow != 0 && this->m_hWindow != INVALID_HANDLE_VALUE){
+				if(IsWindow(this->m_hWindow)){
+					SetWindowLongPtrW(this->m_hWindow, GWLP_USERDATA, 0);
+					if(!DestroyWindow(this->m_hWindow)){
+						throw Exception::CWindowException(GetLastError(),
+							L"Failed to destroy window.", CR_INFO());
+					}
 				}
+				this->m_hWindow = 0;
 			}
-			this->m_hWindow = 0;
+		}
+		catch(Exception::CException& Exception){
+			Log::Write(Exception);
 		}
 	}
 

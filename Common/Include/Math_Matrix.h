@@ -16,8 +16,6 @@ namespace CB{
 			ZXY
 		};
 
-		template class COMMON_API Collection::CArray<CVector4D, 4>;
-
 		class COMMON_API CMatrix :
 			public Collection::ICountable<CVector4D>,
 			public Collection::IPacked<CVector4D>

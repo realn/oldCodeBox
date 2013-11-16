@@ -48,8 +48,6 @@ namespace CB{
 		}
 	};
 
-	template class COMMON_API Collection::CDictionary<CString, CModule>;
-
 	class COMMON_API CModuleManager : 
 		public IRef
 	{

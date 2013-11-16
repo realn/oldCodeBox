@@ -7,8 +7,6 @@
 namespace CB{
 	namespace Signals{
 
-		template class COMMON_API Collection::CLinkList<ISignal*>;
-
 		class COMMON_API ISlot{
 		protected:
 			typedef	Collection::CLinkList<ISignal*> SignalList;
