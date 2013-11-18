@@ -137,6 +137,12 @@
     <ClInclude Include="Internal\RasterizerState.h">
       <Filter>Internal\State</Filter>
     </ClInclude>
+    <ClInclude Include="Internal\BaseTexture.h">
+      <Filter>Internal\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\Texture2D.h">
+      <Filter>Internal\Buffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\OGLGraphicDriver.cpp">
@@ -213,6 +219,12 @@
     </ClCompile>
     <ClCompile Include="Source\RasterizerState.cpp">
       <Filter>Source\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BaseTexture.cpp">
+      <Filter>Source\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Texture2D.cpp">
+      <Filter>Source\Buffer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

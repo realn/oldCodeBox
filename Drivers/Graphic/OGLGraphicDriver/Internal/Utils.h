@@ -19,10 +19,14 @@ namespace CB{
 		extern const GLenum	ToVertexType(const Graphic::VertexType uType);
 		extern const uint32	ToVertexTypeNumber(const Graphic::VertexType uType);
 		extern const Graphic::VertexType	ToVertexType(const GLenum uType, const uint32 uNumber);
-		extern const GLenum ToCompareFunc(const Graphic::CompareFunc uFunc);
+		extern const GLenum	ToCompareFunc(const Graphic::CompareFunc uFunc);
 		extern const GLenum	ToStencilOp(const Graphic::StencilOperation uOp);
 		extern const GLenum ToBlendEquation(const Graphic::BlendOperation uOp);
 		extern const GLenum ToBlendOption(const Graphic::BlendOption uOption);
+
+		extern const GLenum ToInternalFormat(const Graphic::BufferFormat uFormat);
+		extern const GLenum ToTransferFormat(const Graphic::BufferFormat uFormat);
+		extern const GLenum ToTransferType(const Graphic::BufferFormat uFormat);
 
 		extern const uint32	GetTypeSize(const GLenum uType);
 

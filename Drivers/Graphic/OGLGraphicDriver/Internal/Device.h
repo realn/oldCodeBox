@@ -13,6 +13,7 @@ namespace CB{
 	class IOGLBaseBuffer;
 	class IOGLBaseShader;
 	class IOGLBaseState;
+	class IOGLBaseTexture;
 	class COGLVertexDeclaration;
 
 	class COGLDevice : 
@@ -21,6 +22,7 @@ namespace CB{
 		public Manage::IObjectManager<IOGLBaseBuffer>,
 		public Manage::IObjectManager<IOGLBaseShader>,
 		public Manage::IObjectManager<IOGLBaseState>,
+		public Manage::IObjectManager<IOGLBaseTexture>,
 		public Manage::IObjectManager<COGLVertexDeclaration>
 	{
 	private:

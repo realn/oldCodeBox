@@ -44,7 +44,7 @@ int __stdcall wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine,
 			auto pVertexBuffer = pGraphicDevice->CreateBuffer(CB::Graphic::BufferType::Vertex, CB::Graphic::BufferUsage::Static, CB::Graphic::BufferAccess::Write, verts);
 			CB::CString strShaderSource;
 			{
-				auto pFileStream = CB::IO::File::Open(L"BasicShader.cg", CB::IO::File::AccessType::ReadOnly, CB::IO::File::OpenAction::AlwaysOpen);
+				auto pFileStream = CB::IO::File::Open(L"BasicShader.cg", CB::IO::File::AccessType::ReadOnly, CB::IO::File::OpenAction::Open);
 				CB::IO::CTextReader reader(pFileStream.Cast<CB::IO::IStream>(), CB::String::Encoding::ANSI);
 
 				strShaderSource = reader.ReadText();

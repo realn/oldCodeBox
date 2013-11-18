@@ -1,14 +1,24 @@
 #include "../Internal/Device.h"
 #include <CBStringEx.h>
 
+//	Buffers
 #include "../Internal/VertexBuffer.h"
 #include "../Internal/IndexBuffer.h"
+
+//	Shaders
 #include "../Internal/VertexShader.h"
 #include "../Internal/FragmentShader.h"
+
+//	States
 #include "../Internal/DepthStencilState.h"
 #include "../Internal/BlendState.h"
 #include "../Internal/RasterizerState.h"
+
+//	Textures
+#include "../Internal/Texture2D.h"
 #include "../Internal/VertexDeclaration.h"
+
+//	Misc
 #include "../Internal/Utils.h"
 
 #include "../Internal/OpenGL_WGL.h"
@@ -342,13 +352,7 @@ namespace CB{
 	}
 
 	CRefPtr<Graphic::ITexture2D>	COGLDevice::CreateTexture2D(const Math::CSize& Size, const Graphic::BufferUsage uUsage, const Graphic::BufferAccess uAccess, const Graphic::BufferFormat uFormat, const uint32 uLength, const void* pData){
-		//CRefPtr<Graphic::ITexture2D> pTexture = new CDX9Texture2D(this, Size, bDynamic, uFormat);
-		//if(pData != 0){
-		//	auto pStream = pTexture->Map(false, true, true);
-		//	pStream->Write(pData, uDataLength);
-		//}
-		//return pTexture;
-		CR_THROWNOTIMPLEMENTED();
+		return new COGLTexture2D(this, Size, uAccess, uUsage, uFormat, pData);
 	}
 
 	CRefPtr<Graphic::IRasterizerState>	COGLDevice::CreateState(const Graphic::CRasterizerStateDesc& Desc){
