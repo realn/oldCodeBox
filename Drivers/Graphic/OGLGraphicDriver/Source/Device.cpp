@@ -167,9 +167,21 @@ namespace CB{
 		cgSetErrorCallback(ErrorCallback);
 		this->m_pVertexStream.Resize(this->GetNumberOfStreams());
 
-		GL::glDisable(GL::GL_CULL_FACE);
-		GL::glDisable(GL::GL_DEPTH_TEST);
-		GL::glDisable(GL::GL_TEXTURE_2D);
+		//	Setting state mashine to default values
+		this->SetGLState(Graphic::CBlendStateDesc());
+		this->SetGLState(Graphic::CRasterizerStateDesc());
+		this->SetGLState(Graphic::CDepthStencilStateDesc());
+
+		{
+			GLint iViewport[4];
+			GL::glGetIntegerv(GL::GL_VIEWPORT, iViewport);
+			this->m_Viewport.Set(iViewport[0], iViewport[1], (uint32)iViewport[2], (uint32)iViewport[3]);
+		}
+		{
+			GLint iScissors[4];
+			GL::glGetIntegerv(GL::GL_SCISSOR_BOX, iScissors);
+			this->m_ScissorRect.Set(iScissors[0], iScissors[1], (uint32)iScissors[2], (uint32)iScissors[3]);
+		}
 	}
 
 	COGLDevice::~COGLDevice(){

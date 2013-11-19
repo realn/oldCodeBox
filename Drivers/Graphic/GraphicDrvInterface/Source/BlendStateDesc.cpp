@@ -7,7 +7,7 @@ namespace CB{
 		CBlendStateDesc::CBlendStateDesc()
 		{
 			Memory::SetZeroArray(this->bEnabled);
-			Memory::SetZeroArray(this->uWriteMask);
+			Memory::SetArray(this->uWriteMask, 255);
 		}
 
 		CBlendStateDesc::CBlendStateDesc(const CBlendStateDesc& Desc) :
