@@ -1,0 +1,38 @@
+
+struct VINPUT{
+	float3	vPosition : POSITION;
+	float2	vTCoord;
+};
+
+struct VOUTPUT{
+	float4	vPosition : POSITION;
+	float3	vColor;
+};
+
+struct FINPUT{
+	float4	vPosition;
+	float3	vColor;
+};
+
+struct FOUTPUT{
+	float4	vColor : COLOR;
+};
+
+uniform float4x4	mProj;
+
+VOUTPUT	vmain(VINPUT input){
+	VOUTPUT output;
+
+	output.vPosition = mul(float4(input.vPosition, 1.0f), mProj);
+	output.vColor = float3(input.vTCoord, 0.0f);
+
+	return output;
+}
+
+FOUTPUT fmain(FINPUT input){
+	FOUTPUT output;
+
+	output.vColor = float4(input.vColor, 1.0f);
+
+	return output;
+}

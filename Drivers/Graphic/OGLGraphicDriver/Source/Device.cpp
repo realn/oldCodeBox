@@ -269,7 +269,7 @@ namespace CB{
 
 		case Graphic::ShaderType::Fragment:
 			if(this->m_pFragmentShader == pShader){
-				this->FreeShader(Graphic::ShaderType::Fragment);
+				//this->FreeShader(Graphic::ShaderType::Fragment);
 			}
 			break;
 
@@ -291,6 +291,13 @@ namespace CB{
 			this->FreeState(Graphic::DeviceStateType::Blend);
 		}
 		Manage::IObjectManager<IOGLBaseState>::RemoveObject(pState);
+	}
+
+	void	COGLDevice::RemoveObject(CPtr<IOGLBaseTexture> pTexture){
+		for(uint32 uIndex = 0; uIndex < Manage::IObjectManager<IOGLBaseShader>::m_pObjectList.GetLength(); uIndex++){
+			//Manage::IObjectManager<IOGLBaseShader>::m_pObjectList[uIndex]->RemoveSampler(pTexture->GetTextureID());
+		}
+		Manage::IObjectManager<IOGLBaseTexture>::RemoveObject(pTexture);
 	}
 
 	void	COGLDevice::RemoveObject(CPtr<COGLVertexDeclaration> pDeclaration){
@@ -448,8 +455,8 @@ namespace CB{
 
 		this->FreeShader(pOGLShader->GetType());
 		pOGLShader->Bind();
-		switch (pOGLShader->GetType())
-		{
+		pOGLShader->BindSamplers();
+		switch (pOGLShader->GetType()){
 		case Graphic::ShaderType::Vertex:	
 			this->m_pVertexShader = pOGLShader;		
 			this->BindAllStreams();
@@ -642,11 +649,11 @@ namespace CB{
 	}
 
 	void	COGLDevice::FreeShader(const Graphic::ShaderType uType){
-		switch (uType)
-		{
+		switch (uType){
 		case Graphic::ShaderType::Vertex:
 			this->UnbindAllStreams();
 			if(this->m_pVertexShader.IsValid()){
+				this->m_pVertexShader->UnbindSamplers();
 				this->m_pVertexShader->Unbind();
 			}
 			this->m_pVertexShader.Reset();
@@ -654,6 +661,7 @@ namespace CB{
 
 		case Graphic::ShaderType::Fragment:
 			if(this->m_pFragmentShader.IsValid()){
+				this->m_pFragmentShader->UnbindSamplers();
 				this->m_pFragmentShader->Unbind();
 			}
 			this->m_pFragmentShader.Reset();

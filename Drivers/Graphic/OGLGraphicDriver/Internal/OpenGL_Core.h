@@ -842,6 +842,11 @@ namespace GL{
 		GL_ACTIVE_STENCIL_FACE        = 0x8911,
 	};
 
+	enum ANISOTROPY_TOKENS{
+		GL_TEXTURE_MAX_ANISOTROPY     = 0x84FE,
+		GL_MAX_TEXTURE_MAX_ANISOTROPY = 0x84FF,
+	};
+
 	extern void glActiveStencilFace (GLenum face);
 }
 

@@ -461,10 +461,13 @@ namespace CB{
 			case Graphic::BlendOption::OneMinusDestColor:	return GL::GL_ONE_MINUS_DST_COLOR;
 			case Graphic::BlendOption::OneMinusSourceAlpha:	return GL::GL_ONE_MINUS_SRC_ALPHA;
 			case Graphic::BlendOption::OneMinusSourceColor:	return GL::GL_ONE_MINUS_SRC_COLOR;
-			case Graphic::BlendOption::SourceAlpha:
+			case Graphic::BlendOption::SourceAlpha:			return GL::GL_SRC_ALPHA;
+			case Graphic::BlendOption::SourceColor:			return GL::GL_SRC_COLOR;
+			case Graphic::BlendOption::Zero:				return GL::GL_ZERO;
 				
 			default:
-				break;
+				throw Exception::CInvalidArgumentException(L"uOption", String::ToString(uOption),
+					L"Unknown blending operator.", CR_INFO());
 			}
 		}
 
@@ -516,7 +519,7 @@ namespace CB{
 			}
 		}
 
-		const GLenum ToTransferFormat(const Graphic::BufferFormat uFormat){
+		const GLenum	ToTransferFormat(const Graphic::BufferFormat uFormat){
 			switch(uFormat){
 				//	Depth Components
 			case Graphic::BufferFormat::D16:	return GL::GL_DEPTH_COMPONENT;	// 1.4
@@ -562,7 +565,7 @@ namespace CB{
 			}
 		}
 
-		const GLenum ToTransferType(const Graphic::BufferFormat uFormat){
+		const GLenum	ToTransferType(const Graphic::BufferFormat uFormat){
 			switch(uFormat){
 				//	Depth Components
 			case Graphic::BufferFormat::D16:	return GL::GL_UNSIGNED_SHORT;	// 1.1
@@ -605,6 +608,74 @@ namespace CB{
 			default:
 				throw Exception::CInvalidArgumentException(L"uFormat", String::ToString(uFormat),
 					L"Unsupported buffor format.", CR_INFO());
+			}
+		}
+
+
+		const GLenum	ToTargetBinding(const GLenum uTarget){
+			switch (uTarget){
+			case GL::GL_TEXTURE_1D:			return GL::GL_TEXTURE_BINDING_1D;
+			case GL::GL_TEXTURE_2D:			return GL::GL_TEXTURE_BINDING_2D;
+			case GL::GL_TEXTURE_3D:			return GL::GL_TEXTURE_BINDING_3D;
+			case GL::GL_TEXTURE_CUBE_MAP:	return GL::GL_TEXTURE_BINDING_CUBE_MAP;
+			default:
+				throw Exception::CInvalidArgumentException(L"uTarget", String::ToString((uint32)uTarget),
+					L"Unknown target for binding mapping.", CR_INFO());
+			}
+		}
+
+		const GLenum ToTextureMinFilter(const Graphic::TextureFilter uFilter){
+			switch (uFilter){
+			case Graphic::TextureFilter::Nearest:	return GL::GL_NEAREST;
+			case Graphic::TextureFilter::Linear:	return GL::GL_LINEAR;
+			default:
+				throw Exception::CInvalidArgumentException(L"uFilter", String::ToString(uFilter),
+					L"Unknown filter value.", CR_INFO());
+			}
+		}
+		
+		const GLenum ToTextureMagFilter(const Graphic::TextureFilter uFilter, const Graphic::TextureFilter uMipmap){
+			if(uMipmap == Graphic::TextureFilter::None){
+				return ToTextureMinFilter(uFilter);
+			}
+
+			switch (uFilter)
+			{
+			case Graphic::TextureFilter::Nearest:	
+				switch (uMipmap)
+				{
+				case Graphic::TextureFilter::Nearest:	return GL::GL_NEAREST_MIPMAP_NEAREST;
+				case Graphic::TextureFilter::Linear:	return GL::GL_NEAREST_MIPMAP_LINEAR;
+				default:
+					throw Exception::CInvalidArgumentException(L"uMipmap", String::ToString(uMipmap),
+						L"Unknown mipmap filter value.", CR_INFO());
+				}
+
+			case Graphic::TextureFilter::Linear:	
+				switch (uMipmap)
+				{
+				case Graphic::TextureFilter::Nearest:	return GL::GL_LINEAR_MIPMAP_NEAREST;
+				case Graphic::TextureFilter::Linear:	return GL::GL_LINEAR_MIPMAP_LINEAR;
+				default:
+					throw Exception::CInvalidArgumentException(L"uMipmap", String::ToString(uMipmap),
+						L"Unknown mipmap filter value.", CR_INFO());
+				}
+
+			default:
+				throw Exception::CInvalidArgumentException(L"uFilter", String::ToString(uFilter),
+					L"Unknown filter value.", CR_INFO());
+			}
+		}
+
+		const GLenum ToTextureWrap(const Graphic::TextureWrap uWrap){
+			switch (uWrap){
+			case Graphic::TextureWrap::Clamp:		return GL::GL_CLAMP_TO_BORDER;
+			case Graphic::TextureWrap::ClampToEdge:	return GL::GL_CLAMP_TO_EDGE;
+			case Graphic::TextureWrap::Repeat:		return GL::GL_REPEAT;
+			case Graphic::TextureWrap::Mirror:		return GL::GL_MIRRORED_REPEAT;
+			default:
+				throw Exception::CInvalidArgumentException(L"uWrap", String::ToString(uWrap),
+					L"Invalid texture wrap coord value.", CR_INFO());
 			}
 		}
 

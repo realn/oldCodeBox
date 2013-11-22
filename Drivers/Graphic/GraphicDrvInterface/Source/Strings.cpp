@@ -59,7 +59,6 @@ namespace CB{
 			switch(uType){
 			case Graphic::BufferType::Vertex:	return L"Vertex";
 			case Graphic::BufferType::Index:	return L"Index";
-			case Graphic::BufferType::Texture:	return L"Texture";
 
 			default:
 				return String::FromUInt32((uint32)uType);
@@ -248,6 +247,29 @@ namespace CB{
 			case Graphic::FeatureLevel::Level_4:	return L"Level 4";
 			default:
 				return String::ToString((uint32)uLevel);
+			}
+		}
+
+		const CString	ToString(const Graphic::TextureFilter uFilter){
+			switch (uFilter)
+			{
+			case Graphic::TextureFilter::None:		return L"None";
+			case Graphic::TextureFilter::Nearest:	return L"Nearest";
+			case Graphic::TextureFilter::Linear:	return L"Linear";
+			default:
+				return String::ToString((uint32)uFilter);
+			}
+		}
+
+		const CString	ToString(const Graphic::TextureWrap uWrap){
+			switch (uWrap)
+			{
+			case Graphic::TextureWrap::Clamp:		return L"Clamp";
+			case Graphic::TextureWrap::ClampToEdge:	return L"Clamp To Edge";
+			case Graphic::TextureWrap::Mirror:		return L"Mirror";
+			case Graphic::TextureWrap::Repeat:		return L"Repeat";
+			default:
+				return String::ToString((uint32)uWrap);
 			}
 		}
 	}

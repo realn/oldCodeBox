@@ -68,6 +68,7 @@ namespace CB{
 		void	RemoveObject(CPtr<IOGLBaseBuffer> pBuffer) override;
 		void	RemoveObject(CPtr<IOGLBaseShader> pShader) override;
 		void	RemoveObject(CPtr<IOGLBaseState> pState) override;
+		void	RemoveObject(CPtr<IOGLBaseTexture> pTexture) override;
 		void	RemoveObject(CPtr<COGLVertexDeclaration> pDeclaration) override;
 
 		//	END OF OVERRIDES	============================================

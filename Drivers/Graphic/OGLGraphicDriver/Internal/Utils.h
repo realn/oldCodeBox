@@ -28,6 +28,11 @@ namespace CB{
 		extern const GLenum ToTransferFormat(const Graphic::BufferFormat uFormat);
 		extern const GLenum ToTransferType(const Graphic::BufferFormat uFormat);
 
+		extern const GLenum	ToTargetBinding(const GLenum uTarget);
+		extern const GLenum ToTextureMinFilter(const Graphic::TextureFilter uFilter);
+		extern const GLenum ToTextureMagFilter(const Graphic::TextureFilter uFilter, const Graphic::TextureFilter uMipmap);
+		extern const GLenum ToTextureWrap(const Graphic::TextureWrap uWrap);
+
 		extern const uint32	GetTypeSize(const GLenum uType);
 
 		extern const bool	GetVersion(const CString& strVersion, uint32& uOutMajorVersion, uint32& uOutMinorVersion);

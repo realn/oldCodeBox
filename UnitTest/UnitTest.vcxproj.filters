@@ -9,7 +9,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="BasicShader.cg">
+    <None Include="..\WorkArea\BasicShader.cg">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

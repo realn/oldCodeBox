@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BaseTexture.h"
+#pragma warning(disable : 4250)
 
 namespace CB{
 	class COGLTexture2D :
@@ -8,15 +9,17 @@ namespace CB{
 		public IOGLBaseTexture
 	{
 	private:
-		Math::CSize	m_Size;
+		Graphic::TextureWrap	m_uCoordRWrap;
+		Graphic::TextureWrap	m_uCoordSWrap;
+		Math::CSize				m_Size;
 
 	public:
 		COGLTexture2D(CRefPtr<COGLDevice> pDevice, const Math::CSize& Size, const Graphic::BufferAccess uAccess, const Graphic::BufferUsage uUsage, const Graphic::BufferFormat uFormat, const void* pData);
 
-		void	LoadData(const void* pData, const uint32 uLength) override;
-		void	LoadSubData(const void* pData, const uint32 uOffset, const uint32 uLength) override;
+		void	SetCoordWrap(const Graphic::TextureWrap uRCoord, const Graphic::TextureWrap uSCoord) override;
 
-		CRefPtr<IO::IStream>	MapData(const Graphic::BufferAccess uAccess, const bool bDiscard, const uint32 uOffset, const uint32 uLength) override;
+		void	LoadData(const void* pData, const uint32 uWidth, const uint32 uHeight) override;
+		void	LoadSubData(const void* pData, const uint32 uXOffset, const uint32 uYOffset, const uint32 uWidth, const uint32 uHeight) override;
 
 		const Math::CSize	GetSize() const override;
 	};

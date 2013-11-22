@@ -8,22 +8,22 @@ namespace CB{
 				Direct3D 9, SM 2 (asm)
 				OpenGL 1.4 + VBO + MipMap Gen + Anisotropy, ARB Shader (asm)
 			*/
-			Level_1,	// DX9 / OGL1.4-1.5
+			Level_1,	// DX9 (SM2, ASM) / OGL1.4-1.5 (SM2, ARB Program/ASM)
 
 			/*
 				Generation 2 level hardware:
 				Direct3D 9, SM 3 (HLSL)
-				OpenGL 2.0, GLSL Shader
+				OpenGL 2.0-2.1, GLSL Shader
 			*/
-			Level_2,	// DX9 / OGL2.0-2.1
+			Level_2,	// DX9 (SM3, HLSL) / OGL2.0-2.1 (SM3, GLSL)
 
 			//	SM:	3
 			//	RT:	8
-			Level_3,	// DX10 / OGL3.0-3.3
+			Level_3,	// DX10 (SM4, HLSL) / OGL3.0-3.3 (SM4, GLSL)
 
 			//	SM: 4
 			//	RT: 8
-			Level_4,	// DX11 / OGL4.0
+			Level_4,	// DX11 (SM5, HLSL) / OGL4.0-4.4 (SM5, GLSL)
 		};
 
 		enum class DeviceStateType{
@@ -99,14 +99,13 @@ namespace CB{
 
 		enum class VertexType{
 			None,
-			Float,	// float
+			Float,		// float
 			Color32b,	// A8R8G8B8
 		};
 
 		enum class BufferType{
 			Vertex,
 			Index,
-			Texture,
 		};
 
 		enum class ShaderVersion{
@@ -162,6 +161,19 @@ namespace CB{
 			Texture2D,
 			Texture3D,
 			TextureCube
+		};
+
+		enum class TextureFilter{
+			None,		//	Value valid only for mipmapping
+			Nearest,
+			Linear,
+		};
+
+		enum class TextureWrap{
+			Repeat,
+			Clamp,
+			ClampToEdge,
+			Mirror,
 		};
 
 		enum class BlendOperation{
