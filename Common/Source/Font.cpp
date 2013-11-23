@@ -16,7 +16,7 @@ namespace CB{
 			pStream->Read(this->m_FontData);
 
 			FT_Face	pFace = 0;
-			auto pLib = this->m_pParent->m_pData.GetCast<FT_Library>();
+			FT_Library pLib = this->m_pParent->m_pData.GetCast<FT_Library>();
 			auto uError = FT_New_Memory_Face(pLib, this->m_FontData.GetPointer(), this->m_FontData.GetSizeInBytes(), 0, &pFace);
 			if(uError != 0){
 				CR_THROW(L"Failed to load font, error: " + String::ToHexString(uError));
@@ -75,7 +75,7 @@ namespace CB{
 				CR_THROW(L"Invalid font glyph index: " + String::ToHexString(uIndex));
 			}
 
-			auto uError = FT_Load_Glyph(pFace, uIndex, FT_LOAD_DEFAULT);
+			auto uError = FT_Load_Glyph(pFace, uIndex, FT_LOAD_COLOR);
 			if(uError != 0){
 				CR_THROW(L"Failed to load new glyph, error: " + String::ToHexString(uError));
 			}
@@ -87,17 +87,43 @@ namespace CB{
 			this->SelectGlyph(this->GetCharGlyphIndex(uChar));
 		}
 
-		void		CFont::GetGlyphBitmap(Collection::CList<byte>& Data, Math::CSize& Size, uint32& uBPP){
+		void		CFont::GetGlyphBitmap(Collection::CList<byte>& Data, Math::CSize& Size){
 			auto pFace = this->m_pData.GetCast<FT_Face>();
 			FT_Bitmap& Bitmap = pFace->glyph->bitmap;
 
 			Size.Set(Bitmap.width, Bitmap.rows);
-			uBPP = Bitmap.pitch / Bitmap.width * 8;
-
 			Data.Clear();
-			if(!Size.IsZero()){
-				Data.Resize(Bitmap.pitch * Bitmap.rows);
-				Memory::CopyArray(Bitmap.buffer, Data.GetPointer(), sizeof(byte), Data.GetLength());
+			if(Size.IsZero()){
+				return;
+			}
+
+			Data.Resize(Bitmap.width * Bitmap.rows * 4);
+			switch (Bitmap.pixel_mode)
+			{
+			case FT_PIXEL_MODE_GRAY:
+				{
+					for(uint32 uIndex = 0; uIndex < Bitmap.width * Bitmap.rows; uIndex++){
+						Data[uIndex * 4 + 0] = Bitmap.buffer[uIndex];
+						Data[uIndex * 4 + 1] = Bitmap.buffer[uIndex];
+						Data[uIndex * 4 + 2] = Bitmap.buffer[uIndex];
+						Data[uIndex * 4 + 3] = Bitmap.buffer[uIndex];
+					}
+				}
+				break;
+
+			case FT_PIXEL_MODE_BGRA:
+				{
+					for(uint32 uIndex = 0; uIndex < Bitmap.width * Bitmap.rows; uIndex++){
+						Data[uIndex * 4 + 0] = Bitmap.buffer[uIndex * 4 + 0];
+						Data[uIndex * 4 + 1] = Bitmap.buffer[uIndex * 4 + 1];
+						Data[uIndex * 4 + 2] = Bitmap.buffer[uIndex * 4 + 2];
+						Data[uIndex * 4 + 3] = Bitmap.buffer[uIndex * 4 + 3];
+					}
+				}
+				break;
+
+			default:
+				CR_THROW(L"Unsupported glyph bitmap pixel mode.");
 			}
 		}
 

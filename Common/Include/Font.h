@@ -22,7 +22,7 @@ namespace CB{
 			void	SelectGlyph(const uint32 uIndex);
 			void	SelectGlyphByChar(const wchar uChar);
 
-			void		GetGlyphBitmap(Collection::CList<byte>& Data, Math::CSize& Size, uint32& uBPP);
+			void		GetGlyphBitmap(Collection::CList<byte>& Data, Math::CSize& Size);
 
 			const Math::CPoint	GetGlyphAdv() const;
 			const Math::CPoint	GetGlyphBitmapPos() const;

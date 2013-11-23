@@ -70,18 +70,9 @@ int __stdcall wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine,
 
 				CB::Collection::CList<byte> Pixels;
 				CB::Math::CSize Size;
-				uint32 uBPP = 0;
-				pFont->GetGlyphBitmap(Pixels, Size, uBPP);
+				pFont->GetGlyphBitmap(Pixels, Size);
 
-				CB::Collection::CList<byte> Data(Size.Width * Size.Height * 4);
-				for(uint32 uIndex = 0; uIndex < Pixels.GetLength(); uIndex++){
-					Data[uIndex * 4 + 0] = Pixels[uIndex];
-					Data[uIndex * 4 + 1] = Pixels[uIndex];
-					Data[uIndex * 4 + 2] = Pixels[uIndex];
-					Data[uIndex * 4 + 3] = Pixels[uIndex];
-				}
-
-				pTexture = pGraphicDevice->CreateTexture2D(Size, CB::Graphic::BufferUsage::Static, CB::Graphic::BufferAccess::Write, CB::Graphic::BufferFormat::R8G8B8A8, CB::Graphic::BufferFormat::R8G8B8A8, Data);
+				pTexture = pGraphicDevice->CreateTexture2D(Size, CB::Graphic::BufferUsage::Static, CB::Graphic::BufferAccess::Write, CB::Graphic::BufferFormat::R8G8B8A8, CB::Graphic::BufferFormat::R8G8B8A8, Pixels);
 			}
 
 			CB::CRefPtr<CB::Graphic::IShader> pVertexShader;
@@ -93,6 +84,7 @@ int __stdcall wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine,
 			}
 			catch(CB::Exception::CException& Ex){
 				auto listing = pGraphicDevice->GetLastCompilationLog();
+				throw;
 			}
 
 			CB::Collection::CList<CB::Graphic::CVertexElement> elems;
