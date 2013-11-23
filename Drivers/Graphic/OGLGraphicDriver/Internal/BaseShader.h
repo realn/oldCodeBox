@@ -10,6 +10,8 @@ namespace CB{
 	protected:
 		Collection::CList<CGparameter>				m_uSamplerParams;
 		Collection::CList<CPtr<IOGLBaseTexture>>	m_pSamplerTextures;
+		Collection::CList<CGparameter>				m_uVaryingParams;
+
 		const Graphic::ShaderType		m_uType;
 		const Graphic::ShaderVersion	m_uVersion;
 		CGprogram	m_uProgram;
@@ -23,7 +25,7 @@ namespace CB{
 		CGprofile	GetProfile() const;
 		CGparameter	GetParameter(const CString& strName) const;
 		
-		void	RemoveSampler(GLuint uTexID);
+		void	RemoveSampler(CPtr<IOGLBaseTexture> pTexture);
 
 		void	Bind();
 		void	BindParameter(const CString& strParam, GLenum uType, const uint32 uNumber, const uint32 uStride, const uint32 uOffset);
@@ -32,6 +34,7 @@ namespace CB{
 		void	Unbind();
 		void	UnbindParameter(const CString& strParam);
 		void	UnbindSamplers();
+		void	UnbindParameters();
 
 		//	INTERFACE IMPLEMENTATION	============================================
 

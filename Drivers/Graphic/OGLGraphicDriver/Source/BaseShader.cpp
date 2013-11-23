@@ -32,6 +32,11 @@ namespace CB{
 	}
 
 	IOGLBaseShader::~IOGLBaseShader(){
+		this->UnbindParameters();
+		this->UnbindSamplers();
+		if(this->m_bBinded){
+			this->Unbind();
+		}
 		if(this->m_uProgram != 0 && cgIsProgram(this->m_uProgram)){
 			cgDestroyProgram(this->m_uProgram);
 			this->m_uProgram = 0;
@@ -57,20 +62,12 @@ namespace CB{
 		return uParam;
 	}
 
-	void	IOGLBaseShader::RemoveSampler(GLuint uTexID){
-		for(int32 i = 0; i < (int32)this->m_uSamplerParams.GetLength(); i++){
-			if(cgGLGetTextureParameter(this->m_uSamplerParams[i]) == uTexID){
-				cgGLSetTextureParameter(this->m_uSamplerParams[i], 0);
-				this->m_uSamplerParams.Remove((uint32)i);
-				i--;
-			}
-		}
-
-		for(int32 i = 0; i < (int32)this->m_pSamplerTextures.GetLength(); i++){
-			if(this->m_pSamplerTextures[i]->GetTextureID() == uTexID){
-				this->m_pSamplerTextures.Remove((uint32)i);
-				i--;
-			}
+	void	IOGLBaseShader::RemoveSampler(CPtr<IOGLBaseTexture> pTexture){
+		uint32 uIndex = 0;
+		while(Collection::TryFind(this->m_pSamplerTextures, pTexture, uIndex)){
+			cgGLSetTextureParameter(this->m_uSamplerParams[uIndex], 0);
+			this->m_uSamplerParams.Remove(uIndex);
+			this->m_pSamplerTextures.Remove(uIndex);
 		}
 	}
 
@@ -83,8 +80,9 @@ namespace CB{
 	void	IOGLBaseShader::BindParameter(const CString& strParam, GLenum uType, const uint32 uNumber, const uint32 uStride, const uint32 uOffset){
 		auto uParam = this->GetParameter(strParam);
 
-		cgGLSetParameterPointer(uParam, uNumber, uType, uStride, reinterpret_cast<const GLvoid*>(uOffset));
 		cgGLEnableClientState(uParam);
+		cgGLSetParameterPointer(uParam, uNumber, uType, uStride, reinterpret_cast<const GLvoid*>(uOffset));
+		this->m_uVaryingParams.Add(uParam);
 	}
 
 	void	IOGLBaseShader::BindSamplers(){
@@ -103,6 +101,17 @@ namespace CB{
 		auto uParam = this->GetParameter(strParam);
 
 		cgGLDisableClientState(uParam);
+		uint32 uIndex = 0;
+		if(Collection::TryFind(this->m_uVaryingParams, uParam, uIndex)){
+			this->m_uVaryingParams.Remove(uIndex);
+		}
+	}
+
+	void	IOGLBaseShader::UnbindParameters(){
+		for(uint32 uIndex = 0; uIndex < this->m_uVaryingParams.GetLength(); uIndex++){
+			cgGLDisableClientState(this->m_uVaryingParams[uIndex]);
+		}
+		this->m_uVaryingParams.Clear();
 	}
 
 	void	IOGLBaseShader::UnbindSamplers(){
@@ -173,23 +182,20 @@ namespace CB{
 			cgGLDisableTextureParameter(uParam);
 		}
 		
-		for(uint32 uIndex = 0; uIndex < this->m_uSamplerParams.GetLength(); uIndex++){
-			if(this->m_uSamplerParams[uIndex] == uParam){
-				cgGLSetTextureParameter(uParam, 0);
-				this->m_uSamplerParams.Remove(uIndex);
-				this->m_pSamplerTextures.Remove(uIndex);
-				break;
-			}
+		uint32 uIndex = 0;
+		if(Collection::TryFind(this->m_uSamplerParams, uParam, uIndex)){
+			cgGLSetTextureParameter(uParam, 0);
+			this->m_uSamplerParams.Remove(uIndex);
+			this->m_pSamplerTextures.Remove(uIndex);
 		}
 	}
 
 	CRefPtr<Graphic::IBaseTexture>	IOGLBaseShader::GetSampler(const CString& strName) const{
 		auto uParam = this->GetParameter(strName);
 
-		for(uint32 uIndex = 0; uIndex < this->m_uSamplerParams.GetLength(); uIndex++){
-			if(this->m_uSamplerParams[uIndex] == uParam){
-				return this->m_pSamplerTextures[uIndex].GetCast<Graphic::IBaseTexture>();
-			}
+		uint32 uIndex = 0;
+		if(Collection::TryFind(this->m_uSamplerParams, uParam, uIndex)){
+			return this->m_pSamplerTextures[uIndex].GetCast<Graphic::IBaseTexture>();
 		}
 
 		throw Exception::CInvalidArgumentException(L"strName", strName,

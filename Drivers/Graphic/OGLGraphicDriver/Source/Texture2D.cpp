@@ -2,7 +2,7 @@
 #include "../Internal/Utils.h"
 
 namespace CB{
-	COGLTexture2D::COGLTexture2D(CRefPtr<COGLDevice> pDevice, const Math::CSize& Size, const Graphic::BufferAccess uAccess, const Graphic::BufferUsage uUsage, const Graphic::BufferFormat uFormat, const void* pData) :
+	COGLTexture2D::COGLTexture2D(CRefPtr<COGLDevice> pDevice, const Math::CSize& Size, const Graphic::BufferAccess uAccess, const Graphic::BufferUsage uUsage, const Graphic::BufferFormat uFormat, const Graphic::BufferFormat uInputFormat, const void* pData) :
 		IOGLBaseTexture(pDevice, GL::GL_TEXTURE_2D, Graphic::TextureType::Texture2D, uUsage, uAccess, uFormat),
 		m_uCoordRWrap(Graphic::TextureWrap::Repeat),
 		m_uCoordSWrap(Graphic::TextureWrap::Repeat),
@@ -19,8 +19,17 @@ namespace CB{
 		GL::glTexParameteri(this->m_uTarget, GL::GL_GENERATE_MIPMAP, GL::GL_TRUE);
 
 		GLenum internalFormat = GLUtils::ToInternalFormat(uFormat);
-		GLenum transferFormat = GLUtils::ToTransferFormat(uFormat);
-		GLenum transferType = GLUtils::ToTransferType(uFormat);
+
+		GLenum transferFormat = 0;
+		GLenum transferType = 0;
+		if(uInputFormat != Graphic::BufferFormat::Unknown){
+			transferFormat = GLUtils::ToTransferFormat(uInputFormat);
+			transferType = GLUtils::ToTransferType(uInputFormat);
+		}
+		else{
+			transferFormat = GLUtils::ToTransferFormat(uFormat);
+			transferType = GLUtils::ToTransferType(uFormat);
+		}
 
 		GL::glTexImage2D(this->m_uTarget, 0, internalFormat, Size.Width, Size.Height, 0, transferFormat, transferType, pData);
 	}
@@ -36,13 +45,13 @@ namespace CB{
 		GL::glTexParameteri(this->m_uTarget, GL::GL_TEXTURE_WRAP_S, uGLSCoord);		
 	}
 
-	void	COGLTexture2D::LoadData(const void* pData, const uint32 uWidth, const uint32 uHeight){
-		this->LoadSubData(pData, 0, 0, uWidth, uHeight);
+	void	COGLTexture2D::LoadData(const Graphic::BufferFormat uInputFormat, const void* pData, const uint32 uWidth, const uint32 uHeight){
+		this->LoadSubData(uInputFormat, pData, 0, 0, uWidth, uHeight);
 	}
 
-	void	COGLTexture2D::LoadSubData(const void* pData, const uint32 uXOffset, const uint32 uYOffset, const uint32 uWidth, const uint32 uHeight){
-		GLenum uTransferFormat = GLUtils::ToTransferFormat(this->m_uFormat);
-		GLenum uTransferType = GLUtils::ToTransferType(this->m_uFormat);
+	void	COGLTexture2D::LoadSubData(const Graphic::BufferFormat uInputFormat, const void* pData, const uint32 uXOffset, const uint32 uYOffset, const uint32 uWidth, const uint32 uHeight){
+		GLenum uTransferFormat = GLUtils::ToTransferFormat(uInputFormat);
+		GLenum uTransferType = GLUtils::ToTransferType(uInputFormat);
 
 		CTextureBindGuard guard(GL::GL_TEXTURE_2D, GL::GL_TEXTURE_BINDING_2D);
 		GL::glBindTexture(this->m_uTarget, this->m_uTexture);

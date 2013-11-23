@@ -56,8 +56,8 @@ namespace CB{
 			void	Set(const CList<_Type>& Array);
 			void	Set(const ICountable<_Type>& Array);
 
-			const _Type&	Get(const uint32 uIndex) const;
-			_Type&			Get(const uint32 uIndex);
+			const _Type&	Get(const uint32 uIndex) const override;
+			_Type&			Get(const uint32 uIndex) override;
 
 			_Type&	First();
 			const _Type&	First() const;
@@ -74,8 +74,8 @@ namespace CB{
 			CList<_Type>&	operator=(const CList<_Type>& Array);
 			CList<_Type>&	operator=(const ICountable<_Type>& List);
 
-			const _Type&	operator[](const uint32 uIndex) const;
-			_Type&			operator[](const uint32 uIndex);
+			const _Type&	operator[](const uint32 uIndex) const override;
+			_Type&			operator[](const uint32 uIndex) override;
 
 			const _Type*	GetPointer() const override;
 			_Type*			GetPointer() override;
@@ -123,7 +123,8 @@ namespace CB{
 		template<typename _Type>
 		CList<_Type>::CList(const CList<_Type>& Array) : 
 			m_pList(0), 
-			m_uLength(0)
+			m_uLength(0),
+			m_uReserved(0)
 		{
 			try{
 				this->Set(Array);
@@ -137,7 +138,8 @@ namespace CB{
 		template<typename _Type>
 		CList<_Type>::CList(const ICountable<_Type>& List) : 
 			m_pList(0), 
-			m_uLength(0)
+			m_uLength(0),
+			m_uReserved(0)
 		{
 			try{
 				this->Set(List);
@@ -189,6 +191,7 @@ namespace CB{
 				return;
 
 			_Type* pList = Memory::AllocArray<_Type>(uLength);
+			Memory::SetZeroArray(pList, uLength);
 
 			uint32 uCopyLength = Min(this->m_uLength, uLength);
 			if(uCopyLength > 0){
@@ -200,7 +203,9 @@ namespace CB{
 				}
 			}
 
-			Memory::Free(this->m_pList);
+			if(this->m_pList != 0){
+				Memory::Free(this->m_pList);
+			}
 			this->m_uLength = uCopyLength;
 			this->m_uReserved = uLength;
 			this->m_pList = pList;
@@ -290,7 +295,7 @@ namespace CB{
 				Memory::CopyArray(pList, this->m_pList, uIndex);
 			}
 			new (&this->m_pList[uIndex]) _Type(Item);
-			if(uLength - uIndex - 1 > 0){
+			if(uLength - uIndex > 0){
 				Memory::CopyArray(pList + uIndex, this->m_pList + uIndex + 1, uLength - uIndex);
 			}
 

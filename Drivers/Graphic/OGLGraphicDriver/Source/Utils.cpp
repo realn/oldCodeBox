@@ -618,6 +618,11 @@ namespace CB{
 			case GL::GL_TEXTURE_2D:			return GL::GL_TEXTURE_BINDING_2D;
 			case GL::GL_TEXTURE_3D:			return GL::GL_TEXTURE_BINDING_3D;
 			case GL::GL_TEXTURE_CUBE_MAP:	return GL::GL_TEXTURE_BINDING_CUBE_MAP;
+
+			case GL::GL_ELEMENT_ARRAY_BUFFER:	return GL::GL_ELEMENT_ARRAY_BUFFER_BINDING;
+			case GL::GL_ARRAY_BUFFER:		return GL::GL_ARRAY_BUFFER_BINDING;
+
+			case GL::GL_FRAMEBUFFER:		return GL::GL_FRAMEBUFFER_BINDING;
 			default:
 				throw Exception::CInvalidArgumentException(L"uTarget", String::ToString((uint32)uTarget),
 					L"Unknown target for binding mapping.", CR_INFO());

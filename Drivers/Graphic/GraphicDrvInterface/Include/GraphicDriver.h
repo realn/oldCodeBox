@@ -101,8 +101,8 @@ namespace CB{
 
 			virtual const Math::CSize	GetSize() const = 0;
 
-			virtual void	LoadData(const void* pData, const uint32 uWidth, const uint32 uHeight) = 0;
-			virtual void	LoadSubData(const void* pData, const uint32 uXOffset, const uint32 uYOffset, const uint32 uWidth, const uint32 uHeight) = 0;
+			virtual void	LoadData(const BufferFormat uInputFormat, const void* pData, const uint32 uWidth, const uint32 uHeight) = 0;
+			virtual void	LoadSubData(const BufferFormat uInputFormat, const void* pData, const uint32 uXOffset, const uint32 uYOffset, const uint32 uWidth, const uint32 uHeight) = 0;
 
 			template<typename _Type>
 			void	LoadData(const Collection::IPacked<_Type>& Data, const uint32 uWidth, const uint32 uHeight){
@@ -197,7 +197,7 @@ namespace CB{
 			virtual CRefPtr<IBuffer>			CreateBuffer(const BufferType uType, const BufferUsage uUsage, const BufferAccess uAccess, const uint32 uLength) = 0;
 			virtual CRefPtr<IBuffer>			CreateBuffer(const BufferType uType, const BufferUsage uUsage, const BufferAccess uAccess, const uint32 uLength, const void* pData) = 0;
 			virtual CRefPtr<ITexture2D>			CreateTexture2D(const Math::CSize& Size, const BufferUsage uUsage, const BufferAccess uAccess, const BufferFormat uFormat) = 0;
-			virtual CRefPtr<ITexture2D>			CreateTexture2D(const Math::CSize& Size, const BufferUsage uUsage, const BufferAccess uAccess, const BufferFormat uFormat, const uint32 uLength, const void* pData) = 0;
+			virtual CRefPtr<ITexture2D>			CreateTexture2D(const Math::CSize& Size, const BufferUsage uUsage, const BufferAccess uAccess, const BufferFormat uFormat, const BufferFormat uInputFormat, const uint32 uLength, const void* pData) = 0;
 			virtual CRefPtr<IBlendState>		CreateState(const CBlendStateDesc& Desc) = 0;
 			virtual CRefPtr<IDepthStencilState>	CreateState(const CDepthStencilStateDesc& Desc) = 0;
 			virtual CRefPtr<IRasterizerState>	CreateState(const CRasterizerStateDesc& Desc) = 0;
@@ -260,8 +260,8 @@ namespace CB{
 				return this->CreateBuffer(uType, uUsage, uAccess, Array.GetSizeInBytes(), Array.GetPointer());
 			}
 			template<typename _T>
-			CRefPtr<ITexture2D>	CreateTexture2D(const Math::CSize& Size, const BufferUsage uUsage, const BufferAccess uAccess, const BufferFormat uFormat, const Collection::IPacked<_T>& Array){
-				return this->CreateTexture2D(Size, uUsage, uAccess, uFormat, Array.GetSizeInBytes(), Array.GetPointer());
+			CRefPtr<ITexture2D>	CreateTexture2D(const Math::CSize& Size, const BufferUsage uUsage, const BufferAccess uAccess, const BufferFormat uFormat, const BufferFormat uInputFormat, const Collection::IPacked<_T>& Array){
+				return this->CreateTexture2D(Size, uUsage, uAccess, uFormat, uInputFormat, Array.GetSizeInBytes(), Array.GetPointer());
 			}
 		};
 

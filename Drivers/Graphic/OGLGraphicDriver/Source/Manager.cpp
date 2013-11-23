@@ -20,9 +20,7 @@ namespace CB{
 
 			if(device.StateFlags & DISPLAY_DEVICE_PRIMARY_DEVICE){
 				if(this->m_AdapterList.Contains(device.DeviceID)){
-					auto devInfo = this->m_AdapterList[device.DeviceID];
-
-					this->m_AdapterList.DeleteByKey(device.DeviceID);
+					auto devInfo = this->m_AdapterList.RemoveByKey(device.DeviceID);
 					
 					if(!devInfo.strDisplayList.Contains(device.DeviceName)){
 						devInfo.strDisplayList.Insert(0, device.DeviceName);

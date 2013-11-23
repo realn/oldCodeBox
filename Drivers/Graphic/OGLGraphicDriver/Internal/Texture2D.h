@@ -14,12 +14,12 @@ namespace CB{
 		Math::CSize				m_Size;
 
 	public:
-		COGLTexture2D(CRefPtr<COGLDevice> pDevice, const Math::CSize& Size, const Graphic::BufferAccess uAccess, const Graphic::BufferUsage uUsage, const Graphic::BufferFormat uFormat, const void* pData);
+		COGLTexture2D(CRefPtr<COGLDevice> pDevice, const Math::CSize& Size, const Graphic::BufferAccess uAccess, const Graphic::BufferUsage uUsage, const Graphic::BufferFormat uFormat, const Graphic::BufferFormat uInputFormat, const void* pData);
 
 		void	SetCoordWrap(const Graphic::TextureWrap uRCoord, const Graphic::TextureWrap uSCoord) override;
 
-		void	LoadData(const void* pData, const uint32 uWidth, const uint32 uHeight) override;
-		void	LoadSubData(const void* pData, const uint32 uXOffset, const uint32 uYOffset, const uint32 uWidth, const uint32 uHeight) override;
+		void	LoadData(const Graphic::BufferFormat uInputFormat, const void* pData, const uint32 uWidth, const uint32 uHeight) override;
+		void	LoadSubData(const Graphic::BufferFormat uInputFormat, const void* pData, const uint32 uXOffset, const uint32 uYOffset, const uint32 uWidth, const uint32 uHeight) override;
 
 		const Math::CSize	GetSize() const override;
 	};

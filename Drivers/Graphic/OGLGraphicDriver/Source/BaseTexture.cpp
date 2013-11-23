@@ -102,7 +102,7 @@ namespace CB{
 		m_uBinding(uBinding),
 		m_uTexture(0)
 	{
-		GL::glGetIntegerv(this->m_uBinding, reinterpret_cast<GLint*>(&this->m_uTexture));
+		GL::glGetIntegerv(this->m_uBinding, reinterpret_cast<GLint*>(&this->m_uTexture));	CR_GLCHECK();
 	}
 
 	CTextureBindGuard::CTextureBindGuard(const GLenum uTarget) :
@@ -110,10 +110,12 @@ namespace CB{
 		m_uBinding(GLUtils::ToTargetBinding(uTarget)),
 		m_uTexture(0)
 	{
-		GL::glGetIntegerv(this->m_uBinding, reinterpret_cast<GLint*>(&this->m_uTexture));
+		GL::glGetIntegerv(this->m_uBinding, reinterpret_cast<GLint*>(&this->m_uTexture));	CR_GLCHECK();
 	}
 
 	CTextureBindGuard::~CTextureBindGuard(){
-		GL::glBindTexture(this->m_uTarget, this->m_uTexture);
+		if(this->m_uTexture != 0 && GL::glIsTexture(this->m_uTexture)){
+			GL::glBindTexture(this->m_uTarget, this->m_uTexture);	CR_GLCHECK();
+		}
 	}
 }

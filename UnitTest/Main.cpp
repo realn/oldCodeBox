@@ -68,7 +68,7 @@ int __stdcall wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine,
 				CB::Collection::CList<byte> Pixels;
 				img.GetPixels(Pixels);
 
-				pTexture = pGraphicDevice->CreateTexture2D(img.GetSize(), CB::Graphic::BufferUsage::Static, CB::Graphic::BufferAccess::Write, CB::Graphic::BufferFormat::B8G8R8A8, Pixels);
+				pTexture = pGraphicDevice->CreateTexture2D(img.GetSize(), CB::Graphic::BufferUsage::Static, CB::Graphic::BufferAccess::Write, CB::Graphic::BufferFormat::R8G8B8A8, CB::Graphic::BufferFormat::B8G8R8A8, Pixels);
 			}
 
 			CB::CRefPtr<CB::Graphic::IShader> pVertexShader;
@@ -94,6 +94,7 @@ int __stdcall wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine,
 			auto mProjection = CB::Math::CMatrix::GetOrtho(4.0f, 3.0f, -1.0f, 1.0f);
 			pGraphicDevice->SetRenderPrimitive(CB::Graphic::PrimitiveType::Triangles);
 
+			CB::Log::Write(L"Entering Main Loop.", CB::Log::LogLevel::Debug);
 			while(bRun){
 				pGraphicDevice->Clear(CB::Math::CColor(0.2f, 0.2f, 0.2f, 1.0f));
 
@@ -112,6 +113,7 @@ int __stdcall wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine,
 				pWinManager->ProcessEvents();
 				pGraphicDevice->Swap();
 			}
+			CB::Log::Write(L"Leaving Main Loop.", CB::Log::LogLevel::Debug);
 		}
 	}
 	catch(CB::Exception::CException& Excpetion){

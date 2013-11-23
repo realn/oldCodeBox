@@ -30,6 +30,9 @@ namespace CB{
 				L"Unknown access for ogl buffer stream.", CR_INFO());
 		}
 
+		CBufferBindGurard guard(this->m_pParent->GetTarget());
+		GL::glBindBuffer(this->m_pParent->GetTarget(), this->m_pParent->GetBufferID());	CR_GLCHECK();
+
 		if(bDiscard){
 			GL::glBufferSubData(this->m_pParent->GetTarget(), uOffset, uLength, 0);	CR_GLCHECK();
 		}
@@ -45,9 +48,9 @@ namespace CB{
 
 	COGLBufferStream::~COGLBufferStream(){
 		try{
-			GL::glUnmapBuffer(this->m_pParent->GetTarget());	CR_GLCHECK();
+			CBufferBindGurard guard(this->m_pParent->GetTarget());	CR_GLCHECK();
+			GL::glUnmapBuffer(this->m_pParent->GetTarget());		CR_GLCHECK();
 		}
-		catch(Exception::CException&){
-		}
+		catch(Exception::CException&){}
 	}
 }

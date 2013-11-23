@@ -9,6 +9,7 @@ namespace CB{
 		m_uLength(uLength),
 		m_uUsage(uUsage),
 		m_uAccess(uAccess),
+		m_bBinded(false),
 		Manage::IManagedObject<COGLDevice, IOGLBaseBuffer>(pDevice)
 	{
 		if(uLength == 0){
@@ -17,17 +18,19 @@ namespace CB{
 		}
 
 		CR_GLBINDCHECK(this->m_pParent->GetWindowContext(), this->m_pParent->GetRenderContext());
-
 		GL::glGenBuffers(1, &this->m_uBuffer);						CR_GLCHECK();
-		GL::glBindBuffer(this->m_uBufferTarget, this->m_uBuffer);	CR_GLCHECK();
 
+		CBufferBindGurard guard(this->m_uBufferTarget);
 		GLenum uGLUsage = GLUtils::ToBufferUsage(uUsage, uAccess);
-		GL::glBufferData(this->m_uBufferTarget, uLength, pData, uGLUsage);	CR_GLCHECK();
 
-		GL::glBindBuffer(this->m_uBufferTarget, 0);	CR_GLCHECK();
+		GL::glBindBuffer(this->m_uBufferTarget, this->m_uBuffer);	CR_GLCHECK();
+		GL::glBufferData(this->m_uBufferTarget, uLength, pData, uGLUsage);	CR_GLCHECK();
 	}
 
 	IOGLBaseBuffer::~IOGLBaseBuffer(){
+		if(this->m_bBinded){
+			this->Unbind();
+		}
 		if(this->m_uBuffer != 0 && GL::glIsBuffer(this->m_uBuffer)){
 			GL::glDeleteBuffers(1, &this->m_uBuffer);	CR_GLCHECK();
 		}
@@ -37,16 +40,22 @@ namespace CB{
 		CR_GLBINDCHECK(this->m_pParent->GetWindowContext(), this->m_pParent->GetRenderContext());
 
 		GL::glBindBuffer(this->m_uBufferTarget, this->m_uBuffer);	CR_GLCHECK();
+		this->m_bBinded = true;
 	}
 
 	void	IOGLBaseBuffer::Unbind(){
 		CR_GLBINDCHECK(this->m_pParent->GetWindowContext(), this->m_pParent->GetRenderContext());
 
 		GL::glBindBuffer(this->m_uBufferTarget, 0);	CR_GLCHECK();
+		this->m_bBinded = false;
 	}
 
 	const GLenum	IOGLBaseBuffer::GetTarget() const{
 		return this->m_uBufferTarget;
+	}
+
+	const GLuint	IOGLBaseBuffer::GetBufferID() const{
+		return this->m_uBuffer;
 	}
 
 	const uint32	IOGLBaseBuffer::GetApiId() const{
@@ -74,17 +83,20 @@ namespace CB{
 	}
 
 	void	IOGLBaseBuffer::LoadData(const void* pData, const uint32 uLength){
+		CR_GLBINDCHECK(this->m_pParent->GetWindowContext(), this->m_pParent->GetRenderContext());
 		GLenum uUsage = GLUtils::ToBufferUsage(this->m_uUsage, this->m_uAccess);
+		CBufferBindGurard guard(this->m_uBufferTarget);
 
-		GL::glBindBuffer(this->m_uBufferTarget, this->m_uBuffer);
-		GL::glBufferData(this->m_uBufferTarget, uLength, pData, uUsage);
-		GL::glBindBuffer(this->m_uBufferTarget, 0);
+		GL::glBindBuffer(this->m_uBufferTarget, this->m_uBuffer);			CR_GLCHECK();
+		GL::glBufferData(this->m_uBufferTarget, uLength, pData, uUsage);	CR_GLCHECK();
 	}
 
 	void	IOGLBaseBuffer::LoadSubData(const void* pData, const uint32 uOffset, const uint32 uLength){
-		GL::glBindBuffer(this->m_uBufferTarget, this->m_uBuffer);
-		GL::glBufferSubData(this->m_uBufferTarget, uOffset, uLength, pData);
-		GL::glBindBuffer(this->m_uBufferTarget, 0);
+		CR_GLBINDCHECK(this->m_pParent->GetWindowContext(), this->m_pParent->GetRenderContext());
+		CBufferBindGurard guard(this->m_uBufferTarget);
+
+		GL::glBindBuffer(this->m_uBufferTarget, this->m_uBuffer);				CR_GLCHECK();
+		GL::glBufferSubData(this->m_uBufferTarget, uOffset, uLength, pData);	CR_GLCHECK();
 	}
 
 	CRefPtr<IO::IStream>	IOGLBaseBuffer::Map(const Graphic::BufferAccess uAccess){
@@ -96,6 +108,33 @@ namespace CB{
 	}
 
 	CRefPtr<IO::IStream>	IOGLBaseBuffer::Map(const Graphic::BufferAccess uAccess, const bool bDiscard, const uint32 uOffset, const uint32 uLength){
+		CR_GLBINDCHECK(this->m_pParent->GetWindowContext(), this->m_pParent->GetRenderContext());
 		return new COGLBufferStream(this, uAccess, bDiscard, uOffset, uLength);
+	}
+
+	//=================================================================
+	//	BUFFER BIND GUARD
+	//=================================================================
+
+	CBufferBindGurard::CBufferBindGurard(const GLenum uTarget) :
+		m_uTarget(uTarget),
+		m_uBinding(GLUtils::ToTargetBinding(uTarget)),
+		m_uBufferID(0)
+	{
+		GL::glGetIntegerv(this->m_uBinding, reinterpret_cast<GLint*>(&this->m_uBufferID));	CR_GLCHECK();
+	}
+
+	CBufferBindGurard::CBufferBindGurard(const GLenum uTarget, const GLenum uBinding) :
+		m_uTarget(uTarget),
+		m_uBinding(uBinding),
+		m_uBufferID(0)
+	{
+		GL::glGetIntegerv(this->m_uBinding, reinterpret_cast<GLint*>(&this->m_uBufferID));	CR_GLCHECK();
+	}
+
+	CBufferBindGurard::~CBufferBindGurard(){
+		if(this->m_uBufferID != 0 && GL::glIsBuffer(this->m_uBufferID)){
+			GL::glBindBuffer(this->m_uTarget, this->m_uBufferID);	CR_GLCHECK();
+		}
 	}
 }
