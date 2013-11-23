@@ -8,7 +8,7 @@ namespace CB{
 	class IOGLBaseBuffer : 
 		public Graphic::IBuffer,
 		public Manage::IManagedObject<COGLDevice, IOGLBaseBuffer>,
-		public Manage::IObjectManager<COGLBufferStream>
+		public Manage::IObjectManager<IOGLBaseBuffer, COGLBufferStream>
 	{
 	private:
 		const Graphic::BufferType	m_uType;

@@ -33,14 +33,14 @@ namespace CB{
 			m_pParent(pParent)
 		{
 			if(this->m_pParent.IsValid()){
-				this->m_pParent.Cast<IObjectManager<_Type>>()->AddObject(static_cast<_Type* const>(this));
+				this->m_pParent.Cast<IObjectManager<_ParentType, _Type>>()->AddObject(static_cast<_Type* const>(this));
 			}
 		}
 
 		template<typename _ParentType, typename _Type>
 		IManagedObject<_ParentType, _Type>::~IManagedObject(){
 			if(this->m_pParent.IsValid()){
-				this->m_pParent.Cast<IObjectManager<_Type>>()->RemoveObject(static_cast<_Type* const>(this));
+				this->m_pParent.Cast<IObjectManager<_ParentType, _Type>>()->RemoveObject(static_cast<_Type* const>(this));
 			}
 		}
 

@@ -49,7 +49,6 @@ namespace CB{
 
 		template <typename _Type>
 		const CSingleton<_Type>& CSingleton<_Type>::operator=(const CSingleton& Singleton){
-			CR_THROWNOTIMPLEMENTED();
 		}
 
 		template <typename _Type>
@@ -102,7 +101,7 @@ namespace CB{
 
 		template <typename _Type>
 		const CRefSingleton<_Type>& CRefSingleton<_Type>::operator=(const CRefSingleton& Singleton){
-			CR_THROWNOTIMPLEMENTED();
+			CR_THROW(L"NOT INVOKABLE");
 		}
 
 		template <typename _Type>

@@ -212,7 +212,16 @@ namespace CB{
 			uint32 uBytes = this->GetBytesPerPixel();
 
 			Array.Resize(Size.Width * Size.Height * uBytes);
-			Memory::CopyArray(FreeImage_GetBits(this->m_Data.Get<FreeImage::CData>()->Bitmap.Get()), &Array[0], Array.GetLength());
+			Memory::CopyArray(FreeImage_GetBits(this->m_Data.Get<FreeImage::CData>()->Bitmap.Get()), Array.GetPointer(), Array.GetLength());
+		}
+
+		void	CImage::SetPixels(const Collection::CList<byte>& Array){
+			if(!this->IsLoaded()){
+				throw Exception::CException(
+					L"Cannot retrieve data when image not loaded.", CR_INFO());
+			}
+
+			Memory::CopyArray(Array.GetPointer(), FreeImage_GetBits(this->m_Data.Get<FreeImage::CData>()->Bitmap.Get()), Array.GetLength());
 		}
 
 		const bool	CImage::IsLoaded() const{

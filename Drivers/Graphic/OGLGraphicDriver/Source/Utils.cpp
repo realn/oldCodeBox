@@ -472,28 +472,48 @@ namespace CB{
 		}
 
 
-		const GLenum	ToInternalFormat(const Graphic::BufferFormat uFormat){
+		const GLenum	ToInternalFormat(const Graphic::BufferFormat uFormat, const Graphic::FeatureLevel uLevel){
+			switch (uLevel){
+			case Graphic::FeatureLevel::Level_1:
+			case Graphic::FeatureLevel::Level_2:
+				switch (uFormat){
+					//	One Component
+				case Graphic::BufferFormat::A8:				return GL::GL_ALPHA8;		// 1.1
+				case Graphic::BufferFormat::R8:				return GL::GL_LUMINANCE8;	// 1.1	
+				case Graphic::BufferFormat::R16:			return GL::GL_LUMINANCE16;	// 1.1
+
+					// Two Components
+				case Graphic::BufferFormat::R8G8:			return GL::GL_LUMINANCE8_ALPHA8;		// 1.1
+				case Graphic::BufferFormat::R16G16:			return GL::GL_LUMINANCE16_ALPHA16;		// 1.1
+				}
+				break;
+
+			case Graphic::FeatureLevel::Level_3:
+			case Graphic::FeatureLevel::Level_4:
+				switch (uFormat){
+					//	One Component
+				case Graphic::BufferFormat::A8:				return GL::GL_ALPHA;	// 1.0
+				case Graphic::BufferFormat::R8:				return GL::GL_R8;		// 3.0	
+				case Graphic::BufferFormat::R16:			return GL::GL_R16;		// 3.0
+				case Graphic::BufferFormat::R16F:			return GL::GL_R16F;		// 3.0
+				case Graphic::BufferFormat::R32:			return GL::GL_R32UI;	// 3.0
+				case Graphic::BufferFormat::R32F:			return GL::GL_R32F;		// 3.0
+
+					// Two Components
+				case Graphic::BufferFormat::R8G8:			return GL::GL_RG8;		// 3.0
+				case Graphic::BufferFormat::R16G16:			return GL::GL_RG16;		// 3.0
+				case Graphic::BufferFormat::R16G16F:		return GL::GL_RG16F;	// 3.0
+				case Graphic::BufferFormat::R32G32:			return GL::GL_RG32UI;	// 3.0
+				case Graphic::BufferFormat::R32G32F:		return GL::GL_RG32F;	// 3.0
+				}
+				break;
+			}
 			switch (uFormat)
 			{
 				//	Depth Components
 			case Graphic::BufferFormat::D16:	return GL::GL_DEPTH_COMPONENT16;	// 1.4
 			case Graphic::BufferFormat::D24:	return GL::GL_DEPTH_COMPONENT24;	// 1.4
 			case Graphic::BufferFormat::D32:	return GL::GL_DEPTH_COMPONENT32;	// 1.4
-
-				//	One Component
-			case Graphic::BufferFormat::A8:				return GL::GL_ALPHA;	// 1.0
-			case Graphic::BufferFormat::R8:				return GL::GL_R8;		// 3.0	
-			case Graphic::BufferFormat::R16:			return GL::GL_R16;		// 3.0
-			case Graphic::BufferFormat::R16F:			return GL::GL_R16F;		// 3.0
-			case Graphic::BufferFormat::R32:			return GL::GL_R32UI;	// 3.0
-			case Graphic::BufferFormat::R32F:			return GL::GL_R32F;		// 3.0
-
-				// Two Components
-			case Graphic::BufferFormat::R8G8:			return GL::GL_RG8;		// 3.0
-			case Graphic::BufferFormat::R16G16:			return GL::GL_RG16;		// 3.0
-			case Graphic::BufferFormat::R16G16F:		return GL::GL_RG16F;	// 3.0
-			case Graphic::BufferFormat::R32G32:			return GL::GL_RG32UI;	// 3.0
-			case Graphic::BufferFormat::R32G32F:		return GL::GL_RG32F;	// 3.0
 
 				// Three Components
 			case Graphic::BufferFormat::B8G8R8:			return GL::GL_BGR;		// 1.2
@@ -519,27 +539,47 @@ namespace CB{
 			}
 		}
 
-		const GLenum	ToTransferFormat(const Graphic::BufferFormat uFormat){
+		const GLenum	ToTransferFormat(const Graphic::BufferFormat uFormat, const Graphic::FeatureLevel uLevel){
+			switch (uLevel){
+			case Graphic::FeatureLevel::Level_1:
+			case Graphic::FeatureLevel::Level_2:
+				switch (uFormat){
+					//	One Component
+				case Graphic::BufferFormat::A8:				return GL::GL_ALPHA;		// 1.1
+				case Graphic::BufferFormat::R8:				return GL::GL_LUMINANCE;	// 1.1	
+				case Graphic::BufferFormat::R16:			return GL::GL_LUMINANCE;	// 1.1
+
+					// Two Components
+				case Graphic::BufferFormat::R8G8:			return GL::GL_LUMINANCE_ALPHA;		// 1.1
+				case Graphic::BufferFormat::R16G16:			return GL::GL_LUMINANCE_ALPHA;		// 1.1
+				}
+				break;
+
+			case Graphic::FeatureLevel::Level_3:
+			case Graphic::FeatureLevel::Level_4:
+				switch (uFormat){
+					//	One Component
+				case Graphic::BufferFormat::A8:				return GL::GL_ALPHA;	// 1.1
+				case Graphic::BufferFormat::R8:				return GL::GL_RED;	// 1.1	
+				case Graphic::BufferFormat::R16:			return GL::GL_RED;	// 1.1
+				case Graphic::BufferFormat::R16F:			return GL::GL_RED;	// 1.1
+				case Graphic::BufferFormat::R32:			return GL::GL_RED;	// 1.1
+				case Graphic::BufferFormat::R32F:			return GL::GL_RED;	// 1.1
+
+					// Two Components
+				case Graphic::BufferFormat::R8G8:			return GL::GL_RG;	// 3.0
+				case Graphic::BufferFormat::R16G16:			return GL::GL_RG;	// 3.0
+				case Graphic::BufferFormat::R16G16F:		return GL::GL_RG;	// 3.0
+				case Graphic::BufferFormat::R32G32:			return GL::GL_RG;	// 3.0
+				case Graphic::BufferFormat::R32G32F:		return GL::GL_RG;	// 3.0
+				}
+				break;
+			}
 			switch(uFormat){
 				//	Depth Components
 			case Graphic::BufferFormat::D16:	return GL::GL_DEPTH_COMPONENT;	// 1.4
 			case Graphic::BufferFormat::D24:	return GL::GL_DEPTH_COMPONENT;	// 1.4
 			case Graphic::BufferFormat::D32:	return GL::GL_DEPTH_COMPONENT;	// 1.4
-
-				//	One Component
-			case Graphic::BufferFormat::A8:				return GL::GL_ALPHA;	// 1.1
-			case Graphic::BufferFormat::R8:				return GL::GL_RED;	// 1.1	
-			case Graphic::BufferFormat::R16:			return GL::GL_RED;	// 1.1
-			case Graphic::BufferFormat::R16F:			return GL::GL_RED;	// 1.1
-			case Graphic::BufferFormat::R32:			return GL::GL_RED;	// 1.1
-			case Graphic::BufferFormat::R32F:			return GL::GL_RED;	// 1.1
-
-				// Two Components
-			case Graphic::BufferFormat::R8G8:			return GL::GL_RG;	// 3.0
-			case Graphic::BufferFormat::R16G16:			return GL::GL_RG;	// 3.0
-			case Graphic::BufferFormat::R16G16F:		return GL::GL_RG;	// 3.0
-			case Graphic::BufferFormat::R32G32:			return GL::GL_RG;	// 3.0
-			case Graphic::BufferFormat::R32G32F:		return GL::GL_RG;	// 3.0
 
 				// Three Components
 			case Graphic::BufferFormat::B8G8R8:			return GL::GL_BGR;	// 1.2
@@ -565,27 +605,47 @@ namespace CB{
 			}
 		}
 
-		const GLenum	ToTransferType(const Graphic::BufferFormat uFormat){
+		const GLenum	ToTransferType(const Graphic::BufferFormat uFormat, const Graphic::FeatureLevel uLevel){
+			switch (uLevel){
+			case Graphic::FeatureLevel::Level_1:
+			case Graphic::FeatureLevel::Level_2:
+				switch (uFormat){
+					//	One Component
+				case Graphic::BufferFormat::A8:				return GL::GL_UNSIGNED_BYTE;	// 1.1
+				case Graphic::BufferFormat::R8:				return GL::GL_UNSIGNED_BYTE;	// 1.1	
+				case Graphic::BufferFormat::R16:			return GL::GL_UNSIGNED_SHORT;	// 1.1
+
+					// Two Components
+				case Graphic::BufferFormat::R8G8:			return GL::GL_LUMINANCE_ALPHA;		// 1.1
+				case Graphic::BufferFormat::R16G16:			return GL::GL_LUMINANCE_ALPHA;		// 1.1
+				}
+				break;
+
+			case Graphic::FeatureLevel::Level_3:
+			case Graphic::FeatureLevel::Level_4:
+				switch (uFormat){
+					//	One Component
+				case Graphic::BufferFormat::A8:				return GL::GL_UNSIGNED_BYTE;	// 1.1
+				case Graphic::BufferFormat::R8:				return GL::GL_UNSIGNED_BYTE;	// 1.1	
+				case Graphic::BufferFormat::R16:			return GL::GL_UNSIGNED_SHORT;	// 1.1
+				case Graphic::BufferFormat::R16F:			return GL::GL_HALF_FLOAT;	// 3.0
+				case Graphic::BufferFormat::R32:			return GL::GL_UNSIGNED_INT;	// 1.1
+				case Graphic::BufferFormat::R32F:			return GL::GL_FLOAT;	// 1.1
+
+					// Two Components
+				case Graphic::BufferFormat::R8G8:			return GL::GL_UNSIGNED_BYTE;	// 1.1
+				case Graphic::BufferFormat::R16G16:			return GL::GL_UNSIGNED_SHORT;	// 1.1
+				case Graphic::BufferFormat::R16G16F:		return GL::GL_HALF_FLOAT;	// 3.0
+				case Graphic::BufferFormat::R32G32:			return GL::GL_UNSIGNED_INT;	// 1.1
+				case Graphic::BufferFormat::R32G32F:		return GL::GL_FLOAT;	// 1.1
+				}
+				break;
+			}
 			switch(uFormat){
 				//	Depth Components
 			case Graphic::BufferFormat::D16:	return GL::GL_UNSIGNED_SHORT;	// 1.1
 			case Graphic::BufferFormat::D24:	return GL::GL_UNSIGNED_INT;	// 1.1
 			case Graphic::BufferFormat::D32:	return GL::GL_UNSIGNED_INT;	// 1.1
-
-				//	One Component
-			case Graphic::BufferFormat::A8:				return GL::GL_UNSIGNED_BYTE;	// 1.1
-			case Graphic::BufferFormat::R8:				return GL::GL_UNSIGNED_BYTE;	// 1.1	
-			case Graphic::BufferFormat::R16:			return GL::GL_UNSIGNED_SHORT;	// 1.1
-			case Graphic::BufferFormat::R16F:			return GL::GL_HALF_FLOAT;	// 3.0
-			case Graphic::BufferFormat::R32:			return GL::GL_UNSIGNED_INT;	// 1.1
-			case Graphic::BufferFormat::R32F:			return GL::GL_FLOAT;	// 1.1
-
-				// Two Components
-			case Graphic::BufferFormat::R8G8:			return GL::GL_UNSIGNED_BYTE;	// 1.1
-			case Graphic::BufferFormat::R16G16:			return GL::GL_UNSIGNED_SHORT;	// 1.1
-			case Graphic::BufferFormat::R16G16F:		return GL::GL_HALF_FLOAT;	// 3.0
-			case Graphic::BufferFormat::R32G32:			return GL::GL_UNSIGNED_INT;	// 1.1
-			case Graphic::BufferFormat::R32G32F:		return GL::GL_FLOAT;	// 1.1
 
 				// Three Components
 			case Graphic::BufferFormat::B8G8R8:			return GL::GL_UNSIGNED_BYTE;	// 1.1

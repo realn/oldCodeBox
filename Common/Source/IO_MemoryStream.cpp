@@ -15,7 +15,6 @@ namespace CB{
 		}
 
 		IMemoryStream::IMemoryStream(const IMemoryStream& Stream){
-			CR_THROWNOTIMPLEMENTED();
 		}
 
 		const bool	IMemoryStream::CanRead() const{

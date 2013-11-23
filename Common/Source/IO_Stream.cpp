@@ -18,6 +18,10 @@ namespace CB{
 			this->Write(pData, uSizeInBytes, 1);
 		}
 
+		const uint32	IStream::GetLengthLeft() const {
+			return this->GetLength() - this->GetPos();
+		}
+
 		const bool	IStream::IsEmpty() const{
 			return IsBeginingOfStream() && IsEndOfStream();
 		}

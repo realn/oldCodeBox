@@ -125,7 +125,7 @@ namespace CB{
 		}
 
 		const CStreamReader&	CStreamReader::operator=(const CStreamReader& Reader){
-			CR_THROWNOTIMPLEMENTED();
+			CR_THROW(L"NOT INVOKABLE");
 		}
 	}
 }

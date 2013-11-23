@@ -7,13 +7,16 @@
 
 namespace CB{
 	namespace Manage{
+		template<typename _ParentType, typename _Type>	class IManagedObject;
+
 		//=================================
 		//	IObjectManager DECLARATION
 		//=================================
-		template<typename _Type>
+		template<typename _ParentType, typename _Type>
 		class IObjectManager :
 			public virtual IRef
 		{
+			friend	IManagedObject<_ParentType, _Type>;
 		public:
 			typedef	CPtr<_Type>	CObjectPtr;
 			typedef Collection::CList<CObjectPtr>	ObjectList;
@@ -23,7 +26,7 @@ namespace CB{
 
 			IObjectManager(){}
 			IObjectManager(const IObjectManager& Manager){}
-		public:
+
 			virtual void	AddObject(CObjectPtr pObject);
 			virtual void	RemoveObject(CObjectPtr pObject);
 		};
@@ -32,15 +35,15 @@ namespace CB{
 		//	IObjectManager IMPLEMENTATION
 		//===================================
 
-		template<typename _Type>
-		void	IObjectManager<_Type>::AddObject(typename IObjectManager<_Type>::CObjectPtr pObject){
+		template<typename _ParentType, typename _Type>
+		void	IObjectManager<_ParentType, _Type>::AddObject(typename IObjectManager<_ParentType, _Type>::CObjectPtr pObject){
 			if(!Collection::Contains(this->m_pObjectList, pObject)){
 				this->m_pObjectList.Add(pObject);
 			}
 		}
 
-		template<typename _Type>
-		void	IObjectManager<_Type>::RemoveObject(typename IObjectManager<_Type>::CObjectPtr pObject){
+		template<typename _ParentType, typename _Type>
+		void	IObjectManager<_ParentType, _Type>::RemoveObject(typename IObjectManager<_ParentType, _Type>::CObjectPtr pObject){
 			uint32 uIndex = 0;
 			if(Collection::TryFind(this->m_pObjectList, pObject, uIndex)){
 				this->m_pObjectList.Remove(uIndex);

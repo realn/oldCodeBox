@@ -19,11 +19,11 @@ namespace CB{
 	class COGLDevice : 
 		public Graphic::IDevice,
 		public Manage::IManagedObject<COGLAdapter, COGLDevice>,
-		public Manage::IObjectManager<IOGLBaseBuffer>,
-		public Manage::IObjectManager<IOGLBaseShader>,
-		public Manage::IObjectManager<IOGLBaseState>,
-		public Manage::IObjectManager<IOGLBaseTexture>,
-		public Manage::IObjectManager<COGLVertexDeclaration>
+		public Manage::IObjectManager<COGLDevice, IOGLBaseBuffer>,
+		public Manage::IObjectManager<COGLDevice, IOGLBaseShader>,
+		public Manage::IObjectManager<COGLDevice, IOGLBaseState>,
+		public Manage::IObjectManager<COGLDevice, IOGLBaseTexture>,
+		public Manage::IObjectManager<COGLDevice, COGLVertexDeclaration>
 	{
 	private:
 		CRefPtr<Window::IWindow>	m_pOutputWindow;

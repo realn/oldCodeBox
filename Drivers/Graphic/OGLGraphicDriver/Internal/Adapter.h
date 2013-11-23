@@ -10,8 +10,8 @@ namespace CB{
 	class COGLAdapter : 
 		public Graphic::IAdapter,
 		public Manage::IManagedObject<COGLManager, COGLAdapter>,
-		public Manage::IObjectManager<COGLOutput>,
-		public Manage::IObjectManager<COGLDevice>
+		public Manage::IObjectManager<COGLAdapter, COGLOutput>,
+		public Manage::IObjectManager<COGLAdapter, COGLDevice>
 	{
 	private:
 		const uint32		m_uIndex;

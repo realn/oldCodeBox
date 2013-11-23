@@ -28,7 +28,6 @@ namespace CB{
 		}
 
 		IThread::IThread(const IThread& Thread){
-			CR_THROWNOTIMPLEMENTED();
 		}
 
 		IThread::IThread(const bool bStarted) :
@@ -81,7 +80,6 @@ namespace CB{
 		//===================
 
 		CMutex::CMutex(const CMutex& Mutex){
-			CR_THROWNOTIMPLEMENTED();
 		}
 
 		CMutex::CMutex(){
@@ -105,7 +103,6 @@ namespace CB{
 		CLock::CLock(const CLock& Lock) : 
 			m_Mutex(Lock.m_Mutex)
 		{
-			CR_THROWNOTIMPLEMENTED();
 		}
 
 		CLock::CLock(CMutex& Mutex) : 

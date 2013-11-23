@@ -269,7 +269,7 @@ namespace CB{
 			throw Exception::CInvalidArgumentException(L"pBuffer", String::ToString(pBuffer->GetType()),
 				L"Unknown buffer type for removal.", CR_INFO());
 		}
-		Manage::IObjectManager<IOGLBaseBuffer>::RemoveObject(pBuffer);
+		Manage::IObjectManager<COGLDevice, IOGLBaseBuffer>::RemoveObject(pBuffer);
 	}
 
 	void	COGLDevice::RemoveObject(CPtr<IOGLBaseShader> pShader){
@@ -280,7 +280,7 @@ namespace CB{
 		if(this->m_pFragmentShader == pShader){
 			this->m_pFragmentShader.Reset();
 		}
-		Manage::IObjectManager<IOGLBaseShader>::RemoveObject(pShader);
+		Manage::IObjectManager<COGLDevice, IOGLBaseShader>::RemoveObject(pShader);
 	}
 
 	void	COGLDevice::RemoveObject(CPtr<IOGLBaseState> pState){
@@ -293,21 +293,21 @@ namespace CB{
 		if(this->m_pBlendState == pState){
 			this->FreeState(Graphic::DeviceStateType::Blend);
 		}
-		Manage::IObjectManager<IOGLBaseState>::RemoveObject(pState);
+		Manage::IObjectManager<COGLDevice, IOGLBaseState>::RemoveObject(pState);
 	}
 
 	void	COGLDevice::RemoveObject(CPtr<IOGLBaseTexture> pTexture){
-		for(uint32 uIndex = 0; uIndex < Manage::IObjectManager<IOGLBaseShader>::m_pObjectList.GetLength(); uIndex++){
-			Manage::IObjectManager<IOGLBaseShader>::m_pObjectList[uIndex]->RemoveSampler(pTexture);
+		for(uint32 uIndex = 0; uIndex < Manage::IObjectManager<COGLDevice, IOGLBaseShader>::m_pObjectList.GetLength(); uIndex++){
+			Manage::IObjectManager<COGLDevice, IOGLBaseShader>::m_pObjectList[uIndex]->RemoveSampler(pTexture);
 		}
-		Manage::IObjectManager<IOGLBaseTexture>::RemoveObject(pTexture);
+		Manage::IObjectManager<COGLDevice, IOGLBaseTexture>::RemoveObject(pTexture);
 	}
 
 	void	COGLDevice::RemoveObject(CPtr<COGLVertexDeclaration> pDeclaration){
 		if(this->m_pVertexDeclaration == pDeclaration){
 			this->FreeVertexDeclaration();
 		}
-		Manage::IObjectManager<COGLVertexDeclaration>::RemoveObject(pDeclaration);
+		Manage::IObjectManager<COGLDevice, COGLVertexDeclaration>::RemoveObject(pDeclaration);
 	}
 
 	//	END OF OVERRIDES	==================================================================
@@ -798,6 +798,7 @@ namespace CB{
 		//		}
 		//	}
 		//}
+		CR_THROWNOTIMPLEMENTED();
 	}
 	
 	void	COGLDevice::RenderInstancedIndexed(const uint32 uInstanceCount, const uint32 uPrimitiveCount){
@@ -852,6 +853,7 @@ namespace CB{
 		//		}
 		//	}
 		//}
+		CR_THROWNOTIMPLEMENTED();
 	}
 
 

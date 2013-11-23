@@ -5,6 +5,7 @@
 #include <IO_File.h>
 #include <IO_TextReader.h>
 #include <IO_Image.h>
+#include <Font.h>
 
 bool bRun = true;
 
@@ -17,7 +18,7 @@ const bool	CloseEvent(CB::CRefPtr<CB::Window::IWindow> pWindow){
 int __stdcall wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine, int nShowCmd){
 	CB::CRefPtr<CB::Log::CLogger> pLog = CB::Log::CLogger::GetInstance();
 
-	pLog->AddStream(CB::IO::File::Open(L"main.log", CB::IO::File::AccessType::WriteOnly).Cast<CB::IO::IStream>());
+	pLog->AddStream(CB::IO::File::Open(L"main.log", CB::IO::File::AccessType::WriteOnly, CB::IO::File::OpenAction::AlwaysCreate).Cast<CB::IO::IStream>());
 	pLog->SetDebugMode(true);
 
 	try{
@@ -59,16 +60,28 @@ int __stdcall wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine,
 			
 			CB::CRefPtr<CB::Graphic::ITexture2D> pTexture;
 			{
-				auto pFileStream = CB::IO::File::Open(L"crate.jpg", CB::IO::File::AccessType::ReadOnly, CB::IO::File::OpenAction::Open);
+				auto pFileStream = CB::IO::File::Open(L"ETHNOCEN.TTF", CB::IO::File::AccessType::ReadOnly, CB::IO::File::OpenAction::Open);
 
-				CB::IO::CImage img;
-				img.ReadFromStream(pFileStream.Cast<CB::IO::IStream>());
-				img.Convert(CB::IO::Image::BitFormat::f32Bit);
-				
+				auto pFontManager = CB::Font::CManager::Create();
+				auto pFont = pFontManager->Load(pFileStream.Cast<CB::IO::IStream>());
+
+				pFont->SetSize(CB::Math::CSize(256, 256));
+				pFont->SelectGlyphByChar(L'B');
+
 				CB::Collection::CList<byte> Pixels;
-				img.GetPixels(Pixels);
+				CB::Math::CSize Size;
+				uint32 uBPP = 0;
+				pFont->GetGlyphBitmap(Pixels, Size, uBPP);
 
-				pTexture = pGraphicDevice->CreateTexture2D(img.GetSize(), CB::Graphic::BufferUsage::Static, CB::Graphic::BufferAccess::Write, CB::Graphic::BufferFormat::R8G8B8A8, CB::Graphic::BufferFormat::B8G8R8A8, Pixels);
+				CB::Collection::CList<byte> Data(Size.Width * Size.Height * 4);
+				for(uint32 uIndex = 0; uIndex < Pixels.GetLength(); uIndex++){
+					Data[uIndex * 4 + 0] = Pixels[uIndex];
+					Data[uIndex * 4 + 1] = Pixels[uIndex];
+					Data[uIndex * 4 + 2] = Pixels[uIndex];
+					Data[uIndex * 4 + 3] = Pixels[uIndex];
+				}
+
+				pTexture = pGraphicDevice->CreateTexture2D(Size, CB::Graphic::BufferUsage::Static, CB::Graphic::BufferAccess::Write, CB::Graphic::BufferFormat::R8G8B8A8, CB::Graphic::BufferFormat::R8G8B8A8, Data);
 			}
 
 			CB::CRefPtr<CB::Graphic::IShader> pVertexShader;

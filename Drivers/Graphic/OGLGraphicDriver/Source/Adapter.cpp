@@ -45,8 +45,8 @@ namespace CB{
 
 	CRefPtr<Graphic::IOutput>	COGLAdapter::GetOutput(const uint32 uIndex){
 		uint32 uOutIndex = 0;
-		if(Collection::TryFind(Manage::IObjectManager<COGLOutput>::m_pObjectList, CompareOutput, uIndex, uOutIndex)){
-			return Manage::IObjectManager<COGLOutput>::m_pObjectList[uOutIndex].Get();
+		if(Collection::TryFind(Manage::IObjectManager<COGLAdapter, COGLOutput>::m_pObjectList, CompareOutput, uIndex, uOutIndex)){
+			return Manage::IObjectManager<COGLAdapter, COGLOutput>::m_pObjectList[uOutIndex].Get();
 		}
 
 		return new COGLOutput(this, uIndex, this->m_DeviceInfo.strDisplayList[uIndex]);

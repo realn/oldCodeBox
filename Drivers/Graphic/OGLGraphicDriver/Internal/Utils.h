@@ -24,9 +24,9 @@ namespace CB{
 		extern const GLenum ToBlendEquation(const Graphic::BlendOperation uOp);
 		extern const GLenum ToBlendOption(const Graphic::BlendOption uOption);
 
-		extern const GLenum ToInternalFormat(const Graphic::BufferFormat uFormat);
-		extern const GLenum ToTransferFormat(const Graphic::BufferFormat uFormat);
-		extern const GLenum ToTransferType(const Graphic::BufferFormat uFormat);
+		extern const GLenum ToInternalFormat(const Graphic::BufferFormat uFormat, const Graphic::FeatureLevel uLevel);
+		extern const GLenum ToTransferFormat(const Graphic::BufferFormat uFormat, const Graphic::FeatureLevel uLevel);
+		extern const GLenum ToTransferType(const Graphic::BufferFormat uFormat, const Graphic::FeatureLevel uLevel);
 
 		extern const GLenum	ToTargetBinding(const GLenum uTarget);
 		extern const GLenum ToTextureMinFilter(const Graphic::TextureFilter uFilter);

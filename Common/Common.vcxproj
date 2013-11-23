@@ -91,6 +91,8 @@
     <ClInclude Include="Include\Collection_List.h" />
     <ClInclude Include="Include\Collection_Interface.h" />
     <ClInclude Include="Include\Collection_Memory.h" />
+    <ClInclude Include="Include\Font.h" />
+    <ClInclude Include="Include\FontManager.h" />
     <ClInclude Include="Include\IO_Directory.h" />
     <ClInclude Include="Include\IO_File.h" />
     <ClInclude Include="Include\IO_MemoryStream.h" />
@@ -159,6 +161,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\ApiObject_Exception.cpp" />
+    <ClCompile Include="Source\Font.cpp" />
+    <ClCompile Include="Source\FontManager.cpp" />
     <ClCompile Include="Source\IO_Directory.cpp" />
     <ClCompile Include="Source\IO_DirectoryWIN.cpp" />
     <ClCompile Include="Source\IO_Directory_Exception.cpp" />

@@ -58,6 +58,12 @@
     <Filter Include="Include\Logger">
       <UniqueIdentifier>{f592bf8a-aea6-492b-9962-af77348d181d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Include\Font">
+      <UniqueIdentifier>{28dd383d-3b99-42ba-9034-d36b64783079}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Font">
+      <UniqueIdentifier>{da8a579a-ba8c-4255-83f1-4861e1da3555}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Exception.h">
@@ -282,6 +288,12 @@
     <ClInclude Include="Include\Threads.h">
       <Filter>Include</Filter>
     </ClInclude>
+    <ClInclude Include="Include\FontManager.h">
+      <Filter>Include\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Font.h">
+      <Filter>Include\Font</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Exception.cpp">
@@ -463,6 +475,12 @@
     </ClCompile>
     <ClCompile Include="Source\Threads.cpp">
       <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FontManager.cpp">
+      <Filter>Source\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Font.cpp">
+      <Filter>Source\Font</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

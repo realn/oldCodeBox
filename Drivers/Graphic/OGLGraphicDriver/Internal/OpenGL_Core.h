@@ -268,6 +268,17 @@ namespace GL{
 		GL_RGBA16                         = 0x805B,
 		GL_VERTEX_ARRAY                   = 0x8074,
 	};
+
+	enum VERSION_1_1_NONCORE_TOKENS{
+		GL_LUMINANCE                      = 0x1909,
+		GL_LUMINANCE_ALPHA                = 0x190A,
+		GL_ALPHA8                         = 0x803C,
+		GL_ALPHA16                        = 0x803E,
+		GL_LUMINANCE8                     = 0x8040,
+		GL_LUMINANCE16                    = 0x8042,
+		GL_LUMINANCE8_ALPHA8              = 0x8045,
+		GL_LUMINANCE16_ALPHA16            = 0x8048,
+	};
 	
 	//	VERSION_1_1
 	extern void glDrawArrays (GLenum mode, GLint first, GLsizei count);
