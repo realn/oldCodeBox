@@ -43,7 +43,7 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Output\$(Configuration)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)Intermediate\$(Configuration)\$(ProjectName)\</IntDir>
-    <IncludePath>$(SolutionDir)Ext\Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Ext\Include;$(SolutionDir)Common\Include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Ext\Lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -83,12 +83,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Include\AudioDrvInterface.h" />
+    <ClInclude Include="Include\AudioDriver.h" />
     <ClInclude Include="Include\Macros.h" />
+    <ClInclude Include="Internal\Driver.h" />
     <ClInclude Include="Internal\WinPlatform.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\AudioDrvInterface.cpp" />
     <ClCompile Include="Source\dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -97,6 +97,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
       </PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Source\Driver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\Common.vcxproj">
