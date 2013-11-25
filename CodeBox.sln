@@ -23,6 +23,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Audio", "Audio", "{EB377A7C
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AudioDrvInterface", "Drivers\Audio\AudioDrvInterface\AudioDrvInterface.vcxproj", "{909C3D3E-22DA-48E4-8CFE-D896379D5A12}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OALAudioDriver", "Drivers\Audio\OALAudioDriver\OALAudioDriver.vcxproj", "{F2A54212-82DE-48DF-B9A3-4BD4587AB4C0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -57,6 +59,10 @@ Global
 		{909C3D3E-22DA-48E4-8CFE-D896379D5A12}.Debug|Win32.Build.0 = Debug|Win32
 		{909C3D3E-22DA-48E4-8CFE-D896379D5A12}.Release|Win32.ActiveCfg = Release|Win32
 		{909C3D3E-22DA-48E4-8CFE-D896379D5A12}.Release|Win32.Build.0 = Release|Win32
+		{F2A54212-82DE-48DF-B9A3-4BD4587AB4C0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F2A54212-82DE-48DF-B9A3-4BD4587AB4C0}.Debug|Win32.Build.0 = Debug|Win32
+		{F2A54212-82DE-48DF-B9A3-4BD4587AB4C0}.Release|Win32.ActiveCfg = Release|Win32
+		{F2A54212-82DE-48DF-B9A3-4BD4587AB4C0}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -70,5 +76,6 @@ Global
 		{1894C896-BB26-4993-B035-7885AF9F507E} = {7F7AAEF4-D6BE-4B2E-B235-361905598FC7}
 		{2F024E01-905B-45E3-A15C-B41710A9B11A} = {7F7AAEF4-D6BE-4B2E-B235-361905598FC7}
 		{909C3D3E-22DA-48E4-8CFE-D896379D5A12} = {EB377A7C-7649-4238-B5EB-8563118790D6}
+		{F2A54212-82DE-48DF-B9A3-4BD4587AB4C0} = {EB377A7C-7649-4238-B5EB-8563118790D6}
 	EndGlobalSection
 EndGlobal

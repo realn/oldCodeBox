@@ -6,9 +6,12 @@
 
 namespace CB{
 	namespace Audio{
-		class IAdapter{
+		class IAdapter : 
+			public IApiObject
+		{
 		public:
 			virtual const CString	GetName() const = 0;
+			virtual const uint32	GetIndex() const = 0;
 		};
 
 		class IManager :

@@ -111,9 +111,9 @@ namespace CB{
 		extern COMMON_API const CString		FromUTF8(const int8* szText); // with zero
 		extern COMMON_API const CString		FromUTF8(const int8* szText, const uint32 uLength);	// wirhout zero
 
-		extern COMMON_API const uint32		ToANSICount(const CString& strText); // returns count with zero
+		extern COMMON_API const uint32		ToANSICount(const CString& strText); // returns count without zero
 		extern COMMON_API void				ToANSI(const CString& strText, int8* szOutText, const uint32 uBufferLen); // buffer len with zero
-		extern COMMON_API const uint32		ToUTF8Count(const CString& strText); // returns count with zero
+		extern COMMON_API const uint32		ToUTF8Count(const CString& strText); // returns count without zero
 		extern COMMON_API void				ToUTF8(const CString& strText, int8* szOutText, const uint32 uBufferLen);	// buffer len with zero
 	}
 }

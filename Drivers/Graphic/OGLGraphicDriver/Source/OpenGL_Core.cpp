@@ -851,7 +851,7 @@ namespace GL{
 	}
 
 	void	ReportGLError(GLenum uError, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine){
-		CB::CString strError = L"GL Error: " + CB::String::FromUInt32(uError);
+		CB::CString strError = L"GL Error: " + CB::String::ToHexString(uError);
 #ifdef CR_GL_ERROR_AS_EXCEPTION
 		throw Exception::CException(strError, strFunction, strFile, uLine);
 #else

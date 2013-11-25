@@ -6,6 +6,7 @@
 #include <IO_TextReader.h>
 #include <IO_Image.h>
 #include <Font.h>
+#include <AudioDriver.h>
 
 bool bRun = true;
 
@@ -24,6 +25,7 @@ int __stdcall wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine,
 	try{
 		auto pWinDriver = CB::Window::LoadDriver(L"MSWindowDriver");
 		auto pGraphicDriver = CB::Graphic::LoadDriver(L"OGLGraphicDriver");
+		auto pAudioDriver = CB::Audio::LoadDriver(L"OALAudioDriver");
 		{
 			auto pWinManager = pWinDriver->CreateManager();
 			auto pGraphicManager = pGraphicDriver->CreateManager(pWinManager);
@@ -60,19 +62,16 @@ int __stdcall wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine,
 			
 			CB::CRefPtr<CB::Graphic::ITexture2D> pTexture;
 			{
-				auto pFileStream = CB::IO::File::Open(L"ETHNOCEN.TTF", CB::IO::File::AccessType::ReadOnly, CB::IO::File::OpenAction::Open);
+				auto pFileStream = CB::IO::File::Open(L"Crate.jpg", CB::IO::File::AccessType::ReadOnly, CB::IO::File::OpenAction::Open);
 
-				auto pFontManager = CB::Font::CManager::Create();
-				auto pFont = pFontManager->Load(pFileStream.Cast<CB::IO::IStream>());
-
-				pFont->SetSize(CB::Math::CSize(256, 256));
-				pFont->SelectGlyphByChar(L'B');
-
+				CB::IO::CImage img;
+				img.ReadFromStream(pFileStream.Cast<CB::IO::IStream>());
+				img.Convert(CB::IO::Image::BitFormat::f32Bit);
+				img.Resize(CB::Math::CSize(256,256));
 				CB::Collection::CList<byte> Pixels;
-				CB::Math::CSize Size;
-				pFont->GetGlyphBitmap(Pixels, Size);
+				img.GetPixels(Pixels);
 
-				pTexture = pGraphicDevice->CreateTexture2D(Size, CB::Graphic::BufferUsage::Static, CB::Graphic::BufferAccess::Write, CB::Graphic::BufferFormat::R8G8B8A8, CB::Graphic::BufferFormat::R8G8B8A8, Pixels);
+				pTexture = pGraphicDevice->CreateTexture2D(img.GetSize(), CB::Graphic::BufferUsage::Static, CB::Graphic::BufferAccess::Write, CB::Graphic::BufferFormat::R8G8B8A8, CB::Graphic::BufferFormat::B8G8R8A8, Pixels);
 			}
 
 			CB::CRefPtr<CB::Graphic::IShader> pVertexShader;
@@ -98,6 +97,9 @@ int __stdcall wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine,
 
 			auto mProjection = CB::Math::CMatrix::GetOrtho(4.0f, 3.0f, -1.0f, 1.0f);
 			pGraphicDevice->SetRenderPrimitive(CB::Graphic::PrimitiveType::Triangles);
+
+			auto pAudioManager = pAudioDriver->CreateManager();
+			auto pAudioAdapter = pAudioManager->GetDefaultAdapter();
 
 			CB::Log::Write(L"Entering Main Loop.", CB::Log::LogLevel::Debug);
 			while(bRun){

@@ -28,15 +28,14 @@ namespace CB{
 		extern COMMON_API const CString	FromANSI(const Collection::IPacked<int8>& Array);
 		extern COMMON_API const CString	FromUTF8(const Collection::IPacked<int8>& Array);
 
-		extern COMMON_API void	ToANSI(const CString& strText, Collection::CList<int8>& Array);
-		extern COMMON_API void	ToUTF8(const CString& strText, Collection::CList<int8>& Array);
-		extern COMMON_API void	ToArray(const CString& strText, Collection::CList<wchar>& Array);
+		extern COMMON_API void	ToANSI(const CString& strText, Collection::CList<int8>& Array);		// convert to buffer without zero
+		extern COMMON_API void	ToUTF8(const CString& strText, Collection::CList<int8>& Array);		// convert to buffer without zero
+		extern COMMON_API void	ToArray(const CString& strText, Collection::CList<wchar>& Array);	// convert to buffer without zero
 
-		extern COMMON_API const Collection::CList<int8>		ToANSI(const CString& strText);
-		extern COMMON_API const Collection::CList<int8>		ToUTF8(const CString& strText);
-		extern COMMON_API const Collection::CList<wchar>	ToArray(const CString& strText);
+		extern COMMON_API const Collection::CList<int8>		ToANSI(const CString& strText);		// return buffer with zero
+		extern COMMON_API const Collection::CList<int8>		ToUTF8(const CString& strText);		// return buffer with zero
+		extern COMMON_API const Collection::CList<wchar>	ToArray(const CString& strText);	// return buffer with zero
 
-		//! Converts to array wihout int8 0 ending.
 		extern COMMON_API const CString	ToString(const Collection::IPacked<wchar>& Array);
 
 		extern COMMON_API const bool	SubCompare(const CString& strText, const uint32 uPos, const Collection::ICountable<CString>& strCompare);
