@@ -4,47 +4,52 @@ namespace CB{
 	namespace GLUtils{
 		const uint32	GetBitsPerPixel(const Graphic::BufferFormat uFormat){
 			switch(uFormat){
-			case Graphic::BufferFormat::R1:			
-				return 1;
 
-			case Graphic::BufferFormat::R8:			
-			case Graphic::BufferFormat::A8:			
-				return 8;
+				//	Depth Component
+			case Graphic::BufferFormat::D16:	return 16;
+			case Graphic::BufferFormat::D24:	return 24;				
+			case Graphic::BufferFormat::D24S8:	return 32;
+			case Graphic::BufferFormat::D24X8:	return 32;
+			case Graphic::BufferFormat::D32:	return 32;
+			case Graphic::BufferFormat::D32F:	return 32;
+			case Graphic::BufferFormat::D32S8X24:	return 64;
+			case Graphic::BufferFormat::D32FS8X24U:	return 64;
 
-			case Graphic::BufferFormat::R16:
-			case Graphic::BufferFormat::R16F:		
-				return 16;
+				//	One Component
+			case Graphic::BufferFormat::R8:		return 8;
+			case Graphic::BufferFormat::A8:		return 8;
+			case Graphic::BufferFormat::R16:	return 16;
+			case Graphic::BufferFormat::R16F:	return 16;
+			case Graphic::BufferFormat::R32:	return 32;
+			case Graphic::BufferFormat::R32F:	return 32;
 
-			case Graphic::BufferFormat::R32:		
-			case Graphic::BufferFormat::R32F:		
-				return 32;
+				//	Two Components
+			case Graphic::BufferFormat::R8G8:		return 16;
+			case Graphic::BufferFormat::R16G16:		return 32;
+			case Graphic::BufferFormat::R16G16F:	return 32;
+			case Graphic::BufferFormat::R32G32:		return 64;
+			case Graphic::BufferFormat::R32G32F:	return 64;
 
-			case Graphic::BufferFormat::R8G8:				
-				return 16;
+				//	Three Components
+			case Graphic::BufferFormat::R8G8B8:		return 24;
+			case Graphic::BufferFormat::B8G8R8:		return 24;
+			case Graphic::BufferFormat::R8G8B8_sRGB:	return 24;
+			case Graphic::BufferFormat::R16G16B16:	return 48;
+			case Graphic::BufferFormat::R16G16B16F:	return 48;
+			case Graphic::BufferFormat::R32G32B32:	return 96;
+			case Graphic::BufferFormat::R32G32B32F:	return 96;
 
-			case Graphic::BufferFormat::R16G16:		
-			case Graphic::BufferFormat::R16G16F:	
-				return 32;
-
-			case Graphic::BufferFormat::R32G32:		
-			case Graphic::BufferFormat::R32G32F:		
-				return 64;
-
-			case Graphic::BufferFormat::B8G8R8A8:		
-			case Graphic::BufferFormat::B8G8R8A8_sRGB:	
-			case Graphic::BufferFormat::B8G8R8X8:		
-			case Graphic::BufferFormat::B8G8R8X8_sRGB:	
-			case Graphic::BufferFormat::R8G8B8A8:		
-			case Graphic::BufferFormat::R8G8B8A8_sRGB:	
-				return 32;
-
-			case Graphic::BufferFormat::R16G16B16A16:	
-			case Graphic::BufferFormat::R16G16B16A16F:
-				return 64;
-
-			case Graphic::BufferFormat::R32G32B32A32:	
-			case Graphic::BufferFormat::R32G32B32A32F:
-				return 128;
+				//	Four Components
+			case Graphic::BufferFormat::B8G8R8A8:		return 32;
+			case Graphic::BufferFormat::B8G8R8A8_sRGB:	return 32;
+			case Graphic::BufferFormat::B8G8R8X8:		return 32;
+			case Graphic::BufferFormat::B8G8R8X8_sRGB:	return 32;
+			case Graphic::BufferFormat::R8G8B8A8:		return 32;
+			case Graphic::BufferFormat::R8G8B8A8_sRGB:	return 32;
+			case Graphic::BufferFormat::R16G16B16A16:	return 64;
+			case Graphic::BufferFormat::R16G16B16A16F:	return 64;
+			case Graphic::BufferFormat::R32G32B32A32:	return 128;
+			case Graphic::BufferFormat::R32G32B32A32F:	return 128;
 
 			default:
 				return 0;
@@ -116,7 +121,7 @@ namespace CB{
 				}
 				if(CheckSize(uBits, 3, 8, 8, 8, 0)){
 					if(CheckSeq(uShift, 3, uBits, R, G, B, A)){
-						//
+						return Graphic::BufferFormat::R8G8B8;
 					}
 					if(CheckSeq(uShift, 3, uBits, B, G, R, A)){
 						return Graphic::BufferFormat::B8G8R8X8;
@@ -127,10 +132,10 @@ namespace CB{
 			case 24:
 				if(CheckSize(uBits, 3, 8, 8, 8, 0)){
 					if(CheckSeq(uShift, 3, uBits, R, G, B, A)){
-						//
+						return Graphic::BufferFormat::R8G8B8;
 					}
 					if(CheckSeq(uShift, 3, uBits, B, G, R, A)){
-						return Graphic::BufferFormat::B8G8R8X8;
+						return Graphic::BufferFormat::B8G8R8;
 					}
 				}
 				break;
@@ -177,21 +182,46 @@ namespace CB{
 
 		void	SetPixelFormat(PIXELFORMATDESCRIPTOR& pfd, const Graphic::BufferFormat uFormat){
 			switch(uFormat){
+				
+				//	Depth Components
 			case Graphic::BufferFormat::D16:		SetPixelFormat(pfd, 16, 0);	break;
+			case Graphic::BufferFormat::D24:		SetPixelFormat(pfd, 24, 0);	break;
 			case Graphic::BufferFormat::D24X8:		SetPixelFormat(pfd, 24, 0); break;
 			case Graphic::BufferFormat::D24S8:		SetPixelFormat(pfd, 24, 8);	break;
+			case Graphic::BufferFormat::D32:		SetPixelFormat(pfd, 32, 0);	break;
+			case Graphic::BufferFormat::D32S8X24:	SetPixelFormat(pfd, 32, 8);	break;
+
 			case Graphic::BufferFormat::D32F:		
 			case Graphic::BufferFormat::D32FS8X24U:
-				throw Exception::CException(L"Cannot set float pixel format: " + String::ToString(uFormat), CR_INFO());
+				CR_THROW(L"Cannot set to float an legacy pixel format: " + String::ToString(uFormat));
 
-			case Graphic::BufferFormat::R1:			SetPixelFormat(pfd, 1, 1, 0, 0, 0, 0, 0, 0, 0);	break;
 			case Graphic::BufferFormat::R8:			SetPixelFormat(pfd, 8, 8, 0, 0, 0, 0, 0, 0, 0);	break;
 			case Graphic::BufferFormat::A8:			SetPixelFormat(pfd, 8, 0, 0, 0, 8, 0, 0, 0, 0);	break;
 			case Graphic::BufferFormat::R16:		SetPixelFormat(pfd, 16, 16, 0, 0, 0, 0, 0, 0, 0);	break;
 			case Graphic::BufferFormat::R32:		SetPixelFormat(pfd, 32, 32, 0, 0, 0, 0, 0, 0, 0);	break;
+
+			case Graphic::BufferFormat::R16F:		
+			case Graphic::BufferFormat::R32F:		
+				CR_THROW(L"Cannot set to float an legacy pixel format: " + String::ToString(uFormat));
+			
 			case Graphic::BufferFormat::R8G8:		SetPixelFormat(pfd, 16, 8, 0, 8, 0, 0, 8, 0, 0);	break;
 			case Graphic::BufferFormat::R16G16:		SetPixelFormat(pfd, 32, 16, 0, 16, 0, 0, 16, 0, 0);	break;
 			case Graphic::BufferFormat::R32G32:		SetPixelFormat(pfd, 64, 32, 0, 32, 0, 0, 32, 0, 0);	break;
+
+			case Graphic::BufferFormat::R16G16F:	
+			case Graphic::BufferFormat::R32G32F:		
+				CR_THROW(L"Cannot set to float an legacy pixel format: " + String::ToString(uFormat));
+				
+			case Graphic::BufferFormat::B8G8R8:			SetPixelFormat(pfd, 24, 8, 8, 8, 0, 16, 8, 0, 0);	break;
+			case Graphic::BufferFormat::R8G8B8:			SetPixelFormat(pfd, 24, 8, 8, 8, 0, 0, 8, 16, 0);	break;
+			case Graphic::BufferFormat::R8G8B8_sRGB:	SetPixelFormat(pfd, 24, 8, 8, 8, 0, 0, 8, 16, 0);	break;
+			case Graphic::BufferFormat::R16G16B16:		SetPixelFormat(pfd, 48, 16, 16, 16, 0, 0, 16, 32, 0);	break;
+			case Graphic::BufferFormat::R32G32B32:		SetPixelFormat(pfd, 96, 32, 32, 32, 0, 0, 32, 64, 96);	break;
+
+			case Graphic::BufferFormat::R16G16B16F:	
+			case Graphic::BufferFormat::R32G32B32F:	
+				CR_THROW(L"Cannot set to float an legacy pixel format: " + String::ToString(uFormat));				
+
 			case Graphic::BufferFormat::B8G8R8A8:		SetPixelFormat(pfd, 32, 8, 8, 8, 8, 16, 8, 0, 24);	break;
 			case Graphic::BufferFormat::B8G8R8A8_sRGB:	SetPixelFormat(pfd, 32, 8, 8, 8, 8, 16, 8, 0, 24);	break;
 			case Graphic::BufferFormat::B8G8R8X8:		SetPixelFormat(pfd, 32, 8, 8, 8, 0, 16, 8, 0, 0);	break;
@@ -201,13 +231,13 @@ namespace CB{
 			case Graphic::BufferFormat::R16G16B16A16:	SetPixelFormat(pfd, 64, 16, 16, 16, 16, 0, 16, 32, 48);	break;
 			case Graphic::BufferFormat::R32G32B32A32:	SetPixelFormat(pfd, 128, 32, 32, 32, 32, 0, 32, 64, 96);	break;
 
-			case Graphic::BufferFormat::R16F:		
-			case Graphic::BufferFormat::R32F:		
-			case Graphic::BufferFormat::R16G16F:	
-			case Graphic::BufferFormat::R32G32F:		
 			case Graphic::BufferFormat::R16G16B16A16F:	
 			case Graphic::BufferFormat::R32G32B32A32F:	
-				throw Exception::CException(L"Cannot set float pixel format: " + String::ToString(uFormat), CR_INFO());
+				CR_THROW(L"Cannot set to float an legacy pixel format: " + String::ToString(uFormat));				
+
+			default:
+				throw Exception::CInvalidArgumentException(L"uFormat", String::ToString(uFormat),
+					L"Unknown buffer format to pixel format.", CR_INFO());
 			}
 		}
 
@@ -250,21 +280,45 @@ namespace CB{
 
 		void	SetPixelFormat(Collection::CList<int32>& Attribs, const Graphic::BufferFormat uFormat){
 			switch(uFormat){
+				//	Depth Components
 			case Graphic::BufferFormat::D16:		SetPixelFormat(Attribs, 16, 0);	break;
+			case Graphic::BufferFormat::D24:		SetPixelFormat(Attribs, 24, 0);	break;
 			case Graphic::BufferFormat::D24X8:		SetPixelFormat(Attribs, 24, 0); break;
 			case Graphic::BufferFormat::D24S8:		SetPixelFormat(Attribs, 24, 8);	break;
+			case Graphic::BufferFormat::D32:		SetPixelFormat(Attribs, 32, 0);	break;
+			case Graphic::BufferFormat::D32S8X24:	SetPixelFormat(Attribs, 32, 8);	break;
+
 			case Graphic::BufferFormat::D32F:		
 			case Graphic::BufferFormat::D32FS8X24U:
-				throw Exception::CException(L"Cannot set float pixel format: " + String::ToString(uFormat), CR_INFO());
+				CR_THROW(L"Cannot set to float an pixel format: " + String::ToString(uFormat));
 
-			case Graphic::BufferFormat::R1:			SetPixelFormat(Attribs, 1, 1, 0, 0, 0, 0, 0, 0, 0);	break;
 			case Graphic::BufferFormat::R8:			SetPixelFormat(Attribs, 8, 8, 0, 0, 0, 0, 0, 0, 0);	break;
 			case Graphic::BufferFormat::A8:			SetPixelFormat(Attribs, 8, 0, 0, 0, 8, 0, 0, 0, 0);	break;
 			case Graphic::BufferFormat::R16:		SetPixelFormat(Attribs, 16, 16, 0, 0, 0, 0, 0, 0, 0);	break;
 			case Graphic::BufferFormat::R32:		SetPixelFormat(Attribs, 32, 32, 0, 0, 0, 0, 0, 0, 0);	break;
+
+			case Graphic::BufferFormat::R16F:		
+			case Graphic::BufferFormat::R32F:		
+				CR_THROW(L"Cannot set to float an pixel format: " + String::ToString(uFormat));
+			
 			case Graphic::BufferFormat::R8G8:		SetPixelFormat(Attribs, 16, 8, 0, 8, 0, 0, 8, 0, 0);	break;
 			case Graphic::BufferFormat::R16G16:		SetPixelFormat(Attribs, 32, 16, 0, 16, 0, 0, 16, 0, 0);	break;
 			case Graphic::BufferFormat::R32G32:		SetPixelFormat(Attribs, 64, 32, 0, 32, 0, 0, 32, 0, 0);	break;
+
+			case Graphic::BufferFormat::R16G16F:	
+			case Graphic::BufferFormat::R32G32F:		
+				CR_THROW(L"Cannot set to float an pixel format: " + String::ToString(uFormat));
+				
+			case Graphic::BufferFormat::B8G8R8:			SetPixelFormat(Attribs, 24, 8, 8, 8, 0, 16, 8, 0, 0);	break;
+			case Graphic::BufferFormat::R8G8B8:			SetPixelFormat(Attribs, 24, 8, 8, 8, 0, 0, 8, 16, 0);	break;
+			case Graphic::BufferFormat::R8G8B8_sRGB:	SetPixelFormat(Attribs, 24, 8, 8, 8, 0, 0, 8, 16, 0);	break;
+			case Graphic::BufferFormat::R16G16B16:		SetPixelFormat(Attribs, 48, 16, 16, 16, 0, 0, 16, 32, 0);	break;
+			case Graphic::BufferFormat::R32G32B32:		SetPixelFormat(Attribs, 96, 32, 32, 32, 0, 0, 32, 64, 96);	break;
+
+			case Graphic::BufferFormat::R16G16B16F:	
+			case Graphic::BufferFormat::R32G32B32F:	
+				CR_THROW(L"Cannot set to float an pixel format: " + String::ToString(uFormat));				
+
 			case Graphic::BufferFormat::B8G8R8A8:		SetPixelFormat(Attribs, 32, 8, 8, 8, 8, 16, 8, 0, 24);	break;
 			case Graphic::BufferFormat::B8G8R8A8_sRGB:	SetPixelFormat(Attribs, 32, 8, 8, 8, 8, 16, 8, 0, 24);	break;
 			case Graphic::BufferFormat::B8G8R8X8:		SetPixelFormat(Attribs, 32, 8, 8, 8, 0, 16, 8, 0, 0);	break;
@@ -274,15 +328,16 @@ namespace CB{
 			case Graphic::BufferFormat::R16G16B16A16:	SetPixelFormat(Attribs, 64, 16, 16, 16, 16, 0, 16, 32, 48);	break;
 			case Graphic::BufferFormat::R32G32B32A32:	SetPixelFormat(Attribs, 128, 32, 32, 32, 32, 0, 32, 64, 96);	break;
 
-			case Graphic::BufferFormat::R16F:		
-			case Graphic::BufferFormat::R32F:		
-			case Graphic::BufferFormat::R16G16F:	
-			case Graphic::BufferFormat::R32G32F:		
 			case Graphic::BufferFormat::R16G16B16A16F:	
 			case Graphic::BufferFormat::R32G32B32A32F:	
-				throw Exception::CException(L"Cannot set float pixel format: " + String::ToString(uFormat), CR_INFO());
+				CR_THROW(L"Cannot set to float an pixel format: " + String::ToString(uFormat));				
+
+			default:
+				throw Exception::CInvalidArgumentException(L"uFormat", String::ToString(uFormat),
+					L"Unknown buffer format to pixel format.", CR_INFO());
 			}
 		}
+
 
 		const GLenum	ToBufferUsage(const Graphic::BufferUsage uUsage, const Graphic::BufferAccess uAccess){
 			switch(uUsage)
@@ -406,10 +461,286 @@ namespace CB{
 			case Graphic::BlendOption::OneMinusDestColor:	return GL::GL_ONE_MINUS_DST_COLOR;
 			case Graphic::BlendOption::OneMinusSourceAlpha:	return GL::GL_ONE_MINUS_SRC_ALPHA;
 			case Graphic::BlendOption::OneMinusSourceColor:	return GL::GL_ONE_MINUS_SRC_COLOR;
-			case Graphic::BlendOption::SourceAlpha:
+			case Graphic::BlendOption::SourceAlpha:			return GL::GL_SRC_ALPHA;
+			case Graphic::BlendOption::SourceColor:			return GL::GL_SRC_COLOR;
+			case Graphic::BlendOption::Zero:				return GL::GL_ZERO;
 				
 			default:
+				throw Exception::CInvalidArgumentException(L"uOption", String::ToString(uOption),
+					L"Unknown blending operator.", CR_INFO());
+			}
+		}
+
+
+		const GLenum	ToInternalFormat(const Graphic::BufferFormat uFormat, const Graphic::FeatureLevel uLevel){
+			switch (uLevel){
+			case Graphic::FeatureLevel::Level_1:
+			case Graphic::FeatureLevel::Level_2:
+				switch (uFormat){
+					//	One Component
+				case Graphic::BufferFormat::A8:				return GL::GL_ALPHA8;		// 1.1
+				case Graphic::BufferFormat::R8:				return GL::GL_LUMINANCE8;	// 1.1	
+				case Graphic::BufferFormat::R16:			return GL::GL_LUMINANCE16;	// 1.1
+
+					// Two Components
+				case Graphic::BufferFormat::R8G8:			return GL::GL_LUMINANCE8_ALPHA8;		// 1.1
+				case Graphic::BufferFormat::R16G16:			return GL::GL_LUMINANCE16_ALPHA16;		// 1.1
+				}
 				break;
+
+			case Graphic::FeatureLevel::Level_3:
+			case Graphic::FeatureLevel::Level_4:
+				switch (uFormat){
+					//	One Component
+				case Graphic::BufferFormat::A8:				return GL::GL_ALPHA;	// 1.0
+				case Graphic::BufferFormat::R8:				return GL::GL_R8;		// 3.0	
+				case Graphic::BufferFormat::R16:			return GL::GL_R16;		// 3.0
+				case Graphic::BufferFormat::R16F:			return GL::GL_R16F;		// 3.0
+				case Graphic::BufferFormat::R32:			return GL::GL_R32UI;	// 3.0
+				case Graphic::BufferFormat::R32F:			return GL::GL_R32F;		// 3.0
+
+					// Two Components
+				case Graphic::BufferFormat::R8G8:			return GL::GL_RG8;		// 3.0
+				case Graphic::BufferFormat::R16G16:			return GL::GL_RG16;		// 3.0
+				case Graphic::BufferFormat::R16G16F:		return GL::GL_RG16F;	// 3.0
+				case Graphic::BufferFormat::R32G32:			return GL::GL_RG32UI;	// 3.0
+				case Graphic::BufferFormat::R32G32F:		return GL::GL_RG32F;	// 3.0
+				}
+				break;
+			}
+			switch (uFormat)
+			{
+				//	Depth Components
+			case Graphic::BufferFormat::D16:	return GL::GL_DEPTH_COMPONENT16;	// 1.4
+			case Graphic::BufferFormat::D24:	return GL::GL_DEPTH_COMPONENT24;	// 1.4
+			case Graphic::BufferFormat::D32:	return GL::GL_DEPTH_COMPONENT32;	// 1.4
+
+				// Three Components
+			case Graphic::BufferFormat::B8G8R8:			return GL::GL_BGR;		// 1.2
+			case Graphic::BufferFormat::R8G8B8:			return GL::GL_RGB8;		// 1.1
+			case Graphic::BufferFormat::R8G8B8_sRGB:	return GL::GL_SRGB8;	// 2.1
+			case Graphic::BufferFormat::R16G16B16:		return GL::GL_RGB16;	// 1.1
+			case Graphic::BufferFormat::R16G16B16F:		return GL::GL_RGB16F;	// 3.0
+			case Graphic::BufferFormat::R32G32B32:		return GL::GL_RGB32UI;	// 3.0
+			case Graphic::BufferFormat::R32G32B32F:		return GL::GL_RGB32F;	// 3.0
+
+				//	Four Components
+			case Graphic::BufferFormat::B8G8R8A8:		return GL::GL_BGRA;		// 1.2
+			case Graphic::BufferFormat::R8G8B8A8:		return GL::GL_RGBA8;	// 1.1
+			case Graphic::BufferFormat::R8G8B8A8_sRGB:	return GL::GL_SRGB8_ALPHA8;	// 2.1;
+			case Graphic::BufferFormat::R16G16B16A16:	return GL::GL_RGBA16;	// 1.1
+			case Graphic::BufferFormat::R16G16B16A16F:	return GL::GL_RGBA16F;	// 3.0
+			case Graphic::BufferFormat::R32G32B32A32:	return GL::GL_RGBA32UI;	// 3.0
+			case Graphic::BufferFormat::R32G32B32A32F:	return GL::GL_RGBA32F;	// 3.0
+
+			default:
+				throw Exception::CInvalidArgumentException(L"uFormat", String::ToString(uFormat),
+					L"Unsupported buffor format.", CR_INFO());
+			}
+		}
+
+		const GLenum	ToTransferFormat(const Graphic::BufferFormat uFormat, const Graphic::FeatureLevel uLevel){
+			switch (uLevel){
+			case Graphic::FeatureLevel::Level_1:
+			case Graphic::FeatureLevel::Level_2:
+				switch (uFormat){
+					//	One Component
+				case Graphic::BufferFormat::A8:				return GL::GL_ALPHA;		// 1.1
+				case Graphic::BufferFormat::R8:				return GL::GL_LUMINANCE;	// 1.1	
+				case Graphic::BufferFormat::R16:			return GL::GL_LUMINANCE;	// 1.1
+
+					// Two Components
+				case Graphic::BufferFormat::R8G8:			return GL::GL_LUMINANCE_ALPHA;		// 1.1
+				case Graphic::BufferFormat::R16G16:			return GL::GL_LUMINANCE_ALPHA;		// 1.1
+				}
+				break;
+
+			case Graphic::FeatureLevel::Level_3:
+			case Graphic::FeatureLevel::Level_4:
+				switch (uFormat){
+					//	One Component
+				case Graphic::BufferFormat::A8:				return GL::GL_ALPHA;	// 1.1
+				case Graphic::BufferFormat::R8:				return GL::GL_RED;	// 1.1	
+				case Graphic::BufferFormat::R16:			return GL::GL_RED;	// 1.1
+				case Graphic::BufferFormat::R16F:			return GL::GL_RED;	// 1.1
+				case Graphic::BufferFormat::R32:			return GL::GL_RED;	// 1.1
+				case Graphic::BufferFormat::R32F:			return GL::GL_RED;	// 1.1
+
+					// Two Components
+				case Graphic::BufferFormat::R8G8:			return GL::GL_RG;	// 3.0
+				case Graphic::BufferFormat::R16G16:			return GL::GL_RG;	// 3.0
+				case Graphic::BufferFormat::R16G16F:		return GL::GL_RG;	// 3.0
+				case Graphic::BufferFormat::R32G32:			return GL::GL_RG;	// 3.0
+				case Graphic::BufferFormat::R32G32F:		return GL::GL_RG;	// 3.0
+				}
+				break;
+			}
+			switch(uFormat){
+				//	Depth Components
+			case Graphic::BufferFormat::D16:	return GL::GL_DEPTH_COMPONENT;	// 1.4
+			case Graphic::BufferFormat::D24:	return GL::GL_DEPTH_COMPONENT;	// 1.4
+			case Graphic::BufferFormat::D32:	return GL::GL_DEPTH_COMPONENT;	// 1.4
+
+				// Three Components
+			case Graphic::BufferFormat::B8G8R8:			return GL::GL_BGR;	// 1.2
+			case Graphic::BufferFormat::R8G8B8:			return GL::GL_RGB;	// 1.1
+			case Graphic::BufferFormat::R8G8B8_sRGB:	return GL::GL_RGB;	// 1.1
+			case Graphic::BufferFormat::R16G16B16:		return GL::GL_RGB;	// 1.1
+			case Graphic::BufferFormat::R16G16B16F:		return GL::GL_RGB;	// 1.1
+			case Graphic::BufferFormat::R32G32B32:		return GL::GL_RGB;	// 1.1
+			case Graphic::BufferFormat::R32G32B32F:		return GL::GL_RGB;	// 1.1
+
+				//	Four Components
+			case Graphic::BufferFormat::B8G8R8A8:		return GL::GL_BGRA;	// 1.2
+			case Graphic::BufferFormat::R8G8B8A8:		return GL::GL_RGBA;	// 1.1
+			case Graphic::BufferFormat::R8G8B8A8_sRGB:	return GL::GL_RGBA;	// 1.1
+			case Graphic::BufferFormat::R16G16B16A16:	return GL::GL_RGBA;	// 1.1
+			case Graphic::BufferFormat::R16G16B16A16F:	return GL::GL_RGBA;	// 1.1
+			case Graphic::BufferFormat::R32G32B32A32:	return GL::GL_RGBA;	// 1.1
+			case Graphic::BufferFormat::R32G32B32A32F:	return GL::GL_RGBA;	// 1.1
+
+			default:
+				throw Exception::CInvalidArgumentException(L"uFormat", String::ToString(uFormat),
+					L"Unsupported buffor format.", CR_INFO());
+			}
+		}
+
+		const GLenum	ToTransferType(const Graphic::BufferFormat uFormat, const Graphic::FeatureLevel uLevel){
+			switch (uLevel){
+			case Graphic::FeatureLevel::Level_1:
+			case Graphic::FeatureLevel::Level_2:
+				switch (uFormat){
+					//	One Component
+				case Graphic::BufferFormat::A8:				return GL::GL_UNSIGNED_BYTE;	// 1.1
+				case Graphic::BufferFormat::R8:				return GL::GL_UNSIGNED_BYTE;	// 1.1	
+				case Graphic::BufferFormat::R16:			return GL::GL_UNSIGNED_SHORT;	// 1.1
+
+					// Two Components
+				case Graphic::BufferFormat::R8G8:			return GL::GL_LUMINANCE_ALPHA;		// 1.1
+				case Graphic::BufferFormat::R16G16:			return GL::GL_LUMINANCE_ALPHA;		// 1.1
+				}
+				break;
+
+			case Graphic::FeatureLevel::Level_3:
+			case Graphic::FeatureLevel::Level_4:
+				switch (uFormat){
+					//	One Component
+				case Graphic::BufferFormat::A8:				return GL::GL_UNSIGNED_BYTE;	// 1.1
+				case Graphic::BufferFormat::R8:				return GL::GL_UNSIGNED_BYTE;	// 1.1	
+				case Graphic::BufferFormat::R16:			return GL::GL_UNSIGNED_SHORT;	// 1.1
+				case Graphic::BufferFormat::R16F:			return GL::GL_HALF_FLOAT;	// 3.0
+				case Graphic::BufferFormat::R32:			return GL::GL_UNSIGNED_INT;	// 1.1
+				case Graphic::BufferFormat::R32F:			return GL::GL_FLOAT;	// 1.1
+
+					// Two Components
+				case Graphic::BufferFormat::R8G8:			return GL::GL_UNSIGNED_BYTE;	// 1.1
+				case Graphic::BufferFormat::R16G16:			return GL::GL_UNSIGNED_SHORT;	// 1.1
+				case Graphic::BufferFormat::R16G16F:		return GL::GL_HALF_FLOAT;	// 3.0
+				case Graphic::BufferFormat::R32G32:			return GL::GL_UNSIGNED_INT;	// 1.1
+				case Graphic::BufferFormat::R32G32F:		return GL::GL_FLOAT;	// 1.1
+				}
+				break;
+			}
+			switch(uFormat){
+				//	Depth Components
+			case Graphic::BufferFormat::D16:	return GL::GL_UNSIGNED_SHORT;	// 1.1
+			case Graphic::BufferFormat::D24:	return GL::GL_UNSIGNED_INT;	// 1.1
+			case Graphic::BufferFormat::D32:	return GL::GL_UNSIGNED_INT;	// 1.1
+
+				// Three Components
+			case Graphic::BufferFormat::B8G8R8:			return GL::GL_UNSIGNED_BYTE;	// 1.1
+			case Graphic::BufferFormat::R8G8B8:			return GL::GL_UNSIGNED_BYTE;	// 1.1
+			case Graphic::BufferFormat::R8G8B8_sRGB:	return GL::GL_UNSIGNED_BYTE;	// 1.1
+			case Graphic::BufferFormat::R16G16B16:		return GL::GL_UNSIGNED_SHORT;	// 1.1
+			case Graphic::BufferFormat::R16G16B16F:		return GL::GL_HALF_FLOAT;		// 3.0
+			case Graphic::BufferFormat::R32G32B32:		return GL::GL_UNSIGNED_INT;	// 1.1
+			case Graphic::BufferFormat::R32G32B32F:		return GL::GL_FLOAT;	// 1.1
+
+				//	Four Components
+			case Graphic::BufferFormat::B8G8R8A8:		return GL::GL_UNSIGNED_BYTE;	// 1.1
+			case Graphic::BufferFormat::R8G8B8A8:		return GL::GL_UNSIGNED_BYTE;	// 1.1
+			case Graphic::BufferFormat::R8G8B8A8_sRGB:	return GL::GL_UNSIGNED_BYTE;	// 1.1
+			case Graphic::BufferFormat::R16G16B16A16:	return GL::GL_UNSIGNED_SHORT;	// 1.1
+			case Graphic::BufferFormat::R16G16B16A16F:	return GL::GL_HALF_FLOAT;	// 3.0
+			case Graphic::BufferFormat::R32G32B32A32:	return GL::GL_UNSIGNED_INT;	// 1.1
+			case Graphic::BufferFormat::R32G32B32A32F:	return GL::GL_FLOAT;	// 1.1
+
+			default:
+				throw Exception::CInvalidArgumentException(L"uFormat", String::ToString(uFormat),
+					L"Unsupported buffor format.", CR_INFO());
+			}
+		}
+
+
+		const GLenum	ToTargetBinding(const GLenum uTarget){
+			switch (uTarget){
+			case GL::GL_TEXTURE_1D:			return GL::GL_TEXTURE_BINDING_1D;
+			case GL::GL_TEXTURE_2D:			return GL::GL_TEXTURE_BINDING_2D;
+			case GL::GL_TEXTURE_3D:			return GL::GL_TEXTURE_BINDING_3D;
+			case GL::GL_TEXTURE_CUBE_MAP:	return GL::GL_TEXTURE_BINDING_CUBE_MAP;
+
+			case GL::GL_ELEMENT_ARRAY_BUFFER:	return GL::GL_ELEMENT_ARRAY_BUFFER_BINDING;
+			case GL::GL_ARRAY_BUFFER:		return GL::GL_ARRAY_BUFFER_BINDING;
+
+			case GL::GL_FRAMEBUFFER:		return GL::GL_FRAMEBUFFER_BINDING;
+			default:
+				throw Exception::CInvalidArgumentException(L"uTarget", String::ToString((uint32)uTarget),
+					L"Unknown target for binding mapping.", CR_INFO());
+			}
+		}
+
+		const GLenum ToTextureMinFilter(const Graphic::TextureFilter uFilter){
+			switch (uFilter){
+			case Graphic::TextureFilter::Nearest:	return GL::GL_NEAREST;
+			case Graphic::TextureFilter::Linear:	return GL::GL_LINEAR;
+			default:
+				throw Exception::CInvalidArgumentException(L"uFilter", String::ToString(uFilter),
+					L"Unknown filter value.", CR_INFO());
+			}
+		}
+		
+		const GLenum ToTextureMagFilter(const Graphic::TextureFilter uFilter, const Graphic::TextureFilter uMipmap){
+			if(uMipmap == Graphic::TextureFilter::None){
+				return ToTextureMinFilter(uFilter);
+			}
+
+			switch (uFilter)
+			{
+			case Graphic::TextureFilter::Nearest:	
+				switch (uMipmap)
+				{
+				case Graphic::TextureFilter::Nearest:	return GL::GL_NEAREST_MIPMAP_NEAREST;
+				case Graphic::TextureFilter::Linear:	return GL::GL_NEAREST_MIPMAP_LINEAR;
+				default:
+					throw Exception::CInvalidArgumentException(L"uMipmap", String::ToString(uMipmap),
+						L"Unknown mipmap filter value.", CR_INFO());
+				}
+
+			case Graphic::TextureFilter::Linear:	
+				switch (uMipmap)
+				{
+				case Graphic::TextureFilter::Nearest:	return GL::GL_LINEAR_MIPMAP_NEAREST;
+				case Graphic::TextureFilter::Linear:	return GL::GL_LINEAR_MIPMAP_LINEAR;
+				default:
+					throw Exception::CInvalidArgumentException(L"uMipmap", String::ToString(uMipmap),
+						L"Unknown mipmap filter value.", CR_INFO());
+				}
+
+			default:
+				throw Exception::CInvalidArgumentException(L"uFilter", String::ToString(uFilter),
+					L"Unknown filter value.", CR_INFO());
+			}
+		}
+
+		const GLenum ToTextureWrap(const Graphic::TextureWrap uWrap){
+			switch (uWrap){
+			case Graphic::TextureWrap::Clamp:		return GL::GL_CLAMP_TO_BORDER;
+			case Graphic::TextureWrap::ClampToEdge:	return GL::GL_CLAMP_TO_EDGE;
+			case Graphic::TextureWrap::Repeat:		return GL::GL_REPEAT;
+			case Graphic::TextureWrap::Mirror:		return GL::GL_MIRRORED_REPEAT;
+			default:
+				throw Exception::CInvalidArgumentException(L"uWrap", String::ToString(uWrap),
+					L"Invalid texture wrap coord value.", CR_INFO());
 			}
 		}
 

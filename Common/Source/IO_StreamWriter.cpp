@@ -59,7 +59,7 @@ namespace CB{
 		}
 
 		const CStreamWriter&	CStreamWriter::operator=(const CStreamWriter& Writer){
-			CR_THROWNOTIMPLEMENTED();
+			CR_THROW(L"NOT INVOKABLE");
 		}
 	}
 }

@@ -12,7 +12,7 @@ namespace CB{
 
 	class COGLManager :
 		public Graphic::IManager,
-		public Manage::IObjectManager<COGLAdapter>
+		public Manage::IObjectManager<COGLManager, COGLAdapter>
 	{
 	private:
 		CRefPtr<Window::IManager>	m_pWindowManager;

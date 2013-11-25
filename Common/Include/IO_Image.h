@@ -73,6 +73,7 @@ namespace CB{
 			const bool					IsLoaded() const;
 
 			void	GetPixels(Collection::CList<byte>& Pixels) const;
+			void	SetPixels(const Collection::CList<byte>& Pixels);
 
 			void	Convert(const Image::BitFormat uFormat);
 			void	Flip(const Image::FlipType uFlip);

@@ -28,7 +28,7 @@ namespace CB{
 		/// </returns>
 		template<typename _Type>
 		inline _Type*	Alloc(){
-			return (_Type*)Alloc(sizeof(_Type));
+			return reinterpret_cast<_Type*>(Alloc(sizeof(_Type)));
 		}
 
 		/// <summary>
@@ -40,7 +40,7 @@ namespace CB{
 		/// </returns>
 		template<typename _Type>
 		inline _Type*	AllocArray(const uint32 uNumber){
-			return (_Type*)AllocArray(sizeof(_Type), uNumber);
+			return reinterpret_cast<_Type*>(AllocArray(sizeof(_Type), uNumber));
 		}
 
 		/// <summary>

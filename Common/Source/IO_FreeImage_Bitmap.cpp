@@ -12,9 +12,9 @@ namespace FreeImage{
 		this->Free();
 	}
 
-	void	CBitmap::Create(const CB::Math::CSize& Size, const unsigned uBitsPerPixel){
+	void	CBitmap::Create(const CB::Math::CSize& Size, const uint32 uBitsPerPixel){
 		this->m_pBitmap = FreeImage_Allocate(Size.Width, Size.Height, uBitsPerPixel);
-		if(this->m_pBitmap){
+		if(!this->m_pBitmap){
 			throw CB::Exception::CException(
 				L"Failed to create image bitmap", __FUNCTIONW__, __FILEW__, __LINE__);
 		}

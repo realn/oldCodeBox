@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Macros.h"
 #include "Types.h"
 
 namespace CB{
@@ -35,6 +36,13 @@ namespace CB{
 			this->m_pPtr = 0;
 			return pPtr;
 		}
+		template<typename _Type>
+		_Type	ResetCast(){
+			_Type pPtr = reinterpret_cast<_Type>(this->m_pPtr);
+			this->m_pPtr = 0;
+			return pPtr;
+		}
+
 		template<typename _Type>
 		_Type	GetCast() const{
 			return reinterpret_cast<_Type>(this->m_pPtr);

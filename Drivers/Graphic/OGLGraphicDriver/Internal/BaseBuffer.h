@@ -8,15 +8,16 @@ namespace CB{
 	class IOGLBaseBuffer : 
 		public Graphic::IBuffer,
 		public Manage::IManagedObject<COGLDevice, IOGLBaseBuffer>,
-		public Manage::IObjectManager<COGLBufferStream>
+		public Manage::IObjectManager<IOGLBaseBuffer, COGLBufferStream>
 	{
 	private:
 		const Graphic::BufferType	m_uType;
 		const GLenum				m_uBufferTarget;
 		const uint32				m_uLength;
-		GLuint						m_uBuffer;
 		const Graphic::BufferUsage	m_uUsage;
 		const Graphic::BufferAccess m_uAccess;
+		GLuint						m_uBuffer;
+		bool						m_bBinded;
 
 	public:
 		IOGLBaseBuffer(CRefPtr<COGLDevice> pDevice, const Graphic::BufferType uType, const GLenum uBufferTarget, const Graphic::BufferUsage uUsage, const Graphic::BufferAccess uAccess, const uint32 uLength, const void* pData);
@@ -26,6 +27,7 @@ namespace CB{
 		void	Unbind();
 
 		const GLenum	GetTarget() const;
+		const GLuint	GetBufferID() const;
 
 		//	INTERFACE IMPLEMENTATION	===============================
 
@@ -46,5 +48,16 @@ namespace CB{
 		CRefPtr<IO::IStream>	Map(const Graphic::BufferAccess uAccess, const bool bDiscard, const uint32 uOffset, const uint32 uLength) override;
 
 		//	END OF INTERFACE IMPLEMENTATION	===========================
+	};
+
+	class CBufferBindGurard{
+	private:
+		const GLenum	m_uTarget;
+		const GLenum	m_uBinding;
+		GLuint			m_uBufferID;
+	public:
+		CBufferBindGurard(const GLenum uTarget);
+		CBufferBindGurard(const GLenum uTarget, const GLenum uBinding);
+		~CBufferBindGurard();
 	};
 }

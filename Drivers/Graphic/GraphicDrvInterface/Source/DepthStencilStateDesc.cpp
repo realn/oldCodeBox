@@ -5,10 +5,10 @@
 namespace CB{
 	namespace Graphic{
 		CDepthStencilStateDesc::CDepthStencilStateDesc() :
-			uDepthFunction(CompareFunc::Less),
+			uDepthFunction(CompareFunc::LessEqual),
 			uStencilReadMask(0xFFFFFFFF),
 			uStencilWriteMask(0xFFFFFFFF),
-			bDepthTestEnabled(true),
+			bDepthTestEnabled(false),
 			bDepthWrite(true),
 			bStencilTestEnabled(false)
 		{

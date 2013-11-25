@@ -5,6 +5,7 @@
 #include "Ref.h"
 #include "SmartPointers_Hidden.h"
 #include "Collection_Dictionary.h"
+#pragma warning(disable : 4251)
 
 namespace CB{
 	class COMMON_API CModule{

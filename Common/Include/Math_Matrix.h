@@ -2,6 +2,7 @@
 
 #include "Math_Vector.h"
 #include "Collection_Array.h"
+#pragma warning(disable : 4251)
 
 namespace CB{
 	namespace Math{

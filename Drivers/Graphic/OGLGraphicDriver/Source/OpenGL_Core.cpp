@@ -589,7 +589,7 @@ namespace GL{
 		auto szProcName = CB::String::ToANSI(strProcName + strSufix);
 		_Type pProc = reinterpret_cast<_Type>(wglGetProcAddress(reinterpret_cast<const char*>(szProcName.GetPointer())));
 		if(pProc){
-			CB::Log::Write(L"Loading GL Procedure " + strProcName + strSufix, CB::Log::LogLevel::Debug);
+			CB::Log::Write(L"Loaded GL Procedure " + strProcName + strSufix, CB::Log::LogLevel::Debug);
 			return pProc;
 		}
 		else{

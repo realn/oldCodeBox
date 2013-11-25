@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BaseState.h"
+#pragma warning(disable : 4250)
 
 namespace CB{
 	class COGLDepthStencilState : 

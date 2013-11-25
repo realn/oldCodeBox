@@ -13,15 +13,17 @@ namespace CB{
 	class IOGLBaseBuffer;
 	class IOGLBaseShader;
 	class IOGLBaseState;
+	class IOGLBaseTexture;
 	class COGLVertexDeclaration;
 
 	class COGLDevice : 
 		public Graphic::IDevice,
 		public Manage::IManagedObject<COGLAdapter, COGLDevice>,
-		public Manage::IObjectManager<IOGLBaseBuffer>,
-		public Manage::IObjectManager<IOGLBaseShader>,
-		public Manage::IObjectManager<IOGLBaseState>,
-		public Manage::IObjectManager<COGLVertexDeclaration>
+		public Manage::IObjectManager<COGLDevice, IOGLBaseBuffer>,
+		public Manage::IObjectManager<COGLDevice, IOGLBaseShader>,
+		public Manage::IObjectManager<COGLDevice, IOGLBaseState>,
+		public Manage::IObjectManager<COGLDevice, IOGLBaseTexture>,
+		public Manage::IObjectManager<COGLDevice, COGLVertexDeclaration>
 	{
 	private:
 		CRefPtr<Window::IWindow>	m_pOutputWindow;
@@ -66,6 +68,7 @@ namespace CB{
 		void	RemoveObject(CPtr<IOGLBaseBuffer> pBuffer) override;
 		void	RemoveObject(CPtr<IOGLBaseShader> pShader) override;
 		void	RemoveObject(CPtr<IOGLBaseState> pState) override;
+		void	RemoveObject(CPtr<IOGLBaseTexture> pTexture) override;
 		void	RemoveObject(CPtr<COGLVertexDeclaration> pDeclaration) override;
 
 		//	END OF OVERRIDES	============================================
@@ -84,7 +87,7 @@ namespace CB{
 		CRefPtr<Graphic::IBuffer>				CreateBuffer(const Graphic::BufferType uType, const Graphic::BufferUsage uUsage, const Graphic::BufferAccess uAccess, const unsigned uLength) override;
 		CRefPtr<Graphic::IBuffer>				CreateBuffer(const Graphic::BufferType uType, const Graphic::BufferUsage uUsage, const Graphic::BufferAccess uAccess, const unsigned uLength, const void* pData) override;
 		CRefPtr<Graphic::ITexture2D>			CreateTexture2D(const Math::CSize& Size, const Graphic::BufferUsage uUsage, const Graphic::BufferAccess uAccess, const Graphic::BufferFormat uFormat) override;
-		CRefPtr<Graphic::ITexture2D>			CreateTexture2D(const Math::CSize& Size, const Graphic::BufferUsage uUsage, const Graphic::BufferAccess uAccess, const Graphic::BufferFormat uFormat, const unsigned uLength, const void* pData) override;
+		CRefPtr<Graphic::ITexture2D>			CreateTexture2D(const Math::CSize& Size, const Graphic::BufferUsage uUsage, const Graphic::BufferAccess uAccess, const Graphic::BufferFormat uFormat, const Graphic::BufferFormat uInputFormat, const unsigned uLength, const void* pData) override;
 		CRefPtr<Graphic::IBlendState>			CreateState(const Graphic::CBlendStateDesc& Desc) override;
 		CRefPtr<Graphic::IRasterizerState>		CreateState(const Graphic::CRasterizerStateDesc& Desc) override;
 		CRefPtr<Graphic::IDepthStencilState>	CreateState(const Graphic::CDepthStencilStateDesc& Desc) override;

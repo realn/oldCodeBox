@@ -1,14 +1,24 @@
 #include "../Internal/Device.h"
 #include <CBStringEx.h>
 
+//	Buffers
 #include "../Internal/VertexBuffer.h"
 #include "../Internal/IndexBuffer.h"
+
+//	Shaders
 #include "../Internal/VertexShader.h"
 #include "../Internal/FragmentShader.h"
+
+//	States
 #include "../Internal/DepthStencilState.h"
 #include "../Internal/BlendState.h"
 #include "../Internal/RasterizerState.h"
+
+//	Textures
+#include "../Internal/Texture2D.h"
 #include "../Internal/VertexDeclaration.h"
+
+//	Misc
 #include "../Internal/Utils.h"
 
 #include "../Internal/OpenGL_WGL.h"
@@ -157,9 +167,24 @@ namespace CB{
 		cgSetErrorCallback(ErrorCallback);
 		this->m_pVertexStream.Resize(this->GetNumberOfStreams());
 
-		GL::glDisable(GL::GL_CULL_FACE);
-		GL::glDisable(GL::GL_DEPTH_TEST);
-		GL::glDisable(GL::GL_TEXTURE_2D);
+		//	Setting state mashine to default values
+		this->SetGLState(Graphic::CBlendStateDesc());
+		this->SetGLState(Graphic::CRasterizerStateDesc());
+		this->SetGLState(Graphic::CDepthStencilStateDesc());
+
+		{
+			GLint iViewport[4];
+			GL::glGetIntegerv(GL::GL_VIEWPORT, iViewport);
+			this->m_Viewport.Set(iViewport[0], iViewport[1], (uint32)iViewport[2], (uint32)iViewport[3]);
+		}
+		{
+			GLint iScissors[4];
+			GL::glGetIntegerv(GL::GL_SCISSOR_BOX, iScissors);
+			this->m_ScissorRect.Set(iScissors[0], iScissors[1], (uint32)iScissors[2], (uint32)iScissors[3]);
+		}
+
+		GL::glEnable(GL::GL_TEXTURE_2D);
+		
 	}
 
 	COGLDevice::~COGLDevice(){
@@ -214,6 +239,16 @@ namespace CB{
 
 	//	OVERRIDES	==========================================================================
 
+	/*
+		WARNING
+		At this level objects passed to RemoveObject methods, technically doesn't exist anymore.
+		This makes it crucial to DO NOT invoke ANY methods of those objects, because data is
+		probably invalid in them, and this can lead to an undefined behaviour (like pure virtual 
+		call exception).
+
+		DO NOT INVOKE METHODS OF PASSED OBJECTS.
+	*/
+
 	void	COGLDevice::RemoveObject(CPtr<IOGLBaseBuffer> pBuffer){
 		switch (pBuffer->GetType()){
 		case Graphic::BufferType::Index:
@@ -234,28 +269,18 @@ namespace CB{
 			throw Exception::CInvalidArgumentException(L"pBuffer", String::ToString(pBuffer->GetType()),
 				L"Unknown buffer type for removal.", CR_INFO());
 		}
-		Manage::IObjectManager<IOGLBaseBuffer>::RemoveObject(pBuffer);
+		Manage::IObjectManager<COGLDevice, IOGLBaseBuffer>::RemoveObject(pBuffer);
 	}
 
 	void	COGLDevice::RemoveObject(CPtr<IOGLBaseShader> pShader){
-		switch (pShader->GetType()){
-		case Graphic::ShaderType::Vertex:
-			if(this->m_pVertexShader == pShader){
-				this->FreeShader(Graphic::ShaderType::Vertex);
-			}
-			break;
-
-		case Graphic::ShaderType::Fragment:
-			if(this->m_pFragmentShader == pShader){
-				this->FreeShader(Graphic::ShaderType::Fragment);
-			}
-			break;
-
-		default:
-			throw Exception::CInvalidArgumentException(L"pShader", String::ToString(pShader->GetType()),
-				L"Unknown shader type for removal.", CR_INFO());
+		if(this->m_pVertexShader == pShader){
+			this->m_pVertexShader.Reset();
+			this->UnbindAllStreams();
 		}
-		Manage::IObjectManager<IOGLBaseShader>::RemoveObject(pShader);
+		if(this->m_pFragmentShader == pShader){
+			this->m_pFragmentShader.Reset();
+		}
+		Manage::IObjectManager<COGLDevice, IOGLBaseShader>::RemoveObject(pShader);
 	}
 
 	void	COGLDevice::RemoveObject(CPtr<IOGLBaseState> pState){
@@ -268,14 +293,21 @@ namespace CB{
 		if(this->m_pBlendState == pState){
 			this->FreeState(Graphic::DeviceStateType::Blend);
 		}
-		Manage::IObjectManager<IOGLBaseState>::RemoveObject(pState);
+		Manage::IObjectManager<COGLDevice, IOGLBaseState>::RemoveObject(pState);
+	}
+
+	void	COGLDevice::RemoveObject(CPtr<IOGLBaseTexture> pTexture){
+		for(uint32 uIndex = 0; uIndex < Manage::IObjectManager<COGLDevice, IOGLBaseShader>::m_pObjectList.GetLength(); uIndex++){
+			Manage::IObjectManager<COGLDevice, IOGLBaseShader>::m_pObjectList[uIndex]->RemoveSampler(pTexture);
+		}
+		Manage::IObjectManager<COGLDevice, IOGLBaseTexture>::RemoveObject(pTexture);
 	}
 
 	void	COGLDevice::RemoveObject(CPtr<COGLVertexDeclaration> pDeclaration){
 		if(this->m_pVertexDeclaration == pDeclaration){
 			this->FreeVertexDeclaration();
 		}
-		Manage::IObjectManager<COGLVertexDeclaration>::RemoveObject(pDeclaration);
+		Manage::IObjectManager<COGLDevice, COGLVertexDeclaration>::RemoveObject(pDeclaration);
 	}
 
 	//	END OF OVERRIDES	==================================================================
@@ -338,17 +370,11 @@ namespace CB{
 	}
 
 	CRefPtr<Graphic::ITexture2D>	COGLDevice::CreateTexture2D(const Math::CSize& Size, const Graphic::BufferUsage uUsage, const Graphic::BufferAccess uAccess, const Graphic::BufferFormat uFormat){
-		return this->CreateTexture2D(Size, uUsage, uAccess, uFormat, 0, 0);
+		return this->CreateTexture2D(Size, uUsage, uAccess, uFormat, Graphic::BufferFormat::Unknown, 0, 0);
 	}
 
-	CRefPtr<Graphic::ITexture2D>	COGLDevice::CreateTexture2D(const Math::CSize& Size, const Graphic::BufferUsage uUsage, const Graphic::BufferAccess uAccess, const Graphic::BufferFormat uFormat, const uint32 uLength, const void* pData){
-		//CRefPtr<Graphic::ITexture2D> pTexture = new CDX9Texture2D(this, Size, bDynamic, uFormat);
-		//if(pData != 0){
-		//	auto pStream = pTexture->Map(false, true, true);
-		//	pStream->Write(pData, uDataLength);
-		//}
-		//return pTexture;
-		CR_THROWNOTIMPLEMENTED();
+	CRefPtr<Graphic::ITexture2D>	COGLDevice::CreateTexture2D(const Math::CSize& Size, const Graphic::BufferUsage uUsage, const Graphic::BufferAccess uAccess, const Graphic::BufferFormat uFormat, const Graphic::BufferFormat uInputFormat, const uint32 uLength, const void* pData){
+		return new COGLTexture2D(this, Size, uAccess, uUsage, uFormat, uInputFormat, pData);
 	}
 
 	CRefPtr<Graphic::IRasterizerState>	COGLDevice::CreateState(const Graphic::CRasterizerStateDesc& Desc){
@@ -432,8 +458,8 @@ namespace CB{
 
 		this->FreeShader(pOGLShader->GetType());
 		pOGLShader->Bind();
-		switch (pOGLShader->GetType())
-		{
+		pOGLShader->BindSamplers();
+		switch (pOGLShader->GetType()){
 		case Graphic::ShaderType::Vertex:	
 			this->m_pVertexShader = pOGLShader;		
 			this->BindAllStreams();
@@ -610,8 +636,8 @@ namespace CB{
 
 
 	void	COGLDevice::FreeVertexDeclaration(){
-		this->m_pVertexDeclaration.Reset();
 		this->UnbindAllStreams();
+		this->m_pVertexDeclaration.Reset();
 	}
 
 	void	COGLDevice::FreeIndexBuffer(){
@@ -626,11 +652,11 @@ namespace CB{
 	}
 
 	void	COGLDevice::FreeShader(const Graphic::ShaderType uType){
-		switch (uType)
-		{
+		switch (uType){
 		case Graphic::ShaderType::Vertex:
 			this->UnbindAllStreams();
 			if(this->m_pVertexShader.IsValid()){
+				this->m_pVertexShader->UnbindSamplers();
 				this->m_pVertexShader->Unbind();
 			}
 			this->m_pVertexShader.Reset();
@@ -638,6 +664,7 @@ namespace CB{
 
 		case Graphic::ShaderType::Fragment:
 			if(this->m_pFragmentShader.IsValid()){
+				this->m_pFragmentShader->UnbindSamplers();
 				this->m_pFragmentShader->Unbind();
 			}
 			this->m_pFragmentShader.Reset();
@@ -771,6 +798,7 @@ namespace CB{
 		//		}
 		//	}
 		//}
+		CR_THROWNOTIMPLEMENTED();
 	}
 	
 	void	COGLDevice::RenderInstancedIndexed(const uint32 uInstanceCount, const uint32 uPrimitiveCount){
@@ -825,6 +853,7 @@ namespace CB{
 		//		}
 		//	}
 		//}
+		CR_THROWNOTIMPLEMENTED();
 	}
 
 
@@ -904,7 +933,12 @@ namespace CB{
 
 	void	COGLDevice::UnbindAllStreams(){
 		for(uint32 uIndex = 0; uIndex < this->GetNumberOfStreams(); uIndex++){
-			this->UnbindStream(uIndex);
+			if(this->m_pVertexStream[uIndex].IsValid()){
+				this->m_pVertexStream[uIndex]->Unbind();
+			}
+		}
+		if(this->m_pVertexShader.IsValid()){
+			this->m_pVertexShader->UnbindParameters();
 		}
 	}
 

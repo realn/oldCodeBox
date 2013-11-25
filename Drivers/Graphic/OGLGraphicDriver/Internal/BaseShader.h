@@ -8,9 +8,14 @@ namespace CB{
 		public Manage::IManagedObject<COGLDevice, IOGLBaseShader>
 	{
 	protected:
+		Collection::CList<CGparameter>				m_uSamplerParams;
+		Collection::CList<CPtr<IOGLBaseTexture>>	m_pSamplerTextures;
+		Collection::CList<CGparameter>				m_uVaryingParams;
+
 		const Graphic::ShaderType		m_uType;
 		const Graphic::ShaderVersion	m_uVersion;
 		CGprogram	m_uProgram;
+		bool	m_bBinded;
 
 		IOGLBaseShader(CRefPtr<COGLDevice> pDevice, const Graphic::ShaderType uType, const Graphic::ShaderVersion uVersion, CGenum uSourceType, CGprofile uProfile, const CString& strSource, const CString& strEntryPoint);
 	public:
@@ -18,13 +23,18 @@ namespace CB{
 
 		CGprogram	GetProgram() const;
 		CGprofile	GetProfile() const;
-		CGparameter	GetParameter(const CString& strName);
+		CGparameter	GetParameter(const CString& strName) const;
+		
+		void	RemoveSampler(CPtr<IOGLBaseTexture> pTexture);
 
 		void	Bind();
 		void	BindParameter(const CString& strParam, GLenum uType, const uint32 uNumber, const uint32 uStride, const uint32 uOffset);
+		void	BindSamplers();
 
 		void	Unbind();
 		void	UnbindParameter(const CString& strParam);
+		void	UnbindSamplers();
+		void	UnbindParameters();
 
 		//	INTERFACE IMPLEMENTATION	============================================
 
@@ -43,6 +53,7 @@ namespace CB{
 		
 		void	SetSampler(const CString& strName, CRefPtr<Graphic::IBaseTexture> pTexture) override;
 		void	FreeSampler(const CString& strName) override;
+		CRefPtr<Graphic::IBaseTexture>	GetSampler(const CString& strName) const override;
 
 		//	END OF IMPLEMENTATION	================================================
 	};

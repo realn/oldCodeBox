@@ -73,6 +73,7 @@ namespace CB{
 			void			Delete(const uint32 uIndex);
 			void			Delete(const typename CEnumerator& Enumerator);
 			void			DeleteByKey(const _KeyType& Key);
+			const _ValueType	RemoveByKey(const _KeyType& Key);
 
 			_ValueType&			Get(const _KeyType&	Key);
 			const _ValueType&	Get(const _KeyType& Key) const;
@@ -389,6 +390,24 @@ namespace CB{
 				typename CEnumerator Enumerator = this->GetEnumerator();
 				if(this->GetItemByKey(Key, Enumerator)){
 					CDictionaryList::Delete(Enumerator);
+				}
+				else{
+					throw CB::Exception::CException(
+						L"Dictionary item not found.", CR_INFO());
+				}
+			}
+			catch(CB::Exception::CException& Exception){
+				throw CB::Exception::CException(
+					L"Error while deleting dictionary item by key value.", CR_INFO(), Exception);
+			}
+		}
+
+		template<typename _KeyType, typename _ValueType>
+		const _ValueType	CDictionary<_KeyType, _ValueType>::RemoveByKey(const _KeyType& Key){
+			try{
+				typename CEnumerator Enumerator = this->GetEnumerator();
+				if(this->GetItemByKey(Key, Enumerator)){
+					return CDictionaryList::Remove(Enumerator).GetValue();
 				}
 				else{
 					throw CB::Exception::CException(

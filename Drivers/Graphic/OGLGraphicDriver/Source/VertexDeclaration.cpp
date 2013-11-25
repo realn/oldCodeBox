@@ -22,7 +22,7 @@ namespace CB{
 			stream.uSize		= GLUtils::GetTypeSize(stream.uType) * stream.uNumber;
 
 			this->m_Streams[el.uStream].Elements.Add(stream);
-			if(this->m_Streams[el.uStream].uStride > stream.uOffset + stream.uSize){
+			if(this->m_Streams[el.uStream].uStride < stream.uOffset + stream.uSize){
 				this->m_Streams[el.uStream].uStride = stream.uOffset + stream.uSize;
 			}
 		}
@@ -30,7 +30,7 @@ namespace CB{
 	}
 
 	COGLVertexDeclaration::~COGLVertexDeclaration(){
-
+		
 	}
 
 	const CStreamDefinition&	COGLVertexDeclaration::GetStream(const uint32 uStream) const{

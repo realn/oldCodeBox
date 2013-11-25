@@ -35,6 +35,7 @@ namespace CB{
 			virtual const bool	IsEmpty() const;
 
 			virtual const uint32	GetLength() const = 0;	// it may be slow
+			virtual const uint32	GetLengthLeft() const;
 
 			virtual void	SetPos(const uint32 uPos);	// default - from begining
 			virtual	void	SetPos(const uint32 uPos, const Direction uDirection, const StreamPos uType) = 0;

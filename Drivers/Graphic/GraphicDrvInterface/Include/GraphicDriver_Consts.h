@@ -8,22 +8,22 @@ namespace CB{
 				Direct3D 9, SM 2 (asm)
 				OpenGL 1.4 + VBO + MipMap Gen + Anisotropy, ARB Shader (asm)
 			*/
-			Level_1,	// DX9 / OGL1.4-1.5
+			Level_1,	// DX9 (SM2, ASM) / OGL1.4-1.5 (SM2, ARB Program/ASM)
 
 			/*
 				Generation 2 level hardware:
 				Direct3D 9, SM 3 (HLSL)
-				OpenGL 2.0, GLSL Shader
+				OpenGL 2.0-2.1, GLSL Shader
 			*/
-			Level_2,	// DX9 / OGL2.0-2.1
+			Level_2,	// DX9 (SM3, HLSL) / OGL2.0-2.1 (SM3, GLSL)
 
 			//	SM:	3
 			//	RT:	8
-			Level_3,	// DX10 / OGL3.0-3.3
+			Level_3,	// DX10 (SM4, HLSL) / OGL3.0-3.3 (SM4, GLSL)
 
 			//	SM: 4
 			//	RT: 8
-			Level_4,	// DX11 / OGL4.0
+			Level_4,	// DX11 (SM5, HLSL) / OGL4.0-4.4 (SM5, GLSL)
 		};
 
 		enum class DeviceStateType{
@@ -43,41 +43,52 @@ namespace CB{
 			Unknown,
 
 			//	Depth-Stencil Formats
-			D16,
-			D24X8,
-			D24S8,
-			D32F,
-			D32FS8X24U,
+			D16,		//	Feature Level 1
+			D24,		//	Feature Level 1, Texture Only
+			D24X8,		//	Feature Level 1, Color Buffer Only
+			D24S8,		//	Feature Level 1, Color Buffer Only
+			D32,		//	Feature Level 1
+			D32F,		//	Feature Level 3
+			D32S8X24,	//	Feature Level 1, Color Buffer Only
+			D32FS8X24U,	//	Feature LEvel 3, Color Buffer Only
 
 			//	Color Formats
 			
 			// One Component
-			R1,
-			R8,
-			A8,
-			R16,
-			R16F,
-			R32,
-			R32F,
+			R8,			//	Feature Level 3
+			A8,			//	Feature Level 1
+			R16,		//	Feature Level 3
+			R16F,		//	Feature Level 3
+			R32,		//	Feature Level 3
+			R32F,		//	Feature Level 3
 
 			// Two Components
-			R8G8,
-			R16G16,
-			R16G16F,
-			R32G32,
-			R32G32F,
+			R8G8,		//	Feature Level 3
+			R16G16,		//	Feature Level 3
+			R16G16F,	//	Feature Level 3
+			R32G32,		//	Feature Level 3
+			R32G32F,	//	Feature Level 3
+
+			//	Three Components
+			B8G8R8,			//	Feature Level 1
+			R8G8B8,			//	Feature Level 1
+			R8G8B8_sRGB,	//	
+			R16G16B16,		//	Feature Level 1
+			R16G16B16F,		//	Feature Level 3
+			R32G32B32,		//	Feature Level 3
+			R32G32B32F,		//	Feature Level 3
 
 			//	Four Components
-			B8G8R8A8,
-			B8G8R8A8_sRGB,
-			B8G8R8X8,
-			B8G8R8X8_sRGB,
-			R8G8B8A8,
-			R8G8B8A8_sRGB,
-			R16G16B16A16,
-			R16G16B16A16F,
-			R32G32B32A32,
-			R32G32B32A32F,
+			B8G8R8A8,		//	Feature Level 1
+			B8G8R8A8_sRGB,	//	Feature Level 3
+			B8G8R8X8,		//	Feature Level 1, Color Buffer Only
+			B8G8R8X8_sRGB,	//	Feature Level 3, Color Buffer Only
+			R8G8B8A8,		//	Feature Level 1
+			R8G8B8A8_sRGB,	//	Feature Level 3
+			R16G16B16A16,	//	Feature Level 1
+			R16G16B16A16F,	//	Feature Level 3
+			R32G32B32A32,	//	Feature Level 2
+			R32G32B32A32F,	//	Feature Level 3
 		};
 
 		enum class PrimitiveType{
@@ -88,14 +99,13 @@ namespace CB{
 
 		enum class VertexType{
 			None,
-			Float,	// float
+			Float,		// float
 			Color32b,	// A8R8G8B8
 		};
 
 		enum class BufferType{
 			Vertex,
 			Index,
-			Texture,
 		};
 
 		enum class ShaderVersion{
@@ -151,6 +161,19 @@ namespace CB{
 			Texture2D,
 			Texture3D,
 			TextureCube
+		};
+
+		enum class TextureFilter{
+			None,		//	Value valid only for mipmapping
+			Nearest,
+			Linear,
+		};
+
+		enum class TextureWrap{
+			Repeat,
+			Clamp,
+			ClampToEdge,
+			Mirror,
 		};
 
 		enum class BlendOperation{

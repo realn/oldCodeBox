@@ -6,7 +6,6 @@ namespace CB{
 		CTextFormatter::CTextFormatter(const CTextFormatter&) : 
 			m_uEncoding(String::Encoding::UTF16)
 		{
-			CR_THROWNOTIMPLEMENTED();
 		}
 
 		CTextFormatter::CTextFormatter(const String::Encoding uEncoding) :

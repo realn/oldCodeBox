@@ -10,7 +10,7 @@ namespace CB{
 	class CWindow;
 	class CWindowManager : 
 		public Window::IManager,
-		public Manage::IObjectManager<CWindow>
+		public Manage::IObjectManager<CWindowManager, CWindow>
 	{
 	private:
 		CRefPtr<Window::IDriver>	m_pDriver;
