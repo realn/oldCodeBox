@@ -100,6 +100,7 @@ int __stdcall wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine,
 
 			auto pAudioManager = pAudioDriver->CreateManager();
 			auto pAudioAdapter = pAudioManager->GetDefaultAdapter();
+			auto pAudioDevice = pAudioAdapter->CreateDevice();
 
 			CB::Log::Write(L"Entering Main Loop.", CB::Log::LogLevel::Debug);
 			while(bRun){

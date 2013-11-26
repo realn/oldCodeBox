@@ -1,4 +1,5 @@
 #include "../Internal/Adapter.h"
+#include "../Internal/Device.h"
 #include <CBStringEx.h>
 #include <Logger.h>
 
@@ -27,6 +28,10 @@ namespace CB{
 		}
 	}
 
+	ALCdevice*	COALAdapter::GetALCDevice() const{
+		return this->m_pAdapter;
+	}
+
 	const uint32	COALAdapter::GetApiId() const{
 		return g_uApiId;
 	}
@@ -37,5 +42,9 @@ namespace CB{
 
 	const CString	COALAdapter::GetName() const{
 		return this->m_strAdapter;
+	}
+
+	CRefPtr<Audio::IDevice>	COALAdapter::CreateDevice(){
+		return new COALDevice(this);
 	}
 }
