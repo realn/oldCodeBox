@@ -1,11 +1,10 @@
 #include "../Internal/Manager.h"
 #include "../Internal/Adapter.h"
+#include "../Internal/OpenAL.h"
+
 #include <CBStringEx.h>
 #include <Logger.h>
 #include <Collection_Funcs.h>
-
-#include <als\alc.h>
-#pragma comment(lib, "OpenAL32.lib")
 
 namespace CB{
 	const uint32	g_uApiId = *reinterpret_cast<uint32*>("OALS");

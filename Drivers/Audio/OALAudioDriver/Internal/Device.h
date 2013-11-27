@@ -1,8 +1,7 @@
 #pragma once
 
 #include "Adapter.h"
-
-#include <als\al.h>
+#include "OpenAL.h"
 
 namespace CB{
 	class COALSource;

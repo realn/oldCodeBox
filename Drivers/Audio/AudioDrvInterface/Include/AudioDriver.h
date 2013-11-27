@@ -7,6 +7,33 @@
 
 namespace CB{
 	namespace Audio{
+		enum class BufferFormat{
+			Mono8Bit,
+			Mono16Bit,
+			Stereo8Bit,
+			Stereo16Bit,
+		};
+
+		enum class SourceType{
+			None,
+			Static,
+			Streaming,
+		};
+
+		class IBuffer :
+			public IApiObject
+		{
+		public:
+			virtual const uint32		GetLength() const = 0;
+			virtual const uint32		GetNumberOfChannels() const = 0;
+			virtual const BufferFormat	GetFormat() const = 0;
+			virtual const uint32		GetSampling() const = 0;
+			virtual const uint32		GetFrequency() const = 0;
+
+			virtual void	LoadData(const void* pData, const uint32 uLength) = 0;
+			virtual void	LoadSubData(const void* pData, const uint32 uOffset, const uint32 uLength) = 0;
+		};
+
 		class I3DObject :
 			public IApiObject
 		{
@@ -44,6 +71,8 @@ namespace CB{
 		public:
 			virtual CRefPtr<IListener>	GetListener() const = 0;
 			virtual CRefPtr<ISource>	CreateSource() const = 0;
+			virtual CRefPtr<IBuffer>	CreateBuffer(const BufferFormat uFormat, const uint32 uSampleRate) = 0;
+			virtual CRefPtr<IBuffer>	CreateBuffer(const BufferFormat uFormat, const uint32 uSampleRate, const void* pData, const uint32 uLength) = 0;
 
 			virtual void	SetSpeedOfSound(const float32 fMetersPerSecond) = 0;
 
