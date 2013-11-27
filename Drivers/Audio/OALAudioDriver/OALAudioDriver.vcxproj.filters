@@ -35,6 +35,15 @@
     <ClInclude Include="Internal\Source.h">
       <Filter>Internal</Filter>
     </ClInclude>
+    <ClInclude Include="Internal\Buffer.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\Utils.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\OpenAL.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\dllmain.cpp">
@@ -53,6 +62,12 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\Source.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Buffer.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Utils.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
