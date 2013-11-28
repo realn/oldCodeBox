@@ -86,13 +86,17 @@
     <ClInclude Include="Include\Macros.h" />
     <ClInclude Include="Include\OALAudioDriver.h" />
     <ClInclude Include="Internal\Adapter.h" />
+    <ClInclude Include="Internal\Buffer.h" />
     <ClInclude Include="Internal\Device.h" />
+    <ClInclude Include="Internal\OpenAL.h" />
     <ClInclude Include="Internal\Source.h" />
     <ClInclude Include="Internal\Manager.h" />
+    <ClInclude Include="Internal\Utils.h" />
     <ClInclude Include="Internal\WinPlatform.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Adapter.cpp" />
+    <ClCompile Include="Source\Buffer.cpp" />
     <ClCompile Include="Source\Device.cpp" />
     <ClCompile Include="Source\dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
@@ -105,6 +109,7 @@
     <ClCompile Include="Source\Manager.cpp" />
     <ClCompile Include="Source\OALAudioDriver.cpp" />
     <ClCompile Include="Source\Source.cpp" />
+    <ClCompile Include="Source\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\Common.vcxproj">
