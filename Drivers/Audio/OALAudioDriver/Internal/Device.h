@@ -4,11 +4,13 @@
 #include "OpenAL.h"
 
 namespace CB{
+	class COALBuffer;
 	class COALSource;
 
 	class COALDevice :
 		public Audio::IDevice,
 		public Manage::IManagedObject<COALAdapter, COALDevice>,
+		public Manage::IObjectManager<COALDevice, COALBuffer>,
 		public Manage::IObjectManager<COALDevice, COALSource>
 	{
 	private:
@@ -36,7 +38,8 @@ namespace CB{
 		const Math::CVector3D	GetOrientationUp() const override;
 
 		CRefPtr<Audio::IListener>	GetListener() const override;
-		CRefPtr<Audio::ISource>	CreateSource() const override;
+		CRefPtr<Audio::ISource>		CreateSource() const override;
+		CRefPtr<Audio::IBuffer>		CreateBuffer(const Audio::BufferFormat uFormat, const uint32 uSampleRate, const uint32 uSamples) override;
 
 		void	SetSpeedOfSound(const float32 fUnitsPerSecond) override;
 

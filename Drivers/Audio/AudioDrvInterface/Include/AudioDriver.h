@@ -14,6 +14,16 @@ namespace CB{
 			Stereo16Bit,
 		};
 
+		enum class ChannelConfig{
+			Mono,
+			Stereo,
+		};
+
+		enum class SampleType{
+			Byte,
+			Short,
+		};
+
 		enum class SourceType{
 			None,
 			Static,
@@ -24,14 +34,12 @@ namespace CB{
 			public IApiObject
 		{
 		public:
-			virtual const uint32		GetLength() const = 0;
-			virtual const uint32		GetNumberOfChannels() const = 0;
+			virtual const uint32		GetSamples() const = 0;
 			virtual const BufferFormat	GetFormat() const = 0;
-			virtual const uint32		GetSampling() const = 0;
-			virtual const uint32		GetFrequency() const = 0;
+			virtual const uint32		GetSampleRate() const = 0;
 
-			virtual void	LoadData(const void* pData, const uint32 uLength) = 0;
-			virtual void	LoadSubData(const void* pData, const uint32 uOffset, const uint32 uLength) = 0;
+			virtual void	LoadData(const SampleType uType, const uint32 uSamples, const void* pData) = 0;
+			virtual void	LoadSubData(const SampleType uType, const uint32 uOffset, const uint32 uSamples, const void* pData) = 0;
 		};
 
 		class I3DObject :
@@ -71,8 +79,7 @@ namespace CB{
 		public:
 			virtual CRefPtr<IListener>	GetListener() const = 0;
 			virtual CRefPtr<ISource>	CreateSource() const = 0;
-			virtual CRefPtr<IBuffer>	CreateBuffer(const BufferFormat uFormat, const uint32 uSampleRate) = 0;
-			virtual CRefPtr<IBuffer>	CreateBuffer(const BufferFormat uFormat, const uint32 uSampleRate, const void* pData, const uint32 uLength) = 0;
+			virtual CRefPtr<IBuffer>	CreateBuffer(const BufferFormat uFormat, const uint32 uSampleRate, const uint32 uSamples) = 0;
 
 			virtual void	SetSpeedOfSound(const float32 fMetersPerSecond) = 0;
 
@@ -106,5 +113,12 @@ namespace CB{
 		};
 
 		extern AUDIODRVINTERFACE_API	CRefPtr<IDriver>	LoadDriver(const CString& strDriverName);
+	}
+
+	namespace String{
+		extern AUDIODRVINTERFACE_API	const CString	ToString(const Audio::BufferFormat uFormat);
+		extern AUDIODRVINTERFACE_API	const CString	ToString(const Audio::ChannelConfig uConfig);
+		extern AUDIODRVINTERFACE_API	const CString	ToString(const Audio::SampleType uType);
+		extern AUDIODRVINTERFACE_API	const CString	ToString(const Audio::SourceType uType);
 	}
 }

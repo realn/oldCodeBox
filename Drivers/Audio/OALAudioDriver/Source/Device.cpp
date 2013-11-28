@@ -1,4 +1,5 @@
 #include "../Internal/Device.h"
+#include "../Internal/Buffer.h"
 #include "../Internal/Source.h"
 #include <Logger.h>
 #include <Collection_Array.h>
@@ -97,6 +98,10 @@ namespace CB{
 
 	CRefPtr<Audio::ISource>	COALDevice::CreateSource() const {
 		return new COALSource(this);
+	}
+		
+	CRefPtr<Audio::IBuffer>		COALDevice::CreateBuffer(const Audio::BufferFormat uFormat, const uint32 uSampleRate, const uint32 uSamples){
+		return new COALBuffer(this, uFormat, uSampleRate, uSamples);
 	}
 
 	void	COALDevice::SetSpeedOfSound(const float32 fUnitsPerSecond) {

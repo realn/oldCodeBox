@@ -98,6 +98,7 @@
       </PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Source\Driver.cpp" />
+    <ClCompile Include="Source\Strings.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\Common.vcxproj">

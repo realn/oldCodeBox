@@ -1,7 +1,7 @@
 #include "../Include/FontManager.h"
 #include "../Include/Font.h"
 
-#pragma comment(lib, "freetype250.lib")
+#pragma comment(lib, "freetype.lib")
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
