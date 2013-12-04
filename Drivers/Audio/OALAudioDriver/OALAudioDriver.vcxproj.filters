@@ -70,5 +70,8 @@
     <ClCompile Include="Source\Utils.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Source\OpenAL.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

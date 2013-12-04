@@ -14,7 +14,8 @@ namespace CB{
 		ALenum uALFormat = Utils::ToBufferFormat(this->m_uFormat);
 		ALenum uALChannelConfig = Utils::ToChannelFormat(this->m_uFormat);
 
-		alBufferSamplesSOFT(this->m_uBuffer, this->m_uSampleRate, uALFormat, this->m_uSamples, uALChannelConfig, AL_UNSIGNED_BYTE_SOFT, 0);
+		alBufferData(this->m_uBuffer, uALFormat, 0, uSamples, uSampleRate);
+		//alBufferSamplesSOFT(this->m_uBuffer, this->m_uSampleRate, uALFormat, this->m_uSamples, uALChannelConfig, AL_UNSIGNED_BYTE_SOFT, 0);
 	}
 
 	COALBuffer::~COALBuffer(){
@@ -52,8 +53,10 @@ namespace CB{
 	void	COALBuffer::LoadSubData(const Audio::SampleType uType, const uint32 uOffset, const uint32 uSamples, const void* pData){
 		auto uChannels = Utils::ToChannelFormat(this->m_uFormat);
 		auto uSampleType = Utils::ToSampleType(uType);
+		auto uFormat = Utils::ToBufferFormat(this->m_uFormat);
 
-		alBufferSubSamplesSOFT(this->m_uBuffer, uOffset, uSamples, uChannels, uSampleType, pData);
+		alBufferData(this->m_uBuffer, uFormat, pData, this->m_uSamples, this->m_uSampleRate);
+		//alBufferSubSamplesSOFT(this->m_uBuffer, uOffset, uSamples, uChannels, uSampleType, pData);
 	}
 
 }

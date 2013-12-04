@@ -108,6 +108,7 @@
     </ClCompile>
     <ClCompile Include="Source\Manager.cpp" />
     <ClCompile Include="Source\OALAudioDriver.cpp" />
+    <ClCompile Include="Source\OpenAL.cpp" />
     <ClCompile Include="Source\Source.cpp" />
     <ClCompile Include="Source\Utils.cpp" />
   </ItemGroup>

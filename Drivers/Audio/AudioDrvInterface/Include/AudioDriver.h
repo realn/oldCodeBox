@@ -4,6 +4,7 @@
 #include <ApiObject.h>
 #include <SmartPointers_RefPtr.h>
 #include <Math_Vector.h>
+#include <Collection_List.h>
 
 namespace CB{
 	namespace Audio{
@@ -61,6 +62,24 @@ namespace CB{
 		public:
 			virtual void		SetPositionRelative(const bool bEnabled) = 0;
 			virtual const bool	IsPositionRelative() const = 0;
+
+			virtual void	Play() = 0;
+			virtual void	Stop() = 0;
+			virtual void	Pause() = 0;
+			virtual void	Rewind() = 0;
+
+			virtual const SourceType	GetType() const = 0;
+
+			virtual void	SetStaticBuffer(CRefPtr<IBuffer> pBuffer) = 0;
+			virtual void	QueueStreamingBuffers(const Collection::ICountable<CRefPtr<IBuffer>>& pBufferList) = 0;
+
+			virtual CRefPtr<IBuffer>	GetStaticBuffer() const = 0;
+			virtual const Collection::CList<CRefPtr<IBuffer>>	GetStremingBuffers() const = 0;
+
+			virtual void	FreeStaticBuffer() = 0;
+			virtual void	FreeStreamingBuffers() = 0;
+
+			virtual const Collection::CList<CRefPtr<IBuffer>>	UnqueueProcessedBuffers() = 0;
 		};
 
 		class IListener :
@@ -84,6 +103,8 @@ namespace CB{
 			virtual void	SetSpeedOfSound(const float32 fMetersPerSecond) = 0;
 
 			virtual const float32	GetSpeedOfSound() const = 0;
+
+			virtual void	ProcessEvents() = 0;
 		};
 
 		class IAdapter : 

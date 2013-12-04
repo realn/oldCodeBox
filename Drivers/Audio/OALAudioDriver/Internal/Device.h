@@ -45,6 +45,8 @@ namespace CB{
 
 		const float32	GetSpeedOfSound() const override;
 
+		void	ProcessEvents() override;
+
 		//	END OF INTERFACE IMPLEMENTATION
 	};
 }

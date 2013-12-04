@@ -7,6 +7,7 @@
 #include <IO_Image.h>
 #include <Font.h>
 #include <AudioDriver.h>
+#include <IO_Sound.h>
 
 bool bRun = true;
 
@@ -102,6 +103,30 @@ int __stdcall wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine,
 			auto pAudioAdapter = pAudioManager->GetDefaultAdapter();
 			auto pAudioDevice = pAudioAdapter->CreateDevice();
 
+			CB::CRefPtr<CB::Audio::IBuffer> pBuffer;
+
+			{
+				auto pFile = CB::IO::File::Open(L"Sound.wav", CB::IO::File::AccessType::ReadOnly, CB::IO::File::OpenAction::Open);
+				CB::IO::CSound sound(pFile.Cast<CB::IO::IStream>());
+
+				CB::Collection::CList<int16> data(sound.GetNumberOfChannels() * sound.GetNumberOfFrames());
+				sound.ReadFrames(data);
+
+				CB::Audio::BufferFormat uFormat = CB::Audio::BufferFormat::Stereo16Bit;
+				if(sound.GetNumberOfChannels() == 1)
+					uFormat = CB::Audio::BufferFormat::Mono16Bit;
+
+				pBuffer = pAudioDevice->CreateBuffer(uFormat, sound.GetFrequency(), sound.GetNumberOfFrames());
+			}
+
+			auto pSource = pAudioDevice->CreateSource();
+
+			pSource->SetStaticBuffer(pBuffer);
+			pSource->SetPosition(CB::Math::CVector3D());
+			pAudioDevice->SetPosition(CB::Math::CVector3D());
+
+			pSource->Play();
+
 			CB::Log::Write(L"Entering Main Loop.", CB::Log::LogLevel::Debug);
 			while(bRun){
 				pGraphicDevice->Clear(CB::Math::CColor(0.2f, 0.2f, 0.2f, 1.0f));
@@ -119,6 +144,7 @@ int __stdcall wWinMain(void* hInstance, void* hPrevInstance, wchar_t* lpCmdLine,
 				pGraphicDevice->Render(1);
 
 				pWinManager->ProcessEvents();
+				pAudioDevice->ProcessEvents();
 				pGraphicDevice->Swap();
 			}
 			CB::Log::Write(L"Leaving Main Loop.", CB::Log::LogLevel::Debug);

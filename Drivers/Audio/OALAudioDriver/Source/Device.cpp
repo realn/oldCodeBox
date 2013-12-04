@@ -25,6 +25,8 @@ namespace CB{
 			alcDestroyContext(this->m_pContext);
 			CR_THROW(L"Failed to make context current for adapter " + this->m_pParent->GetName() + L", error: " + String::ToHexString(uError));
 		}
+
+		//AL::LoadExtensions(this->m_pParent->GetALCDevice());
 	}
 
 	COALDevice::~COALDevice(){
@@ -110,5 +112,9 @@ namespace CB{
 
 	const float32	COALDevice::GetSpeedOfSound() const {
 		return alGetFloat(AL_SPEED_OF_SOUND);
+	}
+
+	void	COALDevice::ProcessEvents(){
+		alcProcessContext(this->m_pContext);
 	}
 }
