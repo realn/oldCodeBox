@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{909C3D3E-22DA-48E4-8CFE-D896379D5A12}</ProjectGuid>
+    <ProjectGuid>{F2A54212-82DE-48DF-B9A3-4BD4587AB4C0}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>AudioDrvInterface</RootNamespace>
+    <RootNamespace>OALAudioDriver</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -43,8 +43,8 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Output\$(Configuration)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)Intermediate\$(Configuration)\$(ProjectName)\</IntDir>
-    <IncludePath>$(SolutionDir)Ext\Include;$(SolutionDir)Common\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Ext\Lib\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Ext\include;$(SolutionDir)Common\Include;$(SolutionDir)Drivers\Audio\AudioDrvInterface\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Ext\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -54,7 +54,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;AUDIODRVINTERFACE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;OALAUDIODRIVER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -72,7 +72,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;AUDIODRVINTERFACE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;OALAUDIODRIVER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -83,12 +83,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Include\AudioDriver.h" />
     <ClInclude Include="Include\Macros.h" />
-    <ClInclude Include="Internal\Driver.h" />
+    <ClInclude Include="Include\OALAudioDriver.h" />
+    <ClInclude Include="Internal\Adapter.h" />
+    <ClInclude Include="Internal\Buffer.h" />
+    <ClInclude Include="Internal\Device.h" />
+    <ClInclude Include="Internal\OpenAL.h" />
+    <ClInclude Include="Internal\Source.h" />
+    <ClInclude Include="Internal\Manager.h" />
+    <ClInclude Include="Internal\Utils.h" />
     <ClInclude Include="Internal\WinPlatform.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Adapter.cpp" />
+    <ClCompile Include="Source\Buffer.cpp" />
+    <ClCompile Include="Source\Device.cpp" />
     <ClCompile Include="Source\dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -97,11 +106,17 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
       </PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Source\Driver.cpp" />
+    <ClCompile Include="Source\Manager.cpp" />
+    <ClCompile Include="Source\OALAudioDriver.cpp" />
+    <ClCompile Include="Source\Source.cpp" />
+    <ClCompile Include="Source\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\Common.vcxproj">
       <Project>{844b7ab6-f789-496c-86d2-fc71e8328f23}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\AudioDrvInterface\AudioDrvInterface.vcxproj">
+      <Project>{909c3d3e-22da-48e4-8cfe-d896379d5a12}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

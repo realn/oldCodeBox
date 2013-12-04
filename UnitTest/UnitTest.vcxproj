@@ -43,7 +43,7 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Output\$(Configuration)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)Intermediate\$(Configuration)\$(ProjectName)\</IntDir>
-    <IncludePath>$(SolutionDir)Drivers\Graphic\GraphicDrvInterface\Include;$(SolutionDir)Drivers\Window\WindowDrvInterface\Include;$(SolutionDir)Common\Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Drivers\Graphic\GraphicDrvInterface\Include;$(SolutionDir)Drivers\Window\WindowDrvInterface\Include;$(SolutionDir)Common\Include;$(SolutionDir)Drivers\Audio\AudioDrvInterface\Include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -81,6 +81,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">
       <Project>{844b7ab6-f789-496c-86d2-fc71e8328f23}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Drivers\Audio\AudioDrvInterface\AudioDrvInterface.vcxproj">
+      <Project>{909c3d3e-22da-48e4-8cfe-d896379d5a12}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Drivers\Graphic\GraphicDrvInterface\GraphicDrvInterface.vcxproj">
       <Project>{1894c896-bb26-4993-b035-7885af9f507e}</Project>

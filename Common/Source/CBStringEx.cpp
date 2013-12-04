@@ -10,11 +10,11 @@ namespace CB{
 		const CString	VarReplace(const CString& strText, const Collection::ICountable<CB::CString>& VarList, const bool bIgnoreMissing){
 			if(strText.IsEmpty()){
 				throw CB::Exception::CZeroLengthArgumentException(L"strText",
-					L"Cannot replace in empty string.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Cannot replace in empty string.", CR_INFO());
 			}
 			if(VarList.IsEmpty()){
 				throw CB::Exception::CZeroLengthArgumentException(L"VarList",
-					L"Cannot replace with empty var list.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Cannot replace with empty var list.", CR_INFO());
 			}
 
 			try{
@@ -55,14 +55,14 @@ namespace CB{
 			}
 			catch(CB::Exception::CException& Exception){
 				throw CB::Exception::CException(
-					L"Error while replacing vars in string.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+					L"Error while replacing vars in string.", CR_INFO(), Exception);
 			}
 		}
 
 		const CString	FromANSI(const CB::Collection::IPacked<int8>& Array){
 			if(Array.IsEmpty()){
 				throw CB::Exception::CZeroLengthArgumentException(L"Array",
-					L"Cannot create string from empty array.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Cannot create string from empty array.", CR_INFO());
 			}
 
 			try{
@@ -70,14 +70,14 @@ namespace CB{
 			}
 			catch(CB::Exception::CException& Exception){
 				throw CB::Exception::CException(
-					L"Error while converting int8 array to string.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+					L"Error while converting int8 array to string.", CR_INFO(), Exception);
 			}
 		}
 
 		const CString	FromUTF8(const Collection::IPacked<int8>& Array){
 			if(Array.IsEmpty()){
 				throw CB::Exception::CZeroLengthArgumentException(L"Array",
-					L"Cannot create string from empty array.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Cannot create string from empty array.", CR_INFO());
 			}
 
 			try{
@@ -85,14 +85,14 @@ namespace CB{
 			}
 			catch(CB::Exception::CException& Exception){
 				throw CB::Exception::CException(
-					L"Error while converting int8 array to string.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+					L"Error while converting int8 array to string.", CR_INFO(), Exception);
 			}
 		}
 
 		const CString	ToString(const Collection::IPacked<wchar>&	Array){
 			if(Array.IsEmpty()){
 				throw CB::Exception::CZeroLengthArgumentException(L"Array",
-					L"Cannot create string from empty array.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Cannot create string from empty array.", CR_INFO());
 			}
 
 			try{
@@ -112,14 +112,14 @@ namespace CB{
 			}
 			catch(CB::Exception::CException& Exception){
 				throw CB::Exception::CException(
-					L"Error while converting int8 array to string.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+					L"Error while converting int8 array to string.", CR_INFO(), Exception);
 			}
 		}
 
 		void	ToANSI(const CString& strText, Collection::CList<int8>& Array){
 			if(strText.IsEmpty()){
 				throw CB::Exception::CZeroLengthArgumentException(L"strText", 
-					L"Cannot convert empty string to array.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Cannot convert empty string to array.", CR_INFO());
 			}
 			try{
 				uint32 uLength = ToANSICount(strText);
@@ -130,14 +130,14 @@ namespace CB{
 			}
 			catch(CB::Exception::CException& Exception){
 				throw CB::Exception::CException(
-					L"Error while converting string to array.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+					L"Error while converting string to array.", CR_INFO(), Exception);
 			}
 		}
 
 		void	ToUTF8(const CString& strText, Collection::CList<int8>& Array){
 			if(strText.IsEmpty()){
 				throw CB::Exception::CZeroLengthArgumentException(L"strText", 
-					L"Cannot convert empty string to array.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Cannot convert empty string to array.", CR_INFO());
 			}
 
 			try{
@@ -146,7 +146,7 @@ namespace CB{
 			}
 			catch(CB::Exception::CException& Exception){
 				throw CB::Exception::CException(
-					L"Error while converting string to array.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+					L"Error while converting string to array.", CR_INFO(), Exception);
 			}
 		}
 
@@ -167,17 +167,19 @@ namespace CB{
 		void	ToArray(const CString& strText, Collection::CList<wchar>& Array){
 			if(strText.IsEmpty()){
 				throw CB::Exception::CZeroLengthArgumentException(L"strText", 
-					L"Cannot convert empty string to array.", __FUNCTIONW__, __FILEW__, __LINE__);
+					L"Cannot convert empty string to array.", CR_INFO());
 			}
 
 			try{
-				Array.Resize(strText.GetLength());
+				if(Array.GetLength() < strText.GetLength()){
+					Array.Resize(strText.GetLength());
+				}
 				Memory::SetZeroArray<wchar>(Array);
 				Memory::CopyArray<wchar>(&strText[0], &Array.First(), strText.GetLength());
 			}
 			catch(CB::Exception::CException& Exception){
 				throw CB::Exception::CException(
-					L"Error while converting string to array.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+					L"Error while converting string to array.", CR_INFO(), Exception);
 			}
 		}
 
@@ -216,7 +218,7 @@ namespace CB{
 			}
 			catch(CB::Exception::CException& Exception){
 				throw CB::Exception::CException(
-					L"Error while comparing sub strings from list.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+					L"Error while comparing sub strings from list.", CR_INFO(), Exception);
 			}
 		}
 
@@ -264,7 +266,7 @@ namespace CB{
 			}
 			catch(CB::Exception::CException& Exception){
 				throw CB::Exception::CException(
-					L"Error while searching for strings from list.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+					L"Error while searching for strings from list.", CR_INFO(), Exception);
 			}
 		}
 
@@ -295,7 +297,7 @@ namespace CB{
 			}
 			catch(CB::Exception::CException& Exception){
 				throw CB::Exception::CException(
-					L"Error while skiping strings from list.", __FUNCTIONW__, __FILEW__, __LINE__, Exception);
+					L"Error while skiping strings from list.", CR_INFO(), Exception);
 			}
 		}
 

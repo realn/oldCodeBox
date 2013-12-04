@@ -72,11 +72,11 @@ namespace CB{
 				L"Cannot load function with empty name string.", CR_INFO());
 		}
 
-		Collection::CList<int8> szFuncName(strFunctionName.GetLength() + 1);
-		Memory::SetZeroArray(szFuncName);
-		String::ToANSI(strFunctionName, szFuncName);
+		Collection::CList<int8> szFuncName = String::ToANSI(strFunctionName);
+		HMODULE hModule = this->m_pHandle.GetCast<HMODULE>();
+		const char* szProcName = reinterpret_cast<const char*>(szFuncName.GetPointer());
 
-		FARPROC pFunc = GetProcAddress(this->m_pHandle.GetCast<HMODULE>(), (const char*)szFuncName.GetPointer());
+		FARPROC pFunc = GetProcAddress(hModule, szProcName);
 		if(pFunc == 0){
 			DWORD dwError = GetLastError();
 

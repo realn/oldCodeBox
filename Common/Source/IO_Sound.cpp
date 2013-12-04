@@ -77,7 +77,7 @@ namespace CB{
 		}
 
 		void	CSound::SetFrame(const uint32 uFrame, const Direction uDirection, const StreamPos uType){
-			int iMode = 0;
+			int32 iMode = 0;
 			switch (uType)
 			{
 			case StreamPos::Begin:		iMode = SEEK_SET;	break;
@@ -90,10 +90,10 @@ namespace CB{
 
 			int iFrame = 0;
 			if(uDirection == Direction::Forward){
-				iFrame = (int)uFrame;
+				iFrame = (int32)uFrame;
 			}
 			else{
-				iFrame = (int)uFrame * -1;
+				iFrame = (int32)uFrame * -1;
 			}
 
 			if(sf_seek(this->m_pData.Get<CSoundData>()->m_pFile, iFrame, iMode) == -1){

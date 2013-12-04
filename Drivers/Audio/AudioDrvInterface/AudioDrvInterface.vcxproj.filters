@@ -14,21 +14,24 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Include\AudioDrvInterface.h">
-      <Filter>Include</Filter>
-    </ClInclude>
     <ClInclude Include="Internal\WinPlatform.h">
       <Filter>Internal</Filter>
     </ClInclude>
     <ClInclude Include="Include\Macros.h">
       <Filter>Include</Filter>
     </ClInclude>
+    <ClInclude Include="Include\AudioDriver.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\Driver.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\AudioDrvInterface.cpp">
+    <ClCompile Include="Source\Driver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
