@@ -39,7 +39,13 @@ namespace CB{
 		if(this->m_pHandle.IsValid())
 			return;
 
+		WCHAR szWorkingDir[MAX_PATH] = { 0 };
+		GetCurrentDirectoryW(MAX_PATH, szWorkingDir);
+
+		SetDllDirectoryW(szWorkingDir);
 		this->m_pHandle.SetCast<HMODULE>(LoadLibraryW(this->m_strName.GetPointer()));
+		SetDllDirectoryW(L"");
+
 		if(this->m_pHandle.IsNull()){
 			DWORD dwError = GetLastError();
 			if(dwError == ERROR_MOD_NOT_FOUND){
