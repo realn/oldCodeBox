@@ -44,6 +44,7 @@
     <OutDir>$(SolutionDir)Output\$(Configuration)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)Intermediate\$(Configuration)\$(ProjectName)\</IntDir>
     <IncludePath>$(SolutionDir)Drivers\Graphic\GraphicDrvInterface\Include;$(SolutionDir)Drivers\Window\WindowDrvInterface\Include;$(SolutionDir)Common\Include;$(SolutionDir)Drivers\Audio\AudioDrvInterface\Include;$(IncludePath)</IncludePath>
+    <ExecutablePath>$(SolutionDir)Ext\runtime\;$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>

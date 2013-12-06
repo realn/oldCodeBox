@@ -11,9 +11,11 @@ namespace CB{
 		m_pAdapter(0)
 	{
 		Log::Write(L"Initializing OpenAL Adapter " + this->m_strAdapter);
-		auto szDevice = String::ToANSI(this->m_strAdapter);
-		ALCdevice* pDevice = alcOpenDevice(reinterpret_cast<const ALCchar*>(szDevice.GetPointer()));
+		//auto szDevice = String::ToANSI(this->m_strAdapter);
+		auto szDevice = alcGetString(0, ALC_DEFAULT_DEVICE_SPECIFIER);
+		ALCdevice* pDevice = alcOpenDevice(szDevice);
 		if(pDevice == 0){
+			auto uError = alcGetError(0);
 			CR_THROW(L"Failed to create adapter " + this->m_strAdapter);
 		}
 
