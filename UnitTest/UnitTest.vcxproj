@@ -43,8 +43,9 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Output\$(Configuration)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)Intermediate\$(Configuration)\$(ProjectName)\</IntDir>
-    <IncludePath>$(SolutionDir)Drivers\Graphic\GraphicDrvInterface\Include;$(SolutionDir)Drivers\Window\WindowDrvInterface\Include;$(SolutionDir)Common\Include;$(SolutionDir)Drivers\Audio\AudioDrvInterface\Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(DXSDK_DIR)\Include;$(SolutionDir)Drivers\Graphic\GraphicDrvInterface\Include;$(SolutionDir)Drivers\Window\WindowDrvInterface\Include;$(SolutionDir)Common\Include;$(SolutionDir)Drivers\Audio\AudioDrvInterface\Include;$(IncludePath)</IncludePath>
     <ExecutablePath>$(SolutionDir)Ext\runtime\;$(ExecutablePath)</ExecutablePath>
+    <LibraryPath>$(DXSDK_DIR);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>

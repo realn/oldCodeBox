@@ -1,15 +1,18 @@
-#include "../Ext/include/als/al.h"
-#include "../Ext/include/als/alc.h"
+#include <dsound.h>
 
-#pragma comment(lib, "../Ext/lib/OpenAL32.lib")
+#pragma comment(lib, "Lib\\x86\\dsound.lib")
 
-int __stdcall WinMain(void* hInstance, void* hPrevInstance, char* szCmdLine, int nShowCmd){
+int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char* szCmdLine, int nShowCmd){
+	CoInitializeEx(0, COINIT_MULTITHREADED);
 
-	auto szTemp = alcGetString(0, ALC_DEVICE_SPECIFIER);
+	IDirectSound8* pSound = 0;
+	auto hResult = DirectSoundCreate8(0, &pSound, 0);
+	if(hResult != S_OK){
+		return -1;
+	}
 
-	ALCdevice* pDevice = alcOpenDevice(szTemp);
+	pSound->Release();
 
-	alcCloseDevice(pDevice);
-
+	CoUninitialize();
 	return 0;
 }
