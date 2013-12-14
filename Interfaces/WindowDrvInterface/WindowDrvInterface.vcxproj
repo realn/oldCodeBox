@@ -11,10 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{1894C896-BB26-4993-B035-7885AF9F507E}</ProjectGuid>
+    <ProjectGuid>{EC070743-297F-4414-9E71-F107EBDB5057}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>GraphicMngInterface</RootNamespace>
-    <ProjectName>GraphicDrvInterface</ProjectName>
+    <RootNamespace>WindowMngInterface</RootNamespace>
+    <ProjectName>WindowDrvInterface</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -42,9 +42,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)Output\$(Configuration)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Intermediate\$(Configuration)\$(ProjectName)\</IntDir>
-    <IncludePath>$(SolutionDir)Drivers\Window\WindowDrvInterface\Include;$(SolutionDir)Common\Include;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)Build\Output\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)Build\Intermediate\$(Configuration)\$(ProjectName)\</IntDir>
+    <IncludePath>$(SolutionDir)Ext\include;$(SolutionDir)Core\Common\Include;$(IncludePath)</IncludePath>
+    <ExecutablePath>$(SolutionDir)Ext\runtime;$(ExecutablePath)</ExecutablePath>
+    <LibraryPath>$(SolutionDir)Ext\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -54,7 +56,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;GRAPHICMNGINTERFACE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;WINDOWMNGINTERFACE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -62,7 +64,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>@xcopy $(OutDir)*.dll $(SolutionDir)WorkArea\ /Y /Q</Command>
+      <Command>@xcopy $(OutDir)*.dll $(SolutionDir)WorkArea\$(Configuration) /Y /Q</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -72,7 +74,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;GRAPHICMNGINTERFACE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;WINDOWMNGINTERFACE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -83,13 +85,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Include\GraphicDriver.h" />
-    <ClInclude Include="Include\GraphicDriver_Consts.h" />
-    <ClInclude Include="Include\GraphicDriver_Strings.h" />
-    <ClInclude Include="Include\GraphicDriver_Structs.h" />
+    <ClInclude Include="Include\Macros.h" />
+    <ClInclude Include="Include\WindowDriver.h" />
     <ClInclude Include="Internal\Driver.h" />
     <ClInclude Include="Internal\WinPlatform.h" />
-    <ClInclude Include="Include\Macros.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\dllmain.cpp">
@@ -101,22 +100,11 @@
       </PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Source\Driver.cpp" />
-    <ClCompile Include="Source\BlendInstDesc.cpp" />
-    <ClCompile Include="Source\BlendStateDesc.cpp" />
-    <ClCompile Include="Source\DepthStencilStateDesc.cpp" />
-    <ClCompile Include="Source\DeviceDesc.cpp" />
-    <ClCompile Include="Source\DisplayMode.cpp" />
-    <ClCompile Include="Source\RasterizerStateDesc.cpp" />
-    <ClCompile Include="Source\StencilInstDesc.cpp" />
-    <ClCompile Include="Source\Strings.cpp" />
-    <ClCompile Include="Source\VertexElement.cpp" />
+    <ClCompile Include="Source\WindowDriver_Strings.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Common\Common.vcxproj">
+    <ProjectReference Include="..\..\Core\Common\Common.vcxproj">
       <Project>{844b7ab6-f789-496c-86d2-fc71e8328f23}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Window\WindowDrvInterface\WindowDrvInterface.vcxproj">
-      <Project>{ec070743-297f-4414-9e71-f107ebdb5057}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

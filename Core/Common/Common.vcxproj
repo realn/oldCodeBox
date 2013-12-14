@@ -41,8 +41,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)Output\$(Configuration)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Intermediate\$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)Build\Output\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)Build\Intermediate\$(Configuration)\$(ProjectName)\</IntDir>
     <ExecutablePath>$(SolutionDir)\Ext\runtime;$(ExecutablePath)</ExecutablePath>
     <LibraryPath>$(SolutionDir)\Ext\lib;$(LibraryPath)</LibraryPath>
     <IncludePath>$(SolutionDir)\Ext\include;$(IncludePath)</IncludePath>
@@ -62,7 +62,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>@xcopy $(OutDir)*.dll $(SolutionDir)WorkArea\ /Y /Q</Command>
+      <Command>@xcopy $(OutDir)*.dll $(SolutionDir)WorkArea\$(Configuration)\ /Y /Q</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

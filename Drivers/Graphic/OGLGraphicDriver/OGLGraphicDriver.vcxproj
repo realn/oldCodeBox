@@ -41,11 +41,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)Output\$(Configuration)\$(ProjectName)\</OutDir>
-    <ExecutablePath>$(CG_BIN_PATH);$(ExecutablePath)</ExecutablePath>
-    <IncludePath>$(SolutionDir)Drivers\Graphic\GraphicDrvInterface\Include;$(SolutionDir)Drivers\Window\WindowDrvInterface\Include;$(SolutionDir)Common\Include;$(CG_INC_PATH);$(IncludePath)</IncludePath>
-    <LibraryPath>$(CG_LIB_PATH);$(LibraryPath)</LibraryPath>
-    <IntDir>$(SolutionDir)Intermediate\$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)Build\Output\$(Configuration)\$(ProjectName)\</OutDir>
+    <ExecutablePath>$(SolutionDir)Ext\runtime;$(CG_BIN_PATH);$(ExecutablePath)</ExecutablePath>
+    <IncludePath>$(SolutionDir)Core\Common\Include;$(SolutionDir)Interfaces\GraphicDrvInterface\Include;$(SolutionDir)Interfaces\WindowDrvInterface\Include;$(CG_INC_PATH);$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Ext\lib;$(CG_LIB_PATH);$(LibraryPath)</LibraryPath>
+    <IntDir>$(SolutionDir)Build\Intermediate\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -63,7 +63,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>@xcopy $(OutDir)*.dll $(SolutionDir)WorkArea\ /Y /Q</Command>
+      <Command>@xcopy $(OutDir)*.dll $(SolutionDir)WorkArea\$(Configuration) /Y /Q</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -155,14 +155,14 @@
     <ClCompile Include="Source\WindowDeviceContext.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Common\Common.vcxproj">
+    <ProjectReference Include="..\..\..\Core\Common\Common.vcxproj">
       <Project>{844b7ab6-f789-496c-86d2-fc71e8328f23}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\Window\WindowDrvInterface\WindowDrvInterface.vcxproj">
-      <Project>{ec070743-297f-4414-9e71-f107ebdb5057}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\GraphicDrvInterface\GraphicDrvInterface.vcxproj">
+    <ProjectReference Include="..\..\..\Interfaces\GraphicDrvInterface\GraphicDrvInterface.vcxproj">
       <Project>{1894c896-bb26-4993-b035-7885af9f507e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Interfaces\WindowDrvInterface\WindowDrvInterface.vcxproj">
+      <Project>{ec070743-297f-4414-9e71-f107ebdb5057}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

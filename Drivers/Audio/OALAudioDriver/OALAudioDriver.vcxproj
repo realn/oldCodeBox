@@ -41,10 +41,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)Output\$(Configuration)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Intermediate\$(Configuration)\$(ProjectName)\</IntDir>
-    <IncludePath>$(SolutionDir)Ext\include;$(SolutionDir)Common\Include;$(SolutionDir)Drivers\Audio\AudioDrvInterface\Include;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)Build\Output\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)Build\Intermediate\$(Configuration)\$(ProjectName)\</IntDir>
+    <IncludePath>$(SolutionDir)Ext\include;$(SolutionDir)Core\Common\Include;$(SolutionDir)Interfaces\AudioDrvInterface\Include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Ext\lib;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(SolutionDir)Ext\runtime;$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -62,7 +63,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>@xcopy $(OutDir)*.dll $(SolutionDir)WorkArea\ /Y /Q</Command>
+      <Command>@xcopy $(OutDir)*.dll $(SolutionDir)WorkArea\$(Configuration) /Y /Q</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -113,10 +114,10 @@
     <ClCompile Include="Source\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Common\Common.vcxproj">
+    <ProjectReference Include="..\..\..\Core\Common\Common.vcxproj">
       <Project>{844b7ab6-f789-496c-86d2-fc71e8328f23}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\AudioDrvInterface\AudioDrvInterface.vcxproj">
+    <ProjectReference Include="..\..\..\Interfaces\AudioDrvInterface\AudioDrvInterface.vcxproj">
       <Project>{909c3d3e-22da-48e4-8cfe-d896379d5a12}</Project>
     </ProjectReference>
   </ItemGroup>

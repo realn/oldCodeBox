@@ -42,11 +42,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)Output\$(Configuration)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Intermediate\$(Configuration)\$(ProjectName)\</IntDir>
-    <ReferencePath>$(SolutionDir)Output\$(Configuration);$(ReferencePath)</ReferencePath>
-    <LibraryPath>$(SolutionDir)Output\$(Configuration);$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)Drivers\Window\WindowDrvInterface\Include;$(SolutionDir)Common\Include;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)Build\Output\$(Configuration)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)Build\Intermediate\$(Configuration)\$(ProjectName)\</IntDir>
+    <LibraryPath>$(SolutionDir)Ext\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Core\Common\Include;$(SolutionDir)Interfaces\WindowDrvInterface\Include;$(SolutionDir)Ext\Include;$(IncludePath)</IncludePath>
+    <ExecutablePath>$(SolutionDir)Ext\runtime;$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -64,7 +64,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>@xcopy $(OutDir)*.dll $(SolutionDir)WorkArea\ /Y /Q</Command>
+      <Command>@xcopy $(OutDir)*.dll $(SolutionDir)WorkArea\$(Configuration) /Y /Q</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -105,10 +105,10 @@
     <ClCompile Include="Source\WindowDriver.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Common\Common.vcxproj">
+    <ProjectReference Include="..\..\..\Core\Common\Common.vcxproj">
       <Project>{844b7ab6-f789-496c-86d2-fc71e8328f23}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\WindowDrvInterface\WindowDrvInterface.vcxproj">
+    <ProjectReference Include="..\..\..\Interfaces\WindowDrvInterface\WindowDrvInterface.vcxproj">
       <Project>{ec070743-297f-4414-9e71-f107ebdb5057}</Project>
     </ProjectReference>
   </ItemGroup>
