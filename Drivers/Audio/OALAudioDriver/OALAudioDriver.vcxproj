@@ -89,6 +89,7 @@
     <ClInclude Include="Internal\Adapter.h" />
     <ClInclude Include="Internal\Buffer.h" />
     <ClInclude Include="Internal\Device.h" />
+    <ClInclude Include="Internal\Listener.h" />
     <ClInclude Include="Internal\OpenAL.h" />
     <ClInclude Include="Internal\Source.h" />
     <ClInclude Include="Internal\Manager.h" />
@@ -107,6 +108,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
       </PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Source\Listener.cpp" />
     <ClCompile Include="Source\Manager.cpp" />
     <ClCompile Include="Source\OALAudioDriver.cpp" />
     <ClCompile Include="Source\OpenAL.cpp" />

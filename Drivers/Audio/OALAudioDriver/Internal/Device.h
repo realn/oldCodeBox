@@ -1,17 +1,20 @@
 #pragma once
 
 #include "Adapter.h"
-#include "OpenAL.h"
+
+typedef struct ALCcontext_struct ALCcontext;
 
 namespace CB{
 	class COALBuffer;
 	class COALSource;
+	class COALListener;
 
 	class COALDevice :
 		public Audio::IDevice,
 		public Manage::IManagedObject<COALAdapter, COALDevice>,
 		public Manage::IObjectManager<COALDevice, COALBuffer>,
-		public Manage::IObjectManager<COALDevice, COALSource>
+		public Manage::IObjectManager<COALDevice, COALSource>,
+		public Manage::IObjectManager<COALDevice, COALListener>
 	{
 	private:
 		ALCcontext*	m_pContext;
@@ -24,22 +27,9 @@ namespace CB{
 
 		const uint32	GetApiId() const override;
 
-		void	SetGain(const float32 fGain) override;
-		void	SetPosition(const Math::CVector3D& vPosition) override;
-		void	SetVelocity(const Math::CVector3D& vVelocity) override;
-
-		const Math::CVector3D	GetPosition() const override;
-		const Math::CVector3D	GetVelocity() const override;
-		const float32	GetGain() const override;
-
-		void	SetOrientation(const Math::CVector3D& vForward, const Math::CVector3D& vUp) override;
-
-		const Math::CVector3D	GetOrientationForward() const override;
-		const Math::CVector3D	GetOrientationUp() const override;
-
-		CRefPtr<Audio::IListener>	GetListener() const override;
-		CRefPtr<Audio::ISource>		CreateSource() const override;
-		CRefPtr<Audio::IBuffer>		CreateBuffer(const Audio::BufferFormat uFormat, const uint32 uSampleRate, const uint32 uSamples) override;
+		CRefPtr<Audio::IListener>	CreateListener() const override;
+		CRefPtr<Audio::ISource>		CreateSource(const Audio::SourceType) const override;
+		CRefPtr<Audio::IBuffer>		CreateBuffer(const Audio::ChannelFormat uFormat, const Audio::SampleType uType, const uint32 uSampleRate, const uint32 uSamples) override;
 
 		void	SetSpeedOfSound(const float32 fUnitsPerSecond) override;
 

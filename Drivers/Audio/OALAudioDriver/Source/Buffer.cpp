@@ -1,17 +1,19 @@
 #include "../Internal/Buffer.h"
 #include "../Internal/Utils.h"
+#include "../Internal/OpenAL.h"
 
 namespace CB{
-	COALBuffer::COALBuffer(CRefPtr<COALDevice> pDevice, const Audio::BufferFormat uFormat, const uint32 uSampleRate, const uint32 uSamples) :
+	COALBuffer::COALBuffer(CRefPtr<COALDevice> pDevice, const Audio::ChannelFormat uFormat, const Audio::SampleType uType, const uint32 uSampleRate, const uint32 uSamples) :
 		Manage::IManagedObject<COALDevice, COALBuffer>(pDevice),
 		m_uFormat(uFormat),
+		m_uType(uType),
 		m_uSampleRate(uSampleRate),
 		m_uSamples(uSamples),
 		m_uBuffer(0)
 	{
 		alGenBuffers(1, &this->m_uBuffer);
 
-		ALenum uALFormat = Utils::ToBufferFormat(this->m_uFormat);
+		ALenum uALFormat = Utils::ToBufferFormat(this->m_uFormat, this->m_uType);
 		ALenum uALChannelConfig = Utils::ToChannelFormat(this->m_uFormat);
 
 		alBufferData(this->m_uBuffer, uALFormat, 0, uSamples, uSampleRate);

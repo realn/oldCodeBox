@@ -1,24 +1,23 @@
 #pragma once
 
 #include "Adapter.h"
-#include "OpenAL.h"
 
 namespace CB{
-	class COALBuffer;
-	class COALSource;
+	class CPABuffer;
+	class CPASource;
 
-	class COALDevice :
+	class CPADevice :
 		public Audio::IDevice,
-		public Manage::IManagedObject<COALAdapter, COALDevice>,
-		public Manage::IObjectManager<COALDevice, COALBuffer>,
-		public Manage::IObjectManager<COALDevice, COALSource>
+		public Manage::IManagedObject<CPAAdapter, CPADevice>,
+		public Manage::IObjectManager<CPADevice, CPABuffer>,
+		public Manage::IObjectManager<CPADevice, CPASource>
 	{
 	private:
-		ALCcontext*	m_pContext;
+		CHiddenPtr	m_pStream;
 
 	public:
-		COALDevice(CRefPtr<COALAdapter> pAdapter);
-		~COALDevice();
+		CPADevice(CRefPtr<CPAAdapter> pAdapter);
+		~CPADevice();
 
 		//	INTERFACE IMPLEMENTATION
 

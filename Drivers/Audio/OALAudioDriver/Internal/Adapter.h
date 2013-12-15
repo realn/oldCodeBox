@@ -2,7 +2,7 @@
 
 #include "Manager.h"
 
-#include <als\alc.h>
+typedef struct ALCdevice_struct ALCdevice;
 
 namespace CB{
 	class COALDevice;

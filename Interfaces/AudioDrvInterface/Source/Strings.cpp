@@ -2,32 +2,32 @@
 
 namespace CB{
 	namespace String{
-		const CString	ToString(const Audio::BufferFormat uFormat){
+		const CString	ToString(const Audio::ChannelFormat uFormat){
 			switch (uFormat)
 			{
-			case Audio::BufferFormat::Mono8Bit:		return L"Mono 8 Bit";
-			case Audio::BufferFormat::Mono16Bit:	return L"Mono 16 Bit";
-			case Audio::BufferFormat::Stereo8Bit:	return L"Stereo 8 Bit";
-			case Audio::BufferFormat::Stereo16Bit:	return L"Stereo 16 Bit";
+			case Audio::ChannelFormat::Mono:		return L"Mono";
+			case Audio::ChannelFormat::Stereo:		return L"Stereo";
 			default:
 				return String::ToString((uint32)uFormat);
 			}
 		}
-		const CString	ToString(const Audio::ChannelConfig uConfig){
-			switch (uConfig)
+		const CString	ToString(const Audio::SourceState uState){
+			switch (uState)
 			{
-			case Audio::ChannelConfig::Mono:	return L"Mono";
-			case Audio::ChannelConfig::Stereo:	return L"Stereo";
+			case Audio::SourceState::None:		return L"None";
+			case Audio::SourceState::Paused:	return L"Paused";
+			case Audio::SourceState::Playing:	return L"Playing";
+			case Audio::SourceState::Stopped:	return L"Stopped";
 			default:
-				return String::ToString((uint32)uConfig);
+				return String::ToString((uint32)uState);
 			}
 		}
 
 		const CString	ToString(const Audio::SampleType uType){
 			switch (uType)
 			{
-			case Audio::SampleType::Byte:	return L"Byte";
-			case Audio::SampleType::Short:	return L"Short";
+			case Audio::SampleType::S8Bit:	return L"Signed 8 Bit";
+			case Audio::SampleType::S16Bit:	return L"Signed 16 Bit";
 			default:
 				return String::ToString((uint32)uType);
 			}
@@ -36,7 +36,6 @@ namespace CB{
 		const CString	ToString(const Audio::SourceType uType){
 			switch (uType)
 			{
-			case Audio::SourceType::None:		return L"None";
 			case Audio::SourceType::Static:		return L"Static";
 			case Audio::SourceType::Streaming:	return L"Streaming";
 			default:

@@ -44,6 +44,9 @@
     <ClInclude Include="Internal\OpenAL.h">
       <Filter>Internal</Filter>
     </ClInclude>
+    <ClInclude Include="Internal\Listener.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\dllmain.cpp">
@@ -71,6 +74,9 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Source\OpenAL.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Listener.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>

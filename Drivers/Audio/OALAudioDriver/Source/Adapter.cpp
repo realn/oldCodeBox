@@ -1,5 +1,7 @@
 #include "../Internal/Adapter.h"
 #include "../Internal/Device.h"
+#include "../Internal/OpenAL.h"
+
 #include <CBStringEx.h>
 #include <Logger.h>
 
@@ -25,7 +27,7 @@ namespace CB{
 		Log::Write(L"Deinitializing OpenAL Adapter " + this->m_strAdapter);
 		if(this->m_pAdapter != 0){
 			alcCloseDevice(this->m_pAdapter);
-			this->m_pAdapter= 0;
+			this->m_pAdapter = 0;
 		}
 	}
 

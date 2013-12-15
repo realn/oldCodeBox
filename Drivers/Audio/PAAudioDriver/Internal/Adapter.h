@@ -13,13 +13,9 @@ namespace CB{
 		const uint32		m_uIndex;
 		const CString		m_strAdapter;
 		
-		ALCdevice*	m_pAdapter;
-
 	public:
 		CPAAdapter(CRefPtr<CPAManager> pManager, const CString& strAdapter, const uint32 uIndex);
 		~CPAAdapter();
-
-		ALCdevice*	GetALCDevice() const;
 
 		//	INTERFACE IMPLEMENTATION
 

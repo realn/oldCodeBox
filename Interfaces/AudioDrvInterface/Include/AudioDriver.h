@@ -8,52 +8,52 @@
 
 namespace CB{
 	namespace Audio{
-		enum class BufferFormat{
-			Mono8Bit,
-			Mono16Bit,
-			Stereo8Bit,
-			Stereo16Bit,
-		};
-
-		enum class ChannelConfig{
+		enum class ChannelFormat{
 			Mono,
 			Stereo,
 		};
 
 		enum class SampleType{
-			Byte,
-			Short,
+			S8Bit,
+			S16Bit,
 		};
 
 		enum class SourceType{
-			None,
 			Static,
 			Streaming,
+		};
+
+		enum class SourceState{
+			None = 0,
+			Playing,
+			Paused,
+			Stopped,
 		};
 
 		class IBuffer :
 			public IApiObject
 		{
 		public:
+			virtual const ChannelFormat	GetFormat() const = 0;
+			virtual const SampleType	GetSampleType() const = 0;
 			virtual const uint32		GetSamples() const = 0;
-			virtual const BufferFormat	GetFormat() const = 0;
 			virtual const uint32		GetSampleRate() const = 0;
 
-			virtual void	LoadData(const SampleType uType, const uint32 uSamples, const void* pData) = 0;
-			virtual void	LoadSubData(const SampleType uType, const uint32 uOffset, const uint32 uSamples, const void* pData) = 0;
+			virtual void	LoadData(const uint32 uSamples, const void* pData) = 0;
+			virtual void	LoadSubData(const uint32 uOffset, const uint32 uSamples, const void* pData) = 0;
 		};
 
 		class I3DObject :
 			public IApiObject
 		{
 		public:
-			virtual void	SetGain(const float32 fGain) = 0;
+			virtual void	SetVolume(const float32 fVolume) = 0;
 			virtual void	SetPosition(const Math::CVector3D& vPosition) = 0;
 			virtual void	SetVelocity(const Math::CVector3D& vVelocity) = 0;
 
 			virtual const Math::CVector3D	GetPosition() const = 0;
 			virtual const Math::CVector3D	GetVelocity() const = 0;
-			virtual const float32	GetGain() const = 0;
+			virtual const float32			GetVolume() const = 0;
 		};
 
 		class ISource :
@@ -69,17 +69,12 @@ namespace CB{
 			virtual void	Rewind() = 0;
 
 			virtual const SourceType	GetType() const = 0;
+			virtual const SourceState	GetState() const = 0;
 
-			virtual void	SetStaticBuffer(CRefPtr<IBuffer> pBuffer) = 0;
-			virtual void	QueueStreamingBuffers(const Collection::ICountable<CRefPtr<IBuffer>>& pBufferList) = 0;
-
-			virtual CRefPtr<IBuffer>	GetStaticBuffer() const = 0;
-			virtual const Collection::CList<CRefPtr<IBuffer>>	GetStremingBuffers() const = 0;
-
-			virtual void	FreeStaticBuffer() = 0;
-			virtual void	FreeStreamingBuffers() = 0;
-
-			virtual const Collection::CList<CRefPtr<IBuffer>>	UnqueueProcessedBuffers() = 0;
+			virtual void	AttachBuffer(CRefPtr<IBuffer> pBuffer) = 0;
+			virtual void	AttachBuffer(Collection::CList<CRefPtr<IBuffer>> pBufferList) = 0;
+			virtual CRefPtr<IBuffer>	ReleaseBuffer() = 0;
+			virtual Collection::CList<CRefPtr<IBuffer>>	ReleaseBuffers(const bool bProcessedOnly) = 0;
 		};
 
 		class IListener :
@@ -93,15 +88,14 @@ namespace CB{
 		};
 
 		class IDevice : 
-			public IListener
+			public IApiObject
 		{
 		public:
-			virtual CRefPtr<IListener>	GetListener() const = 0;
-			virtual CRefPtr<ISource>	CreateSource() const = 0;
-			virtual CRefPtr<IBuffer>	CreateBuffer(const BufferFormat uFormat, const uint32 uSampleRate, const uint32 uSamples) = 0;
+			virtual CRefPtr<IListener>	CreateListener() const = 0;
+			virtual CRefPtr<ISource>	CreateSource(const SourceType uType) const = 0;
+			virtual CRefPtr<IBuffer>	CreateBuffer(const ChannelFormat uChannelFormat, const SampleType uType, const uint32 uSampleRate, const uint32 uSamples) = 0;
 
-			virtual void	SetSpeedOfSound(const float32 fMetersPerSecond) = 0;
-
+			virtual void			SetSpeedOfSound(const float32 fUnitsPerSecond) = 0;
 			virtual const float32	GetSpeedOfSound() const = 0;
 
 			virtual void	ProcessEvents() = 0;
@@ -137,8 +131,8 @@ namespace CB{
 	}
 
 	namespace String{
-		extern AUDIODRVINTERFACE_API	const CString	ToString(const Audio::BufferFormat uFormat);
-		extern AUDIODRVINTERFACE_API	const CString	ToString(const Audio::ChannelConfig uConfig);
+		extern AUDIODRVINTERFACE_API	const CString	ToString(const Audio::ChannelFormat uFormat);
+		extern AUDIODRVINTERFACE_API	const CString	ToString(const Audio::SourceState uState);
 		extern AUDIODRVINTERFACE_API	const CString	ToString(const Audio::SampleType uType);
 		extern AUDIODRVINTERFACE_API	const CString	ToString(const Audio::SourceType uType);
 	}
