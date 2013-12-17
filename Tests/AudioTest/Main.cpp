@@ -7,6 +7,9 @@
 #include <Threads.h>
 #include <Math.h>
 
+#define TEST_MONO
+#define TEST_3D
+
 int main(){
 	auto pLogger = CB::Log::CLogger::GetInstance();
 	try{
@@ -35,6 +38,7 @@ int main(){
 				Samples.Resize(uChannels * uSamples);
 				sound.ReadFrames(Samples);		
 
+#ifdef TEST_MONO
 				if(uChannels == 2){
 					CB::Collection::CList<int16> tempSamples(Samples);
 
@@ -44,6 +48,7 @@ int main(){
 					}
 					uChannels = 1;
 				}
+#endif
 			}
 
 			auto uChanType = uChannels == 1 ? CB::Audio::ChannelFormat::Mono : CB::Audio::ChannelFormat::Stereo;
@@ -59,8 +64,10 @@ int main(){
 			pListener->SetPosition(CB::Math::CVector3D());
 			pListener->SetOrientation(CB::Math::CVector3D(0.0f, 0.0f, 1.0f), CB::Math::CVector3D(0.0f, 1.0f, 0.0f));
 			pListener->SetVolume(1.0f);
-			for(uint32 uSeconds = 0; uSeconds < 10; uSeconds++){
-				pSource->SetPosition(CB::Math::CVector3D(CB::Math::SinRad(uSeconds), 0.0f, 0.0f));
+			for(uint32 uSeconds = 0; uSeconds < 15; uSeconds++){
+#ifdef TEST_3D
+				pSource->SetPosition(CB::Math::CVector3D(CB::Math::SinRad(uSeconds), CB::Math::CosRad(uSeconds), 0.0f));
+#endif
 				pDevice->ProcessEvents();
 				CB::Threads::Wait(500);
 			}
