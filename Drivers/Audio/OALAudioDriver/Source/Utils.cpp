@@ -31,7 +31,7 @@ namespace CB{
 				switch (uType)
 				{
 				case Audio::SampleType::S8Bit:	return AL_MONO8_SOFT;
-				case Audio::SampleType::S16Bit:	return AL_STEREO16_SOFT;
+				case Audio::SampleType::S16Bit:	return AL_MONO16_SOFT;
 				default:
 					throw Exception::CInvalidArgumentException(L"uType", String::ToString(uType),
 						L"Invalid audio sample type for mono channel.", CR_INFO());

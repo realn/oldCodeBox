@@ -5,6 +5,7 @@
 #include <MessageBox.h>
 #include <IO_Sound.h>
 #include <Threads.h>
+#include <Math.h>
 
 int main(){
 	auto pLogger = CB::Log::CLogger::GetInstance();
@@ -25,14 +26,24 @@ int main(){
 			uint32 uChannels = 0;
 			CB::Collection::CList<int16> Samples;
 			{
-				auto pStream = CB::IO::File::Open(L"burn.wav", CB::IO::File::AccessType::ReadOnly, CB::IO::File::OpenAction::Open);
+				auto pStream = CB::IO::File::Open(L"sound.wav", CB::IO::File::AccessType::ReadOnly, CB::IO::File::OpenAction::Open);
 				CB::IO::CSound sound(pStream.Cast<CB::IO::IStream>());
 
 				uSampleRate = sound.GetFrequency();
 				uChannels = sound.GetNumberOfChannels();
 				uSamples = sound.GetNumberOfFrames();
 				Samples.Resize(uChannels * uSamples);
-				sound.ReadFrames(Samples);				
+				sound.ReadFrames(Samples);		
+
+				if(uChannels == 2){
+					CB::Collection::CList<int16> tempSamples(Samples);
+
+					Samples.Resize(uSamples);
+					for(uint32 uIndex = 0; uIndex < uSamples; uIndex++){
+						Samples[uIndex] = tempSamples[uIndex * 2];
+					}
+					uChannels = 1;
+				}
 			}
 
 			auto uChanType = uChannels == 1 ? CB::Audio::ChannelFormat::Mono : CB::Audio::ChannelFormat::Stereo;
@@ -49,7 +60,7 @@ int main(){
 			pListener->SetOrientation(CB::Math::CVector3D(0.0f, 0.0f, 1.0f), CB::Math::CVector3D(0.0f, 1.0f, 0.0f));
 			pListener->SetVolume(1.0f);
 			for(uint32 uSeconds = 0; uSeconds < 10; uSeconds++){
-				//pSource->SetPosition(CB::Math::CVector3D(uSeconds, 0.0f, 0.0f));
+				pSource->SetPosition(CB::Math::CVector3D(CB::Math::SinRad(uSeconds), 0.0f, 0.0f));
 				pDevice->ProcessEvents();
 				CB::Threads::Wait(500);
 			}
