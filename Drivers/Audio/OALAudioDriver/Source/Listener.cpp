@@ -14,6 +14,10 @@ namespace CB{
 		Log::Write(L"Deinitializing OpenAL Listener.", Log::LogLevel::Debug);
 	}
 
+	const uint32	COALListener::GetApiId() const{
+		return g_uApiId;
+	}
+
 	void	COALListener::SetVolume(const float32 fGain) {
 		alListenerf(AL_GAIN, fGain);
 	}

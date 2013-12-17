@@ -10,6 +10,7 @@ namespace CB{
 		Manage::IManagedObject<COALDevice, COALSource>
 	{
 	private:
+		Collection::CList<CRefPtr<COALBuffer>>	m_pBufferList;
 		const Audio::SourceType	m_uType;
 		uint32	m_uSource;
 
@@ -39,8 +40,16 @@ namespace CB{
 		void	Pause() override;
 		void	Rewind() override;
 
-		const Audio::SourceType	GetType() const override;
+		const Audio::SourceType		GetType() const override;
+		const Audio::SourceState	GetState() const override;
 
+		void	AttachBuffer(CRefPtr<Audio::IBuffer> pBuffer) override;
+		void	AttachBuffer(Collection::ICountable<CRefPtr<Audio::IBuffer>>& pBufferList) override;
+		CRefPtr<Audio::IBuffer>	GetBuffer() const override;
+		Collection::CList<CRefPtr<Audio::IBuffer>>	GetBuffers(const bool bProcessedOnly) const override;
+		void	FreeBuffer() override;
+		const bool	HasAttachedBuffer() const override;
+		const bool	HasProcessedBuffers() const override;
 
 		//	END OF INTERFACE IMPLEMENTATION
 	};

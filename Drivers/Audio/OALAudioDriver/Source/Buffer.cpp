@@ -14,10 +14,11 @@ namespace CB{
 		alGenBuffers(1, &this->m_uBuffer);
 
 		ALenum uALFormat = Utils::ToBufferFormat(this->m_uFormat, this->m_uType);
-		ALenum uALChannelConfig = Utils::ToChannelFormat(this->m_uFormat);
+		ALenum uALChannelFormat = Utils::ToChannelFormat(this->m_uFormat);
+		ALenum uALSampleType = Utils::ToSampleType(this->m_uType);
 
-		alBufferData(this->m_uBuffer, uALFormat, 0, uSamples, uSampleRate);
-		//alBufferSamplesSOFT(this->m_uBuffer, this->m_uSampleRate, uALFormat, this->m_uSamples, uALChannelConfig, AL_UNSIGNED_BYTE_SOFT, 0);
+		//alBufferData(this->m_uBuffer, uALFormat, 0, uSamples, uSampleRate);
+		alBufferSamplesSOFT(this->m_uBuffer, this->m_uSampleRate, uALFormat, this->m_uSamples, uALChannelFormat, uALSampleType, 0);
 	}
 
 	COALBuffer::~COALBuffer(){
@@ -44,21 +45,23 @@ namespace CB{
 		return this->m_uSampleRate;
 	}
 
-	const Audio::BufferFormat	COALBuffer::GetFormat() const{
+	const Audio::ChannelFormat	COALBuffer::GetFormat() const{
 		return this->m_uFormat;
 	}
 
-	void	COALBuffer::LoadData(const Audio::SampleType uType, const uint32 uSamples, const void* pData){
-		this->LoadSubData(uType, 0, uSamples, pData);
+	const Audio::SampleType	COALBuffer::GetSampleType() const{
+		return this->m_uType;
 	}
 
-	void	COALBuffer::LoadSubData(const Audio::SampleType uType, const uint32 uOffset, const uint32 uSamples, const void* pData){
+	void	COALBuffer::LoadData(const uint32 uSamples, const void* pData){
+		this->LoadSubData(0, uSamples, pData);
+	}
+
+	void	COALBuffer::LoadSubData(const uint32 uOffset, const uint32 uSamples, const void* pData){
 		auto uChannels = Utils::ToChannelFormat(this->m_uFormat);
-		auto uSampleType = Utils::ToSampleType(uType);
-		auto uFormat = Utils::ToBufferFormat(this->m_uFormat);
+		auto uSampleType = Utils::ToSampleType(this->m_uType);
 
-		alBufferData(this->m_uBuffer, uFormat, pData, this->m_uSamples, this->m_uSampleRate);
-		//alBufferSubSamplesSOFT(this->m_uBuffer, uOffset, uSamples, uChannels, uSampleType, pData);
+		//alBufferData(this->m_uBuffer, uFormat, pData, this->m_uSamples, this->m_uSampleRate);
+		alBufferSubSamplesSOFT(this->m_uBuffer, uOffset, uSamples, uChannels, uSampleType, pData);
 	}
-
 }

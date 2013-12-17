@@ -12,13 +12,13 @@ namespace CB{
 		const Audio::SampleType		m_uType;
 		const uint32				m_uSampleRate;
 		const uint32				m_uSamples;
-		ALuint	m_uBuffer;
+		uint32	m_uBuffer;
 
 	public:
 		COALBuffer(CRefPtr<COALDevice> pDevice, const Audio::ChannelFormat uFormat, const Audio::SampleType uType, const uint32 uSampleRate, const uint32 uSamples);
 		~COALBuffer();
 
-		const ALuint	GetBufferID() const;
+		const uint32	GetBufferID() const;
 
 		//	INTERFACE IMPLEMENTATION
 

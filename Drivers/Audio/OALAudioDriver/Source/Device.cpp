@@ -49,19 +49,19 @@ namespace CB{
 	}
 
 
-	CRefPtr<Audio::IListener>	COALDevice::CreateListener() const {
+	CRefPtr<Audio::IListener>	COALDevice::CreateListener(){
 		if(!Manage::IObjectManager<COALDevice, COALListener>::m_pObjectList.IsEmpty()){
 			return Manage::IObjectManager<COALDevice, COALListener>::m_pObjectList[0].GetCast<Audio::IListener>();
 		}
 		return new COALListener(this);
 	}
 
-	CRefPtr<Audio::ISource>	COALDevice::CreateSource(const Audio::SampleType uType) const {
-		return new COALSource(this);
+	CRefPtr<Audio::ISource>	COALDevice::CreateSource(const Audio::SourceType uType){
+		return new COALSource(this, uType);
 	}
 		
-	CRefPtr<Audio::IBuffer>		COALDevice::CreateBuffer(const Audio::BufferFormat uFormat, const uint32 uSampleRate, const uint32 uSamples){
-		return new COALBuffer(this, uFormat, uSampleRate, uSamples);
+	CRefPtr<Audio::IBuffer>		COALDevice::CreateBuffer(const Audio::ChannelFormat uFormat, const Audio::SampleType uType, const uint32 uSampleRate, const uint32 uSamples){
+		return new COALBuffer(this, uFormat, uType, uSampleRate, uSamples);
 	}
 
 	void	COALDevice::SetSpeedOfSound(const float32 fUnitsPerSecond) {

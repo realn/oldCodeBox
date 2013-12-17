@@ -9,6 +9,9 @@
 
 #define		CR_THROWNOTIMPLEMENTED()	CR_THROW(L"Not Implemented.")
 
+#define		CR_EXGUARD()	try{
+#define		CR_ENDEXGUARD(A)	} catch(CB::Exception::CException& Ex){ CR_RETHROW(A, Ex); }
+
 #ifdef _DEBUG
 #define		CR_ASSERT(A,B)	if(!(A)){ CR_THROW(B); }
 #else

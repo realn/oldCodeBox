@@ -72,9 +72,12 @@ namespace CB{
 			virtual const SourceState	GetState() const = 0;
 
 			virtual void	AttachBuffer(CRefPtr<IBuffer> pBuffer) = 0;
-			virtual void	AttachBuffer(Collection::CList<CRefPtr<IBuffer>> pBufferList) = 0;
-			virtual CRefPtr<IBuffer>	ReleaseBuffer() = 0;
-			virtual Collection::CList<CRefPtr<IBuffer>>	ReleaseBuffers(const bool bProcessedOnly) = 0;
+			virtual void	AttachBuffer(Collection::ICountable<CRefPtr<IBuffer>>& pBufferList) = 0;
+			virtual CRefPtr<IBuffer>	GetBuffer() const = 0;
+			virtual Collection::CList<CRefPtr<IBuffer>>	GetBuffers(const bool bProcessedOnly) const = 0;
+			virtual void	FreeBuffer() = 0;
+			virtual const bool	HasAttachedBuffer() const = 0;
+			virtual const bool	HasProcessedBuffers() const = 0;
 		};
 
 		class IListener :
@@ -91,8 +94,8 @@ namespace CB{
 			public IApiObject
 		{
 		public:
-			virtual CRefPtr<IListener>	CreateListener() const = 0;
-			virtual CRefPtr<ISource>	CreateSource(const SourceType uType) const = 0;
+			virtual CRefPtr<IListener>	CreateListener() = 0;
+			virtual CRefPtr<ISource>	CreateSource(const SourceType uType) = 0;
 			virtual CRefPtr<IBuffer>	CreateBuffer(const ChannelFormat uChannelFormat, const SampleType uType, const uint32 uSampleRate, const uint32 uSamples) = 0;
 
 			virtual void			SetSpeedOfSound(const float32 fUnitsPerSecond) = 0;

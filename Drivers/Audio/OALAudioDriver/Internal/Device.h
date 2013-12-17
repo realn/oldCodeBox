@@ -27,8 +27,8 @@ namespace CB{
 
 		const uint32	GetApiId() const override;
 
-		CRefPtr<Audio::IListener>	CreateListener() const override;
-		CRefPtr<Audio::ISource>		CreateSource(const Audio::SourceType) const override;
+		CRefPtr<Audio::IListener>	CreateListener() override;
+		CRefPtr<Audio::ISource>		CreateSource(const Audio::SourceType uType) override;
 		CRefPtr<Audio::IBuffer>		CreateBuffer(const Audio::ChannelFormat uFormat, const Audio::SampleType uType, const uint32 uSampleRate, const uint32 uSamples) override;
 
 		void	SetSpeedOfSound(const float32 fUnitsPerSecond) override;
