@@ -51,5 +51,35 @@ namespace CB{
 					L"Invalid audio channel format.", CR_INFO());
 			}
 		}
+
+		const ALenum	ToDistanceModel(const Audio::DistanceModel uModel){
+			switch (uModel){
+			case Audio::DistanceModel::None:			return AL_NONE;
+			case Audio::DistanceModel::Linear:			return AL_LINEAR_DISTANCE;
+			case Audio::DistanceModel::LinearClamped:	return AL_LINEAR_DISTANCE_CLAMPED;
+			case Audio::DistanceModel::InverseLinear:	return AL_INVERSE_DISTANCE;
+			case Audio::DistanceModel::InverseLinearClamped:	return AL_INVERSE_DISTANCE_CLAMPED;
+			case Audio::DistanceModel::Exponent:		return AL_EXPONENT_DISTANCE;
+			case Audio::DistanceModel::ExponentClamped:	return AL_EXPONENT_DISTANCE_CLAMPED;
+			default:
+				throw Exception::CInvalidArgumentException(L"uModel", String::ToString(uModel),
+					L"Invalid audio distance model.", CR_INFO());
+			}
+		}
+
+		const Audio::DistanceModel	ToDistanceModel(const ALenum uModel){
+			switch (uModel){
+			case AL_NONE:						return Audio::DistanceModel::None;
+			case AL_LINEAR_DISTANCE:			return Audio::DistanceModel::Linear;
+			case AL_LINEAR_DISTANCE_CLAMPED:	return Audio::DistanceModel::LinearClamped;
+			case AL_INVERSE_DISTANCE:			return Audio::DistanceModel::InverseLinear;
+			case AL_INVERSE_DISTANCE_CLAMPED:	return Audio::DistanceModel::InverseLinearClamped;
+			case AL_EXPONENT_DISTANCE:			return Audio::DistanceModel::Exponent;
+			case AL_EXPONENT_DISTANCE_CLAMPED:	return Audio::DistanceModel::ExponentClamped;
+			default:
+				throw Exception::CInvalidArgumentException(L"uModel", String::ToHexString(uModel),
+					L"Invalid audio distance model (OpenAL).", CR_INFO());
+			}
+		}
 	}
 }

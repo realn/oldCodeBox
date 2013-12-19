@@ -30,6 +30,16 @@ namespace CB{
 			Stopped,
 		};
 
+		enum class DistanceModel{
+			None,
+			Linear,
+			LinearClamped,
+			InverseLinear,
+			InverseLinearClamped,
+			Exponent,
+			ExponentClamped,
+		};
+
 		class IBuffer :
 			public IApiObject
 		{
@@ -60,6 +70,33 @@ namespace CB{
 			public I3DObject
 		{
 		public:
+			virtual void				SetDistanceModel(const DistanceModel uModel) = 0;
+			virtual const DistanceModel	GetDistanceModel() const = 0;
+
+			virtual void			SetPitch(const float32 fValue) = 0;
+			virtual const float32	GetPitch() const = 0;
+
+			virtual void			SetCone(const float32 fInnerDeg, const float32 fOuterDeg) = 0;
+			virtual const float32	GetConeInner() const = 0;
+			virtual const float32	GetConeOuter() const = 0;
+
+			virtual void			SetConeOuterVolume(const float fVolume) = 0;
+			virtual const float32	GetConeOuterVolume() const = 0;
+
+			virtual void			SetVolumeClamp(const float32 fMin, const float32 fMax) = 0;
+			virtual const float32	GetVolumeMin() const = 0;
+			virtual const float32	GetVolumeMax() const = 0;
+
+			virtual void					SetDirection(const Math::CVector3D& vDirection) = 0;
+			virtual const Math::CVector3D	GetDirection() const = 0;
+
+			virtual void			SetRollOffFactor(const float32 fFactor) = 0;
+			virtual const float32	GetRollOffFactor() const = 0;
+
+			virtual void			SetDistance(const float32 fReference, const float32 fMax) = 0;
+			virtual const float32	GetDistanceReference() const = 0;
+			virtual const float32	GetDistanceMax() const = 0;
+
 			virtual void		SetPositionRelative(const bool bEnabled) = 0;
 			virtual const bool	IsPositionRelative() const = 0;
 
@@ -98,8 +135,17 @@ namespace CB{
 			virtual CRefPtr<ISource>	CreateSource(const SourceType uType) = 0;
 			virtual CRefPtr<IBuffer>	CreateBuffer(const ChannelFormat uChannelFormat, const SampleType uType, const uint32 uSampleRate, const uint32 uSamples) = 0;
 
+			virtual void				SetDistanceModel(const DistanceModel uModel) = 0;
+			virtual const DistanceModel	GetDistanceModel() const = 0;
+
+			virtual void			SetDopplerFactor(const float32 fFactor) = 0;
+			virtual const float32	GetDopplerFactor() const = 0;
+
 			virtual void			SetSpeedOfSound(const float32 fUnitsPerSecond) = 0;
 			virtual const float32	GetSpeedOfSound() const = 0;
+
+			virtual void			SetSourceDistanceModels(const bool bEnabled) = 0;
+			virtual const bool		IsSourceDistanceModelsEnabled() const = 0;
 
 			virtual void	ProcessEvents() = 0;
 		};
@@ -138,5 +184,6 @@ namespace CB{
 		extern AUDIODRVINTERFACE_API	const CString	ToString(const Audio::SourceState uState);
 		extern AUDIODRVINTERFACE_API	const CString	ToString(const Audio::SampleType uType);
 		extern AUDIODRVINTERFACE_API	const CString	ToString(const Audio::SourceType uType);
+		extern AUDIODRVINTERFACE_API	const CString	ToString(const Audio::DistanceModel uModel);
 	}
 }

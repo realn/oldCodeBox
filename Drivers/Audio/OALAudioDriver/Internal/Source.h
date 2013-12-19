@@ -32,6 +32,33 @@ namespace CB{
 		const Math::CVector3D	GetVelocity() const override;
 		const float32	GetVolume() const override;
 
+		void			SetDistanceModel(const Audio::DistanceModel uModel) override;
+		const Audio::DistanceModel	GetDistanceModel() const override;
+
+		void			SetPitch(const float32 fValue) override;
+		const float32	GetPitch() const override;
+
+		void			SetCone(const float32 fInnerDeg, const float32 fOuterDeg) override;
+		const float32	GetConeInner() const override;
+		const float32	GetConeOuter() const override;
+
+		void			SetConeOuterVolume(const float fVolume) override;
+		const float32	GetConeOuterVolume() const override;
+
+		void			SetVolumeClamp(const float32 fMin, const float32 fMax) override;
+		const float32	GetVolumeMin() const override;
+		const float32	GetVolumeMax() const override;
+
+		void					SetDirection(const Math::CVector3D& vDirection) override;
+		const Math::CVector3D	GetDirection() const override;
+
+		void			SetRollOffFactor(const float32 fFactor) override;
+		const float32	GetRollOffFactor() const override;
+
+		void			SetDistance(const float32 fReference, const float32 fMax) override;
+		const float32	GetDistanceReference() const override;
+		const float32	GetDistanceMax() const override;
+
 		void		SetPositionRelative(const bool bEnabled) override;
 		const bool	IsPositionRelative() const override;
 
@@ -52,5 +79,9 @@ namespace CB{
 		const bool	HasProcessedBuffers() const override;
 
 		//	END OF INTERFACE IMPLEMENTATION
+
+	private:
+		const float32	GetSourceFloat(const uint32 uEnum) const;
+		const int32		GetSourceInt(const uint32 uEnum) const;
 	};
 }

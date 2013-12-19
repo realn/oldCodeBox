@@ -3,6 +3,7 @@
 #include "../Internal/Source.h"
 #include "../Internal/Listener.h"
 #include "../Internal/OpenAL.h"
+#include "../Internal/Utils.h"
 
 #include <Logger.h>
 #include <Collection_Array.h>
@@ -44,12 +45,17 @@ namespace CB{
 		}
 	}
 
+	ALCcontext*	COALDevice::GetContext() const{
+		return this->m_pContext;
+	}
+
 	const uint32	COALDevice::GetApiId() const {
 		return g_uApiId;
 	}
 
-
 	CRefPtr<Audio::IListener>	COALDevice::CreateListener(){
+		CR_ALBINDCHECK(this->m_pContext);
+
 		if(!Manage::IObjectManager<COALDevice, COALListener>::m_pObjectList.IsEmpty()){
 			return Manage::IObjectManager<COALDevice, COALListener>::m_pObjectList[0].GetCast<Audio::IListener>();
 		}
@@ -57,22 +63,73 @@ namespace CB{
 	}
 
 	CRefPtr<Audio::ISource>	COALDevice::CreateSource(const Audio::SourceType uType){
+		CR_ALBINDCHECK(this->m_pContext);
+
 		return new COALSource(this, uType);
 	}
 		
 	CRefPtr<Audio::IBuffer>		COALDevice::CreateBuffer(const Audio::ChannelFormat uFormat, const Audio::SampleType uType, const uint32 uSampleRate, const uint32 uSamples){
+		CR_ALBINDCHECK(this->m_pContext);
+
 		return new COALBuffer(this, uFormat, uType, uSampleRate, uSamples);
 	}
 
-	void	COALDevice::SetSpeedOfSound(const float32 fUnitsPerSecond) {
-		alSpeedOfSound(fUnitsPerSecond);
+	void	COALDevice::SetDopplerFactor(const float32 fFactor){
+		CR_ALBINDCHECK(this->m_pContext);
+
+		alDopplerFactor(fFactor);	CR_ALCHECK();
 	}
 
-	const float32	COALDevice::GetSpeedOfSound() const {
+	const float32	COALDevice::GetDopplerFactor() const{
+		CR_ALBINDCHECK(this->m_pContext);
+
+		return alGetFloat(AL_DOPPLER_FACTOR);
+	}
+
+	void	COALDevice::SetSpeedOfSound(const float32 fUnitsPerSecond){
+		CR_ALBINDCHECK(this->m_pContext);
+
+		alSpeedOfSound(fUnitsPerSecond);	CR_ALCHECK();
+	}
+
+	const float32	COALDevice::GetSpeedOfSound() const{
+		CR_ALBINDCHECK(this->m_pContext);
+
 		return alGetFloat(AL_SPEED_OF_SOUND);
 	}
 
+	void	COALDevice::SetSourceDistanceModels(const bool bEnabled){
+		CR_ALBINDCHECK(this->m_pContext);
+
+		if(bEnabled){
+			alEnable(AL_SOURCE_DISTANCE_MODEL);	CR_ALCHECK();
+		}
+		else{
+			alDisable(AL_SOURCE_DISTANCE_MODEL);	CR_ALCHECK();
+		}
+	}
+
+	const bool	COALDevice::IsSourceDistanceModelsEnabled() const{
+		CR_ALBINDCHECK(this->m_pContext);
+
+		return alIsEnabled(AL_SOURCE_DISTANCE_MODEL) == AL_TRUE ? true : false;
+	}
+
+	void			COALDevice::SetDistanceModel(const Audio::DistanceModel uModel){
+		CR_ALBINDCHECK(this->m_pContext);
+		auto uALModel = Utils::ToDistanceModel(uModel);
+		alDistanceModel(uALModel);	CR_ALCHECK();
+	}
+
+	const Audio::DistanceModel	COALDevice::GetDistanceModel() const{
+		CR_ALBINDCHECK(this->m_pContext);
+		auto uEnum = alGetInteger(AL_DISTANCE_MODEL);	CR_ALCHECK();
+		return Utils::ToDistanceModel(uEnum);
+	}
+
 	void	COALDevice::ProcessEvents(){
+		CR_ALBINDCHECK(this->m_pContext);
+
 		alcProcessContext(this->m_pContext);
 	}
 }

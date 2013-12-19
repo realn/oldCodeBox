@@ -42,5 +42,20 @@ namespace CB{
 				return String::ToString((uint32)uType);
 			}
 		}
+
+		const CString	ToString(const Audio::DistanceModel uModel){
+			switch (uModel)
+			{
+			case Audio::DistanceModel::None:			return L"None";
+			case Audio::DistanceModel::Linear:			return L"Linear";
+			case Audio::DistanceModel::LinearClamped:	return L"Linear Clamped";
+			case Audio::DistanceModel::InverseLinear:	return L"Inverse Linear";
+			case Audio::DistanceModel::InverseLinearClamped:	return L"Inverse Linear Clamped";
+			case Audio::DistanceModel::Exponent:		return L"Exponent";
+			case Audio::DistanceModel::ExponentClamped:	return L"Exponent Clamped";
+			default:
+				return String::ToString((uint32)uModel);
+			}
+		}
 	}
 }
