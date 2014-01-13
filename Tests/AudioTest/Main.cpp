@@ -9,6 +9,7 @@
 
 #define TEST_MONO
 #define TEST_3D
+#define TEST_MUSIC
 
 int main(){
 	auto pLogger = CB::Log::CLogger::GetInstance();
@@ -29,7 +30,12 @@ int main(){
 			uint32 uChannels = 0;
 			CB::Collection::CList<int16> Samples;
 			{
-				auto pStream = CB::IO::File::Open(L"sound.wav", CB::IO::File::AccessType::ReadOnly, CB::IO::File::OpenAction::Open);
+#ifdef TEST_MUSIC
+#define AUDIO_FILE L"Assets/music.wav"
+#else
+#define AUDIO_FILE L"Assets/sound.wav"
+#endif
+				auto pStream = CB::IO::File::Open(AUDIO_FILE, CB::IO::File::AccessType::ReadOnly, CB::IO::File::OpenAction::Open);
 				CB::IO::CSound sound(pStream.Cast<CB::IO::IStream>());
 
 				uSampleRate = sound.GetFrequency();

@@ -46,6 +46,7 @@
     <ExecutablePath>$(SolutionDir)Ext\runtime;$(ExecutablePath)</ExecutablePath>
     <IncludePath>$(SolutionDir)Ext\Include;$(SolutionDir)Core\Common\Include;$(SolutionDir)Interfaces\AudioDrvInterface\Include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Ext\lib;$(LibraryPath)</LibraryPath>
+    <LocalDebuggerEnvironment>PATH=$(Path);$(SolutionDir)Workarea\$(Configuration)\;$(SolutionDir)Ext\runtime\;</LocalDebuggerEnvironment>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -90,6 +91,10 @@
     <ProjectReference Include="..\..\Interfaces\AudioDrvInterface\AudioDrvInterface.vcxproj">
       <Project>{909c3d3e-22da-48e4-8cfe-d896379d5a12}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Assets\music.wav" />
+    <Media Include="Assets\sound.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
