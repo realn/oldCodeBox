@@ -850,8 +850,21 @@ namespace GL{
 		}
 	}
 
+	const CB::CString	ToErrorString(GLenum uError){
+		switch (uError)
+		{
+		case GL_INVALID_ENUM:		return L"Invalid Enum";
+		case GL_INVALID_VALUE:		return L"Invalid Value";
+		case GL_INVALID_OPERATION:	return L"Invalid Operation";
+		case GL_OUT_OF_MEMORY:		return L"Out of Memory";
+
+		default:
+			return CB::String::ToHexString(uError);
+		}
+	}
+
 	void	ReportGLError(GLenum uError, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine){
-		CB::CString strError = L"GL Error: " + CB::String::ToHexString(uError);
+		CB::CString strError = L"GL Error: " + ToErrorString(uError);
 #ifdef CR_GL_ERROR_AS_EXCEPTION
 		throw Exception::CException(strError, strFunction, strFile, uLine);
 #else

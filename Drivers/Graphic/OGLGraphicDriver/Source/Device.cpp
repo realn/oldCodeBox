@@ -746,7 +746,7 @@ namespace CB{
 		}
 
 		this->m_pIndexStream->Bind();
-		GL::glDrawRangeElements(this->m_uPrimitiveMode, uStartVertex, uStartVertex + uVertexCount, uPrimitiveCount, GL::GL_UNSIGNED_SHORT, reinterpret_cast<const void*>(uStartIndex));
+		GL::glDrawRangeElements(this->m_uPrimitiveMode, uStartVertex, uStartVertex + uVertexCount, uVertexCount, GL::GL_UNSIGNED_SHORT, reinterpret_cast<const void*>(uStartIndex));
 		this->m_pIndexStream->Unbind();
 	}
 

@@ -18,15 +18,15 @@ namespace CB{
 	}
 
 	IOGLBaseTexture::~IOGLBaseTexture(){
-		GL::glDeleteTextures(1, &this->m_uTexture);
+		GL::glDeleteTextures(1, &this->m_uTexture);	CR_GLCHECK();
 	}
 
 	void	IOGLBaseTexture::Bind(){
-		GL::glBindTexture(this->m_uTarget, this->m_uTexture);
+		GL::glBindTexture(this->m_uTarget, this->m_uTexture);	CR_GLCHECK();
 	}
 
 	void	IOGLBaseTexture::Unbind(){
-		GL::glBindTexture(this->m_uTarget, 0);
+		GL::glBindTexture(this->m_uTarget, 0);	CR_GLCHECK();
 	}
 
 	void	IOGLBaseTexture::SetFilters(const Graphic::TextureFilter uMin, const Graphic::TextureFilter uMag){
@@ -34,21 +34,21 @@ namespace CB{
 	}
 
 	void	IOGLBaseTexture::SetFilters(const Graphic::TextureFilter uMin, const Graphic::TextureFilter uMag, Graphic::TextureFilter uMipMap){
-		GLenum uGLMin = GLUtils::ToTextureMinFilter(uMin);
-		GLenum uGLMag = GLUtils::ToTextureMagFilter(uMag, uMipMap);
+		GLenum uGLMag = GLUtils::ToTextureMinFilter(uMin);
+		GLenum uGLMin = GLUtils::ToTextureMagFilter(uMag, uMipMap);
 
 		CTextureBindGuard guard(this->m_uTarget);
 		this->Bind();
 
-		GL::glTexParameteri(this->m_uTarget, GL::GL_TEXTURE_MIN_FILTER, uGLMin);
-		GL::glTexParameteri(this->m_uTarget, GL::GL_TEXTURE_MAG_FILTER, uGLMag);
+		GL::glTexParameteri(this->m_uTarget, GL::GL_TEXTURE_MIN_FILTER, uGLMin);	CR_GLCHECK();
+		GL::glTexParameteri(this->m_uTarget, GL::GL_TEXTURE_MAG_FILTER, uGLMag);	CR_GLCHECK();
 	}
 
 	void	IOGLBaseTexture::SetAnisotropy(const uint32 uMaxAnisotropy){
 		CTextureBindGuard guard(this->m_uTarget);
 		this->Bind();
 
-		GL::glTexParameteri(this->m_uTarget, GL::GL_TEXTURE_MAX_ANISOTROPY, uMaxAnisotropy);
+		GL::glTexParameteri(this->m_uTarget, GL::GL_TEXTURE_MAX_ANISOTROPY, uMaxAnisotropy);	CR_GLCHECK();
 	}
 
 	GLuint	IOGLBaseTexture::GetTextureID() const{
