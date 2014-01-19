@@ -80,6 +80,12 @@ namespace CB{
 		this->OnPositionChange.SetCombiner(ORCombiner);
 		this->OnSizeChange.SetCombiner(ORCombiner);
 		this->OnVisibilityChange.SetCombiner(ORCombiner);
+		this->OnChar.SetCombiner(ORCombiner);
+		this->OnKeyDown.SetCombiner(ORCombiner);
+		this->OnKeyUp.SetCombiner(ORCombiner);
+		this->OnMouseMove.SetCombiner(ORCombiner);
+		this->OnMouseButtonUp.SetCombiner(ORCombiner);
+		this->OnMouseButtonDown.SetCombiner(ORCombiner);
 
 		Log::Write(L"Window initialized.", Log::LogLevel::Debug);
 	}
@@ -129,7 +135,17 @@ namespace CB{
 	}
 
 	void	CWindow::SetSize(const Math::CSize& Size){
-		if(!SetWindowPos(this->m_hWindow, 0, 0, 0, Size.Width, Size.Height, SWP_NOMOVE | SWP_NOZORDER)){
+		DWORD dwStyle = 0, dwExStyle = 0;
+		if(!GetMSWindowStyle(this->m_uStyle, dwStyle, dwExStyle)){
+			throw Exception::CInvalidArgumentException(L"uStyle", String::ToString(m_uStyle),
+				L"Unrecognized window style.", CR_INFO());
+		}
+		RECT winRect = {0, 0, Size.Width, Size.Height};
+		if(!AdjustWindowRectEx(&winRect, dwStyle, FALSE, dwExStyle)){
+			throw Exception::CWindowException(GetLastError(), 
+				L"Failed to adjust client area rect.", CR_INFO());
+		}
+		if(!SetWindowPos(this->m_hWindow, 0, 0, 0, winRect.right - winRect.left, winRect.bottom - winRect.top, SWP_NOMOVE | SWP_NOZORDER)){
 			throw Exception::CWindowException(GetLastError(),
 				L"Failed to set new window size, Size: " + Size.ToString(), CR_INFO());
 		}
@@ -138,7 +154,7 @@ namespace CB{
 	const Math::CSize	CWindow::GetSize() const{
 		RECT rect;
 		Memory::SetZero(rect);
-		if(!GetWindowRect(this->m_hWindow, &rect)){
+		if(!GetClientRect(this->m_hWindow, &rect)){
 			throw Exception::CWindowException(GetLastError(),
 				L"Failed to get window size.", CR_INFO());
 		}
@@ -264,11 +280,126 @@ namespace CB{
 			}
 			break;
 
+		case WM_KEYDOWN:
+			{
+				Window::VirtualKey uKey = Window::VirtualKey::Undefined;
+				if(this->OnKeyDown.IsValid() && TryGetVirtualKey((uint32)wParam, uKey)){
+					return this->OnKeyDown(this, uKey);
+				}
+				return false;
+			}
+			break;
+
+		case WM_KEYUP:
+			{
+				Window::VirtualKey uKey = Window::VirtualKey::Undefined;
+				if(this->OnKeyUp.IsValid() && TryGetVirtualKey((uint32)wParam, uKey)){
+					return this->OnKeyUp(this, uKey);
+				}
+				return false;
+			}
+			break;
+
+		case WM_CHAR:
+			{
+				if(this->OnChar.IsValid()){
+					return this->OnChar(this, wParam);
+				}
+				return false;
+			}
+			break;
+
+		case WM_MOUSEMOVE:
+			{
+				if(this->OnMouseMove.IsValid()){
+					int32 iX = GET_X_LPARAM(lParam);
+					int32 iY = GET_Y_LPARAM(lParam);
+					return this->OnMouseMove(this, Math::CPoint(iX, iY));
+				}
+				return false;
+			}
+			break;
+
+		case WM_LBUTTONDOWN:
+		case WM_RBUTTONDOWN:
+		case WM_MBUTTONDOWN:
+		case WM_XBUTTONDOWN:
+			{
+				Window::VirtualKey uKey = Window::VirtualKey::Undefined;
+				if(this->OnMouseButtonDown.IsValid() && TryGetMouseVirtualButton(uMessage, wParam, uKey)){
+					return this->OnMouseButtonDown(this, uKey);
+				}
+				return false;
+			}
+			break;
+
+		case WM_LBUTTONUP:
+		case WM_RBUTTONUP:
+		case WM_MBUTTONUP:
+		case WM_XBUTTONUP:
+			{
+				Window::VirtualKey uKey = Window::VirtualKey::Undefined;
+				if(this->OnMouseButtonUp.IsValid() && TryGetMouseVirtualButton(uMessage, wParam, uKey)){
+					return this->OnMouseButtonUp(this, uKey);
+				}
+				return false;
+			}
+			break;
+
 		default:
 			if(this->OnEvent.IsValid()){
 				return this->OnEvent(this, uMessage, wParam, lParam);
 			}
 		}
 		return false;
+	}
+
+	const bool	CWindow::TryGetVirtualKey(const uint32 uKeyCode, Window::VirtualKey& uKeyOut){
+		uKeyOut = Window::VirtualKey::Undefined;
+		switch (uKeyCode)
+		{
+		#define CR_DEFVK(_KEY, _CODE)	case _CODE:	uKeyOut = Window::VirtualKey::_KEY; return true;
+		#include <VirtualKeys.incl>
+		#undef CR_DEFVK
+		default:
+			return false;
+		}
+	}
+
+	const bool	CWindow::TryGetMouseVirtualButton(const uint32 uMsg, const WPARAM wParam, Window::VirtualKey& uKeyOut){
+		switch (uMsg)
+		{
+		case WM_LBUTTONDOWN:
+		case WM_LBUTTONUP:
+		case WM_LBUTTONDBLCLK:	
+			uKeyOut = Window::VirtualKey::LBUTTON;	
+			return true;
+
+		case WM_RBUTTONDOWN:
+		case WM_RBUTTONUP:
+		case WM_RBUTTONDBLCLK:
+			uKeyOut = Window::VirtualKey::RBUTTON;
+			return true;
+
+		case WM_MBUTTONDOWN:
+		case WM_MBUTTONUP:
+		case WM_MBUTTONDBLCLK:
+			uKeyOut = Window::VirtualKey::MBUTTON;
+			return true;
+
+		case WM_XBUTTONDOWN:
+		case WM_XBUTTONUP:
+		case WM_XBUTTONDBLCLK:
+			switch (GET_XBUTTON_WPARAM(wParam))
+			{
+			case 0x01:	uKeyOut = Window::VirtualKey::XBUTTON1;	return true;
+			case 0x02:	uKeyOut = Window::VirtualKey::XBUTTON2;	return true;
+			default:
+				return false;
+			}
+
+		default:
+			return false;
+		}
 	}
 }

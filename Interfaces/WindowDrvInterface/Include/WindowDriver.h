@@ -19,6 +19,14 @@ namespace CB{
 			SizeableToolWindow
 		};
 
+		enum class VirtualKey{
+			Undefined = 0,
+			#define CR_DEFVK(A,B)	A = B,
+			#include "VirtualKeys.incl"
+			#undef CR_DEFVK
+			LastReserved = 0xFF,
+		};
+
 		class IManager;
 		class IWindow;
 
@@ -27,7 +35,10 @@ namespace CB{
 		typedef Signals::CSlot<const bool, CRefPtr<IWindow>, const Math::CPoint&, const Math::CPoint&>	SlotPositionChange;
 		typedef Signals::CSlot<const bool, CRefPtr<IWindow>, const bool>	SlotFocusChange;
 		typedef Signals::CSlot<const bool, CRefPtr<IWindow>, const uint32, const uint32, const uint32>	SlotEvent;
-		typedef Signals::CSlot<const bool, CRefPtr<IWindow>>	SlotWindow;
+		typedef Signals::CSlot<const bool, CRefPtr<IWindow>>						SlotWindow;
+		typedef Signals::CSlot<const bool, CRefPtr<IWindow>, const wchar>			SlotChar;
+		typedef Signals::CSlot<const bool, CRefPtr<IWindow>, const Math::CPoint&>	SlotMouseMove;
+		typedef Signals::CSlot<const bool, CRefPtr<IWindow>, const VirtualKey>		SlotKey;
 				
 		class IWindow : 
 			public IApiObject
@@ -57,6 +68,12 @@ namespace CB{
 			SlotWindow				OnFocusGain;
 			SlotWindow				OnFocusLost;
 			SlotFocusChange			OnFocusChange;
+			SlotMouseMove			OnMouseMove;
+			SlotChar				OnChar;
+			SlotKey					OnKeyDown;
+			SlotKey					OnKeyUp;
+			SlotKey					OnMouseButtonUp;
+			SlotKey					OnMouseButtonDown;
 		};
 		
 		class IManager : 
@@ -86,5 +103,7 @@ namespace CB{
 
 	namespace String{
 		extern WINDOWDRVINTERFACE_API const CString	ToString(const Window::Style uStyle);
+		extern WINDOWDRVINTERFACE_API const CString	ToString(const Window::VirtualKey uKey);
+		extern WINDOWDRVINTERFACE_API const Window::VirtualKey	FromString(const CString& strKey);
 	}
 }

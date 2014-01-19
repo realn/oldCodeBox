@@ -107,6 +107,9 @@
       <Project>{844b7ab6-f789-496c-86d2-fc71e8328f23}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Include\VirtualKeys.incl" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

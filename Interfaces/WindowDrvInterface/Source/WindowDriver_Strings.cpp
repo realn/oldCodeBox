@@ -14,5 +14,23 @@ namespace CB{
 				return L"Style: " + ToHexString(static_cast<uint32>(uStyle));
 			}
 		}
+
+		const CString	ToString(const Window::VirtualKey uKey){
+			switch (uKey)
+			{
+			#define CR_DEFVK(_KEY,B)	case Window::VirtualKey::_KEY:	return L#_KEY;
+			#include "../Include/VirtualKeys.incl"
+			#undef CR_DEFVK
+			default:
+				return L"Undefined";
+			}
+		}
+
+		const Window::VirtualKey	FromString(const CString& strKey){
+			#define CR_DEFVK(_KEY, B)	if(strKey == L#_KEY) return Window::VirtualKey::_KEY;
+			#include "../Include/VirtualKeys.incl"
+			#undef CR_DEFVK
+			return Window::VirtualKey::Undefined;
+		}
 	}
 }

@@ -1,0 +1,307 @@
+/*
+ * Virtual Keys, Standard Set
+ */
+CR_DEFVK(LBUTTON,	0x01)
+CR_DEFVK(RBUTTON,	0x02)
+CR_DEFVK(CANCEL,	0x03)
+CR_DEFVK(MBUTTON,	0x04)	/* NOT contiguous with L & RBUTTON */
+
+#undef XBUTTON1
+#undef XBUTTON2
+
+CR_DEFVK(XBUTTON1,	0x05)	/* NOT contiguous with L & RBUTTON */
+CR_DEFVK(XBUTTON2,	0x06)	/* NOT contiguous with L & RBUTTON */
+
+/*
+ * 0x07 : unassigned
+ */
+
+CR_DEFVK(BACK,		0x08)
+CR_DEFVK(TAB,		0x09)
+
+/*
+ * 0x0A - 0x0B : reserved
+ */
+
+CR_DEFVK(CLEAR, 0x0C)
+CR_DEFVK(RETURN, 0x0D)
+
+CR_DEFVK(SHIFT, 0x10)
+CR_DEFVK(CONTROL, 0x11)
+CR_DEFVK(MENU, 0x12)
+CR_DEFVK(PAUSE, 0x13)
+CR_DEFVK(CAPITAL, 0x14)
+
+CR_DEFVK(KANA, 0x15)
+CR_DEFVK(JUNJA, 0x17)
+CR_DEFVK(FINAL, 0x18)
+CR_DEFVK(KANJI, 0x19)
+
+CR_DEFVK(ESCAPE, 0x1B)
+
+CR_DEFVK(CONVERT, 0x1C)
+CR_DEFVK(NONCONVERT, 0x1D)
+CR_DEFVK(ACCEPT, 0x1E)
+CR_DEFVK(MODECHANGE, 0x1F)
+
+CR_DEFVK(SPACE			, 0x20)
+CR_DEFVK(PRIOR			, 0x21)
+CR_DEFVK(NEXT			, 0x22)
+CR_DEFVK(END			, 0x23)
+CR_DEFVK(HOME			, 0x24)
+CR_DEFVK(LEFT			, 0x25)
+CR_DEFVK(UP             , 0x26)
+CR_DEFVK(RIGHT          , 0x27)
+CR_DEFVK(DOWN           , 0x28)
+CR_DEFVK(SELECT         , 0x29)
+CR_DEFVK(PRINT          , 0x2A)
+CR_DEFVK(EXECUTE        , 0x2B)
+CR_DEFVK(SNAPSHOT       , 0x2C)
+CR_DEFVK(INSERT         , 0x2D)
+#undef DELETE
+CR_DEFVK(DELETE         , 0x2E)
+CR_DEFVK(HELP           , 0x2F)
+
+CR_DEFVK(NUM0,	0x30)
+CR_DEFVK(NUM1,	0x31)
+CR_DEFVK(NUM2,	0x32)
+CR_DEFVK(NUM3,	0x33)
+CR_DEFVK(NUM4,	0x34)
+CR_DEFVK(NUM5,	0x35)
+CR_DEFVK(NUM6,	0x36)
+CR_DEFVK(NUM7,	0x37)
+CR_DEFVK(NUM8,	0x38)
+CR_DEFVK(NUM9,	0x39)
+
+CR_DEFVK(A,	0x41)
+CR_DEFVK(B,	0x42)
+CR_DEFVK(C,	0x43)
+CR_DEFVK(D,	0x44)
+CR_DEFVK(E,	0x45)
+CR_DEFVK(F,	0x46)
+CR_DEFVK(G,	0x47)
+CR_DEFVK(H,	0x48)
+CR_DEFVK(I,	0x49)
+CR_DEFVK(J,	0x4A)
+CR_DEFVK(K,	0x4C)
+CR_DEFVK(L,	0x4D)
+CR_DEFVK(M,	0x4E)
+CR_DEFVK(N,	0x4F)
+CR_DEFVK(O,	0x50)
+CR_DEFVK(P,	0x51)
+CR_DEFVK(R,	0x52)
+CR_DEFVK(S,	0x53)
+CR_DEFVK(T,	0x54)
+CR_DEFVK(Q,	0x55)
+CR_DEFVK(U,	0x56)
+CR_DEFVK(W,	0x57)
+CR_DEFVK(X,	0x58)
+CR_DEFVK(Y,	0x59)
+CR_DEFVK(Z,	0x5A)
+/*
+ * 0 - 9 are the same as ASCII '0' - '9' (0x30 - 0x39)
+ * 0x40 : unassigned
+ * A - Z are the same as ASCII 'A' - 'Z' (0x41 - 0x5A)
+ */
+
+CR_DEFVK(LWIN           , 0x5B)
+CR_DEFVK(RWIN           , 0x5C)
+CR_DEFVK(APPS           , 0x5D)
+
+/*
+ * 0x5E : reserved
+ */
+
+CR_DEFVK(SLEEP          , 0x5F)
+
+CR_DEFVK(NUMPAD0        , 0x60)
+CR_DEFVK(NUMPAD1        , 0x61)
+CR_DEFVK(NUMPAD2        , 0x62)
+CR_DEFVK(NUMPAD3        , 0x63)
+CR_DEFVK(NUMPAD4        , 0x64)
+CR_DEFVK(NUMPAD5        , 0x65)
+CR_DEFVK(NUMPAD6        , 0x66)
+CR_DEFVK(NUMPAD7        , 0x67)
+CR_DEFVK(NUMPAD8        , 0x68)
+CR_DEFVK(NUMPAD9        , 0x69)
+CR_DEFVK(MULTIPLY       , 0x6A)
+CR_DEFVK(ADD            , 0x6B)
+CR_DEFVK(SEPARATOR      , 0x6C)
+CR_DEFVK(SUBTRACT       , 0x6D)
+CR_DEFVK(DECIMAL        , 0x6E)
+CR_DEFVK(DIVIDE         , 0x6F)
+CR_DEFVK(F1             , 0x70)
+CR_DEFVK(F2             , 0x71)
+CR_DEFVK(F3             , 0x72)
+CR_DEFVK(F4             , 0x73)
+CR_DEFVK(F5             , 0x74)
+CR_DEFVK(F6             , 0x75)
+CR_DEFVK(F7             , 0x76)
+CR_DEFVK(F8             , 0x77)
+CR_DEFVK(F9             , 0x78)
+CR_DEFVK(F10            , 0x79)
+CR_DEFVK(F11            , 0x7A)
+CR_DEFVK(F12            , 0x7B)
+CR_DEFVK(F13            , 0x7C)
+CR_DEFVK(F14            , 0x7D)
+CR_DEFVK(F15            , 0x7E)
+CR_DEFVK(F16            , 0x7F)
+CR_DEFVK(F17            , 0x80)
+CR_DEFVK(F18            , 0x81)
+CR_DEFVK(F19            , 0x82)
+CR_DEFVK(F20            , 0x83)
+CR_DEFVK(F21            , 0x84)
+CR_DEFVK(F22            , 0x85)
+CR_DEFVK(F23            , 0x86)
+CR_DEFVK(F24            , 0x87)
+
+/*
+ * 0x88 - 0x8F : unassigned
+ */
+
+CR_DEFVK(NUMLOCK        , 0x90)
+CR_DEFVK(SCROLL         , 0x91)
+
+
+/*
+ * Fujitsu/OASYS kbd definitions
+ */
+CR_DEFVK(OEM_FJ_JISHO   , 0x92)   // 'Dictionary' key
+CR_DEFVK(OEM_FJ_MASSHOU , 0x93)   // 'Unregister word' key
+CR_DEFVK(OEM_FJ_TOUROKU , 0x94)   // 'Register word' key
+CR_DEFVK(OEM_FJ_LOYA    , 0x95)	  // 'Left OYAYUBI' key
+CR_DEFVK(OEM_FJ_ROYA    , 0x96)	  // 'Right OYAYUBI' key
+
+/*
+ * 0x97 - 0x9F : unassigned
+ */
+
+/*
+ * L* & R* - left and right Alt, Ctrl and Shift virtual keys.
+ * Used only as parameters to GetAsyncKeyState() and GetKeyState().
+ * No other API or message will distinguish left and right keys in this way.
+ */
+CR_DEFVK(LSHIFT         , 0xA0)
+CR_DEFVK(RSHIFT         , 0xA1)
+CR_DEFVK(LCONTROL       , 0xA2)
+CR_DEFVK(RCONTROL       , 0xA3)
+CR_DEFVK(LMENU          , 0xA4)
+CR_DEFVK(RMENU          , 0xA5)
+
+#undef BROWSER_BACK
+#undef BROWSER_FORWARD
+#undef BROWSER_REFRESH
+#undef BROWSER_STOP
+#undef BROWSER_SEARCH
+#undef BROWSER_FAVORITES
+#undef BROWSER_HOME
+
+CR_DEFVK(BROWSER_BACK        , 0xA6)
+CR_DEFVK(BROWSER_FORWARD     , 0xA7)
+CR_DEFVK(BROWSER_REFRESH     , 0xA8)
+CR_DEFVK(BROWSER_STOP        , 0xA9)
+CR_DEFVK(BROWSER_SEARCH      , 0xAA)
+CR_DEFVK(BROWSER_FAVORITES   , 0xAB)
+CR_DEFVK(BROWSER_HOME        , 0xAC)
+
+#undef VOLUME_MUTE
+#undef VOLUME_DOWN
+#undef VOLUME_UP
+#undef MEDIA_NEXT_TRACK
+#undef MEDIA_PREV_TRACK
+#undef MEDIA_STOP
+#undef MEDIA_PLAY_PAUSE
+#undef LAUNCH_MAIL
+#undef LAUNCH_MEDIA_SELECT
+#undef LAUNCH_APP1
+#undef LAUNCH_APP2
+
+CR_DEFVK(VOLUME_MUTE         , 0xAD)
+CR_DEFVK(VOLUME_DOWN         , 0xAE)
+CR_DEFVK(VOLUME_UP           , 0xAF)
+CR_DEFVK(MEDIA_NEXT_TRACK    , 0xB0)
+CR_DEFVK(MEDIA_PREV_TRACK    , 0xB1)
+CR_DEFVK(MEDIA_STOP          , 0xB2)
+CR_DEFVK(MEDIA_PLAY_PAUSE    , 0xB3)
+CR_DEFVK(LAUNCH_MAIL         , 0xB4)
+CR_DEFVK(LAUNCH_MEDIA_SELECT , 0xB5)
+CR_DEFVK(LAUNCH_APP1         , 0xB6)
+CR_DEFVK(LAUNCH_APP2         , 0xB7)
+
+/*
+ * 0xB8 - 0xB9 : reserved
+ */
+
+CR_DEFVK(OEM_1          , 0xBA)   // ';:' for US
+CR_DEFVK(OEM_PLUS       , 0xBB)   // '+' any country
+CR_DEFVK(OEM_COMMA      , 0xBC)   // ',' any country
+CR_DEFVK(OEM_MINUS      , 0xBD)   // '-' any country
+CR_DEFVK(OEM_PERIOD     , 0xBE)   // '.' any country
+CR_DEFVK(OEM_2          , 0xBF)   // '/?' for US
+CR_DEFVK(OEM_3          , 0xC0)   // '`~' for US
+
+/*
+ * 0xC1 - 0xD7 : reserved
+ */
+
+/*
+ * 0xD8 - 0xDA : unassigned
+ */
+
+CR_DEFVK(OEM_4          , 0xDB)  //  '[{' for US
+CR_DEFVK(OEM_5          , 0xDC)  //  '\|' for US
+CR_DEFVK(OEM_6          , 0xDD)  //  ']}' for US
+CR_DEFVK(OEM_7          , 0xDE)  //  ''"' for US
+CR_DEFVK(OEM_8          , 0xDF)
+
+/*
+ * 0xE0 : reserved
+ */
+
+/*
+ * Various extended or enhanced keyboards
+ */
+CR_DEFVK(OEM_AX         , 0xE1)  //  'AX' key on Japanese AX kbd
+CR_DEFVK(OEM_102        , 0xE2)  //  "<>" or "\|" on RT 102-key kbd.
+CR_DEFVK(ICO_HELP       , 0xE3)  //  Help key on ICO
+CR_DEFVK(ICO_00         , 0xE4)  //  00 key on ICO
+
+CR_DEFVK(PROCESSKEY     , 0xE5)
+CR_DEFVK(ICO_CLEAR      , 0xE6)
+
+CR_DEFVK(PACKET         , 0xE7)
+
+/*
+ * 0xE8 : unassigned
+ */
+
+/*
+ * Nokia/Ericsson definitions
+ */
+CR_DEFVK(OEM_RESET      , 0xE9)
+CR_DEFVK(OEM_JUMP       , 0xEA)
+CR_DEFVK(OEM_PA1        , 0xEB)
+CR_DEFVK(OEM_PA2        , 0xEC)
+CR_DEFVK(OEM_PA3        , 0xED)
+CR_DEFVK(OEM_WSCTRL     , 0xEE)
+CR_DEFVK(OEM_CUSEL      , 0xEF)
+CR_DEFVK(OEM_ATTN       , 0xF0)
+CR_DEFVK(OEM_FINISH     , 0xF1)
+CR_DEFVK(OEM_COPY       , 0xF2)
+CR_DEFVK(OEM_AUTO       , 0xF3)
+CR_DEFVK(OEM_ENLW       , 0xF4)
+CR_DEFVK(OEM_BACKTAB    , 0xF5)
+
+CR_DEFVK(ATTN           , 0xF6)
+CR_DEFVK(CRSEL          , 0xF7)
+CR_DEFVK(EXSEL          , 0xF8)
+CR_DEFVK(EREOF          , 0xF9)
+CR_DEFVK(PLAY           , 0xFA)
+CR_DEFVK(ZOOM           , 0xFB)
+CR_DEFVK(NONAME         , 0xFC)
+CR_DEFVK(PA1            , 0xFD)
+CR_DEFVK(OEM_CLEAR      , 0xFE)
+
+/*
+ * 0xFF : reserved
+ */

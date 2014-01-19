@@ -39,5 +39,9 @@ namespace CB{
 		//end of IWindow implementation
 
 		const bool	ProcessMessage(const unsigned uMessage, const WPARAM wParam, const LPARAM lParam);
+
+	private:
+		static const bool	TryGetVirtualKey(const uint32 uKeyCode, Window::VirtualKey& uKeyOut);
+		static const bool	TryGetMouseVirtualButton(const uint32 uMsg, const WPARAM wParam, Window::VirtualKey& uKeyOut);
 	};
 }
