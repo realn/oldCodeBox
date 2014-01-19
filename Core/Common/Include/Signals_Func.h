@@ -154,7 +154,7 @@ namespace CB{
 			}
 
 			virtual	const unsigned	GetHashCode() const override{
-				return static_cast<unsigned>(this->m_pFunc);
+				return reinterpret_cast<unsigned>(this->m_pFunc);
 			}
 
 			virtual ISignal*	CreateCopy() const override{
@@ -197,7 +197,7 @@ namespace CB{
 			}
 
 			virtual	const unsigned	GetHashCode() const override{
-				return static_cast<unsigned>(this->m_pFunc);
+				return reinterpret_cast<unsigned>(this->m_pFunc);
 			}
 
 			virtual ISignal*	CreateCopy() const override{
