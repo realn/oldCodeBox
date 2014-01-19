@@ -49,7 +49,7 @@ namespace GraphicTest{
 	}
 
 	void	CRectOrthoModel::Update(const float32 fTimeDelta){
-		this->m_fValue += 0.1f;
+		this->m_fValue += fTimeDelta * 30.0f;
 		this->mModelMatrix = CB::Math::CMatrix::GetRotation(CB::Math::AxisOrientation::AxisY, this->m_fValue);
 	}
 

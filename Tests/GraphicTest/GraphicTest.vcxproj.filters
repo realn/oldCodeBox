@@ -11,6 +11,9 @@
     <Filter Include="Headers">
       <UniqueIdentifier>{ed841c45-9bd4-46d5-bbf9-3ccdaff5bfdd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assets">
+      <UniqueIdentifier>{f80ed26c-3dd2-4f08-80a7-03a6bbab759c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -22,9 +25,18 @@
     <ClCompile Include="RectOrthoModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TextureFileLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CubeModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\BasicShader.cg">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\TextureShader.cg">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
@@ -35,5 +47,19 @@
     <ClInclude Include="RectOrthoModel.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="CubeModel.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureFileLoader.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexShaderConfig.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\crate.jpg">
+      <Filter>Assets</Filter>
+    </Image>
   </ItemGroup>
 </Project>
