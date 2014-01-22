@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Include">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Internal">
+      <UniqueIdentifier>{fcba655e-522f-4492-8d3f-d8e0073ac52a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source\Mesh">
+      <UniqueIdentifier>{8fcf2023-3c8f-4bae-b8c4-836763a36bdc}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\dllmain.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GraphicTools.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FontTexture.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RectVT.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\TextMeshGenerator.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MeshRawIV.cpp">
+      <Filter>Source\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MeshRawIVT.cpp">
+      <Filter>Source\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MeshRawIVTN.cpp">
+      <Filter>Source\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MeshRawV.cpp">
+      <Filter>Source\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MeshRawVTN.cpp">
+      <Filter>Source\Mesh</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Include\GraphicTools.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Macros.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\WinPlatform.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Tools_Mesh.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MeshRawVT.h">
+      <Filter>Source\Mesh</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

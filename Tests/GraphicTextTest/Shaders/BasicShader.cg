@@ -1,0 +1,38 @@
+
+struct V_INPUT{
+	float3		vPosition : POSITION;
+	float4		vColor;
+	uniform float4x4	mProj;
+	uniform float4x4	mView;
+	uniform float4x4	mModel;
+};
+
+struct V_OUTPUT{
+	float4	vPosition : POSITION;
+	float4	vColor;
+};
+
+struct F_OUTPUT{
+	float4	vColor : COLOR;
+};
+
+V_OUTPUT	vmain(V_INPUT vinput){
+	V_OUTPUT	voutput;
+
+	float4x4 mModelView = mul(vinput.mModel, vinput.mView);
+	float4x4 mModelViewProj = mul(mModelView, vinput.mProj);
+	float4	vPosition = mul(float4(vinput.vPosition, 1.0f), mModelViewProj);
+
+	voutput.vPosition = vPosition;
+	voutput.vColor = vinput.vColor;
+
+	return voutput;
+}
+
+F_OUTPUT	fmain(V_OUTPUT finput){
+	F_OUTPUT	foutput;
+
+	foutput.vColor = finput.vColor;
+
+	return foutput;
+}

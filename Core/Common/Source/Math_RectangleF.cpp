@@ -6,6 +6,11 @@ namespace CB{
 		CRectangleF32::CRectangleF32(){
 		}
 
+		CRectangleF32::CRectangleF32(const CRectangleF32& Rect) :
+			Position(Rect.Position),
+			Size(Rect.Size)
+		{}
+
 		CRectangleF32::CRectangleF32(const CVector2D& Position, const CVector2D& Size) :
 			Position(Position),
 			Size(Size)

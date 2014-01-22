@@ -38,6 +38,7 @@ namespace CB{
 			if(uError != 0){
 				CR_THROW(L"Failed to change font face size, error: " + String::ToHexString(uError));
 			}
+			this->m_FontSize.Set(uSize, uSize);
 		}
 
 		void	CFont::SetSize(const Math::CSize& Size){
@@ -47,6 +48,7 @@ namespace CB{
 			if(uError != 0){
 				CR_THROW(L"Failed to change font face size, error: " + String::ToHexString(uError));
 			}
+			this->m_FontSize = Size;
 		}
 
 		void	CFont::SelectFace(const uint32 uIndex){
@@ -130,7 +132,7 @@ namespace CB{
 		const Math::CPoint	CFont::GetGlyphAdv() const{
 			auto pFace = this->m_pData.GetCast<FT_Face>();
 
-			return Math::CPoint(pFace->glyph->advance.x * 64, pFace->glyph->advance.y * 64);
+			return Math::CPoint(pFace->glyph->advance.x / 64, pFace->glyph->advance.y / 64);
 		}
 
 		const Math::CPoint	CFont::GetGlyphBitmapPos() const{
@@ -143,6 +145,10 @@ namespace CB{
 			auto pFace = this->m_pData.GetCast<FT_Face>();
 
 			return pFace->height * 64;
+		}
+
+		const Math::CSize	CFont::GetSize() const{
+			return this->m_FontSize;
 		}
 
 		const uint32	CFont::GetCharGlyphIndex(const wchar uChar) const{

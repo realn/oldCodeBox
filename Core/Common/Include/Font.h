@@ -11,6 +11,7 @@ namespace CB{
 		{
 			friend CManager;
 		private:
+			Math::CSize	m_FontSize;
 			Collection::CList<byte>	m_FontData;
 			CHiddenPtr	m_pData;
 
@@ -26,7 +27,8 @@ namespace CB{
 
 			const Math::CPoint	GetGlyphAdv() const;
 			const Math::CPoint	GetGlyphBitmapPos() const;
-			const uint32	GetLineHeight() const;
+			const uint32		GetLineHeight() const;
+			const Math::CSize	GetSize() const;
 			
 			const uint32	GetCharGlyphIndex(const wchar uChar) const;
 
