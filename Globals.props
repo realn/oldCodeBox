@@ -16,7 +16,6 @@
   <ItemGroup>
     <BuildMacro Include="CB_CORE_DIR">
       <Value>$(CB_CORE_DIR)</Value>
-      <EnvironmentVariable>true</EnvironmentVariable>
     </BuildMacro>
     <BuildMacro Include="CB_EXT_DIR">
       <Value>$(CB_EXT_DIR)</Value>
@@ -40,9 +39,11 @@
     </BuildMacro>
     <BuildMacro Include="CB_EXT_LIB">
       <Value>$(CB_EXT_LIB)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
     </BuildMacro>
     <BuildMacro Include="CB_EXT_BIN">
       <Value>$(CB_EXT_BIN)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
     </BuildMacro>
   </ItemGroup>
 </Project>
