@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros">
+    <CB_CORE_DIR>$(CB_ROOT_DIR)Core\</CB_CORE_DIR>
+    <CB_EXT_DIR>$(CB_ROOT_DIR)Ext\</CB_EXT_DIR>
+    <CB_INTERFS_DIR>$(CB_ROOT_DIR)Interfaces\</CB_INTERFS_DIR>
+    <CB_DRIVERS_DIR>$(CB_ROOT_DIR)Drivers\</CB_DRIVERS_DIR>
+    <CB_TOOLS_DIR>$(CB_ROOT_DIR)Tools\</CB_TOOLS_DIR>
+    <CB_EXT_INC>$(CB_EXT_DIR)Include\</CB_EXT_INC>
+    <CB_EXT_LIB>$(CB_EXT_DIR)lib\</CB_EXT_LIB>
+    <CB_EXT_BIN>$(CB_EXT_DIR)runtime\</CB_EXT_BIN>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemDefinitionGroup />
+  <ItemGroup>
+    <BuildMacro Include="CB_CORE_DIR">
+      <Value>$(CB_CORE_DIR)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="CB_EXT_DIR">
+      <Value>$(CB_EXT_DIR)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="CB_INTERFS_DIR">
+      <Value>$(CB_INTERFS_DIR)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="CB_DRIVERS_DIR">
+      <Value>$(CB_DRIVERS_DIR)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="CB_TOOLS_DIR">
+      <Value>$(CB_TOOLS_DIR)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="CB_EXT_INC">
+      <Value>$(CB_EXT_INC)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="CB_EXT_LIB">
+      <Value>$(CB_EXT_LIB)</Value>
+    </BuildMacro>
+    <BuildMacro Include="CB_EXT_BIN">
+      <Value>$(CB_EXT_BIN)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

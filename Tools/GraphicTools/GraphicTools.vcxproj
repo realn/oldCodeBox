@@ -34,15 +34,19 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\Build.props" />
+    <Import Project="..\Tools.props" />
+    <Import Project="..\..\Globals.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\Build.props" />
+    <Import Project="..\Tools.props" />
+    <Import Project="..\..\Globals.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)Output\$(Configuration)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Intermediate\$(Configuration)\$(ProjectName)\</IntDir>
     <IncludePath>$(SolutionDir)Core\Common\Include;$(SolutionDir)Interfaces\GraphicDrvInterface\Include;$(SolutionDir)Interfaces\WindowDrvInterface\Include;$(SolutionDir)Ext\include;$(IncludePath)</IncludePath>
     <LibraryPath>#(SolutionDir)Ext\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
@@ -61,9 +65,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <PostBuildEvent>
-      <Command>@xcopy $(OutDir)*.dll $(SolutionDir)WorkArea\$(Configuration)\ /Y /Q</Command>
-    </PostBuildEvent>
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

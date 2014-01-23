@@ -34,18 +34,22 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\Build.props" />
+    <Import Project="..\Core.props" />
+    <Import Project="..\..\Globals.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\Build.props" />
+    <Import Project="..\Core.props" />
+    <Import Project="..\..\Globals.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)Build\Output\$(Configuration)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Build\Intermediate\$(Configuration)\$(ProjectName)\</IntDir>
-    <ExecutablePath>$(SolutionDir)\Ext\runtime;$(ExecutablePath)</ExecutablePath>
-    <LibraryPath>$(SolutionDir)\Ext\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)\Ext\include;$(IncludePath)</IncludePath>
+    <ExecutablePath>$(CB_EXT_BIN);$(ExecutablePath)</ExecutablePath>
+    <LibraryPath>$(CB_EXT_LIB);$(LibraryPath)</LibraryPath>
+    <IncludePath>$(CB_EXT_INC);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -62,9 +66,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalOptions>/NODEFAULTLIB:msvcrt.lib %(AdditionalOptions)</AdditionalOptions>
     </Link>
-    <PostBuildEvent>
-      <Command>@xcopy $(OutDir)*.dll $(SolutionDir)WorkArea\$(Configuration)\ /Y /Q</Command>
-    </PostBuildEvent>
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
