@@ -185,7 +185,7 @@ namespace CB{
 			public CFunc<_ReturnType>
 		{
 		public:
-			typedef	_ReturnType	(_ObjType::*Obj_Callback_Type)(_Arg1);
+			typedef	_ReturnType	(_ObjType::*Obj_Callback_Type)();
 
 		protected:
 			_ObjType*			m_pObject;
