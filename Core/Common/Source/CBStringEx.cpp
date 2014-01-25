@@ -207,7 +207,7 @@ namespace CB{
 			}
 
 			try{
-				for(uint32 uIndex = 0; uIndex < strText.GetLength(); uIndex++){
+				for(uint32 uIndex = 0; uIndex < strCompare.GetLength(); uIndex++){
 					if(strText.SubCompare(uPos, strCompare[uIndex])){
 						uEndPos = uPos + strCompare[uIndex].GetLength();
 						return true;
