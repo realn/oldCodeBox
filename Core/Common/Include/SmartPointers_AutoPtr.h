@@ -58,7 +58,7 @@ namespace CB{
 			throw CB::Exception::CException(
 				L"Tried to assign raw pointer to not released auto pointer.", __FUNCTIONW__, __FILEW__, __LINE__);
 		}
-		this->m_pPtr = pPtr;
+		this->m_pPtr = const_cast<_Type*>(pPtr);
 		return *this;
 	}
 }

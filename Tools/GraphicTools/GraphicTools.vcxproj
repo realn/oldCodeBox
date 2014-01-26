@@ -47,8 +47,9 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)Core\Common\Include;$(SolutionDir)Interfaces\GraphicDrvInterface\Include;$(SolutionDir)Interfaces\WindowDrvInterface\Include;$(SolutionDir)Ext\include;$(IncludePath)</IncludePath>
-    <LibraryPath>#(SolutionDir)Ext\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(CB_CORE_DIR)Common\Include;$(CB_INTERFS_DIR)GraphicDrvInterface\Include;$(CB_INTERFS_DIR)WindowDrvInterface\Include;$(CB_EXT_INC);$(IncludePath)</IncludePath>
+    <LibraryPath>$(CB_EXT_LIB);$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(CB_EXT_BIN);$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
