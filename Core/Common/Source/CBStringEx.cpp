@@ -59,6 +59,46 @@ namespace CB{
 			}
 		}
 
+		const CString	Format(const CString& strFormat, const CString& strOp1){
+			CB::Collection::CStringList argList;
+			argList.Add(strOp1);
+			return VarReplace(strFormat, argList, false);
+		}
+
+		const CString	Format(const CString& strFormat, const CString& strOp1, const CString& strOp2){
+			CB::Collection::CStringList argList;
+			argList.Add(strOp1);
+			argList.Add(strOp2);
+			return VarReplace(strFormat, argList, false);
+		}
+
+		const CString	Format(const CString& strFormat, const CString& strOp1, const CString& strOp2, const CString& strOp3){
+			CB::Collection::CStringList argList;
+			argList.Add(strOp1);
+			argList.Add(strOp2);
+			argList.Add(strOp3);
+			return VarReplace(strFormat, argList, false);
+		}
+
+		const CString	Format(const CString& strFormat, const CString& strOp1, const CString& strOp2, const CString& strOp3, const CString& strOp4){
+			CB::Collection::CStringList argList;
+			argList.Add(strOp1);
+			argList.Add(strOp2);
+			argList.Add(strOp3);
+			argList.Add(strOp4);
+			return VarReplace(strFormat, argList, false);
+		}
+
+		const CString	Format(const CString& strFormat, const CString& strOp1, const CString& strOp2, const CString& strOp3, const CString& strOp4, const CString& strOp5){
+			CB::Collection::CStringList argList;
+			argList.Add(strOp1);
+			argList.Add(strOp2);
+			argList.Add(strOp3);
+			argList.Add(strOp4);
+			argList.Add(strOp5);
+			return VarReplace(strFormat, argList, false);
+		}
+
 		const CString	FromANSI(const CB::Collection::IPacked<int8>& Array){
 			if(Array.IsEmpty()){
 				throw CB::Exception::CZeroLengthArgumentException(L"Array",

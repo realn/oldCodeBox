@@ -25,6 +25,12 @@ namespace CB{
 		extern COMMON_API const CString	VarReplace(const CString& strText, const Collection::ICountable<CString>& VarList);
 		extern COMMON_API const CString	VarReplace(const CString& strText, const Collection::ICountable<CString>& VarList, const bool bIgnoreMissng);
 
+		extern COMMON_API const CString	Format(const CString& strFormat, const CString& strOp1);
+		extern COMMON_API const CString	Format(const CString& strFormat, const CString& strOp1, const CString& strOp2);
+		extern COMMON_API const CString	Format(const CString& strFormat, const CString& strOp1, const CString& strOp2, const CString& strOp3);
+		extern COMMON_API const CString	Format(const CString& strFormat, const CString& strOp1, const CString& strOp2, const CString& strOp3, const CString& strOp4);
+		extern COMMON_API const CString	Format(const CString& strFormat, const CString& strOp1, const CString& strOp2, const CString& strOp3, const CString& strOp4, const CString& strOp5);
+
 		extern COMMON_API const CString	FromANSI(const Collection::IPacked<int8>& Array);
 		extern COMMON_API const CString	FromUTF8(const Collection::IPacked<int8>& Array);
 
