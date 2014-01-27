@@ -104,6 +104,7 @@ namespace CB{
 
 			static const CMatrix	GetOrtho(const CVector2D& Size, const float32 fZNear, const float32 fZFar);
 			static const CMatrix	GetOrtho(const float32 fWidth, const float32 fHeight, const float32 fZNear, const float32 fZFar);
+			static const CMatrix	GetOrtho(const float32 fLeft, const float32 fRight, const float32 fBottom, const float32 fTop, const float32 fZNear, const float32 fZFar);
 			static const CMatrix	GetPerspective(const float32 fAspect, const float32 fEyeAngle, const float32 fZNear, const float32 fZFar);
 		};
 	}

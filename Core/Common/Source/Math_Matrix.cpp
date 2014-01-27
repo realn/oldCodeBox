@@ -71,7 +71,11 @@ namespace CB{
 
 		void	CMatrix::SetTranslation(const CVector3D& vPos){
 			this->SetIdentity();
-			this->Row[3] = CVector4D(vPos, 1.0f);
+			//this->Row[3] = CVector4D(vPos, 1.0f);
+			this->Row[0].W = vPos.X;
+			this->Row[1].W = vPos.Y;
+			this->Row[2].W = vPos.Z;
+			this->Row[3].W = 1.0f;
 		}
 
 		void	CMatrix::SetTranslation(const float32 fX, const float32 fY, const float32 fZ){
@@ -405,6 +409,10 @@ namespace CB{
 			const float32 halfW = fWidth / 2.0f;
 			const float32 halfH = fHeight / 2.0f;
 			return FromGLM(glm::ortho(-halfW, halfW, -halfH, halfH, fZNear, fZFar));
+		}
+
+		const CMatrix	CMatrix::GetOrtho(const float32 fLeft, const float32 fRight, const float32 fBottom, const float32 fTop, const float32 fZNear, const float32 fZFar){
+			return FromGLM(glm::ortho(fLeft, fRight, fBottom, fTop, fZNear, fZFar));
 		}
 
 		const CMatrix	CMatrix::GetPerspective(const float32 fAspect, const float32 fEyeAngle, const float32 fZNear, const float32 fZFar){
