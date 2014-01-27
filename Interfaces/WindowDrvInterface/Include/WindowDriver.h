@@ -89,6 +89,9 @@ namespace CB{
 
 			virtual const bool	SupportsMultiWindow() const = 0;
 			virtual const bool	SupportsStyle(const Style uStyle) const = 0;
+
+			virtual const bool	IsCursorVisible() const = 0;
+			virtual void		SetCursorVisible(const bool bVisible) = 0;
 		};
 
 		class IDriver : 

@@ -2,6 +2,7 @@
 #include "../Internal/Window.h"
 #include <Math.h>
 #include <Logger.h>
+#include <CBStringEx.h>
 
 LRESULT CALLBACK WndCallbackProc(HWND hWindow, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
@@ -96,6 +97,27 @@ namespace CB{
 		case Window::Style::ToolWindow:	return true;
 		default:
 			return false;
+		}
+	}
+
+	const bool	CWindowManager::IsCursorVisible() const{
+		CURSORINFO info = {0};
+		info.cbSize = sizeof(CURSORINFO);
+		if(GetCursorInfo(&info)){
+			return (info.flags & CURSOR_SHOWING) > 0;
+		}
+		return false;
+	}
+
+	void		CWindowManager::SetCursorVisible(const bool bVisible){
+		if(!ShowCursor(bVisible ? TRUE : FALSE)){
+			Log::Write(
+				String::Format(L"Failed to change cursor visibility to {0}, got error {1}.", 
+				String::ToString(bVisible), 
+				String::ToString((uint32)GetLastError())
+				), 
+			Log::LogLevel::Debug
+			);
 		}
 	}
 }

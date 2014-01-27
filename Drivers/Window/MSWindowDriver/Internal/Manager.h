@@ -34,6 +34,9 @@ namespace CB{
 		const bool	SupportsMultiWindow() const override;
 		const bool	SupportsStyle(const Window::Style uStyle) const override;
 
+		const bool	IsCursorVisible() const override;
+		void		SetCursorVisible(const bool bVisible) override;
+
 		//end of IWindowManager
 	};
 }
