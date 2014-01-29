@@ -171,7 +171,7 @@ namespace CB{
 		};
 
 		//=========================================================================
-		//	Rasterization stage reprezenting many selecting and culling options.
+		//	Rasterization stage representing many selecting and culling options.
 		//=========================================================================
 		class IRasterizerState : 
 			public virtual IDeviceState
@@ -234,6 +234,8 @@ namespace CB{
 			virtual const CString				GetLastCompilationLog() const = 0;
 			virtual const Math::CRectangle		GetScissorRect() const = 0;
 			virtual const Math::CRectangle		GetViewport() const = 0;
+			virtual const uint32				GetMaxAnisotropy() const = 0;
+			virtual const uint32				GetMaxTextureSize(const TextureType uType) const = 0;
 
 			virtual	void	Render(const uint32 uPrimitiveCount) = 0;
 			virtual void	Render(const uint32 uPrimitiveCount, const uint32 uStartVertex) = 0;

@@ -598,6 +598,12 @@ namespace CB{
 		}
 	}
 
+
+
+	//=======================================================================================================
+	//	INFO GETTERS
+	//=======================================================================================================
+
 	const Graphic::PrimitiveType	COGLDevice::GetRenderPrimitive() const{
 		switch (this->m_uPrimitiveMode)
 		{
@@ -634,6 +640,47 @@ namespace CB{
 		return this->m_Viewport;
 	}
 
+	const uint32	COGLDevice::GetMaxAnisotropy() const{
+		CR_GLBINDCHECK(this->m_WindowDC.Get(), this->m_RenderContext.Get());
+
+		GLint val = 0;
+		GL::glGetIntegerv(GL::ANISOTROPY_TOKENS::GL_MAX_TEXTURE_MAX_ANISOTROPY, &val);	CR_GLCHECK();
+		return (uint32)val;
+	}
+
+	const uint32	COGLDevice::GetMaxTextureSize(const Graphic::TextureType uType) const{
+		GLint val = 0;
+		switch (uType){
+		case Graphic::TextureType::Texture1D:	
+		case Graphic::TextureType::Texture2D:
+			GL::glGetIntegerv(GL::GL_MAX_TEXTURE_SIZE, &val);	
+			break;
+
+		case Graphic::TextureType::Texture3D:
+			GL::glGetIntegerv(GL::GL_MAX_3D_TEXTURE_SIZE, &val);
+			break;
+
+		case Graphic::TextureType::TextureCube:
+			GL::glGetIntegerv(GL::GL_MAX_CUBE_MAP_TEXTURE_SIZE, &val);
+			break;
+
+		default:
+			throw Exception::CInvalidArgumentException(L"uType", String::ToString(uType),
+				L"Invalid texture type for size query.", CR_INFO());
+		}
+
+		return (uint32)val;
+	}
+
+	//=======================================================================================================
+	//	END OF INFO GETTERS
+	//=======================================================================================================
+
+
+
+	//=======================================================================================================
+	//	OBJECT FREEING
+	//=======================================================================================================
 
 	void	COGLDevice::FreeVertexDeclaration(){
 		this->UnbindAllStreams();
@@ -699,6 +746,11 @@ namespace CB{
 				L"Unknown state type for clearing.", CR_INFO());
 		}
 	}
+
+	//=================================================================================================
+	//	END OF OBJECT FREEING
+	//=================================================================================================
+
 
 
 	void	COGLDevice::Render(const uint32 uPrimitiveCount){

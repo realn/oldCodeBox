@@ -112,12 +112,14 @@ namespace CB{
 		CRefPtr<Graphic::IShader>				GetShader(const Graphic::ShaderType uType) const override;
 		CRefPtr<Graphic::IDeviceState>			GetState(const Graphic::DeviceStateType uType) const override;
 
-		const Graphic::FeatureLevel				GetFeatureLevel() const override;
-		const Graphic::PrimitiveType			GetRenderPrimitive() const override;
-		const CString							GetLastCompilationLog() const override;
-		const uint32							GetNumberOfStreams() const override;
-		const Math::CRectangle					GetScissorRect() const override;
-		const Math::CRectangle					GetViewport() const override;
+		const Graphic::FeatureLevel		GetFeatureLevel() const override;
+		const Graphic::PrimitiveType	GetRenderPrimitive() const override;
+		const CString					GetLastCompilationLog() const override;
+		const uint32					GetNumberOfStreams() const override;
+		const Math::CRectangle			GetScissorRect() const override;
+		const Math::CRectangle			GetViewport() const override;
+		const uint32					GetMaxAnisotropy() const override;
+		const uint32					GetMaxTextureSize(const Graphic::TextureType uType) const override;
 
 
 		void	FreeVertexDeclaration() override;

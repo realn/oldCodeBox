@@ -272,5 +272,17 @@ namespace CB{
 				return String::ToString((uint32)uWrap);
 			}
 		}
+
+		const CString	ToString(const Graphic::TextureType uType){
+			switch (uType)
+			{
+			case Graphic::TextureType::Texture1D:	return L"Texture 1D";
+			case Graphic::TextureType::Texture2D:	return L"Texture 2D";
+			case Graphic::TextureType::Texture3D:	return L"Texture 3D";
+			case Graphic::TextureType::TextureCube:	return L"Texture Cube";
+			default:
+				return String::ToString((uint32)uType);
+			}
+		}
 	}
 }

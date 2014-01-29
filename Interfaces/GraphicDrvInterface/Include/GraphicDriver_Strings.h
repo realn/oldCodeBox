@@ -24,5 +24,6 @@ namespace CB{
 		extern GRAPHICDRVINTERFACE_API const CString	ToString(const Graphic::FeatureLevel uLevel);
 		extern GRAPHICDRVINTERFACE_API const CString	ToString(const Graphic::TextureFilter uFilter);
 		extern GRAPHICDRVINTERFACE_API const CString	ToString(const Graphic::TextureWrap uWrap);
+		extern GRAPHICDRVINTERFACE_API const CString	ToString(const Graphic::TextureType uType);
 	}
 }
