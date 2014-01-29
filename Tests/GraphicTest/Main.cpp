@@ -176,6 +176,9 @@ int main(){
 			//texture.pTexture->SetAnisotropy(8);
 			g_pTexture = texture.pTexture;
 
+			CB::Log::Write(L"Max texture size: " + CB::String::ToString(pGraphicDevice->GetMaxTextureSize(CB::Graphic::TextureType::Texture2D)));
+			CB::Log::Write(L"Max 3D texture size: " + CB::String::ToString(pGraphicDevice->GetMaxTextureSize(CB::Graphic::TextureType::Texture3D)));
+
 			while(g_bRun){
 				pGraphicDevice->Clear(1.0f, 1);
 				pGraphicDevice->Clear(CB::Math::CColor(1.0f, 0.5f, 0.0f, 1.0f));
@@ -224,9 +227,10 @@ int main(){
 					break;
 				}
 
-				mView = CB::Math::CMatrix::GetRotation(CB::Math::AxisOrientation::AxisY, g_fTurnY) *
-					CB::Math::CMatrix::GetRotation(CB::Math::AxisOrientation::AxisX, -35.0f) * 
-					CB::Math::CMatrix::GetTranslation(0.0f, 0.0f, g_fViewZ);
+				mView = CB::Math::CMatrix::GetTranslation(0.0f, 0.0f, g_fViewZ) * 
+					CB::Math::CMatrix::GetRotation(CB::Math::AxisOrientation::AxisY, g_fTurnY) *
+					CB::Math::CMatrix::GetRotation(CB::Math::AxisOrientation::AxisX, -35.0f)
+					;
 
 				pGraphicDevice->Swap();
 			}

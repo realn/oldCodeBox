@@ -22,9 +22,9 @@ struct F_OUTPUT{
 V_OUTPUT	vmain(V_INPUT vinput){
 	V_OUTPUT	voutput;
 
-	float4x4 mModelView = mul(vinput.mModel, vinput.mView);
-	float4x4 mModelViewProj = mul(mModelView, vinput.mProj);
-	float4	vPosition = mul(float4(vinput.vPosition, 1.0f), mModelViewProj);
+	//float4x4 mModelViewProj = mul(vinput.mModel, mul(vinput.mView, vinput.mProj));
+	float4x4 mModelViewProj = mul(mul(vinput.mProj, vinput.mView), vinput.mModel);
+	float4	vPosition = mul(mModelViewProj, float4(vinput.vPosition, 1.0f));
 
 	voutput.vPosition = vPosition;
 	voutput.vTexCoord = vinput.vTexCoord;
