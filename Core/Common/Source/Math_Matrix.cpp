@@ -189,7 +189,7 @@ namespace CB{
 			CVector3D vOut;
 
 			for(uint32 i = 0; i < 3; i++){
-				vOut[i] = CVector3D(this->GetColumn(i)).Dot(vNormal);
+				vOut[i] = ((CVector3D)this->GetColumn(i)).Dot(vNormal);
 			}
 
 			return vOut;
@@ -365,6 +365,12 @@ namespace CB{
 			return this->Get(uIndex);
 		}
 
+		CMatrix::operator const CB::Collection::CArray<CB::Math::CVector4D, 4U>() const{
+			return Collection::CArray<CVector4D, 4>(this->GetPointer(), this->GetLength());
+		}
+
+		//	Static transform functions
+
 		const CMatrix	CMatrix::GetIdentity(){
 			CMatrix mOut;
 			mOut.SetIdentity();
@@ -417,6 +423,10 @@ namespace CB{
 
 		const CMatrix	CMatrix::GetPerspective(const float32 fAspect, const float32 fEyeAngle, const float32 fZNear, const float32 fZFar){
 			return FromGLM(glm::perspective(fEyeAngle, fAspect, fZNear, fZFar));
+		}
+
+		const CMatrix	CMatrix::GetPerspective(const float32 fAspect, const float32 fEyeAngle, const float32 fZNear){
+			return FromGLM(glm::infinitePerspective(fEyeAngle, fAspect, fZNear));
 		}
 	}
 

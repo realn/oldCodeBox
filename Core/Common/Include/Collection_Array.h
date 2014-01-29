@@ -26,6 +26,7 @@ namespace CB{
 			CArray();
 			CArray(const CArray<_Type, _Length>& Array);
 			CArray(const ICountable<_Type>& Collection);
+			CArray(const _Type* pData, const uint32 uLength);
 			~CArray();
 
 			const uint32	GetLength() const override;
@@ -66,6 +67,18 @@ namespace CB{
 		template<typename _Type, uint32 _Length>
 		CArray<_Type, _Length>::CArray(const ICountable<_Type>& Collection){
 			this->Set(Collection);
+		}
+
+		template<typename _Type, uint32 _Length>
+		CArray<_Type, _Length>::CArray(const _Type* pData, const uint32 uLength){
+			if(pData == 0 && uLength > 0){
+				throw Exception::CNullArgumentException(L"pData",
+					L"Invalid data pointer to copy array.", CR_INFO());
+			}
+
+			for(uint32 uIndex = 0; uIndex < Min(uLength, _Length); uIndex++){
+				this->m_pData[uIndex] = pData[uIndex];
+			}
 		}
 
 		template<typename _Type, uint32 _Length>

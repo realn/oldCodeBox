@@ -25,7 +25,7 @@ namespace CB{
 			this->m_FontSize = pFont->GetSize();
 			
 			IO::CImage textureImage(this->MaxTextureSize, IO::Image::BitFormat::f32Bit);
-			Math::CVector2D vTextureSize(this->MaxTextureSize.Width, this->MaxTextureSize.Height);
+			Math::CVector2D vTextureSize((float32)this->MaxTextureSize.Width, (float32)this->MaxTextureSize.Height);
 
 			Math::CPoint texturePos = this->CharPadding.ToPoint();
 			uint32	maxCharHeight = 0;
@@ -87,7 +87,7 @@ namespace CB{
 					img.Create(Math::CSize(1), IO::Image::BitFormat::f32Bit);
 				}
 
-				auto vFontSize = Math::CVector2D(this->m_FontSize.Width, this->m_FontSize.Height);
+				auto vFontSize = Math::CVector2D((float32)this->m_FontSize.Width, (float32)this->m_FontSize.Height);
 
 				desc.cCharacter = charCode;
 				desc.vPosCorrection = Math::CVector2D(bitmapPos) / vFontSize;

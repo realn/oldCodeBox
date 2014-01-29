@@ -5,38 +5,56 @@
 namespace CB{
 	namespace Math{
 		CVector3D::CVector3D() : 
-			CVector2D(), 
+			X(0.0f),
+			Y(0.0f),
 			Z(0.0f)
 		{}
 
 		CVector3D::CVector3D(const CVector3D& Vector) : 
-			CVector2D(Vector), 
+			X(Vector.X),
+			Y(Vector.Y),
 			Z(Vector.Z)
 		{}
 
 		CVector3D::CVector3D(const CVector2D& Vector) : 
-			CVector2D(Vector), 
+			X(Vector.X),
+			Y(Vector.Y),
 			Z(0.0f)
 		{}
 
 		CVector3D::CVector3D(const CVector2D& Vector, const float32 fZ) : 
-			CVector2D(Vector), Z(fZ){
-		}
+			X(Vector.X),
+			Y(Vector.Y),
+			Z(fZ)
+		{}
 
-		CVector3D::CVector3D(const CPoint3D& Point) : CVector2D(Point), Z((float32)Point.Z){
-		}
+		CVector3D::CVector3D(const CPoint3D& Point) : 
+			X((float32)Point.X), 
+			Y((float32)Point.Y),
+			Z((float32)Point.Z)
+		{}
 
-		CVector3D::CVector3D(const float32 fValue) : CVector2D(fValue), Z(fValue){
-		}
+		CVector3D::CVector3D(const float32 fValue) : 
+			X(fValue), 
+			Y(fValue),
+			Z(fValue)
+		{}
 
-		CVector3D::CVector3D(const float32 fX, const float32 fY) : CVector2D(fX, fY), Z(0.0f){
-		}
+		CVector3D::CVector3D(const float32 fX, const float32 fY) : 
+			X(fX),
+			Y(fY), 
+			Z(0.0f)
+		{}
 
-		CVector3D::CVector3D(const float32 fX, const float32 fY, const float32 fZ) : CVector2D(fX, fY), Z(fZ){
-		}
+		CVector3D::CVector3D(const float32 fX, const float32 fY, const float32 fZ) : 
+			X(fX),
+			Y(fY), 
+			Z(fZ)
+		{}
 
 		void	CVector3D::SetZero(){
-			CVector2D::SetZero();
+			this->X = 0.0f;
+			this->Y = 0.0f;
 			this->Z = 0.0f;
 		}
 
@@ -51,12 +69,14 @@ namespace CB{
 		}
 
 		void	CVector3D::Set(const float32 fX, const float32 fY){
-			CVector2D::Set(fX, fY);
+			this->X = fX;
+			this->Y = fY;
 			this->Z = 0.0f;
 		}
 
 		void	CVector3D::Set(const float32 fX, const float32 fY, const float32 fZ){
-			CVector2D::Set(fX, fY);
+			this->X = fX;
+			this->Y = fY;
 			this->Z = fZ;
 		}
 
@@ -278,6 +298,14 @@ namespace CB{
 
 		float32&	CVector3D::operator[](const uint32 uIndex){
 			return this->Get(uIndex);
+		}
+
+		CVector3D::operator const CVector2D() const{
+			return CVector2D(this->X, this->Y);
+		}
+
+		CVector3D::operator const CB::Collection::CArray<float32, 3U>() const{
+			return Collection::CArray<float32, 3>(this->GetPointer(), this->GetLength());
 		}
 	}
 }

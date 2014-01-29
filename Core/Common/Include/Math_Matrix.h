@@ -2,7 +2,6 @@
 
 #include "Math_Vector.h"
 #include "Collection_Array.h"
-#pragma warning(disable : 4251)
 
 namespace CB{
 	namespace Math{
@@ -17,12 +16,9 @@ namespace CB{
 			ZXY
 		};
 
-		class COMMON_API CMatrix :
-			public Collection::ICountable<CVector4D>,
-			public Collection::IPacked<CVector4D>
-		{
+		class COMMON_API CMatrix{
 		public:
-			Collection::CArray<CVector4D, 4>	Row;
+			CVector4D	Row[4];
 
 			CMatrix();
 			CMatrix(const float32* pMatrix);
@@ -44,28 +40,28 @@ namespace CB{
 			void	Transpose();
 			void	Inverse();
 
-			const uint32	GetLength() const override;
-			const uint32	GetSizeInBytes() const override;
-			const bool		IsEmpty() const override;
+			const uint32	GetLength() const;
+			const uint32	GetSizeInBytes() const;
+			const bool		IsEmpty() const;
 
-			const CVector4D*	GetPointer() const override;
-			CVector4D*			GetPointer() override;
+			const CVector4D*	GetPointer() const;
+			CVector4D*			GetPointer();
 
-			const float32*	GetMatrixPointer() const;
-			float32*		GetMatrixPointer();
+			const float32*		GetMatrixPointer() const;
+			float32*			GetMatrixPointer();
 			
-			const CMatrix	GetTransposed() const;
-			const CMatrix	GetInverted() const;
-			const CVector3D	Transform(const CVector3D& Vector) const;
-			const CVector3D	TransformNormal(const CVector3D& vNormal) const;
+			const CMatrix		GetTransposed() const;
+			const CMatrix		GetInverted() const;
+			const CVector3D		Transform(const CVector3D& Vector) const;
+			const CVector3D		TransformNormal(const CVector3D& vNormal) const;
 			const float32		GetDeterminant() const;
 
-			const CVector4D&	Get(const uint32 uIndex) const override;
-			CVector4D&			Get(const uint32 uIndex) override;
+			const CVector4D&	Get(const uint32 uIndex) const;
+			CVector4D&			Get(const uint32 uIndex);
 			const CVector4D		GetColumn(const uint32 uIndex) const;
 			
 			const float32&	Get(const uint32 uRow, const uint32 uColumn) const;
-			float32&			Get(const uint32 uRow, const uint32 uColumn);
+			float32&		Get(const uint32 uRow, const uint32 uColumn);
 
 			const CMatrix	Add(const CMatrix& Matrix) const;
 			const CMatrix	Sub(const CMatrix& Matrix) const;
@@ -95,6 +91,8 @@ namespace CB{
 			const CVector4D&	operator[](const uint32 uIndex) const;
 			CVector4D&			operator[](const uint32 uIndex);
 
+			operator const Collection::CArray<CVector4D, 4>() const;
+
 			static const CMatrix	GetIdentity();
 			static const CMatrix	GetTranslation(const float32 fX, const float32 fY, const float32 fZ);
 			static const CMatrix	GetTranslation(const CVector3D& vPos);
@@ -105,7 +103,9 @@ namespace CB{
 			static const CMatrix	GetOrtho(const CVector2D& Size, const float32 fZNear, const float32 fZFar);
 			static const CMatrix	GetOrtho(const float32 fWidth, const float32 fHeight, const float32 fZNear, const float32 fZFar);
 			static const CMatrix	GetOrtho(const float32 fLeft, const float32 fRight, const float32 fBottom, const float32 fTop, const float32 fZNear, const float32 fZFar);
-			static const CMatrix	GetPerspective(const float32 fAspect, const float32 fEyeAngle, const float32 fZNear, const float32 fZFar);
+			static const CMatrix	GetPerspective(const float32 fAspect, const float32 fFOV, const float32 fZNear, const float32 fZFar);
+			static const CMatrix	GetPerspective(const float32 fAspect, const float32 fFOV, const float32 fZNear);
+			static const CMatrix	GetFrustum(const float32 fLeft, const float32 fRight, const float32 fBottom, const float32 fTop, const float32 fZNear, const float32 fZFar);
 		};
 	}
 

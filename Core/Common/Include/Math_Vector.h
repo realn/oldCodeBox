@@ -4,16 +4,15 @@
 #include "Math_Point.h"
 #include "Math_Size.h"
 #include "Collection_Interface.h"
+#include "Collection_Array.h"
 
 namespace CB{
 	namespace Math{
-		class COMMON_API CVector2D //:
-			//public Collection::ICountable<float32>,
-			//public Collection::IPacked<float32>
-		{
+		class COMMON_API CVector2D{
 		public:
 			float32	X;
 			float32	Y;
+
 
 			CVector2D();
 			CVector2D(const CVector2D& Vector);
@@ -87,12 +86,14 @@ namespace CB{
 
 			const float32&	operator[](const uint32 uIndex) const ;
 			float32&		operator[](const uint32 uIndex) ;
+
+			operator const Collection::CArray<float32, 2>() const;
 		};
 
-		class COMMON_API CVector3D : 
-			public CVector2D
-		{
+		class COMMON_API CVector3D{
 		public:
+			float32 X;
+			float32 Y;
 			float32	Z;
 
 			CVector3D();
@@ -170,14 +171,18 @@ namespace CB{
 			const bool	operator==(const CVector3D& Vector) const;
 			const bool	operator!=(const CVector3D& Vector) const;
 
-			const float32&	operator[](const uint32 uIndex) const ;
-			float32&		operator[](const uint32 uIndex) ;
+			const float32&	operator[](const uint32 uIndex) const;
+			float32&		operator[](const uint32 uIndex);
+
+			operator const CVector2D() const;
+			operator const Collection::CArray<float32, 3>() const;
 		};
 
-		class COMMON_API CVector4D : 
-			public CVector3D
-		{
+		class COMMON_API CVector4D{
 		public:
+			float32 X;
+			float32 Y;
+			float32 Z;
 			float32	W;
 
 			CVector4D();
@@ -260,8 +265,11 @@ namespace CB{
 			const bool	operator==(const CVector4D& Vector) const;
 			const bool	operator!=(const CVector4D& Vector) const;
 
-			const float32&	operator[](const uint32 uIndex) const ;
-			float32&		operator[](const uint32 uIndex) ;
+			const float32&	operator[](const uint32 uIndex) const;
+			float32&		operator[](const uint32 uIndex);
+
+			operator const CVector3D() const;
+			operator const Collection::CArray<float32, 4>() const;
 		};
 	}
 }

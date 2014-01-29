@@ -253,5 +253,9 @@ namespace CB{
 		float32&	CVector2D::operator[](const uint32 uIndex){
 			return this->Get(uIndex);
 		}
+
+		CVector2D::operator const CB::Collection::CArray<float32, 2U>() const{
+			return Collection::CArray<float32, 2>(this->GetPointer(), this->GetLength());
+		}
 	}
 }

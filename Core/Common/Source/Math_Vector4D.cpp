@@ -5,77 +5,135 @@
 namespace CB{
 	namespace Math{
 		CVector4D::CVector4D() : 
-			CVector3D(), 
+			X(0.0f),
+			Y(0.0f),
+			Z(0.0f), 
 			W(1.0f)
 		{}
 
 		CVector4D::CVector4D(const CVector4D& Vector) : 
-			CVector3D(Vector), 
+			X(Vector.X),
+			Y(Vector.Y),
+			Z(Vector.Z), 
 			W(Vector.W)
 		{}
 
 		CVector4D::CVector4D(const CVector3D& Vector) : 
-			CVector3D(Vector), 
+			X(Vector.X),
+			Y(Vector.Y),
+			Z(Vector.Z), 
 			W(1.0f)
 		{}
 
-		CVector4D::CVector4D(const CVector3D& Vector, const float32 fW) : CVector3D(Vector), W(fW){
-		}
+		CVector4D::CVector4D(const CVector3D& Vector, const float32 fW) : 
+			X(Vector.X),
+			Y(Vector.Y),
+			Z(Vector.Z), 
+			W(fW)
+		{}
 
-		CVector4D::CVector4D(const CVector2D& Vector) : CVector3D(Vector), W(1.0f){
-		}
+		CVector4D::CVector4D(const CVector2D& Vector) : 
+			X(Vector.X),
+			Y(Vector.Y), 
+			Z(0.0f),
+			W(1.0f)
+		{}
 
-		CVector4D::CVector4D(const CVector2D& Vector, const float32 fZ) : CVector3D(Vector, fZ), W(1.0f){
-		}
+		CVector4D::CVector4D(const CVector2D& Vector, const float32 fZ) : 
+			X(Vector.X),
+			Y(Vector.Y),
+			Z(fZ), 
+			W(1.0f)
+		{}
 
-		CVector4D::CVector4D(const CVector2D& Vector, const float32 fZ, const float32 fW) : CVector3D(Vector, fZ), W(fW){
-		}
+		CVector4D::CVector4D(const CVector2D& Vector, const float32 fZ, const float32 fW) : 
+			X(Vector.X),
+			Y(Vector.Y),
+			Z(fZ), 
+			W(fW)
+		{}
 
-		CVector4D::CVector4D(const CPoint3D& Point) : CVector3D(Point), W(1.0f){
-		}
+		CVector4D::CVector4D(const CPoint3D& Point) : 
+			X((float32)Point.X),
+			Y((float32)Point.Y),
+			Z((float32)Point.Z),
+			W(1.0f)
+		{}
 
-		CVector4D::CVector4D(const CPoint3D& Point, const float32 fW) : CVector3D(Point), W(fW){
-		}
+		CVector4D::CVector4D(const CPoint3D& Point, const float32 fW) : 
+			X((float32)Point.X),
+			Y((float32)Point.Y),
+			Z((float32)Point.Z),
+			W(fW)
+		{}
 
-		CVector4D::CVector4D(const float32 fValue) : CVector3D(fValue), W(1.0f){
-		}
+		CVector4D::CVector4D(const float32 fValue) : 
+			X(fValue),
+			Y(fValue),
+			Z(fValue),
+			W(1.0f)
+		{}
 
-		CVector4D::CVector4D(const float32 fValue, const float32 fW) : CVector3D(fValue), W(fW){
-		}
+		CVector4D::CVector4D(const float32 fValue, const float32 fW) : 
+			X(fValue),
+			Y(fValue),
+			Z(fValue),
+			W(fW)
+		{}
 
-		CVector4D::CVector4D(const float32 fX, const float32 fY, const float32 fZ) : CVector3D(fX, fY, fZ), W(1.0f){
-		}
+		CVector4D::CVector4D(const float32 fX, const float32 fY, const float32 fZ) : 
+			X(fX),
+			Y(fY), 
+			Z(fZ), 
+			W(1.0f)
+		{}
 
-		CVector4D::CVector4D(const float32 fX, const float32 fY, const float32 fZ, const float32 fW) : CVector3D(fX, fY, fZ), W(fW){
-		}
+		CVector4D::CVector4D(const float32 fX, const float32 fY, const float32 fZ, const float32 fW) : 
+			X(fX), 
+			Y(fY), 
+			Z(fZ), 
+			W(fW)
+		{}
 
 		void	CVector4D::SetZero(){
-			CVector3D::SetZero();
+			this->X = 0.0f;
+			this->Y = 0.0f;
+			this->Z = 0.0f;
 			this->W = 0.0f;
 		}
 
 		void	CVector4D::Set(const CVector4D& Vector){
-			CVector3D::Set(Vector);
+			this->X = Vector.X;
+			this->Y = Vector.Y;
+			this->Z = Vector.Z;
 			this->W = Vector.W;
 		}
 
 		void	CVector4D::Set(const float32 fValue){
-			CVector3D::Set(fValue);
+			this->X = fValue;
+			this->Y = fValue;
+			this->Z = fValue;
 			this->W = 1.0f;
 		}
 
 		void	CVector4D::Set(const float32 fValue, const float32 fW){
-			CVector3D::Set(fValue);
+			this->X = fValue;
+			this->Y = fValue;
+			this->Z = fValue;
 			this->W = fW;
 		}
 
 		void	CVector4D::Set(const float32 fX, const float32 fY, const float32 fZ){
-			CVector3D::Set(fX, fY, fZ);
+			this->X = fX;
+			this->Y = fY;
+			this->Z = fZ;
 			this->W = 1.0f;
 		}
 
 		void	CVector4D::Set(const float32 fX, const float32 fY, const float32 fZ, const float32 fW){
-			CVector3D::Set(fX, fY, fZ);
+			this->X = fX;
+			this->Y = fY;
+			this->Z = fZ;
 			this->W = fW;
 		}
 
@@ -160,7 +218,8 @@ namespace CB{
 		}
 
 		const CVector4D	CVector4D::GetNormalized() const{
-			return CVector4D(CVector3D::Div(this->GetVectorLength()), this->W);
+			float32 fLen = this->GetVectorLength();
+			return CVector4D(X / fLen, Y / fLen, Z / fLen, this->W);
 		}
 
 		void	CVector4D::Normalize(){
@@ -297,6 +356,14 @@ namespace CB{
 
 		float32&	CVector4D::operator[](const uint32 uIndex){
 			return this->Get(uIndex);
+		}
+
+		CVector4D::operator const CVector3D() const{
+			return CVector3D(this->X, this->Y, this->Z);
+		}
+
+		CVector4D::operator const CB::Collection::CArray<float32, 4U>() const{
+			return Collection::CArray<float32, 4>(this->GetPointer(), this->GetLength());
 		}
 	}
 }
