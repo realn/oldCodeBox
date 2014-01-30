@@ -71,6 +71,10 @@ namespace CB{
 			virtual ISignal*	CreateCopy() const override{
 				return new CFunc<_ReturnType, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5>(this->m_pFunc);
 			}
+
+			const bool	IsPointerEqual(const void* pObj) const override{
+				return this->m_pFunc == pObj;
+			}
 		};
 
 		template<typename _ReturnType, typename _Arg1, typename _Arg2, typename _Arg3, typename _Arg4>
@@ -116,6 +120,9 @@ namespace CB{
 			virtual ISignal*	CreateCopy() const override{
 				return new CFunc<_ReturnType, _Arg1, _Arg2, _Arg3, _Arg4>(this->m_pFunc);
 			}
+			const bool	IsPointerEqual(const void* pObj) const override{
+				return this->m_pFunc == pObj;
+			}
 		};
 
 		template<typename _ReturnType, typename _Arg1, typename _Arg2, typename _Arg3>
@@ -160,6 +167,9 @@ namespace CB{
 			virtual ISignal*	CreateCopy() const override{
 				return new CFunc<_ReturnType, _Arg1, _Arg2, _Arg3>(this->m_pFunc);
 			}
+			const bool	IsPointerEqual(const void* pObj) const override{
+				return this->m_pFunc == pObj;
+			}
 		};
 
 		template<typename _ReturnType, typename _Arg1, typename _Arg2>
@@ -203,6 +213,9 @@ namespace CB{
 			virtual ISignal*	CreateCopy() const override{
 				return new CFunc<_ReturnType, _Arg1, _Arg2>(this->m_pFunc);
 			}
+			const bool	IsPointerEqual(const void* pObj) const override{
+				return this->m_pFunc == pObj;
+			}
 		};
 
 		template<typename _ReturnType, typename _Arg1>
@@ -244,6 +257,9 @@ namespace CB{
 			virtual ISignal*	CreateCopy() const override{
 				return new CFunc<_ReturnType, _Arg1>(this->m_pFunc);
 			}
+			const bool	IsPointerEqual(const void* pObj) const override{
+				return this->m_pFunc == pObj;
+			}
 		};
 
 		template<typename _ReturnType>
@@ -282,6 +298,10 @@ namespace CB{
 
 			virtual ISignal*	CreateCopy() const override{
 				return new CFunc<_ReturnType>(this->m_pFunc);
+			}
+
+			const bool	IsPointerEqual(const void* pObj) const override{
+				return this->m_pFunc == pObj;
 			}
 		};
 	}

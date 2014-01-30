@@ -38,6 +38,16 @@ namespace CB{
 			this->m_pSignals.Clear();
 		}
 
+		void	ISlot::Clear(const void* pObj){
+			auto En = this->m_pSignals.GetEnumerator();
+			for(En.ToFirst(); En.IsValid(); En.Next()){
+				if(En.Get()->IsPointerEqual(pObj)){
+					En.Get()->Destroy();
+					this->m_pSignals.Remove(En);
+				}
+			}
+		}
+
 		const bool	ISlot::IsValid() const{
 			return !this->m_pSignals.IsEmpty();
 		}

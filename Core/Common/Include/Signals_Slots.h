@@ -23,6 +23,7 @@ namespace CB{
 
 		public:
 			void	Clear();
+			void	Clear(const void* pObj);
 			const bool	IsValid() const;
 			const bool	IsEmpty() const;
 		};

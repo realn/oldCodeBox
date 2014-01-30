@@ -17,6 +17,7 @@ namespace CB{
 
 			virtual	const unsigned	GetHashCode() const = 0;
 			virtual ISignal*	CreateCopy() const = 0;
+			virtual const bool	IsPointerEqual(const void* pObj) const = 0;
 			void	Destroy();
 
 			virtual const bool	IsEqual(ISignal* pSignal) const;

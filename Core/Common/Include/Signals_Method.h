@@ -41,6 +41,10 @@ namespace CB{
 			ISignal*	CreateCopy() const override{
 				return new CMethod<_ObjType, _ReturnType, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5>(this->m_pObject, this->m_pObjCallback);
 			}
+
+			const bool	IsPointerEqual(const void* pObj) const override{
+				return this->m_pObject == pObj;
+			}
 		};
 
 		template<typename _ObjType, typename _ReturnType, typename _Arg1, typename _Arg2, typename _Arg3, typename _Arg4>
@@ -77,6 +81,9 @@ namespace CB{
 			ISignal*	CreateCopy() const override{
 				return new CMethod<_ObjType, _ReturnType, _Arg1, _Arg2, _Arg3, _Arg4>(this->m_pObject, this->m_pObjCallback);
 			}
+			const bool	IsPointerEqual(const void* pObj) const override{
+				return this->m_pObject == pObj;
+			}
 		};
 
 		template<typename _ObjType, typename _ReturnType, typename _Arg1, typename _Arg2, typename _Arg3>
@@ -112,6 +119,9 @@ namespace CB{
 			ISignal*	CreateCopy() const override{
 				return new CMethod<_ObjType, _ReturnType, _Arg1, _Arg2, _Arg3>(this->m_pObject, this->m_pObjCallback);
 			}
+			const bool	IsPointerEqual(const void* pObj) const override{
+				return this->m_pObject == pObj;
+			}
 		};
 
 		template<typename _ObjType, typename _ReturnType, typename _Arg1, typename _Arg2>
@@ -146,6 +156,9 @@ namespace CB{
 			ISignal*	CreateCopy() const override{
 				return new CMethod<_ObjType, _ReturnType, _Arg1, _Arg2>(this->m_pObject, this->m_pObjCallback);
 			}
+			const bool	IsPointerEqual(const void* pObj) const override{
+				return this->m_pObject == pObj;
+			}
 		};
 
 		template<typename _ObjType, typename _ReturnType, typename _Arg1>
@@ -178,6 +191,9 @@ namespace CB{
 			ISignal*	CreateCopy() const override{
 				return new CMethod<_ObjType, _ReturnType, _Arg1>(this->m_pObject, this->m_pObjCallback);
 			}
+			const bool	IsPointerEqual(const void* pObj) const override{
+				return this->m_pObject == pObj;
+			}
 		};
 
 		template<typename _ObjType, typename _ReturnType>
@@ -209,6 +225,9 @@ namespace CB{
 
 			ISignal*	CreateCopy() const override{
 				return new CMethod<_ObjType, _ReturnType>(this->m_pObject, this->m_pObjCallback);
+			}
+			const bool	IsPointerEqual(const void* pObj) const override{
+				return this->m_pObject == pObj;
 			}
 		};
 	}
