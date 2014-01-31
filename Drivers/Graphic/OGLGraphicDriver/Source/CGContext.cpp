@@ -11,10 +11,6 @@ namespace CB{
 		}
 	}
 
-	CCGContext::CCGContext(const CCGContext&) : 
-		m_Context(0)
-	{}
-
 	CCGContext::CCGContext(CGcontext Context) :
 		m_Context(Context)
 	{}

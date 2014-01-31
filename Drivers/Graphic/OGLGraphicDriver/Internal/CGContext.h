@@ -1,6 +1,20 @@
 #pragma once
 
-#include "OpenGL_Core.h"
+#include <Types.h>
+#include "GLTypes.h"
+
+//==============================================
+//	CG headers and libs
+//==============================================
+
+#define CGGL_NO_OPENGL
+
+#include <Cg\cg.h>
+#include <Cg\cgGL.h>
+
+#pragma comment(lib, "cg.lib")
+#pragma comment(lib, "cgGL.lib")
+
 
 namespace CB{
 	class CCGContext{
@@ -15,7 +29,7 @@ namespace CB{
 		CGcontext&	Get() const;
 
 	private:
-		CCGContext(const CCGContext&);
-		const CCGContext& operator=(const CCGContext&);
+		CR_NOCOPY(CCGContext);
+		CR_NOASSIGN(CCGContext);
 	};
 }

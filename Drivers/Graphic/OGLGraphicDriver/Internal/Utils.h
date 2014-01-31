@@ -1,9 +1,9 @@
 #pragma once
 
 #include <GraphicDriver.h>
-#include "WinPlatform.h"
 #include <Collection_List.h>
-#include "OpenGL.h"
+
+#include "GLTypes.h"
 
 namespace CB{
 	namespace GLUtils{
