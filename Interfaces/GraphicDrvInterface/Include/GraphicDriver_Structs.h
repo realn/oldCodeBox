@@ -73,6 +73,8 @@ namespace CB{
 			void Set(const uint32 uStream, const CString strParam, const uint32 uOffset, const VertexType uType, const uint32 uTypeNumber);
 			void Set(const uint32 uStream, const CString strParam, const uint32 uOffset, const VertexType uType, const uint32 uTypeNumber, const InstanceDataType uInstance);
 
+			const uint32	GetSize() const;
+
 			const CVertexElement&	operator=(const CVertexElement& Element);
 
 			const CString	ToString() const;

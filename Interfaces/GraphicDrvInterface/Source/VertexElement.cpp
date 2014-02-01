@@ -48,6 +48,15 @@ namespace CB{
 
 		}
 
+		const uint32	CVertexElement::GetSize() const{
+			switch (this->uType){
+			case VertexType::Float:		return sizeof(float32) * this->uTypeNumber;
+			case VertexType::Color32b:	return sizeof(uint32) * this->uTypeNumber;
+			default:
+				return 0;
+			}
+		}
+
 		const CVertexElement&	CVertexElement::operator=(const CVertexElement& Element){
 			this->uStream = Element.uStream;
 			this->uOffset = Element.uOffset;
