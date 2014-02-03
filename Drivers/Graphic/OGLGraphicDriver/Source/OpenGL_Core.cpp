@@ -849,7 +849,9 @@ namespace GL{
 			return false;
 		}
 	}
+}
 
+namespace GL{
 	const CB::CString	ToErrorString(GLenum uError){
 		switch (uError)
 		{

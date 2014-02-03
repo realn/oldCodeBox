@@ -5,7 +5,7 @@
 #include "DeviceContext.h"
 #include "WindowDeviceContext.h"
 #include "CGContext.h"
-#include "RenderContext.h"
+#include "GLRenderContext.h"
 
 #include "OpenGL_Core.h"
 
@@ -29,9 +29,9 @@ namespace CB{
 		CRefPtr<Window::IWindow>	m_pOutputWindow;
 		CRefPtr<COGLOutput>			m_pOutput;
 
-		CRenderContext				m_RenderContext;
-		CWindowDeviceContext		m_WindowDC;
-		CCGContext					m_CGContext;
+		mutable CWindowDeviceContext		m_WindowDC;
+		mutable CAutoPtr<CGLRenderContext>	m_pRenderContext;
+		mutable CAutoPtr<CCGContext>		m_pCGContext;
 
 		Math::CColor			m_BlendFactor;
 		uint32					m_uSampleMask;
@@ -57,10 +57,10 @@ namespace CB{
 		COGLDevice(CRefPtr<COGLAdapter> pAdapter, CRefPtr<Window::IWindow> pWindow, const Graphic::CDeviceDesc& Desc, const Collection::ICountable<Graphic::FeatureLevel>& FeatureLevels, CRefPtr<COGLOutput> pOutput);
 		~COGLDevice();
 
-		HDC		GetWindowContext() const;
-		HGLRC	GetRenderContext() const;
+		CWindowDeviceContext&	GetWindowContext() const;
+		CGLRenderContext&		GetRenderContext() const;
+		CCGContext&				GetCGContext() const;
 
-		CGcontext	GetCGContext() const;
 		CGprofile	GetCGProfile(const Graphic::ShaderVersion uVersion, const Graphic::ShaderType uType) const;
 
 		//	OVERRIDES	====================================================
@@ -156,8 +156,8 @@ namespace CB{
 		void UnbindStream(const uint32 uStream);
 		void UnbindAllStreams();
 
-		const bool	LoadFeatureLevel(const Graphic::FeatureLevel uLevel, const bool bCoreCreate);
-		const bool	CreateRenderContext(const uint32 uMajorVersion, const uint32 uMinorVersion, const bool bCoreCreate);
+		const bool	LoadFeatureLevel(CGLRenderContext& tempRC, const Graphic::FeatureLevel uLevel, const bool bCoreCreate);
+		const bool	CreateRenderContext(CGLRenderContext& tempRC, const GLVersion uVersion, const bool bCoreCreate);
 
 		void	SetGLState(const Graphic::CDepthStencilStateDesc& Desc);
 		void	SetGLState(const Graphic::CRasterizerStateDesc& Desc);

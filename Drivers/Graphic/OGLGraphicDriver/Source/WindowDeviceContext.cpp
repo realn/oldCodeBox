@@ -55,4 +55,8 @@ namespace CB{
 			CR_THROWWIN(GetLastError(), L"Failed to set pixel format nr " + String::ToString(iFormat) + L" to device context of window " + this->m_pWindow->GetTitle());
 		}
 	}
+
+	const uint32	GetLastError(){
+		return ::GetLastError();
+	}
 }

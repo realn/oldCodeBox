@@ -67,7 +67,7 @@ namespace CB{
 		const bool	IsSupported(const WGLExtension uExtension) const;
 		const bool	Load(const GLVersion uVersion);
 		const bool	Load(const GLExtension uExtension);
-		const bool	Load(const GLExtension uExtension);
+		const bool	Load(const WGLExtension uExtension);
 
 		const int32	ChoosePixelFormat(const IDeviceContext& DC, const Collection::ICountable<int32>& Attribs) const;
 
@@ -86,16 +86,6 @@ namespace CB{
 		const bool	IsGLExtensionSupported(const CB::CString& strName) const;
 		const bool	IsWGLExtSupported(const CB::CString& strPrefix, const CB::CString& strName) const;
 		const bool	IsWGLExtSupported(const CB::CString& strName) const;
-
-		const bool	LoadExtensionsString();
-		const bool	LoadPixelBuffer();
-		const bool	LoadPixelFormat();
-		const bool	LoadMakeCurrentRead();
-		const bool	LoadCreateContext();
-	const bool LoadVersion12(){
-		CB::Log::Write(L"Loading GL Version 1.2", CB::Log::LogLevel::Debug);
-		return LoadProcs<LoadProcVersion12>();
-	}
 
 	public:
 		//	VERSION_1_0
@@ -212,6 +202,12 @@ namespace CB{
 		GLboolean glUnmapBuffer (GLenum target);
 		void glGetBufferParameteriv (GLenum target, GLenum pname, GLint *params);
 		void glGetBufferPointerv (GLenum target, GLenum pname, GLvoid **params);
+
+		//========================================
+		//	GL Extensions
+		//========================================
+
+		void glActiveStencilFace (GLenum face);
 
 		//========================================
 		//	WGL
