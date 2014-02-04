@@ -30,3 +30,6 @@ template<typename _Type>
 inline static const bool ContainsBit(_Type uCheck, _Type uValue){
 	return (uCheck & uValue) > 0;
 }
+
+#define CR_NOCOPY(_Type)	_Type(const _Type&){}
+#define CR_NOASSIGN(_Type)	const _Type& operator=(const _Type&){return *this;}

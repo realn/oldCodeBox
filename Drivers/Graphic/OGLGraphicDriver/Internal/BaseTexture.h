@@ -8,6 +8,7 @@ namespace CB{
 		public Manage::IManagedObject<COGLDevice, IOGLBaseTexture>
 	{
 	protected:
+		CGLRenderContext&			GL;
 		const Graphic::TextureType	m_uType;
 		const Graphic::BufferAccess	m_uAccess;
 		const Graphic::BufferUsage	m_uUsage;
@@ -53,13 +54,14 @@ namespace CB{
 
 	class CTextureBindGuard{
 	private:
-		const GLenum	m_uTarget;
-		const GLenum	m_uBinding;
-		GLuint	m_uTexture;
+		CGLRenderContext&	GL;
+		const GLenum		m_uTarget;
+		const GLenum		m_uBinding;
+		GLuint				m_uTexture;
 
 	public:
-		CTextureBindGuard(const GLenum uTarget, const GLenum uBinding);
-		CTextureBindGuard(const GLenum uTarget);
+		CTextureBindGuard(CGLRenderContext& GL, const GLenum uTarget, const GLenum uBinding);
+		CTextureBindGuard(CGLRenderContext& GL, const GLenum uTarget);
 		~CTextureBindGuard();
 	};
 }

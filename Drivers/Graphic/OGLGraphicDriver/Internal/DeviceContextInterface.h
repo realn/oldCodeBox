@@ -1,6 +1,6 @@
 #pragma once
 
-#include "WinPlatform.h"
+#include <Types.h>
 
 namespace CB{
 	//=================================================
@@ -9,6 +9,12 @@ namespace CB{
 	//=================================================
 	class IDeviceContext{
 	public:
-		virtual HDC&	Get() const = 0;
+		/// <summary>
+		/// Return masked HDC pointer.
+		/// </summary>
+		/// <returns>
+		/// Device Context Handle.
+		/// </returns>
+		virtual void*	Get() const = 0;
 	};
 }

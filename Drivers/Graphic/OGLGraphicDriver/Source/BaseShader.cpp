@@ -18,7 +18,7 @@ namespace CB{
 		auto szSource = String::ToANSI(strSource);
 		auto szEntryPoint = String::ToANSI(strEntryPoint);
 
-		this->m_uProgram = cgCreateProgram(this->GetParent()->GetCGContext(), uSourceType, reinterpret_cast<const char*>(szSource.GetPointer()), uProfile, reinterpret_cast<const char*>(szEntryPoint.GetPointer()), 0);
+		this->m_uProgram = cgCreateProgram(this->GetParent()->GetCGC().Get(), uSourceType, reinterpret_cast<const char*>(szSource.GetPointer()), uProfile, reinterpret_cast<const char*>(szEntryPoint.GetPointer()), 0);
 		if(!cgIsProgram(this->m_uProgram)){
 			CR_THROW(L"Failed to create shader program.");
 		}

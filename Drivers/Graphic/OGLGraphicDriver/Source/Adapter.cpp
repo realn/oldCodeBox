@@ -3,6 +3,7 @@
 #include "../Internal/Output.h"
 #include "../Internal/Device.h"
 #include "../Internal/DisplayDeviceInfo.h"
+#include "../Internal/WinPlatform.h"
 
 namespace CB{
 	COGLAdapter::COGLAdapter(CRefPtr<COGLManager> pManager, const uint32 uIndex, const CDisplayDeviceInfo& DeviceInfo) :
