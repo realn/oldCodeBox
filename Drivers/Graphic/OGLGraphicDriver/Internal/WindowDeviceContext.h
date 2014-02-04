@@ -88,8 +88,10 @@ namespace CB{
 
 		void*	Get() const override;
 
+		const int32	GetPixelFormat() const;
 		const int32	ChoosePixelFormat(const PIXELFORMATDESCRIPTOR& pfd) const;
 		void		SetPixelFormat(const int32 iFormat);
+		void		SwapBuffers();
 
 	private:
 		CR_NOCOPY(CWindowDeviceContext);

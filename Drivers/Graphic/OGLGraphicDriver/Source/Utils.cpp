@@ -356,7 +356,7 @@ namespace CB{
 				{
 				case Graphic::BufferAccess::Read:			return GL::GL_STREAM_READ;
 				case Graphic::BufferAccess::Write:			return GL::GL_STREAM_DRAW;
-				case Graphic::BufferAccess::ReadAndWrite:	return GL::GL_STATIC_COPY;
+				case Graphic::BufferAccess::ReadAndWrite:	return GL::GL_STREAM_COPY;
 				}
 				break;
 

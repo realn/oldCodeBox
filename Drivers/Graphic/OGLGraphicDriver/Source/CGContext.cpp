@@ -25,8 +25,4 @@ namespace CB{
 	CGcontext&	CCGContext::Get() const{
 		return this->m_Context;
 	}
-
-	const CCGContext&	CCGContext::operator=(const CCGContext&){
-		return *this;
-	}
 }

@@ -7,8 +7,6 @@
 #include "CGContext.h"
 #include "GLRenderContext.h"
 
-#include "OpenGL_Core.h"
-
 namespace CB{
 	class IOGLBaseBuffer;
 	class IOGLBaseShader;
@@ -57,9 +55,9 @@ namespace CB{
 		COGLDevice(CRefPtr<COGLAdapter> pAdapter, CRefPtr<Window::IWindow> pWindow, const Graphic::CDeviceDesc& Desc, const Collection::ICountable<Graphic::FeatureLevel>& FeatureLevels, CRefPtr<COGLOutput> pOutput);
 		~COGLDevice();
 
-		CWindowDeviceContext&	GetWindowContext() const;
-		CGLRenderContext&		GetRenderContext() const;
-		CCGContext&				GetCGContext() const;
+		CWindowDeviceContext&	GetDC() const;
+		CGLRenderContext&		GetRC() const;
+		CCGContext&				GetCGC() const;
 
 		CGprofile	GetCGProfile(const Graphic::ShaderVersion uVersion, const Graphic::ShaderType uType) const;
 

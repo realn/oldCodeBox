@@ -243,10 +243,11 @@ namespace CB{
 }
 
 #define CR_GLCHECK()	{ GLenum __uError = GL::glGetError(); if(__uError != GL::GL_NO_ERROR){ GL::ReportGLError(__uError, CR_INFO()); } }
-#define CR_GLBINDCHECK(DC,RC)	{ HDC __hDC = wglGetCurrentDC(); HGLRC __hRC = wglGetCurrentContext(); if(__hDC != (DC) || __hRC != (RC)){ GL::ReportGLBindMismatch(CR_INFO()); } } 
+#define CR_GLBINDCHECK(DC,RC)	{ if(!GL::CheckDCRC(DC, RC)){ GL::ReportGLBindMismatch(CR_INFO()); } } 
 
 namespace GL{
 	extern void	ReportGLError(GLenum uError, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine);
 	extern void	ReportGLBindMismatch(const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine);
 	extern GLenum glGetError();
+	extern const bool CheckDCRC(const CB::IDeviceContext& DC, const CB::IRenderContext& RC);
 }

@@ -152,6 +152,7 @@ namespace CB{
 		}
 		this->m_pRenderContext->Bind(this->m_WindowDC);
 
+		this->m_pCGContext = new CCGContext();
 		cgSetErrorCallback(ErrorCallback);
 		this->m_pVertexStream.Resize(this->GetNumberOfStreams());
 
@@ -169,25 +170,22 @@ namespace CB{
 			GLint iScissors[4];
 			this->m_pRenderContext->glGetIntegerv(GL::GL_SCISSOR_BOX, iScissors);
 			this->m_ScissorRect.Set(iScissors[0], iScissors[1], (uint32)iScissors[2], (uint32)iScissors[3]);
-		}
-
-		GL::glEnable(GL::GL_TEXTURE_2D);
-		
+		}		
 	}
 
 	COGLDevice::~COGLDevice(){
 		Log::Write(L"Deinitializing OpenGL Device...");
 	}
 
-	CWindowDeviceContext&	COGLDevice::GetWindowContext() const{
+	CWindowDeviceContext&	COGLDevice::GetDC() const{
 		return this->m_WindowDC;
 	}
 
-	CGLRenderContext&	COGLDevice::GetRenderContext() const{
+	CGLRenderContext&	COGLDevice::GetRC() const{
 		return *this->m_pRenderContext;
 	}
 
-	CCGContext&	COGLDevice::GetCGContext() const{
+	CCGContext&	COGLDevice::GetCGC() const{
 		return *this->m_pCGContext;
 	}
 
@@ -229,7 +227,7 @@ namespace CB{
 
 	/*
 		WARNING
-		At this level objects passed to RemoveObject methods, technically doesn't exist anymore.
+		At this level objects passed to RemoveObject methods, technically don't exist anymore.
 		This makes it crucial to DO NOT invoke ANY methods of those objects, because data is
 		probably invalid in them, and this can lead to an undefined behaviour (like pure virtual 
 		call exception).
@@ -238,24 +236,13 @@ namespace CB{
 	*/
 
 	void	COGLDevice::RemoveObject(CPtr<IOGLBaseBuffer> pBuffer){
-		switch (pBuffer->GetType()){
-		case Graphic::BufferType::Index:
-			if(this->m_pIndexStream == pBuffer){
-				this->FreeIndexBuffer();
+		if(this->m_pIndexStream == pBuffer){
+			this->FreeIndexBuffer();
+		}
+		for(uint32 uStream = 0; uStream < this->m_pVertexStream.GetLength(); uStream++){
+			if(this->m_pVertexStream[uStream] == pBuffer){
+				this->FreeVertexBuffer(uStream);
 			}
-			break;
-
-		case Graphic::BufferType::Vertex:
-			for(uint32 uStream = 0; uStream < this->m_pVertexStream.GetLength(); uStream++){
-				if(this->m_pVertexStream[uStream] == pBuffer){
-					this->FreeVertexBuffer(uStream);
-				}
-			}
-			break;
-
-		default:
-			throw Exception::CInvalidArgumentException(L"pBuffer", String::ToString(pBuffer->GetType()),
-				L"Unknown buffer type for removal.", CR_INFO());
 		}
 		Manage::IObjectManager<COGLDevice, IOGLBaseBuffer>::RemoveObject(pBuffer);
 	}
@@ -319,13 +306,17 @@ namespace CB{
 	}
 
 	void	COGLDevice::SetOutputWindow(CRefPtr<Window::IWindow> pWindow){
+		this->m_pRenderContext->Unbind();
+		this->m_pOutput->AdjustWindowRect(pWindow);
 		this->m_pOutputWindow = pWindow;
-		this->m_RenderContext.Unbind();
 
-		this->m_pOutput->AdjustWindowRect(this->m_pOutputWindow);
-
+		auto pixelFormat = this->m_WindowDC.GetPixelFormat();
 		this->m_WindowDC.SetWindow(this->m_pOutputWindow);
-		this->m_RenderContext.Bind(this->m_WindowDC);
+		if(this->m_WindowDC.GetPixelFormat() != pixelFormat){
+			this->m_WindowDC.SetPixelFormat(pixelFormat);
+		}
+
+		this->m_pRenderContext->Bind(this->m_WindowDC);
 	}
 
 
@@ -465,7 +456,7 @@ namespace CB{
 
 	void	COGLDevice::SetState(CRefPtr<Graphic::IDeviceState> pState){
 		CR_APICHECK(this, pState);
-		CR_GLBINDCHECK(this->m_WindowDC.Get(), this->m_RenderContext.Get());
+		CR_GLBINDCHECK(this->GetDC(), this->GetRC());
 
 		switch (pState->GetType())
 		{
@@ -492,7 +483,7 @@ namespace CB{
 
 	void	COGLDevice::SetState(CRefPtr<Graphic::IBlendState> pState, const Math::CColor& BlendFactor, const uint32 uSampleMask){
 		CR_APICHECK(this, pState);
-		CR_GLBINDCHECK(this->m_WindowDC.Get(), this->m_RenderContext.Get());
+		CR_GLBINDCHECK(this->GetDC(), this->GetRC());
 
 		this->m_BlendFactor = BlendFactor;
 		this->m_uSampleMask = uSampleMask;
@@ -502,7 +493,7 @@ namespace CB{
 
 	void	COGLDevice::SetState(CRefPtr<Graphic::IDepthStencilState> pState, const uint32 uStencilRef){
 		CR_APICHECK(this, pState);
-		CR_GLBINDCHECK(this->m_WindowDC.Get(), this->m_RenderContext.Get());
+		CR_GLBINDCHECK(this->GetDC(), this->GetRC());
 
 		this->m_uStencilRef = uStencilRef;
 		this->m_pDepthStencilState = pState.Cast<IOGLBaseState>();
@@ -521,15 +512,15 @@ namespace CB{
 	}
 
 	void	COGLDevice::SetScissorRect(const Math::CRectangle& Rect){
-		CR_GLBINDCHECK(this->m_WindowDC.Get(), this->m_RenderContext.Get());
+		CR_GLBINDCHECK(this->GetDC(), this->GetRC());
 
-		GL::glScissor(Rect.Position.X, Rect.Position.Y, Rect.Size.Width, Rect.Size.Height);	CR_GLCHECK();
+		this->GetRC().glScissor(Rect.Position.X, Rect.Position.Y, Rect.Size.Width, Rect.Size.Height);	CR_GLCHECK();
 	}
 	
 	void	COGLDevice::SetViewport(const Math::CRectangle& Viewport){
-		CR_GLBINDCHECK(this->m_WindowDC.Get(), this->m_RenderContext.Get());
+		CR_GLBINDCHECK(this->GetDC(), this->GetRC());
 
-		GL::glViewport(Viewport.Position.X, Viewport.Position.Y, Viewport.Size.Width, Viewport.Size.Height);	CR_GLCHECK();
+		this->GetRC().glViewport(Viewport.Position.X, Viewport.Position.Y, Viewport.Size.Width, Viewport.Size.Height);	CR_GLCHECK();
 	}
 
 
@@ -609,7 +600,7 @@ namespace CB{
 	}
 
 	const CString	COGLDevice::GetLastCompilationLog() const{
-		const char* szLog = cgGetLastListing(this->m_CGContext.Get());
+		const char* szLog = cgGetLastListing(this->GetCGC().Get());
 		if(szLog == 0){
 			return CString();
 		}
@@ -629,27 +620,29 @@ namespace CB{
 	}
 
 	const uint32	COGLDevice::GetMaxAnisotropy() const{
-		CR_GLBINDCHECK(this->m_WindowDC.Get(), this->m_RenderContext.Get());
+		CR_GLBINDCHECK(this->GetDC(), this->GetRC());
 
 		GLint val = 0;
-		GL::glGetIntegerv(GL::ANISOTROPY_TOKENS::GL_MAX_TEXTURE_MAX_ANISOTROPY, &val);	CR_GLCHECK();
+		this->GetRC().glGetIntegerv(GL::GL_MAX_TEXTURE_MAX_ANISOTROPY, &val);	CR_GLCHECK();
 		return (uint32)val;
 	}
 
 	const uint32	COGLDevice::GetMaxTextureSize(const Graphic::TextureType uType) const{
 		GLint val = 0;
+		CGLRenderContext& GL(this->GetRC());
+
 		switch (uType){
 		case Graphic::TextureType::Texture1D:	
 		case Graphic::TextureType::Texture2D:
-			GL::glGetIntegerv(GL::GL_MAX_TEXTURE_SIZE, &val);	
+			GL.glGetIntegerv(GL::GL_MAX_TEXTURE_SIZE, &val);	
 			break;
 
 		case Graphic::TextureType::Texture3D:
-			GL::glGetIntegerv(GL::GL_MAX_3D_TEXTURE_SIZE, &val);
+			GL.glGetIntegerv(GL::GL_MAX_3D_TEXTURE_SIZE, &val);
 			break;
 
 		case Graphic::TextureType::TextureCube:
-			GL::glGetIntegerv(GL::GL_MAX_CUBE_MAP_TEXTURE_SIZE, &val);
+			GL.glGetIntegerv(GL::GL_MAX_CUBE_MAP_TEXTURE_SIZE, &val);
 			break;
 
 		default:
@@ -746,7 +739,7 @@ namespace CB{
 	}
 
 	void	COGLDevice::Render(const uint32 uPrimitiveCount, const uint32 uStartVertex){
-		CR_GLBINDCHECK(this->m_WindowDC.Get(), this->m_RenderContext.Get());
+		CR_GLBINDCHECK(this->GetDC(), this->GetRC());
 
 		uint32 uVertexCount = 0;
 		switch (this->m_uPrimitiveMode)
@@ -759,7 +752,7 @@ namespace CB{
 				L"Unknown primitive mode.", CR_INFO());
 		}
 
-		GL::glDrawArrays(this->m_uPrimitiveMode, uStartVertex, uVertexCount);	CR_GLCHECK();
+		GetRC().glDrawArrays(this->m_uPrimitiveMode, uStartVertex, uVertexCount);	CR_GLCHECK();
 	}
 	
 	void	COGLDevice::RenderIndexed(const uint32 uPrimitiveCount){
@@ -771,7 +764,7 @@ namespace CB{
 	}
 
 	void	COGLDevice::RenderIndexed(const uint32 uPrimitiveCount, const uint32 uStartVertex, const uint32 uStartIndex){
-		CR_GLBINDCHECK(this->m_WindowDC.Get(), this->m_RenderContext.Get());
+		CR_GLBINDCHECK(this->GetDC(), this->GetRC());
 
 		if(this->m_pIndexStream.IsNull()){
 			CR_THROW(L"Index buffer not set.");
@@ -786,7 +779,7 @@ namespace CB{
 		}
 
 		this->m_pIndexStream->Bind();
-		GL::glDrawRangeElements(this->m_uPrimitiveMode, uStartVertex, uStartVertex + uVertexCount, uVertexCount, GL::GL_UNSIGNED_SHORT, reinterpret_cast<const void*>(uStartIndex));
+		GetRC().glDrawRangeElements(this->m_uPrimitiveMode, uStartVertex, uStartVertex + uVertexCount, uVertexCount, GL::GL_UNSIGNED_SHORT, reinterpret_cast<const void*>(uStartIndex));
 		this->m_pIndexStream->Unbind();
 	}
 
@@ -907,24 +900,24 @@ namespace CB{
 
 
 	void	COGLDevice::Clear(const Math::CColor& Color){
-		CR_GLBINDCHECK(this->m_WindowDC.Get(), this->m_RenderContext.Get());
+		CR_GLBINDCHECK(this->GetDC(), this->GetRC());
+		CGLRenderContext& GL(GetRC());
 		
-		GL::glClearColor(Color.Red, Color.Green, Color.Blue, Color.Alpha);	CR_GLCHECK();
-		GL::glClear(GL::GL_COLOR_BUFFER_BIT);	CR_GLCHECK();
+		GL.glClearColor(Color.Red, Color.Green, Color.Blue, Color.Alpha);	CR_GLCHECK();
+		GL.glClear(GL::GL_COLOR_BUFFER_BIT);	CR_GLCHECK();
 	}
 
 	void	COGLDevice::Clear(const float fZDepth, const uint32 uStencil){
-		CR_GLBINDCHECK(this->m_WindowDC.Get(), this->m_RenderContext.Get());
+		CR_GLBINDCHECK(this->GetDC(), this->GetRC());
+		CGLRenderContext& GL(GetRC());
 
-		GL::glClearDepth(fZDepth);		CR_GLCHECK();
-		GL::glClearStencil(uStencil);	CR_GLCHECK();
-		GL::glClear(GL::GL_DEPTH_BUFFER_BIT | GL::GL_STENCIL_BUFFER_BIT);	CR_GLCHECK();
+		GL.glClearDepth(fZDepth);		CR_GLCHECK();
+		GL.glClearStencil(uStencil);	CR_GLCHECK();
+		GL.glClear(GL::GL_DEPTH_BUFFER_BIT | GL::GL_STENCIL_BUFFER_BIT);	CR_GLCHECK();
 	}
 
 	void	COGLDevice::Swap(){
-		if(!SwapBuffers(this->m_WindowDC.Get())){
-			CR_THROWWIN(GetLastError(), L"Failed to swap buffer.");
-		}
+		this->m_WindowDC.SwapBuffers();
 	}
 
 	//	END OF IMPLEMENTATION	===================================================================
@@ -1073,32 +1066,34 @@ namespace CB{
 			}
 
 			this->m_pRenderContext = new CGLRenderContext(this->m_WindowDC, attribs);
+			return true;
 		}
 		else{
 			this->m_pRenderContext = new CGLRenderContext(this->m_WindowDC);
-			return this->m_pRenderContext->IsSupported(uVersion);
-			return false;
 		}
+		return this->m_pRenderContext->IsSupported(uVersion);
 	}
 
 	void	COGLDevice::SetGLState(const Graphic::CRasterizerStateDesc& Desc){
+		CGLRenderContext& GL(GetRC());
+
 		if(Desc.bFrontCounterClockWise){
-			GL::glFrontFace(GL::GL_CCW);	CR_GLCHECK();
+			GL.glFrontFace(GL::GL_CCW);	CR_GLCHECK();
 		}
 		else{
-			GL::glFrontFace(GL::GL_CW);		CR_GLCHECK();
+			GL.glFrontFace(GL::GL_CW);		CR_GLCHECK();
 		}
 
 		if(Desc.uCullMode != Graphic::CullMode::None){
-			GL::glEnable(GL::GL_CULL_FACE);	CR_GLCHECK();
+			GL.glEnable(GL::GL_CULL_FACE);	CR_GLCHECK();
 			switch (Desc.uCullMode)
 			{
 			case Graphic::CullMode::Front:	
-				GL::glCullFace(GL::GL_FRONT);	CR_GLCHECK();	
+				GL.glCullFace(GL::GL_FRONT);	CR_GLCHECK();	
 				break;
 
 			case Graphic::CullMode::Back:
-				GL::glCullFace(GL::GL_BACK);	CR_GLCHECK();
+				GL.glCullFace(GL::GL_BACK);	CR_GLCHECK();
 				break;
 
 			default:
@@ -1107,17 +1102,17 @@ namespace CB{
 			}
 		}
 		else{
-			GL::glDisable(GL::GL_CULL_FACE);	CR_GLCHECK();
+			GL.glDisable(GL::GL_CULL_FACE);	CR_GLCHECK();
 		}
 		
 		switch (Desc.uFillMode)
 		{
 		case Graphic::FillMode::Solid:	
-			GL::glPolygonMode(GL::GL_FRONT_AND_BACK, GL::GL_FILL);	CR_GLCHECK();
+			GL.glPolygonMode(GL::GL_FRONT_AND_BACK, GL::GL_FILL);	CR_GLCHECK();
 			break;
 
 		case Graphic::FillMode::WireFrame:
-			GL::glPolygonMode(GL::GL_FRONT_AND_BACK, GL::GL_LINE);	CR_GLCHECK();
+			GL.glPolygonMode(GL::GL_FRONT_AND_BACK, GL::GL_LINE);	CR_GLCHECK();
 
 		default:
 			throw Exception::CInvalidArgumentException(L"Desc.uFillMode", String::ToString(Desc.uFillMode),
@@ -1125,48 +1120,52 @@ namespace CB{
 		}
 
 		if(Desc.bScissorEnabled){
-			GL::glEnable(GL::GL_SCISSOR_TEST);	CR_GLCHECK();
+			GL.glEnable(GL::GL_SCISSOR_TEST);	CR_GLCHECK();
 		}
 		else{
-			GL::glDisable(GL::GL_SCISSOR_TEST);	CR_GLCHECK();
+			GL.glDisable(GL::GL_SCISSOR_TEST);	CR_GLCHECK();
 		}
 	}
 
 	void	COGLDevice::SetGLState(const Graphic::CDepthStencilStateDesc& Desc){
+		CGLRenderContext& GL(GetRC());
+
 		if(Desc.bDepthTestEnabled){
-			GL::glEnable(GL::GL_DEPTH_TEST);	CR_GLCHECK();
+			GL.glEnable(GL::GL_DEPTH_TEST);	CR_GLCHECK();
 		}
 		else{
-			GL::glDisable(GL::GL_DEPTH_TEST);	CR_GLCHECK();
+			GL.glDisable(GL::GL_DEPTH_TEST);	CR_GLCHECK();
 		}
 
-		GL::glDepthMask(Desc.bDepthWrite);
-		GL::glDepthFunc(GLUtils::ToCompareFunc(Desc.uDepthFunction));	CR_GLCHECK();
+		GL.glDepthMask(Desc.bDepthWrite);
+		GL.glDepthFunc(GLUtils::ToCompareFunc(Desc.uDepthFunction));	CR_GLCHECK();
 
-		if(GL::IsSupported(GL::Extension::StencilTwoSide)){
+		if(GL.IsSupported(GLExtension::StencilTwoSide)){
 			if(Desc.bStencilTestEnabled){
-				GL::glEnable(GL::GL_STENCIL_TEST_TWO_SIDE);	CR_GLCHECK();
+				GL.glEnable(GL::GL_STENCIL_TEST_TWO_SIDE);	CR_GLCHECK();
 				this->SetGLStateStencilFace(Desc, Desc.StencilFront, GL::GL_FRONT);
 				this->SetGLStateStencilFace(Desc, Desc.StencilBack, GL::GL_BACK);
 			}
 			else{
-				GL::glDisable(GL::GL_STENCIL_TEST_TWO_SIDE);	CR_GLCHECK();
+				GL.glDisable(GL::GL_STENCIL_TEST_TWO_SIDE);	CR_GLCHECK();
 			}
 		}
 	}
 
 	void	COGLDevice::SetGLState(const Graphic::CBlendStateDesc& Desc){
+		CGLRenderContext& GL(GetRC());
+
 		if(Desc.bEnabled[0]){
-			GL::glEnable(GL::GL_BLEND);		CR_GLCHECK();
+			GL.glEnable(GL::GL_BLEND);		CR_GLCHECK();
 		}
 		else{
-			GL::glDisable(GL::GL_BLEND);	CR_GLCHECK();
+			GL.glDisable(GL::GL_BLEND);	CR_GLCHECK();
 		}
 
-		GL::glBlendColor(this->m_BlendFactor.Red, this->m_BlendFactor.Green, this->m_BlendFactor.Blue, this->m_BlendFactor.Alpha);	CR_GLCHECK();
+		GL.glBlendColor(this->m_BlendFactor.Red, this->m_BlendFactor.Green, this->m_BlendFactor.Blue, this->m_BlendFactor.Alpha);	CR_GLCHECK();
 
-		GL::glBlendEquation(GLUtils::ToBlendEquation(Desc.ColorBlend.uOperation));	CR_GLCHECK();
-		GL::glBlendFuncSeparate(
+		GL.glBlendEquation(GLUtils::ToBlendEquation(Desc.ColorBlend.uOperation));	CR_GLCHECK();
+		GL.glBlendFuncSeparate(
 			GLUtils::ToBlendOption(Desc.ColorBlend.uSourceOperand), GLUtils::ToBlendOption(Desc.ColorBlend.uDestOperand),
 			GLUtils::ToBlendOption(Desc.AlphaBlend.uSourceOperand), GLUtils::ToBlendOption(Desc.AlphaBlend.uDestOperand)
 			);	CR_GLCHECK();
@@ -1176,16 +1175,18 @@ namespace CB{
 		auto bB = (Desc.uWriteMask[0] & 0x4) > 0;
 		auto bA = (Desc.uWriteMask[0] & 0x8) > 0;
 
-		GL::glColorMask(bR, bG, bB, bA);	CR_GLCHECK();
+		GL.glColorMask(bR, bG, bB, bA);	CR_GLCHECK();
 	}
 
 	void	COGLDevice::SetGLStateStencilFace(const Graphic::CDepthStencilStateDesc& StencilDesc, const Graphic::CStencilInstDesc& Desc, const GLenum uFace){
-		if(GL::IsSupported(GL::Extension::StencilTwoSide)){
-			GL::glActiveStencilFace(uFace);	CR_GLCHECK();
+		CGLRenderContext& GL(GetRC());
 
-			GL::glStencilFunc(GLUtils::ToCompareFunc(Desc.uStencilFunc), this->m_uStencilRef, StencilDesc.uStencilReadMask);	CR_GLCHECK();
-			GL::glStencilOp(GLUtils::ToStencilOp(Desc.uStencilFail), GLUtils::ToStencilOp(Desc.uDepthTestFail), GLUtils::ToStencilOp(Desc.uStencilPass));	CR_GLCHECK();
-			GL::glStencilMask(StencilDesc.uStencilWriteMask);	CR_GLCHECK();
+		if(GL.IsSupported(GLExtension::StencilTwoSide)){
+			GL.glActiveStencilFace(uFace);	CR_GLCHECK();
+
+			GL.glStencilFunc(GLUtils::ToCompareFunc(Desc.uStencilFunc), this->m_uStencilRef, StencilDesc.uStencilReadMask);	CR_GLCHECK();
+			GL.glStencilOp(GLUtils::ToStencilOp(Desc.uStencilFail), GLUtils::ToStencilOp(Desc.uDepthTestFail), GLUtils::ToStencilOp(Desc.uStencilPass));	CR_GLCHECK();
+			GL.glStencilMask(StencilDesc.uStencilWriteMask);	CR_GLCHECK();
 		}
 	}
 }

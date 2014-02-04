@@ -11,6 +11,7 @@ namespace CB{
 		public Manage::IObjectManager<IOGLBaseBuffer, COGLBufferStream>
 	{
 	private:
+		CGLRenderContext&			GL;
 		const Graphic::BufferType	m_uType;
 		const GLenum				m_uBufferTarget;
 		const uint32				m_uLength;
@@ -52,12 +53,13 @@ namespace CB{
 
 	class CBufferBindGurard{
 	private:
+		CGLRenderContext& GL;
 		const GLenum	m_uTarget;
 		const GLenum	m_uBinding;
 		GLuint			m_uBufferID;
 	public:
-		CBufferBindGurard(const GLenum uTarget);
-		CBufferBindGurard(const GLenum uTarget, const GLenum uBinding);
+		CBufferBindGurard(CGLRenderContext& GL, const GLenum uTarget);
+		CBufferBindGurard(CGLRenderContext& GL, const GLenum uTarget, const GLenum uBinding);
 		~CBufferBindGurard();
 	};
 }

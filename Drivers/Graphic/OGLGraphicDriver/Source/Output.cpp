@@ -28,9 +28,9 @@ namespace CB{
 		CDeviceContext DC(this->m_strName);
 
 		PIXELFORMATDESCRIPTOR pfd = { 0 };
-		int iMaxFormat = DescribePixelFormat(DC.Get(), 1, sizeof(PIXELFORMATDESCRIPTOR), &pfd);
+		int iMaxFormat = DescribePixelFormat((HDC)DC.Get(), 1, sizeof(PIXELFORMATDESCRIPTOR), (::PIXELFORMATDESCRIPTOR*)&pfd);
 		for(int iFormat = 1; iFormat <= iMaxFormat; iFormat++){
-			DescribePixelFormat(DC.Get(), iFormat, sizeof(PIXELFORMATDESCRIPTOR), &pfd);
+			DescribePixelFormat((HDC)DC.Get(), iFormat, sizeof(PIXELFORMATDESCRIPTOR), (::PIXELFORMATDESCRIPTOR*)&pfd);
 
 			Graphic::BufferFormat uFormat = GLUtils::ToColorBufferFormat(pfd);
 			if(!Collection::Contains(this->m_SupportedFormats, uFormat)){
@@ -119,12 +119,12 @@ namespace CB{
 		{
 			CDeviceContext DC(this->m_strName);
 			
-			int iFormat = GetPixelFormat(DC.Get());
+			int iFormat = GetPixelFormat((HDC)DC.Get());
 			if(iFormat != 0){
 				PIXELFORMATDESCRIPTOR pfd = { 0 };
 				pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
 
-				if(DescribePixelFormat(DC.Get(), iFormat, sizeof(PIXELFORMATDESCRIPTOR), &pfd)){
+				if(DescribePixelFormat((HDC)DC.Get(), iFormat, sizeof(PIXELFORMATDESCRIPTOR), (::PIXELFORMATDESCRIPTOR*)&pfd)){
 					uFormat = GLUtils::ToColorBufferFormat(pfd);
 				}
 			}

@@ -4,6 +4,7 @@
 namespace CB{
 	IOGLBaseTexture::IOGLBaseTexture(CRefPtr<COGLDevice> pDevice, const GLenum uTarget, const Graphic::TextureType uType, const Graphic::BufferUsage uUsage, const Graphic::BufferAccess uAccess, const Graphic::BufferFormat uFormat) :
 		Manage::IManagedObject<COGLDevice, IOGLBaseTexture>(pDevice),
+		GL(pDevice->GetRC()),
 		m_uTarget(uTarget),
 		m_uType(uType),
 		m_uAccess(uAccess),
@@ -14,19 +15,19 @@ namespace CB{
 		m_uMipMapFilter(Graphic::TextureFilter::None),
 		m_uMaxAnisotropy(0)
 	{
-		GL::glGenTextures(1, &this->m_uTexture);	CR_GLCHECK();
+		GL.glGenTextures(1, &this->m_uTexture);	CR_GLCHECK();
 	}
 
 	IOGLBaseTexture::~IOGLBaseTexture(){
-		GL::glDeleteTextures(1, &this->m_uTexture);	CR_GLCHECK();
+		GL.glDeleteTextures(1, &this->m_uTexture);	CR_GLCHECK();
 	}
 
 	void	IOGLBaseTexture::Bind(){
-		GL::glBindTexture(this->m_uTarget, this->m_uTexture);	CR_GLCHECK();
+		GL.glBindTexture(this->m_uTarget, this->m_uTexture);	CR_GLCHECK();
 	}
 
 	void	IOGLBaseTexture::Unbind(){
-		GL::glBindTexture(this->m_uTarget, 0);	CR_GLCHECK();
+		GL.glBindTexture(this->m_uTarget, 0);	CR_GLCHECK();
 	}
 
 	void	IOGLBaseTexture::SetFilters(const Graphic::TextureFilter uMin, const Graphic::TextureFilter uMag){
@@ -37,18 +38,18 @@ namespace CB{
 		GLenum uGLMag = GLUtils::ToTextureMinFilter(uMin);
 		GLenum uGLMin = GLUtils::ToTextureMagFilter(uMag, uMipMap);
 
-		CTextureBindGuard guard(this->m_uTarget);
+		CTextureBindGuard guard(GL, this->m_uTarget);
 		this->Bind();
 
-		GL::glTexParameteri(this->m_uTarget, GL::GL_TEXTURE_MIN_FILTER, uGLMin);	CR_GLCHECK();
-		GL::glTexParameteri(this->m_uTarget, GL::GL_TEXTURE_MAG_FILTER, uGLMag);	CR_GLCHECK();
+		GL.glTexParameteri(this->m_uTarget, GL::GL_TEXTURE_MIN_FILTER, uGLMin);	CR_GLCHECK();
+		GL.glTexParameteri(this->m_uTarget, GL::GL_TEXTURE_MAG_FILTER, uGLMag);	CR_GLCHECK();
 	}
 
 	void	IOGLBaseTexture::SetAnisotropy(const uint32 uMaxAnisotropy){
-		CTextureBindGuard guard(this->m_uTarget);
+		CTextureBindGuard guard(GL, this->m_uTarget);
 		this->Bind();
 
-		GL::glTexParameteri(this->m_uTarget, GL::GL_TEXTURE_MAX_ANISOTROPY, uMaxAnisotropy);	CR_GLCHECK();
+		GL.glTexParameteri(this->m_uTarget, GL::GL_TEXTURE_MAX_ANISOTROPY, uMaxAnisotropy);	CR_GLCHECK();
 	}
 
 	GLuint	IOGLBaseTexture::GetTextureID() const{
@@ -97,25 +98,27 @@ namespace CB{
 
 	//===================================================
 
-	CTextureBindGuard::CTextureBindGuard(const GLenum uTarget, const GLenum uBinding) :
+	CTextureBindGuard::CTextureBindGuard(CGLRenderContext& GL, const GLenum uTarget, const GLenum uBinding) :
+		GL(GL),
 		m_uTarget(uTarget),
 		m_uBinding(uBinding),
 		m_uTexture(0)
 	{
-		GL::glGetIntegerv(this->m_uBinding, reinterpret_cast<GLint*>(&this->m_uTexture));	CR_GLCHECK();
+		GL.glGetIntegerv(this->m_uBinding, reinterpret_cast<GLint*>(&this->m_uTexture));	CR_GLCHECK();
 	}
 
-	CTextureBindGuard::CTextureBindGuard(const GLenum uTarget) :
+	CTextureBindGuard::CTextureBindGuard(CGLRenderContext& GL, const GLenum uTarget) :
+		GL(GL),
 		m_uTarget(uTarget),
 		m_uBinding(GLUtils::ToTargetBinding(uTarget)),
 		m_uTexture(0)
 	{
-		GL::glGetIntegerv(this->m_uBinding, reinterpret_cast<GLint*>(&this->m_uTexture));	CR_GLCHECK();
+		GL.glGetIntegerv(this->m_uBinding, reinterpret_cast<GLint*>(&this->m_uTexture));	CR_GLCHECK();
 	}
 
 	CTextureBindGuard::~CTextureBindGuard(){
-		if(this->m_uTexture != 0 && GL::glIsTexture(this->m_uTexture)){
-			GL::glBindTexture(this->m_uTarget, this->m_uTexture);	CR_GLCHECK();
+		if(this->m_uTexture != 0 && GL.glIsTexture(this->m_uTexture)){
+			GL.glBindTexture(this->m_uTarget, this->m_uTexture);	CR_GLCHECK();
 		}
 	}
 }

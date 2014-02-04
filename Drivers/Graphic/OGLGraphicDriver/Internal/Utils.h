@@ -4,6 +4,7 @@
 #include <Collection_List.h>
 
 #include "GLTypes.h"
+#include "WindowDeviceContext.h"
 
 namespace CB{
 	namespace GLUtils{

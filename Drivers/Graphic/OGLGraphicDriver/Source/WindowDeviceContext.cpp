@@ -42,6 +42,10 @@ namespace CB{
 		return m_hDC; 
 	}
 
+	const int32 CWindowDeviceContext::GetPixelFormat() const{
+		return ::GetPixelFormat((HDC)this->m_hDC);
+	}
+
 	const int32	CWindowDeviceContext::ChoosePixelFormat(const PIXELFORMATDESCRIPTOR& pfd) const{
 		return ::ChoosePixelFormat((HDC)this->m_hDC, (::PIXELFORMATDESCRIPTOR*)&pfd);
 	}
@@ -53,6 +57,12 @@ namespace CB{
 
 		if(!::SetPixelFormat((HDC)this->m_hDC, iFormat, &pfd)){
 			CR_THROWWIN(GetLastError(), L"Failed to set pixel format nr " + String::ToString(iFormat) + L" to device context of window " + this->m_pWindow->GetTitle());
+		}
+	}
+
+	void	CWindowDeviceContext::SwapBuffers(){
+		if(!::SwapBuffers((HDC)this->m_hDC)){
+			CR_THROWWIN(GetLastError(), L"Failed to swap buffer.");
 		}
 	}
 
