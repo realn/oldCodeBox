@@ -1,5 +1,5 @@
 #include "../Include/Math_Color.h"
-#include "../Include/Math.h"
+#include "../Include/CBMath.h"
 #include "../Include/Exception.h"
 
 namespace CB{

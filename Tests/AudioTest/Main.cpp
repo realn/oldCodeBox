@@ -5,7 +5,7 @@
 #include <MessageBox.h>
 #include <IO_Sound.h>
 #include <Threads.h>
-#include <Math.h>
+#include <CBMath.h>
 
 #define TEST_MONO
 #define TEST_3D
