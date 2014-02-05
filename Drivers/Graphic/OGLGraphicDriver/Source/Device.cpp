@@ -436,11 +436,6 @@ namespace CB{
 	void	COGLDevice::SetVertexBuffer(const uint32 uStream, CRefPtr<Graphic::IBuffer> pBuffer){
 		CR_APICHECK(this, pBuffer);
 
-		if(this->m_pVertexDeclaration.IsNull()){
-			throw Exception::CNullPointerException(L"m_pVertexDeclaration",
-				L"Vertex declaration must be set before attaching vertex buffer.", CR_INFO());
-		}
-
 		if(pBuffer->GetType() != Graphic::BufferType::Vertex){
 			throw Exception::CInvalidArgumentException(L"pBuffer", String::ToString(pBuffer->GetType()),
 				L"Invalid buffer type for vertex buffer.", CR_INFO());
