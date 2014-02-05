@@ -6,8 +6,8 @@ namespace CB{
 			{
 				Collection::CList<Graphic::CVertexElement> elems;
 
-				elems.Add(Graphic::CVertexElement(0, strVertexName, 0, Graphic::VertexType::Float, 3));
-				elems.Add(Graphic::CVertexElement(0, strTexCoordName, sizeof(Math::CVector3D), Graphic::VertexType::Float, 2));
+				elems.Add(Graphic::CVertexElement(0, strVertexName	, Graphic::VertexType::Float, 3, 0));
+				elems.Add(Graphic::CVertexElement(0, strTexCoordName, Graphic::VertexType::Float, 2, sizeof(Math::CVector3D)));
 
 				this->m_pVertexDeclaration = pDevice->CreateVertexDeclaration(pVertexShader, elems);
 			}

@@ -67,11 +67,11 @@ namespace CB{
 
 			CVertexElement();
 			CVertexElement(const CVertexElement& Element);
-			CVertexElement(const uint32 uStream, const CString strParam, const uint32 uOffset, const VertexType uType, const uint32 uTypeNumber);
-			CVertexElement(const uint32 uStream, const CString strParam, const uint32 uOffset, const VertexType uType, const uint32 uTypeNumber, const InstanceDataType uInstance);
+			CVertexElement(const uint32 uStream, const CString strParam, const VertexType uType, const uint32 uTypeNumber, const uint32 uOffset);
+			CVertexElement(const uint32 uStream, const CString strParam, const VertexType uType, const uint32 uTypeNumber, const uint32 uOffset, const InstanceDataType uInstance);
 
-			void Set(const uint32 uStream, const CString strParam, const uint32 uOffset, const VertexType uType, const uint32 uTypeNumber);
-			void Set(const uint32 uStream, const CString strParam, const uint32 uOffset, const VertexType uType, const uint32 uTypeNumber, const InstanceDataType uInstance);
+			void Set(const uint32 uStream, const CString strParam, const VertexType uType, const uint32 uTypeNumber, const uint32 uOffset);
+			void Set(const uint32 uStream, const CString strParam, const VertexType uType, const uint32 uTypeNumber, const uint32 uOffset, const InstanceDataType uInstance);
 
 			const uint32	GetSize() const;
 

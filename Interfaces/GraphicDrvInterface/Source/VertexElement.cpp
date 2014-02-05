@@ -26,7 +26,7 @@ namespace CB{
 
 		}
 
-		CVertexElement::CVertexElement(const uint32 uStream, const CString strParam, const uint32 uOffset, const VertexType uType, const uint32 uTypeNumber) :
+		CVertexElement::CVertexElement(const uint32 uStream, const CString strParam, const VertexType uType, const uint32 uTypeNumber, const uint32 uOffset) :
 			uStream(uStream), 
 			strParam(strParam), 
 			uOffset(uOffset), 
@@ -37,7 +37,7 @@ namespace CB{
 
 		}
 
-		CVertexElement::CVertexElement(const uint32 uStream, const CString strParam, const uint32 uOffset, const VertexType uType, const uint32 uTypeNumber, const InstanceDataType uInstance) :
+		CVertexElement::CVertexElement(const uint32 uStream, const CString strParam, const VertexType uType, const uint32 uTypeNumber, const uint32 uOffset, const InstanceDataType uInstance) :
 			uStream(uStream), 
 			strParam(strParam), 
 			uOffset(uOffset), 
@@ -46,6 +46,24 @@ namespace CB{
 			uInstanceUsage(uInstance)
 		{
 
+		}
+
+		void	CVertexElement::Set(const uint32 uStream, const CString strParam, const VertexType uType, const uint32 uTypeNumber, const uint32 uOffset){
+			this->uStream = uStream;
+			this->strParam = strParam;
+			this->uType = uType;
+			this->uTypeNumber = uTypeNumber;
+			this->uOffset = uOffset;
+			this->uInstanceUsage = InstanceDataType::None;
+		}
+
+		void	CVertexElement::Set(const uint32 uStream, const CString strParam, const VertexType uType, const uint32 uTypeNumber, const uint32 uOffset, const InstanceDataType uInstanceUsage){
+			this->uStream = uStream;
+			this->strParam = strParam;
+			this->uType = uType;
+			this->uTypeNumber = uTypeNumber;
+			this->uOffset = uOffset;
+			this->uInstanceUsage = uInstanceUsage;
 		}
 
 		const uint32	CVertexElement::GetSize() const{
