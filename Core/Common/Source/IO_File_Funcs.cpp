@@ -30,6 +30,13 @@ namespace CB{
 				}
 				return false;
 			}
+
+			const bool	Delete(const CString& strFilename){
+				if(::DeleteFileW(strFilename.GetPointer())){
+					return true;
+				}
+				return false;
+			}
 		}
 	}
 

@@ -44,6 +44,7 @@ namespace CB{
 			extern COMMON_API CRefPtr<IFileStream>	Open(const CString& strFilename, const AccessType uAccess, const OpenAction uAction); //default: None
 			extern COMMON_API CRefPtr<IFileStream>	Open(const CString& strFilename, const AccessType uAccess, const OpenAction uAction, const ShareType uShare);
 			extern COMMON_API const bool			Exists(const CString& strFilename);
+			extern COMMON_API const bool			Delete(const CString& strFilename);
 		}
 	}
 
