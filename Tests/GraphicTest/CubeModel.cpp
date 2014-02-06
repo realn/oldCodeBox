@@ -138,8 +138,8 @@ namespace GraphicTest{
 
 			CB::Collection::CList<CB::Graphic::CVertexElement> vertEls;
 
-			vertEls.Add(CB::Graphic::CVertexElement(0, config.strVertexName, 0, CB::Graphic::VertexType::Float, 3));
-			vertEls.Add(CB::Graphic::CVertexElement(0, config.strTCoordName, sizeof(CB::Math::CVector3D), CB::Graphic::VertexType::Float, 2));
+			vertEls.Add(CB::Graphic::CVertexElement(0, config.strVertexName, CB::Graphic::VertexType::Float, 3, 0));
+			vertEls.Add(CB::Graphic::CVertexElement(0, config.strTCoordName, CB::Graphic::VertexType::Float, 2, sizeof(CB::Math::CVector3D)));
 
 			this->pVertexDecl = pDevice->CreateVertexDeclaration(config.pVertexShader, vertEls);
 

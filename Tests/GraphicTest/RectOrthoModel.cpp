@@ -37,8 +37,8 @@ namespace GraphicTest{
 			CB::Graphic::BufferUsage::Static, CB::Graphic::BufferAccess::Write, verts);
 
 		CB::Collection::CList<CB::Graphic::CVertexElement> vEls;
-		vEls.Add(CB::Graphic::CVertexElement(0, L"vinput.vPosition", 0, CB::Graphic::VertexType::Float, 3));
-		vEls.Add(CB::Graphic::CVertexElement(0, L"vinput.vColor", sizeof(float32) * 3, CB::Graphic::VertexType::Float, 4));
+		vEls.Add(CB::Graphic::CVertexElement(0, L"vinput.vPosition", CB::Graphic::VertexType::Float, 3, 0));
+		vEls.Add(CB::Graphic::CVertexElement(0, L"vinput.vColor", CB::Graphic::VertexType::Float, 4, sizeof(float32) * 3));
 
 		this->pVertexDecl = pDevice->CreateVertexDeclaration(pVertexShader, vEls);
 
