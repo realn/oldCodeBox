@@ -1,7 +1,7 @@
 #include "../Include/IO_Image.h"
 #include "../Include/Exception.h"
 #include "../Internal/IO_FreeImage.h"
-#include "../Include/Math.h"
+#include "../Include/CBMath.h"
 #include "../Include/CBStringEx.h"
 #include "../Include/SmartPointers_AutoPtr.h"
 
@@ -115,7 +115,7 @@ namespace CB{
 		}
 
 		void	CImage::WriteToStream(CRefPtr<IO::IStream> pStream, Image::FileType uFileType) const{
-			if(pStream == 0){
+			if(pStream.IsNull()){
 				throw Exception::CNullArgumentException(L"pStream",
 					L"Need valid stream to write image.", CR_INFO());
 			}

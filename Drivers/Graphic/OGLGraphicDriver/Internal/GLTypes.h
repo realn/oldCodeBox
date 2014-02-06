@@ -1,67 +1,83 @@
 #pragma once
 
-#include <CBString.h>
-#include "OpenGL_Types.h"
+//===========================================
+//	TYPES
+//===========================================
 
-#pragma comment(lib, "opengl32.lib")
+#pragma region Type defines
 
-#define CR_GLCHECK()	{ GLenum __uError = GL::glGetError(); if(__uError != GL::GL_NO_ERROR){ GL::ReportGLError(__uError, CR_INFO()); } }
+typedef unsigned int	GLenum;
+typedef float			GLfloat;
+typedef int				GLint;
+typedef int				GLsizei;
+typedef void			GLvoid;
+typedef unsigned int	GLbitfield;
+typedef double			GLdouble;
+typedef unsigned int	GLuint;
+typedef unsigned char	GLboolean;
+typedef unsigned char	GLubyte;
 
-//======================
-//	OPENGL 1.0 - 1.4 CORE
-//======================
+typedef float			GLclampf;
+typedef double			GLclampd;
+
+typedef _w64 int		GLsizeiptr;
+typedef _w64 int		GLintptr;
+
+typedef char			GLchar;
+typedef short			GLshort;
+typedef signed char		GLbyte;
+typedef unsigned short	GLushort;
+
+typedef unsigned short	GLhalf;
+
+typedef struct __GLsync *GLsync;
+#ifndef GLEXT_64_TYPES_DEFINED
+/* This code block is duplicated in glxext.h, so must be protected */
+#define GLEXT_64_TYPES_DEFINED
+/* Define int32_t, int64_t, and uint64_t types for UST/MSC */
+/* (as used in the GL_EXT_timer_query extension). */
+#if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
+#include <inttypes.h>
+#elif defined(__sun__) || defined(__digital__)
+#include <inttypes.h>
+#if defined(__STDC__)
+#if defined(__arch64__) || defined(_LP64)
+typedef long int int64_t;
+typedef unsigned long int uint64_t;
+#else
+typedef long long int int64_t;
+typedef unsigned long long int uint64_t;
+#endif /* __arch64__ */
+#endif /* __STDC__ */
+#elif defined( __VMS ) || defined(__sgi)
+#include <inttypes.h>
+#elif defined(__SCO__) || defined(__USLC__)
+#include <stdint.h>
+#elif defined(__UNIXOS2__) || defined(__SOL64__)
+typedef long int int32_t;
+typedef long long int int64_t;
+typedef unsigned long long int uint64_t;
+#elif defined(_WIN32) && defined(__GNUC__)
+#include <stdint.h>
+#elif defined(_WIN32)
+typedef __int32 int32_t;
+typedef __int64 int64_t;
+typedef unsigned __int64 uint64_t;
+#else
+/* Fallback if nothing above works */
+#include <inttypes.h>
+#endif
+#endif
+typedef uint64_t GLuint64;
+typedef int64_t GLint64;
+
+#pragma endregion
+
+//===========================================
+//	Enum Types
+//===========================================
 
 namespace GL{
-	//	VERSION_1_0
-	extern void glCullFace (GLenum mode);
-	extern void glFrontFace (GLenum mode);
-	extern void glHint (GLenum target, GLenum mode);
-	extern void glLineWidth (GLfloat width);
-	extern void glPointSize (GLfloat size);
-	extern void glPolygonMode (GLenum face, GLenum mode);
-	extern void glScissor (GLint x, GLint y, GLsizei width, GLsizei height);
-	extern void glTexParameterf (GLenum target, GLenum pname, GLfloat param);
-	extern void glTexParameterfv (GLenum target, GLenum pname, const GLfloat *params);
-	extern void glTexParameteri (GLenum target, GLenum pname, GLint param);
-	extern void glTexParameteriv (GLenum target, GLenum pname, const GLint *params);
-	extern void glTexImage1D (GLenum target, GLint level, GLint internalformat, GLsizei width, GLint border, GLenum format, GLenum type, const GLvoid *pixels);
-	extern void glTexImage2D (GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid *pixels);
-	extern void glDrawBuffer (GLenum mode);
-	extern void glClear (GLbitfield mask);
-	extern void glClearColor (GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
-	extern void glClearStencil (GLint s);
-	extern void glClearDepth (GLdouble depth);
-	extern void glStencilMask (GLuint mask);
-	extern void glColorMask (GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha);
-	extern void glDepthMask (GLboolean flag);
-	extern void glDisable (GLenum cap);
-	extern void glEnable (GLenum cap);
-	extern void glFinish (void);
-	extern void glFlush (void);
-	extern void glBlendFunc (GLenum sfactor, GLenum dfactor);
-	extern void glLogicOp (GLenum opcode);
-	extern void glStencilFunc (GLenum func, GLint ref, GLuint mask);
-	extern void glStencilOp (GLenum fail, GLenum zfail, GLenum zpass);
-	extern void glDepthFunc (GLenum func);
-	extern void glPixelStoref (GLenum pname, GLfloat param);
-	extern void glPixelStorei (GLenum pname, GLint param);
-	extern void glReadBuffer (GLenum mode);
-	extern void glReadPixels (GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid *pixels);
-	extern void glGetBooleanv (GLenum pname, GLboolean *params);
-	extern void glGetDoublev (GLenum pname, GLdouble *params);
-	extern GLenum glGetError (void);
-	extern void glGetFloatv (GLenum pname, GLfloat *params);
-	extern void glGetIntegerv (GLenum pname, GLint *params);
-	extern const GLubyte *glGetString (GLenum name);
-	extern void glGetTexImage (GLenum target, GLint level, GLenum format, GLenum type, GLvoid *pixels);
-	extern void glGetTexParameterfv (GLenum target, GLenum pname, GLfloat *params);
-	extern void glGetTexParameteriv (GLenum target, GLenum pname, GLint *params);
-	extern void glGetTexLevelParameterfv (GLenum target, GLint level, GLenum pname, GLfloat *params);
-	extern void glGetTexLevelParameteriv (GLenum target, GLint level, GLenum pname, GLint *params);
-	extern GLboolean glIsEnabled (GLenum cap);
-	extern void glDepthRange (GLdouble near, GLdouble far);
-	extern void glViewport (GLint x, GLint y, GLsizei width, GLsizei height);
-
 	enum VERSION_1_1_TOKENS{
 		GL_DEPTH_BUFFER_BIT               = 0x00000100,
 		GL_STENCIL_BUFFER_BIT             = 0x00000400,
@@ -279,22 +295,6 @@ namespace GL{
 		GL_LUMINANCE8_ALPHA8              = 0x8045,
 		GL_LUMINANCE16_ALPHA16            = 0x8048,
 	};
-	
-	//	VERSION_1_1
-	extern void glDrawArrays (GLenum mode, GLint first, GLsizei count);
-	extern void glDrawElements (GLenum mode, GLsizei count, GLenum type, const GLvoid *indices);
-	extern void glGetPointerv (GLenum pname, GLvoid **params);
-	extern void glPolygonOffset (GLfloat factor, GLfloat units);
-	extern void glCopyTexImage1D (GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLint border);
-	extern void glCopyTexImage2D (GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border);
-	extern void glCopyTexSubImage1D (GLenum target, GLint level, GLint xoffset, GLint x, GLint y, GLsizei width);
-	extern void glCopyTexSubImage2D (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height);
-	extern void glTexSubImage1D (GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLenum type, const GLvoid *pixels);
-	extern void glTexSubImage2D (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid *pixels);
-	extern void glBindTexture (GLenum target, GLuint texture);
-	extern void glDeleteTextures (GLsizei n, const GLuint *textures);
-	extern void glGenTextures (GLsizei n, GLuint *textures);
-	extern GLboolean glIsTexture (GLuint texture);
 
 	enum VERSION_1_2_TOKENS : GLenum{
 		GL_UNSIGNED_BYTE_3_3_2            = 0x8032,
@@ -334,12 +334,6 @@ namespace GL{
 		GL_SMOOTH_LINE_WIDTH_GRANULARITY  = 0x0B23,
 		GL_ALIASED_LINE_WIDTH_RANGE       = 0x846E,
 	};
-
-	//	VERSION_1_2
-	extern void glDrawRangeElements (GLenum mode, GLuint start, GLuint end, GLsizei count, GLenum type, const void *indices);
-	extern void glTexImage3D (GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLenum format, GLenum type, const void *pixels);
-	extern void glTexSubImage3D (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLenum type, const void *pixels);
-	extern void glCopyTexSubImage3D (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLint x, GLint y, GLsizei width, GLsizei height);
 
 	enum VERSION_1_3_TOKENS : GLenum{
 		GL_TEXTURE0                       = 0x84C0,
@@ -403,17 +397,6 @@ namespace GL{
 		GL_CLAMP_TO_BORDER                = 0x812D,
 	};
 
-	//	VERSION_1_3
-	extern void glActiveTexture (GLenum texture);
-	extern void glSampleCoverage (GLfloat value, GLboolean invert);
-	extern void glCompressedTexImage3D (GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLsizei depth, GLint border, GLsizei imageSize, const GLvoid *data);
-	extern void glCompressedTexImage2D (GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const GLvoid *data);
-	extern void glCompressedTexImage1D (GLenum target, GLint level, GLenum internalformat, GLsizei width, GLint border, GLsizei imageSize, const GLvoid *data);
-	extern void glCompressedTexSubImage3D (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint zoffset, GLsizei width, GLsizei height, GLsizei depth, GLenum format, GLsizei imageSize, const GLvoid *data);
-	extern void glCompressedTexSubImage2D (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const GLvoid *data);
-	extern void glCompressedTexSubImage1D (GLenum target, GLint level, GLint xoffset, GLsizei width, GLenum format, GLsizei imageSize, const GLvoid *data);
-	extern void glGetCompressedTexImage (GLenum target, GLint level, GLvoid *img);
-
 	enum VERSION_1_4_TOKENS : GLenum{
 		GL_BLEND_DST_RGB                  = 0x80C8,
 		GL_BLEND_SRC_RGB                  = 0x80C9,
@@ -441,17 +424,6 @@ namespace GL{
 		GL_CONSTANT_ALPHA                 = 0x8003,
 		GL_ONE_MINUS_CONSTANT_ALPHA       = 0x8004,
 	};
-
-	//	VERSION_1_4
-	extern void  glBlendFuncSeparate (GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha);
-	extern void  glMultiDrawArrays (GLenum mode, const GLint *first, const GLsizei *count, GLsizei drawcount);
-	extern void  glMultiDrawElements (GLenum mode, const GLsizei *count, GLenum type, const GLvoid *const*indices, GLsizei drawcount);
-	extern void  glPointParameterf (GLenum pname, GLfloat param);
-	extern void  glPointParameterfv (GLenum pname, const GLfloat *params);
-	extern void  glPointParameteri (GLenum pname, GLint param);
-	extern void  glPointParameteriv (GLenum pname, const GLint *params);
-	extern void  glBlendColor (GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha);
-	extern void  glBlendEquation (GLenum mode);
 
 	enum VERSION_1_5_TOKENS : GLenum{
 		GL_BUFFER_SIZE                    = 0x8764,
@@ -483,27 +455,6 @@ namespace GL{
 		GL_SAMPLES_PASSED                 = 0x8914,
 		GL_SRC1_ALPHA                     = 0x8589,
 	};
-
-	//	VERSION_1_5
-	extern void glGenQueries (GLsizei n, GLuint *ids);
-	extern void glDeleteQueries (GLsizei n, const GLuint *ids);
-	extern GLboolean glIsQuery (GLuint id);
-	extern void glBeginQuery (GLenum target, GLuint id);
-	extern void glEndQuery (GLenum target);
-	extern void glGetQueryiv (GLenum target, GLenum pname, GLint *params);
-	extern void glGetQueryObjectiv (GLuint id, GLenum pname, GLint *params);
-	extern void glGetQueryObjectuiv (GLuint id, GLenum pname, GLuint *params);
-	extern void glBindBuffer (GLenum target, GLuint buffer);
-	extern void glDeleteBuffers (GLsizei n, const GLuint *buffers);
-	extern void glGenBuffers (GLsizei n, GLuint *buffers);
-	extern GLboolean glIsBuffer (GLuint buffer);
-	extern void glBufferData (GLenum target, GLsizeiptr size, const GLvoid *data, GLenum usage);
-	extern void glBufferSubData (GLenum target, GLintptr offset, GLsizeiptr size, const GLvoid *data);
-	extern void glGetBufferSubData (GLenum target, GLintptr offset, GLsizeiptr size, GLvoid *data);
-	extern void *glMapBuffer (GLenum target, GLenum access);
-	extern GLboolean glUnmapBuffer (GLenum target);
-	extern void glGetBufferParameteriv (GLenum target, GLenum pname, GLint *params);
-	extern void glGetBufferPointerv (GLenum target, GLenum pname, GLvoid **params);
 
 	enum VERSION_2_0_TOKENS : GLenum{
 		GL_BLEND_EQUATION_RGB             = 0x8009,
@@ -842,65 +793,111 @@ namespace GL{
 	};
 
 	//	Pre 2.0 mipmap generation
-	enum CORE_GEN_MIPMAP_TOKENS : GLenum{
+	enum EXT_CORE_GEN_MIPMAP_TOKENS : GLenum{
 		GL_GENERATE_MIPMAP                = 0x8191,
 		GL_GENERATE_MIPMAP_HINT           = 0x8192,
 	};
 
 	//	GL_EXT_stencil_two_side
-	enum STENCIL_TWO_SIDE_TOKENS{
+	enum EXT_STENCIL_TWO_SIDE_TOKENS{
 		GL_STENCIL_TEST_TWO_SIDE      = 0x8910,
 		GL_ACTIVE_STENCIL_FACE        = 0x8911,
 	};
 
-	enum ANISOTROPY_TOKENS{
+	enum EXT_ANISOTROPY_TOKENS{
 		GL_TEXTURE_MAX_ANISOTROPY     = 0x84FE,
 		GL_MAX_TEXTURE_MAX_ANISOTROPY = 0x84FF,
 	};
-
-	extern void glActiveStencilFace (GLenum face);
 }
 
-//==============================================
-//	CG headers and libs
-//==============================================
-
-#define CGGL_NO_OPENGL
-
-#include <Cg\cg.h>
-#include <Cg\cgGL.h>
-
-#pragma comment(lib, "cg.lib")
-#pragma comment(lib, "cgGL.lib")
-
-//===============================================
-//	Loading
-//===============================================
-namespace GL{
-	enum class Version{
-		V_1_2 = 2,
-		V_1_3 = 3,
-		V_1_4 = 4,
-		V_1_5 = 5,
-		V_2_0 = 6,
-		V_2_1 = 7,
-		V_3_0 = 8,
-		V_3_1 = 9,
-		V_3_2 = 10,
-		V_3_3 = 11,
-	};
-	
-	enum class Extension{
-		VertexBufferObjects,
-		MipMapGeneration,
-		AnisotropicFiltering,
-		StencilTwoSide,
+namespace WGL{
+	enum PBUFFER_TOKENS : GLenum{
+		WGL_DRAW_TO_PBUFFER_           = 0x202D,
+		WGL_MAX_PBUFFER_PIXELS_        = 0x202E,
+		WGL_MAX_PBUFFER_WIDTH_         = 0x202F,
+		WGL_MAX_PBUFFER_HEIGHT_        = 0x2030,
+		WGL_PBUFFER_LARGEST_           = 0x2033,
+		WGL_PBUFFER_WIDTH_             = 0x2034,
+		WGL_PBUFFER_HEIGHT_            = 0x2035,
+		WGL_PBUFFER_LOST_              = 0x2036,
 	};
 
-	extern const bool	LoadExtensionInfo();
-	extern const bool	IsSupported(const Extension uExtension);
-	extern const bool	Load(const Version uVersion);
-	extern const bool	Load(const Extension uExtension);
+	enum PIXEL_FORMAT_TOKENS : GLenum{
+		WGL_NUMBER_PIXEL_FORMATS      = 0x2000,
+		WGL_DRAW_TO_WINDOW            = 0x2001,
+		WGL_DRAW_TO_BITMAP            = 0x2002,
+		WGL_ACCELERATION              = 0x2003,
+		WGL_NEED_PALETTE              = 0x2004,
+		WGL_NEED_SYSTEM_PALETTE       = 0x2005,
+		WGL_SWAP_LAYER_BUFFERS        = 0x2006,
+		WGL_SWAP_METHOD               = 0x2007,
+		WGL_NUMBER_OVERLAYS           = 0x2008,
+		WGL_NUMBER_UNDERLAYS          = 0x2009,
+		WGL_TRANSPARENT               = 0x200A,
+		WGL_TRANSPARENT_RED_VALUE     = 0x2037,
+		WGL_TRANSPARENT_GREEN_VALUE   = 0x2038,
+		WGL_TRANSPARENT_BLUE_VALUE    = 0x2039,
+		WGL_TRANSPARENT_ALPHA_VALUE   = 0x203A,
+		WGL_TRANSPARENT_INDEX_VALUE   = 0x203B,
+		WGL_SHARE_DEPTH               = 0x200C,
+		WGL_SHARE_STENCIL             = 0x200D,
+		WGL_SHARE_ACCUM               = 0x200E,
+		WGL_SUPPORT_GDI               = 0x200F,
+		WGL_SUPPORT_OPENGL            = 0x2010,
+		WGL_DOUBLE_BUFFER             = 0x2011,
+		WGL_STEREO                    = 0x2012,
+		WGL_PIXEL_TYPE                = 0x2013,
+		WGL_COLOR_BITS                = 0x2014,
+		WGL_RED_BITS                  = 0x2015,
+		WGL_RED_SHIFT                 = 0x2016,
+		WGL_GREEN_BITS                = 0x2017,
+		WGL_GREEN_SHIFT               = 0x2018,
+		WGL_BLUE_BITS                 = 0x2019,
+		WGL_BLUE_SHIFT                = 0x201A,
+		WGL_ALPHA_BITS                = 0x201B,
+		WGL_ALPHA_SHIFT               = 0x201C,
+		WGL_ACCUM_BITS                = 0x201D,
+		WGL_ACCUM_RED_BITS            = 0x201E,
+		WGL_ACCUM_GREEN_BITS          = 0x201F,
+		WGL_ACCUM_BLUE_BITS           = 0x2020,
+		WGL_ACCUM_ALPHA_BITS          = 0x2021,
+		WGL_DEPTH_BITS                = 0x2022,
+		WGL_STENCIL_BITS              = 0x2023,
+		WGL_AUX_BUFFERS               = 0x2024,
+		WGL_NO_ACCELERATION           = 0x2025,
+		WGL_GENERIC_ACCELERATION      = 0x2026,
+		WGL_FULL_ACCELERATION         = 0x2027,
+		WGL_SWAP_EXCHANGE             = 0x2028,
+		WGL_SWAP_COPY                 = 0x2029,
+		WGL_SWAP_UNDEFINED            = 0x202A,
+		WGL_TYPE_RGBA                 = 0x202B,
+		WGL_TYPE_COLORINDEX           = 0x202C,
+	};
 
-	extern void	ReportGLError(GLenum uError, const CB::CString& strFunction, const CB::CString& strFile, const uint32 uLine);
+	enum MAKE_CURRENT_READ_TOKENS : GLenum{
+		ERROR_INVALID_PIXEL_TYPE      = 0x2043,
+		ERROR_INCOMPATIBLE_DEVICE_CONTEXTS = 0x2054,
+	};
+
+	enum CREATE_CONTEXT_TOKENS : GLenum{
+		WGL_CONTEXT_DEBUG_BIT          = 0x00000001,
+		WGL_CONTEXT_FORWARD_COMPATIBLE_BIT  = 0x00000002,
+		WGL_CONTEXT_MAJOR_VERSION      = 0x2091,
+		WGL_CONTEXT_MINOR_VERSION      = 0x2092,
+		WGL_CONTEXT_LAYER_PLANE        = 0x2093,
+		WGL_CONTEXT_FLAGS              = 0x2094,
+		WGL_ERROR_INVALID_VERSION      = 0x2095,
+	};
+
+	enum CREATE_CONTEXT_PROFILE_TOKENS : GLenum{
+		 WGL_CONTEXT_PROFILE_MASK      = 0x9126,
+		 WGL_CONTEXT_CORE_PROFILE_BIT  = 0x00000001,
+		 WGL_CONTEXT_COMPATIBILITY_PROFILE_BIT = 0x00000002,
+		 WGL_ERROR_INVALID_PROFILE     = 0x2096,
+	};
+
+	enum MULTISAMPLE_TOKENS{
+		WGL_SAMPLE_BUFFERS            = 0x2041,
+		WGL_SAMPLES                   = 0x2042,
+	};
 }

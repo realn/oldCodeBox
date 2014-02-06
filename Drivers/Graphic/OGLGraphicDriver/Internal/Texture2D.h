@@ -9,6 +9,7 @@ namespace CB{
 		public IOGLBaseTexture
 	{
 	private:
+		CGLRenderContext&		GL;
 		Graphic::TextureWrap	m_uCoordRWrap;
 		Graphic::TextureWrap	m_uCoordSWrap;
 		Math::CSize				m_Size;

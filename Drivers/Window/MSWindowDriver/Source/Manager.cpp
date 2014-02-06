@@ -1,6 +1,6 @@
 #include "../Internal/Manager.h"
 #include "../Internal/Window.h"
-#include <Math.h>
+#include <CBMath.h>
 #include <Logger.h>
 #include <CBStringEx.h>
 

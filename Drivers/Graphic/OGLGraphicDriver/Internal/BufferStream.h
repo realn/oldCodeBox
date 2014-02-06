@@ -10,8 +10,11 @@ namespace CB{
 		public IO::IMemoryStream,
 		public Manage::IManagedObject<IOGLBaseBuffer, COGLBufferStream>
 	{
+	private:
+		CGLRenderContext& GL;
+
 	public:
-		COGLBufferStream(CRefPtr<IOGLBaseBuffer> pBuffer, const Graphic::BufferAccess uAccess, const bool bDiscard, const uint32 uOffset, const uint32 uLength);
+		COGLBufferStream(CRefPtr<IOGLBaseBuffer> pBuffer, CGLRenderContext& GL, const Graphic::BufferAccess uAccess, const bool bDiscard, const uint32 uOffset, const uint32 uLength);
 		~COGLBufferStream();
 	};
 }

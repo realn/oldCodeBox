@@ -102,9 +102,6 @@
     <ClInclude Include="Include\Manage_Singleton.h">
       <Filter>Include\Manage</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Math.h">
-      <Filter>Include\Math</Filter>
-    </ClInclude>
     <ClInclude Include="Include\Math_Color.h">
       <Filter>Include\Math</Filter>
     </ClInclude>
@@ -293,6 +290,9 @@
     </ClInclude>
     <ClInclude Include="Include\Font.h">
       <Filter>Include\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\CBMath.h">
+      <Filter>Include\Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

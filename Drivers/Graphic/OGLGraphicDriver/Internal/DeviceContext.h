@@ -1,8 +1,8 @@
 #pragma once
 
-
-#include "DeviceContextInterface.h"
+#include <Types.h>
 #include <CBString.h>
+#include "DeviceContextInterface.h"
 
 namespace CB{
 	//====================================
@@ -12,16 +12,21 @@ namespace CB{
 		public IDeviceContext
 	{
 	private:
-		mutable HDC m_hDC;
+		/// <summary>
+		/// Pointer to device context handle.
+		/// </summary>
+		mutable void* m_hDC;
 
 	public:
 		CDeviceContext();
 		CDeviceContext(const CString& strDeviceName);
-		CDeviceContext(HDC hDC);
+		CDeviceContext(void* hDC);
 		~CDeviceContext();
 
-		const CDeviceContext&	operator=(HDC hDC);
+		void* Get() const override;
 
-		HDC& Get() const override;
+	private:
+		CR_NOCOPY(CDeviceContext);
+		CR_NOASSIGN(CDeviceContext);
 	};
 }

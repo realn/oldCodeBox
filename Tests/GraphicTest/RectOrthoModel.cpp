@@ -1,5 +1,5 @@
 #include "RectOrthoModel.h"
-#include <Math.h>
+#include <CBMath.h>
 
 namespace GraphicTest{
 	class CVertex{

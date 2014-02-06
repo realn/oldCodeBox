@@ -11,10 +11,6 @@ namespace CB{
 		}
 	}
 
-	CCGContext::CCGContext(const CCGContext&) : 
-		m_Context(0)
-	{}
-
 	CCGContext::CCGContext(CGcontext Context) :
 		m_Context(Context)
 	{}
@@ -28,9 +24,5 @@ namespace CB{
 
 	CGcontext&	CCGContext::Get() const{
 		return this->m_Context;
-	}
-
-	const CCGContext&	CCGContext::operator=(const CCGContext&){
-		return *this;
 	}
 }

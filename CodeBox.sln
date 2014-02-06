@@ -43,6 +43,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphicTextTest", "Tests\Gr
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GraphicTools", "Tools\GraphicTools\GraphicTools.vcxproj", "{FDA5D238-2B64-48F2-AEB4-50299FD0B05E}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NormalMapGen", "Tools\NormalMapGen\NormalMapGen.vcxproj", "{7C4EDFF8-A4FF-448E-98AC-AC53F6A9796C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -101,6 +103,10 @@ Global
 		{FDA5D238-2B64-48F2-AEB4-50299FD0B05E}.Debug|Win32.Build.0 = Debug|Win32
 		{FDA5D238-2B64-48F2-AEB4-50299FD0B05E}.Release|Win32.ActiveCfg = Release|Win32
 		{FDA5D238-2B64-48F2-AEB4-50299FD0B05E}.Release|Win32.Build.0 = Release|Win32
+		{7C4EDFF8-A4FF-448E-98AC-AC53F6A9796C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7C4EDFF8-A4FF-448E-98AC-AC53F6A9796C}.Debug|Win32.Build.0 = Debug|Win32
+		{7C4EDFF8-A4FF-448E-98AC-AC53F6A9796C}.Release|Win32.ActiveCfg = Release|Win32
+		{7C4EDFF8-A4FF-448E-98AC-AC53F6A9796C}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -122,5 +128,6 @@ Global
 		{494E4410-C4A5-4CED-BFD1-CDDC689B3C54} = {3F40C517-844B-41B2-AD42-D53E269CA15D}
 		{2BF7E9D6-14A1-499F-8D54-43EDE13765F3} = {3F40C517-844B-41B2-AD42-D53E269CA15D}
 		{FDA5D238-2B64-48F2-AEB4-50299FD0B05E} = {2A476865-3B12-4EE9-A3D3-CDE3E557C3F2}
+		{7C4EDFF8-A4FF-448E-98AC-AC53F6A9796C} = {2A476865-3B12-4EE9-A3D3-CDE3E557C3F2}
 	EndGlobalSection
 EndGlobal
