@@ -26,9 +26,6 @@
     <ClCompile Include="Source\FontTexture.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RectVT.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="Source\TextMeshGenerator.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -63,6 +60,9 @@
     </ClInclude>
     <ClInclude Include="Source\MeshRawVT.h">
       <Filter>Source\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Tools_Font.h">
+      <Filter>Include</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

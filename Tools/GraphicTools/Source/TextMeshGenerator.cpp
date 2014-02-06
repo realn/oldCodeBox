@@ -8,11 +8,11 @@ namespace CB{
 		{
 		}
 
-		void	CTextMeshGenerator::Generate(const CString& strText, CMeshRawIVT& OutMesh){
+		void	CTextMeshGenerator::Generate(const CString& strText, CMeshRawIVT& OutMesh) const{
 			this->Generate(strText, Math::CVector2D(1.0f), OutMesh);
 		}
 
-		void	CTextMeshGenerator::Generate(const CString& strText, const Math::CVector2D& vSize, CMeshRawIVT& OutMesh){
+		void	CTextMeshGenerator::Generate(const CString& strText, const Math::CVector2D& vSize, CMeshRawIVT& OutMesh) const{
 			Math::CVector2D vTextPos;
 			for(uint32 i = 0; i < strText.GetLength(); i++){
 				const CFontCharDesc& charDesc = this->GetChar(strText[i]);
@@ -32,6 +32,20 @@ namespace CB{
 			OutMesh.uNumberOfPolygons = OutMesh.Indices.GetLength() / 3;
 		}
 
+		const CB::Math::CVector2D	CTextMeshGenerator::GetTextSize(const CString& strText) const{
+			return this->GetTextSize(strText, Math::CVector2D(1.0f));
+		}
+
+		const CB::Math::CVector2D	CTextMeshGenerator::GetTextSize(const CString& strText, const CB::Math::CVector2D& vScale) const{
+			Math::CVector2D vTextPos;
+			for(uint32 i = 0; i < strText.GetLength(); i++){
+				const CFontCharDesc& charDesc = this->GetChar(strText[i]);
+
+				vTextPos += charDesc.vAdvance * vScale;
+			}
+			return vTextPos;
+		}
+
 		const CFontCharDesc&	CTextMeshGenerator::GetChar(const wchar uCode) const{
 			for(uint32 i = 0; i < this->m_FontChars.GetLength(); i++){
 				if(this->m_FontChars[i].cCharacter == uCode){
@@ -44,7 +58,7 @@ namespace CB{
 			return this->m_FontChars[0];
 		}
 
-		void	CTextMeshGenerator::AddQuad(const Math::CRectangleF32& vQuad, const Math::CRectangleF32& vTexCoords, CMeshRawIVT& Mesh){
+		void	CTextMeshGenerator::AddQuad(const Math::CRectangleF32& vQuad, const Math::CRectangleF32& vTexCoords, CMeshRawIVT& Mesh) const{
 			Collection::CArray<Math::CVector3D, 4>	v;
 			Collection::CArray<Math::CVector2D, 4>	t;
 

@@ -1,3 +1,4 @@
+#include "../Include/Tools_Font.h"
 #include "../Include/GraphicTools.h"
 #include <CBStringEx.h>
 #include <Logger.h>
