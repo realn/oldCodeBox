@@ -94,8 +94,8 @@ int main(){
 			textGen.Generate(L"Marek	M³ynarski!", textMesh);
 
 			CB::Collection::CList<CB::Graphic::CVertexElement> vEls;
-			vEls.Add(CB::Graphic::CVertexElement(0, L"vinput.vPosition", 0, CB::Graphic::VertexType::Float, 3));
-			vEls.Add(CB::Graphic::CVertexElement(1, L"vinput.vTexCoord", 0, CB::Graphic::VertexType::Float, 2));
+			vEls.Add(CB::Graphic::CVertexElement(0, L"vinput.vPosition", CB::Graphic::VertexType::Float, 3, 0));
+			vEls.Add(CB::Graphic::CVertexElement(1, L"vinput.vTexCoord", CB::Graphic::VertexType::Float, 2, 0));
 
 			GraphicTest::CShaderLoader shaders(pGraphicDevice, L"Shaders/TextureShader.cg");
 
@@ -110,8 +110,6 @@ int main(){
 			CB::Math::CMatrix mView = CB::Math::CMatrix::GetTranslation(-4.0f, 0.0f, -3.4f);
 			CB::Math::CMatrix mModel = CB::Math::CMatrix::GetIdentity();
 
-			CB::Tools::CRectVT	rect(pGraphicDevice, CB::Math::CVector2D(6.0f, 6.0f), shaders.pVertexShader, L"vinput.vPosition", L"vinput.vTexCoord");
-
 			shaders.pFragmentShader->SetSampler(L"texDiffuse", pTexture.Cast<CB::Graphic::IBaseTexture>());
 			pTexture->SetFilters(CB::Graphic::TextureFilter::Linear, CB::Graphic::TextureFilter::Linear, CB::Graphic::TextureFilter::Linear);
 			pTexture->SetAnisotropy(8);
@@ -125,7 +123,6 @@ int main(){
 
 				pGraphicDevice->SetShader(shaders.pVertexShader);
 				pGraphicDevice->SetShader(shaders.pFragmentShader);
-				pGraphicDevice->SetVertexDeclaration(rect.GetDeclaration());
 
 				static float32 fV = 0.0f;
 				fV += 20 * g_Timer.GetTimeDelta();
@@ -134,11 +131,6 @@ int main(){
 				shaders.pVertexShader->SetUniform(L"vinput.mProj", mProj);
 				shaders.pVertexShader->SetUniform(L"vinput.mView", mView);
 				shaders.pVertexShader->SetUniform(L"vinput.mModel", mModel);
-
-				pGraphicDevice->SetVertexBuffer(0, rect.GetVertexBuffer());
-				pGraphicDevice->SetIndexBuffer(rect.GetIndexBuffer());
-
-				//pGraphicDevice->RenderIndexed(rect.GetNumberOfPolygons(), 0, 0);
 
 				pGraphicDevice->SetVertexDeclaration(pTextDecl);
 				pGraphicDevice->SetVertexBuffer(0, pTextVertexBuffer);
