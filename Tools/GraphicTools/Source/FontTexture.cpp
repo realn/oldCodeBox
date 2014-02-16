@@ -41,6 +41,7 @@ namespace CB{
 				}
 
 				auto imgSize = charImg.GetSize();
+				//desc.vPosCorrection.Y -= (float32)(m_FontSize.Height - imgSize.Height) / (float32)m_FontSize.Height;
 				
 				if(texturePos.X + imgSize.Width + CharPadding.Width > MaxTextureSize.Width){
 					texturePos.X = this->CharPadding.Width;
@@ -91,9 +92,10 @@ namespace CB{
 				auto vFontSize = Math::CVector2D((float32)this->m_FontSize.Width, (float32)this->m_FontSize.Height);
 
 				desc.cCharacter = charCode;
-				desc.vPosCorrection = Math::CVector2D(bitmapPos) / vFontSize;
-				desc.vPosCorrection.Y = -desc.vPosCorrection.Y;
+				desc.vPosCorrection.X = (float32)bitmapPos.X / vFontSize.X;// Math::CVector2D(bitmapPos) / vFontSize;
+				desc.vPosCorrection.Y = (vFontSize.Y - (float32)bitmapPos.X) / vFontSize.Y;
 				desc.vAdvance = Math::CVector2D(Adv) / vFontSize;
+				desc.vAdvance.Y = desc.vAdvance.Y;
 				desc.vSize = Math::CVector2D(pixelSize.ToPoint()) / vFontSize;
 
 				return true;
