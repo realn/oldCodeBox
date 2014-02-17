@@ -29,6 +29,8 @@ namespace CB{
 			const Math::CPoint	GetGlyphBitmapPos() const;
 			const uint32		GetLineHeight() const;
 			const Math::CSize	GetSize() const;
+			const uint32		GetAscender() const;
+			const uint32		GetDescender() const;
 			
 			const uint32	GetCharGlyphIndex(const wchar uChar) const;
 

@@ -93,7 +93,7 @@ namespace CB{
 
 				desc.cCharacter = charCode;
 				desc.vPosCorrection.X = (float32)bitmapPos.X / vFontSize.X;// Math::CVector2D(bitmapPos) / vFontSize;
-				desc.vPosCorrection.Y = (vFontSize.Y - (float32)bitmapPos.X) / vFontSize.Y;
+				desc.vPosCorrection.Y = (float32)(bitmapPos.Y - (int32)pixelSize.Height - (int32)m_pFont->GetDescender()) / vFontSize.Y;
 				desc.vAdvance = Math::CVector2D(Adv) / vFontSize;
 				desc.vAdvance.Y = desc.vAdvance.Y;
 				desc.vSize = Math::CVector2D(pixelSize.ToPoint()) / vFontSize;

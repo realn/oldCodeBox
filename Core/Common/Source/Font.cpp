@@ -144,11 +144,23 @@ namespace CB{
 		const uint32	CFont::GetLineHeight() const{
 			auto pFace = this->m_pData.GetCast<FT_Face>();
 
-			return pFace->height * 64;
+			return pFace->height / 64;
 		}
 
 		const Math::CSize	CFont::GetSize() const{
 			return this->m_FontSize;
+		}
+
+		const uint32	CFont::GetAscender() const{
+			auto pFace = this->m_pData.GetCast<FT_Face>();
+
+			return pFace->size->metrics.ascender / 64;
+		}
+
+		const uint32	CFont::GetDescender() const{
+			auto pFace = this->m_pData.GetCast<FT_Face>();
+			
+			return pFace->size->metrics.descender / 64;
 		}
 
 		const uint32	CFont::GetCharGlyphIndex(const wchar uChar) const{
