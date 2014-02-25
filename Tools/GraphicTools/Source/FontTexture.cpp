@@ -16,7 +16,7 @@ namespace CB{
 		}
 
 		CRefPtr<Graphic::ITexture2D>	CFontTextureGenerator::Generate(CRefPtr<Font::CFont> pFont, Collection::CList<CFontCharDesc>& OutCharacterList){
-			auto defaultChars = String::ToArray(L" !?><,./;:'\"\\|[]{}-_=+@#$%^&*()`~ABCDEFGHIJKLMNOPRSTQWXYZ0123456789abcdefghijklmnoprstqwxyz");
+			auto defaultChars = String::ToArray(L" !?><,./;:'\"\\|[]{}-_=+@#$%^&*()`~ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz");
 
 			return this->Generate(pFont, defaultChars, OutCharacterList);
 		}
