@@ -104,7 +104,7 @@ namespace CB{
 			{
 			case FT_PIXEL_MODE_GRAY:
 				{
-					for(uint32 uIndex = 0; uIndex < Bitmap.width * Bitmap.rows; uIndex++){
+					for(uint32 uIndex = 0; uIndex < (uint32)(Bitmap.width * Bitmap.rows); uIndex++){
 						Data[uIndex * 4 + 0] = Bitmap.buffer[uIndex];
 						Data[uIndex * 4 + 1] = Bitmap.buffer[uIndex];
 						Data[uIndex * 4 + 2] = Bitmap.buffer[uIndex];
@@ -115,7 +115,7 @@ namespace CB{
 
 			case FT_PIXEL_MODE_BGRA:
 				{
-					for(uint32 uIndex = 0; uIndex < Bitmap.width * Bitmap.rows; uIndex++){
+					for(uint32 uIndex = 0; uIndex < (uint32)(Bitmap.width * Bitmap.rows); uIndex++){
 						Data[uIndex * 4 + 0] = Bitmap.buffer[uIndex * 4 + 0];
 						Data[uIndex * 4 + 1] = Bitmap.buffer[uIndex * 4 + 1];
 						Data[uIndex * 4 + 2] = Bitmap.buffer[uIndex * 4 + 2];
