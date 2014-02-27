@@ -205,11 +205,13 @@ namespace CB{
 		{
 		public:
 			_ReturnType	Invoke(){
+				typename Arg_Type args();
+
 				return this->InvokeSignals(&args);
 			}
 
 			_ReturnType	operator()(){
-				return this->Invoke(arg1);
+				return this->Invoke();
 			}
 		};
 	}
