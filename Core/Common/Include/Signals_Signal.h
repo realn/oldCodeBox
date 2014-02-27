@@ -211,22 +211,12 @@ namespace CB{
 			public IArgs
 		{
 		public:
-			static const uint32	ms_uArgNumber = 0;
+			static const uint32	ms_uArgNumber;
 
 		public:
 			CArgs();
 
 			const unsigned	GetNumberOfArgs() const override;
 		};
-
-		//===================================================================
-		//	CArgs 0 arguments template specialization definition.
-		//===================================================================
-		CArgs<void, void, void, void, void>::CArgs(){
-		}
-
-		const uint32 CArgs<void, void, void, void, void>::GetNumberOfArgs() const{
-			return this->ms_uArgNumber;
-		}
 	}
 }

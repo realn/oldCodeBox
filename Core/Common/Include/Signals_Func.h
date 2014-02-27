@@ -73,7 +73,7 @@ namespace CB{
 		{}
 
 		template<typename _ReturnType, typename _Arg1, typename _Arg2, typename _Arg3, typename _Arg4, typename _Arg5>
-		CFunc<_ReturnType, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5>::CFunc(CFunc::Func_Type pFunc) :
+		CFunc<_ReturnType, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5>::CFunc(Func_Type pFunc) :
 			m_pFunc(pFunc)
 		{}
 
@@ -138,7 +138,7 @@ namespace CB{
 
 			virtual	const uint32	GetHashCode() const override;
 			virtual ISignal*	CreateCopy() const override;
-			const bool	IsPointerEqual(const void* pObj) const override
+			const bool	IsPointerEqual(const void* pObj) const override;
 		};
 
 		//===================================================================
@@ -190,8 +190,9 @@ namespace CB{
 			return this->m_pFunc == pObj;
 		}
 
-
-
+		//===================================================================
+		//	CFunc 3 argument template class specialization declaration.
+		//===================================================================
 		template<typename _ReturnType, typename _Arg1, typename _Arg2, typename _Arg3>
 		class CFunc<_ReturnType, _Arg1, _Arg2, _Arg3, void, void> : 
 			public IFuncBase<_ReturnType, _Arg1, _Arg2, _Arg3>
@@ -202,43 +203,71 @@ namespace CB{
 		protected:
 			Func_Type		m_pFunc;
 
-			CFunc() :
-				m_pFunc(0)
-			{}
+			CFunc();
 		public:
-			CFunc(Func_Type pFunc) :
-				m_pFunc(pFunc)
-			{}
+			CFunc(Func_Type pFunc);
 
-			virtual _ReturnType	InvokeSignal() override{
-				return this->m_pFunc(
-					this->m_pArgs->m_Arg1, 
-					this->m_pArgs->m_Arg2,
-					this->m_pArgs->m_Arg3);
-			}
+			virtual _ReturnType	InvokeSignal() override;
+			_ReturnType	Invoke(_Arg1 arg1, _Arg2 arg2, _Arg3 arg3);
+			_ReturnType	operator()(_Arg1 arg1, _Arg2 arg2, _Arg3 arg3);
 
-			_ReturnType	Invoke(_Arg1 arg1, _Arg2 arg2, _Arg3 arg3){
-				typename Arg_Type tempArgs(arg1, arg2, arg3);
-				this->m_pArgs = &tempArgs;
-				return this->InvokeSignal();
-			}
-
-			_ReturnType	operator()(_Arg1 arg1, _Arg2 arg2, _Arg3 arg3){
-				return this->Invoke(arg1, arg2, arg3);
-			}
-
-			virtual	const unsigned	GetHashCode() const override{
-				return reinterpret_cast<unsigned>(this->m_pFunc);
-			}
-
-			virtual ISignal*	CreateCopy() const override{
-				return new CFunc<_ReturnType, _Arg1, _Arg2, _Arg3>(this->m_pFunc);
-			}
-			const bool	IsPointerEqual(const void* pObj) const override{
-				return this->m_pFunc == pObj;
-			}
+			virtual	const uint32	GetHashCode() const override;
+			virtual ISignal*	CreateCopy() const override;
+			const bool	IsPointerEqual(const void* pObj) const override;
 		};
 
+		//===================================================================
+		//	CFunc 3 arguments template class specialization definition.
+		//===================================================================
+		template<typename _ReturnType, typename _Arg1, typename _Arg2, typename _Arg3>
+		CFunc<_ReturnType, _Arg1, _Arg2, _Arg3, void, void>::CFunc() :
+			m_pFunc(0)
+		{}
+
+		template<typename _ReturnType, typename _Arg1, typename _Arg2, typename _Arg3>
+		CFunc<_ReturnType, _Arg1, _Arg2, _Arg3, void, void>::CFunc(Func_Type pFunc) :
+			m_pFunc(pFunc)
+		{}
+
+		template<typename _ReturnType, typename _Arg1, typename _Arg2, typename _Arg3>
+		_ReturnType	CFunc<_ReturnType, _Arg1, _Arg2, _Arg3, void, void>::InvokeSignal(){
+			return this->m_pFunc(
+				this->m_pArgs->m_Arg1, 
+				this->m_pArgs->m_Arg2,
+				this->m_pArgs->m_Arg3);
+		}
+
+		template<typename _ReturnType, typename _Arg1, typename _Arg2, typename _Arg3>
+		_ReturnType	CFunc<_ReturnType, _Arg1, _Arg2, _Arg3, void, void>::Invoke(_Arg1 arg1, _Arg2 arg2, _Arg3 arg3){
+			typename Arg_Type tempArgs(arg1, arg2, arg3);
+			this->m_pArgs = &tempArgs;
+			return this->InvokeSignal();
+		}
+
+		template<typename _ReturnType, typename _Arg1, typename _Arg2, typename _Arg3>
+		_ReturnType	CFunc<_ReturnType, _Arg1, _Arg2, _Arg3, void, void>::operator()(_Arg1 arg1, _Arg2 arg2, _Arg3 arg3){
+			return this->Invoke(arg1, arg2, arg3);
+		}
+
+		template<typename _ReturnType, typename _Arg1, typename _Arg2, typename _Arg3>
+		const uint32	CFunc<_ReturnType, _Arg1, _Arg2, _Arg3, void, void>::GetHashCode() const{
+			return reinterpret_cast<unsigned>(this->m_pFunc);
+		}
+
+		template<typename _ReturnType, typename _Arg1, typename _Arg2, typename _Arg3>
+		ISignal*	CFunc<_ReturnType, _Arg1, _Arg2, _Arg3, void, void>::CreateCopy() const{
+			return new CFunc<_ReturnType, _Arg1, _Arg2, _Arg3>(this->m_pFunc);
+		}
+
+		template<typename _ReturnType, typename _Arg1, typename _Arg2, typename _Arg3>
+		const bool	CFunc<_ReturnType, _Arg1, _Arg2, _Arg3, void, void>::IsPointerEqual(const void* pObj) const{
+			return this->m_pFunc == pObj;
+		}
+
+
+		//===================================================================
+		//	CFunc 2 argument template class specialization declaration.
+		//===================================================================
 		template<typename _ReturnType, typename _Arg1, typename _Arg2>
 		class CFunc<_ReturnType, _Arg1, _Arg2, void, void, void> : 
 			public IFuncBase<_ReturnType, _Arg1, _Arg2, void>
@@ -249,42 +278,71 @@ namespace CB{
 		protected:
 			Func_Type		m_pFunc;
 
-			CFunc() :
-				m_pFunc(0)
-			{}
+			CFunc();
 		public:
-			CFunc(Func_Type pFunc) :
-				m_pFunc(pFunc)
-			{}
+			CFunc(Func_Type pFunc);
 
-			virtual _ReturnType	InvokeSignal() override{
-				return this->m_pFunc(
-					this->m_pArgs->m_Arg1, 
-					this->m_pArgs->m_Arg2);
-			}
+			virtual _ReturnType	InvokeSignal() override;
+			_ReturnType	Invoke(_Arg1 arg1, _Arg2 arg2);
+			_ReturnType	operator()(_Arg1 arg1, _Arg2 arg2);
 
-			_ReturnType	Invoke(_Arg1 arg1, _Arg2 arg2){
-				typename Arg_Type tempArgs(arg1, arg2);
-				this->m_pArgs = &tempArgs;
-				return this->InvokeSignal();
-			}
-
-			_ReturnType	operator()(_Arg1 arg1, _Arg2 arg2){
-				return this->Invoke(arg1, arg2);
-			}
-
-			virtual	const unsigned	GetHashCode() const override{
-				return reinterpret_cast<unsigned>(this->m_pFunc);
-			}
-
-			virtual ISignal*	CreateCopy() const override{
-				return new CFunc<_ReturnType, _Arg1, _Arg2>(this->m_pFunc);
-			}
-			const bool	IsPointerEqual(const void* pObj) const override{
-				return this->m_pFunc == pObj;
-			}
+			virtual	const uint32	GetHashCode() const override;
+			virtual ISignal*	CreateCopy() const override;
+			const bool	IsPointerEqual(const void* pObj) const override;
 		};
 
+
+		//===================================================================
+		//	CFunc 2 arguments template class specialization definition.
+		//===================================================================
+		template<typename _ReturnType, typename _Arg1, typename _Arg2>
+		CFunc<_ReturnType, _Arg1, _Arg2, void, void, void>::CFunc() :
+			m_pFunc(0)
+		{}
+
+		template<typename _ReturnType, typename _Arg1, typename _Arg2>
+		CFunc<_ReturnType, _Arg1, _Arg2, void, void, void>::CFunc(Func_Type pFunc) :
+			m_pFunc(pFunc)
+		{}
+
+		template<typename _ReturnType, typename _Arg1, typename _Arg2>
+		_ReturnType	CFunc<_ReturnType, _Arg1, _Arg2, void, void, void>::InvokeSignal(){
+			return this->m_pFunc(
+				this->m_pArgs->m_Arg1, 
+				this->m_pArgs->m_Arg2);
+		}
+
+		template<typename _ReturnType, typename _Arg1, typename _Arg2>
+		_ReturnType	CFunc<_ReturnType, _Arg1, _Arg2, void, void, void>::Invoke(_Arg1 arg1, _Arg2 arg2){
+			typename Arg_Type tempArgs(arg1, arg2);
+			this->m_pArgs = &tempArgs;
+			return this->InvokeSignal();
+		}
+
+		template<typename _ReturnType, typename _Arg1, typename _Arg2>
+		_ReturnType	CFunc<_ReturnType, _Arg1, _Arg2, void, void, void>::operator()(_Arg1 arg1, _Arg2 arg2){
+			return this->Invoke(arg1, arg2);
+		}
+
+		template<typename _ReturnType, typename _Arg1, typename _Arg2>
+		const uint32	CFunc<_ReturnType, _Arg1, _Arg2, void, void, void>::GetHashCode() const{
+			return reinterpret_cast<uint32>(this->m_pFunc);
+		}
+
+		template<typename _ReturnType, typename _Arg1, typename _Arg2>
+		ISignal*	CFunc<_ReturnType, _Arg1, _Arg2, void, void, void>::CreateCopy() const{
+			return new CFunc<_ReturnType, _Arg1, _Arg2>(this->m_pFunc);
+		}
+
+		template<typename _ReturnType, typename _Arg1, typename _Arg2>
+		const bool	CFunc<_ReturnType, _Arg1, _Arg2, void, void, void>::IsPointerEqual(const void* pObj) const{
+			return this->m_pFunc == pObj;
+		}
+
+
+		//===================================================================
+		//	CFunc 1 argument template class specialization declaration.
+		//===================================================================
 		template<typename _ReturnType, typename _Arg1>
 		class CFunc<_ReturnType, _Arg1, void, void, void, void> : 
 			public IFuncBase<_ReturnType, _Arg1, void, void, void, void>
@@ -295,40 +353,67 @@ namespace CB{
 		protected:
 			Func_Type		m_pFunc;
 
-			CFunc() :
-				m_pFunc(0)
-			{}
+			CFunc();
 		public:
-			CFunc(Func_Type pFunc) :
+			CFunc(Func_Type pFunc);
+
+			virtual _ReturnType	InvokeSignal() override;
+			_ReturnType	Invoke(_Arg1 arg1);
+			_ReturnType	operator()(_Arg1 arg1);
+
+			virtual	const uint32	GetHashCode() const override;
+			virtual ISignal*	CreateCopy() const override;
+			const bool	IsPointerEqual(const void* pObj) const override;
+		};
+
+		//===================================================================
+		//	CFunc 1 arguments template class specialization definition.
+		//===================================================================
+		template<typename _ReturnType, typename _Arg1>
+		CFunc<_ReturnType, _Arg1, void, void, void, void>::CFunc() :
+			m_pFunc(0)
+		{}
+
+		template<typename _ReturnType, typename _Arg1>
+		CFunc<_ReturnType, _Arg1, void, void, void, void>::CFunc(Func_Type pFunc) :
 				m_pFunc(pFunc)
 			{}
 
-			virtual _ReturnType	InvokeSignal() override{
-				return this->m_pFunc(this->m_pArgs->m_Arg1);
-			}
+		template<typename _ReturnType, typename _Arg1>
+		_ReturnType	CFunc<_ReturnType, _Arg1, void, void, void, void>::InvokeSignal(){
+			return this->m_pFunc(this->m_pArgs->m_Arg1);
+		}
 
-			_ReturnType	Invoke(_Arg1 arg1){
-				typename Arg_Type tempArgs(arg1);
-				this->m_pArgs = &tempArgs;
-				return this->InvokeSignal();
-			}
+		template<typename _ReturnType, typename _Arg1>
+		_ReturnType	CFunc<_ReturnType, _Arg1, void, void, void, void>::Invoke(_Arg1 arg1){
+			typename Arg_Type tempArgs(arg1);
+			this->m_pArgs = &tempArgs;
+			return this->InvokeSignal();
+		}
 
-			_ReturnType	operator()(_Arg1 arg1){
-				return this->Invoke(arg1);
-			}
+		template<typename _ReturnType, typename _Arg1>
+		_ReturnType	CFunc<_ReturnType, _Arg1, void, void, void, void>::operator()(_Arg1 arg1){
+			return this->Invoke(arg1);
+		}
 
-			virtual	const unsigned	GetHashCode() const override{
-				return reinterpret_cast<unsigned>(this->m_pFunc);
-			}
+		template<typename _ReturnType, typename _Arg1>
+		const uint32	CFunc<_ReturnType, _Arg1, void, void, void, void>::GetHashCode() const{
+			return reinterpret_cast<uint32>(this->m_pFunc);
+		}
 
-			virtual ISignal*	CreateCopy() const override{
-				return new CFunc<_ReturnType, _Arg1>(this->m_pFunc);
-			}
-			const bool	IsPointerEqual(const void* pObj) const override{
-				return this->m_pFunc == pObj;
-			}
-		};
+		template<typename _ReturnType, typename _Arg1>
+		ISignal*	CFunc<_ReturnType, _Arg1, void, void, void, void>::CreateCopy() const{
+			return new CFunc<_ReturnType, _Arg1>(this->m_pFunc);
+		}
 
+		template<typename _ReturnType, typename _Arg1>
+		const bool	CFunc<_ReturnType, _Arg1, void, void, void, void>::IsPointerEqual(const void* pObj) const{
+			return this->m_pFunc == pObj;
+		}
+
+		//===================================================================
+		//	CFunc 0 argument template class specialization declaration.
+		//===================================================================
 		template<typename _ReturnType>
 		class CFunc<_ReturnType, void, void, void, void, void> : 
 			public IFuncBase<_ReturnType, void, void, void, void, void>
@@ -339,37 +424,60 @@ namespace CB{
 		protected:
 			Func_Type		m_pFunc;
 
-			CFunc() :
-				m_pFunc(0)
-			{}
+			CFunc();
 		public:
-			CFunc(Func_Type pFunc) :
-				m_pFunc(pFunc)
-			{}
+			CFunc(Func_Type pFunc);
 
-			virtual _ReturnType	InvokeSignal() override{
-				return this->m_pFunc();
-			}
+			virtual _ReturnType	InvokeSignal() override;
+			_ReturnType	Invoke();
+			_ReturnType	operator()();
 
-			_ReturnType	Invoke(){
-				return this->InvokeSignal();
-			}
-
-			_ReturnType	operator()(){
-				return this->Invoke();
-			}
-
-			virtual	const unsigned	GetHashCode() const override{
-				return reinterpret_cast<unsigned>(this->m_pFunc);
-			}
-
-			virtual ISignal*	CreateCopy() const override{
-				return new CFunc<_ReturnType>(this->m_pFunc);
-			}
-
-			const bool	IsPointerEqual(const void* pObj) const override{
-				return this->m_pFunc == pObj;
-			}
+			virtual	const unsigned	GetHashCode() const override;
+			virtual ISignal*	CreateCopy() const override;
+			const bool	IsPointerEqual(const void* pObj) const override;
 		};
+
+		//===================================================================
+		//	CFunc 1 arguments template class specialization definition.
+		//===================================================================
+		template<typename _ReturnType>
+		CFunc<_ReturnType, void, void, void, void, void>::CFunc() :
+			m_pFunc(0)
+		{}
+
+		template<typename _ReturnType>
+		CFunc<_ReturnType, void, void, void, void, void>::CFunc(Func_Type pFunc) :
+			m_pFunc(pFunc)
+		{}
+
+		template<typename _ReturnType>
+		_ReturnType	CFunc<_ReturnType, void, void, void, void, void>::InvokeSignal(){
+			return this->m_pFunc();
+		}
+
+		template<typename _ReturnType>
+		_ReturnType	CFunc<_ReturnType, void, void, void, void, void>::Invoke(){
+			return this->InvokeSignal();
+		}
+
+		template<typename _ReturnType>
+		_ReturnType	CFunc<_ReturnType, void, void, void, void, void>::operator()(){
+			return this->Invoke();
+		}
+
+		template<typename _ReturnType>
+		const uint32	CFunc<_ReturnType, void, void, void, void, void>::GetHashCode() const{
+			return reinterpret_cast<uint32>(this->m_pFunc);
+		}
+
+		template<typename _ReturnType>
+		ISignal*	CFunc<_ReturnType, void, void, void, void, void>::CreateCopy() const{
+			return new CFunc<_ReturnType>(this->m_pFunc);
+		}
+
+		template<typename _ReturnType>
+		const bool	CFunc<_ReturnType, void, void, void, void, void>::IsPointerEqual(const void* pObj) const{
+			return this->m_pFunc == pObj;
+		}
 	}
 }
