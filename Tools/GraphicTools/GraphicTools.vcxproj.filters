@@ -44,6 +44,9 @@
     <ClCompile Include="Source\MeshRawVTN.cpp">
       <Filter>Source\Mesh</Filter>
     </ClCompile>
+    <ClCompile Include="Source\GuardShader.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\GraphicTools.h">
@@ -62,6 +65,9 @@
       <Filter>Source\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="Include\Tools_Font.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Tools_BindGuards.h">
       <Filter>Include</Filter>
     </ClInclude>
   </ItemGroup>

@@ -88,6 +88,7 @@
   <ItemGroup>
     <ClInclude Include="Include\GraphicTools.h" />
     <ClInclude Include="Include\Macros.h" />
+    <ClInclude Include="Include\Tools_BindGuards.h" />
     <ClInclude Include="Include\Tools_Font.h" />
     <ClInclude Include="Include\Tools_Mesh.h" />
     <ClInclude Include="Internal\WinPlatform.h" />
@@ -104,6 +105,7 @@
     </ClCompile>
     <ClCompile Include="Source\FontTexture.cpp" />
     <ClCompile Include="Source\GraphicTools.cpp" />
+    <ClCompile Include="Source\GuardShader.cpp" />
     <ClCompile Include="Source\MeshRawIV.cpp" />
     <ClCompile Include="Source\MeshRawIVT.cpp" />
     <ClCompile Include="Source\MeshRawIVTN.cpp" />
