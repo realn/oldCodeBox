@@ -438,7 +438,7 @@ namespace CB{
 		};
 
 		//===================================================================
-		//	CFunc 1 arguments template class specialization definition.
+		//	CFunc 0 arguments template class specialization definition.
 		//===================================================================
 		template<typename _ReturnType>
 		CFunc<_ReturnType, void, void, void, void, void>::CFunc() :

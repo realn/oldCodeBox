@@ -55,5 +55,19 @@ namespace CB{
 		const bool	ISlot::IsEmpty() const{
 			return this->m_pSignals.IsEmpty();
 		}
+
+		//===================================================================
+		//	ISlotReturnBase void return type specialization definition.
+		//===================================================================
+		ISlotReturnBase<void>::ISlotReturnBase(){
+		}
+
+		void	ISlotReturnBase<void>::InvokeSignals(IArgs* pArgs){
+			auto En = this->m_pSignals.GetEnumerator();
+			for(En.ToFirst(); En.IsValid(); En.Next()){
+				this->GetSignal(En)->SetArgs(pArgs);
+				this->GetSignal(En)->InvokeSignal();
+			}
+		}
 	}
 }

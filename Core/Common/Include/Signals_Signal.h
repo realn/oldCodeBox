@@ -207,7 +207,7 @@ namespace CB{
 		//	CArgs 0 arguments template specialization declaration.
 		//===================================================================
 		template<>
-		class CArgs<void, void, void, void, void> :
+		class COMMON_API CArgs<void, void, void, void, void> :
 			public IArgs
 		{
 		public:
