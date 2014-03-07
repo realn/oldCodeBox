@@ -524,22 +524,31 @@ namespace CB{
 	}
 
 	CRefPtr<Graphic::IBuffer>	COGLDevice::GetIndexBuffer() const{
-		return this->m_pIndexStream.GetCast<Graphic::IBuffer>();
+		if(this->m_pIndexStream.IsValid())
+			return this->m_pIndexStream.GetCast<Graphic::IBuffer>();
+		return CRefPtr<Graphic::IBuffer>();
 	}
 
 	CRefPtr<Graphic::IBuffer>	COGLDevice::GetVertexBuffer(const uint32 uStream) const{
-		return this->m_pVertexStream[uStream].GetCast<Graphic::IBuffer>();
+		auto& pBuffer = this->m_pVertexStream[uStream];
+		if(pBuffer.IsValid())
+			return pBuffer.GetCast<Graphic::IBuffer>();
+		return CRefPtr<Graphic::IBuffer>();
 	}
 
 	CRefPtr<Graphic::IShader>	COGLDevice::GetShader(const Graphic::ShaderType uType) const{
+		CB::CPtr<IOGLBaseShader> pShader;
 		switch (uType)
 		{
-		case Graphic::ShaderType::Vertex:	return this->m_pVertexShader.Get();
-		case Graphic::ShaderType::Fragment:	return this->m_pFragmentShader.Get();
+		case Graphic::ShaderType::Vertex:	pShader = this->m_pVertexShader; break;
+		case Graphic::ShaderType::Fragment:	pShader = this->m_pFragmentShader; break;
 		default:
 			throw Exception::CInvalidArgumentException(L"uType", String::ToString(uType),
 				L"Invalid shader type.", CR_INFO());
 		}
+		if(pShader.IsValid())
+			return pShader.Get();
+		return CRefPtr<Graphic::IShader>();
 	}
 
 	CRefPtr<Graphic::IDeviceState>	COGLDevice::GetState(const Graphic::DeviceStateType uType) const{
