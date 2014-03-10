@@ -44,7 +44,7 @@
     <ClCompile Include="Source\MeshRawVTN.cpp">
       <Filter>Source\Mesh</Filter>
     </ClCompile>
-    <ClCompile Include="Source\GuardShader.cpp">
+    <ClCompile Include="Source\BindGuards.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
