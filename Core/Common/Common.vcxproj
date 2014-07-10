@@ -60,6 +60,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;COMMON_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -226,7 +227,7 @@
     <ClCompile Include="Source\Ref.cpp" />
     <ClCompile Include="Source\Signals_Signal.cpp" />
     <ClCompile Include="Source\Signals_Slots.cpp" />
-    <ClCompile Include="Source\SimpleXML.cpp">
+    <ClCompile Include="Source\SimpleXML_Document.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Source\IO_Sound.cpp">
@@ -238,6 +239,10 @@
     <ClCompile Include="Source\CBString_Convert.cpp" />
     <ClCompile Include="Source\CBString_String.cpp" />
     <ClCompile Include="Source\IO_TextReader.cpp" />
+    <ClCompile Include="Source\SimpleXML_Attribute.cpp" />
+    <ClCompile Include="Source\SimpleXML_AttributeList.cpp" />
+    <ClCompile Include="Source\SimpleXML_Node.cpp" />
+    <ClCompile Include="Source\SimpleXML_NodeList.cpp" />
     <ClCompile Include="Source\Threads.cpp" />
     <ClCompile Include="Source\Timer.cpp" />
     <ClCompile Include="Source\WindowsErrors.cpp" />

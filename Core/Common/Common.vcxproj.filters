@@ -308,9 +308,6 @@
     <ClCompile Include="Source\Ref.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source\SimpleXML.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="Source\dllmain.cpp">
       <Filter>Source\lib</Filter>
     </ClCompile>
@@ -481,6 +478,21 @@
     </ClCompile>
     <ClCompile Include="Source\Font.cpp">
       <Filter>Source\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SimpleXML_Attribute.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SimpleXML_AttributeList.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SimpleXML_NodeList.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SimpleXML_Node.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SimpleXML_Document.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

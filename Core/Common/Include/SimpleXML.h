@@ -17,58 +17,92 @@ namespace CB{
 			UseDefault,
 		};
 
-		class CRoot;
+		class CAttributeList;
 		class CNode;
+		class CDocument;
 		
 		//template class COMMON_API Collection::CLinkList<CPtr<CNode>>;
 
-		class COMMON_API CNode :
-			public Collection::ICountable<CNode>
-		{
-		public:
-			typedef Collection::CLinkList<CPtr<CNode>>	CNodeList;
-			typedef CNodeList::CEnumerator		CNodeEnumerator;
-
+		class COMMON_API CAttribute{
 		private:
-			friend CRoot;
-			friend CNodeList;
+			friend CAttributeList;
 
-			CNode*		m_pParent;
-			CNodeList	m_NodeList;
-			CString		m_strName;
-			CString		m_strValue;
-			bool		m_bSet;
-			NodeErrorReact	m_uOnMissingNodeRead;
-			NodeErrorReact	m_uOnMissingNodeWrite;
-			ValueErrorReact	m_uOnValueProcess;
-
+			CAttributeList*	m_pParent;
+			CString	m_strName;
+			CString	m_strValue;
+			
 		public:
-			void	SetOnMissingNode(const NodeErrorReact uReadReaction, const NodeErrorReact uWriteReaction);
-			void	SetOnValueProcess(const ValueErrorReact uReaction);
-
-			const NodeErrorReact	GetOnMissingNodeReadReaction() const;
-			const NodeErrorReact	GetOnMissingNodeWriteReaction() const;
-			const ValueErrorReact	GetOnValueProcessReaction() const;
-
 			const CString	GetName() const;
 			const CString	GetValue() const;
-			const int32		GetInt32() const;
-			const uint32	GetUInt32() const;
-			const float32	GetFloat() const;
-			const bool		GetBool() const;
+			
+			void	Set(const CString& strValue);
 
-			const CString	GetValue(const CString& strDefault) const;
-			const int32		GetInt32(const int32 iDefault) const;
-			const uint32	GetUInt32(const uint32 uDefault) const;
-			const float32	GetFloat(const float32 fDefault) const;
-			const bool		GetBool(const bool bDefault) const;
+			const CString	ToString() const;
+
+		private:
+			CAttribute(CAttributeList* pParent, const CString& strName);
+			CAttribute(const CAttribute& Attribute);
+		};
+
+		class COMMON_API CAttributeList :
+			public Collection::ICountable<CAttribute>
+		{
+		private:
+			friend CNode;
+
+			CNode*	m_pParent;
+			Collection::CList<CPtr<CAttribute>>	m_List;
+
+		public:
+			virtual ~CAttributeList();
+
+			CAttribute&	Add(const CString& strName);
+			CAttribute& Add(const CString& strName, const CString& strValue);
+
+			const uint32	GetLength() const override;
+			const bool		IsEmpty() const override;
+
+			const CAttribute&	Get(const uint32 uIndex) const override;
+			CAttribute&			Get(const uint32 uIndex) override;
+
+			const CAttribute&	Get(const CString& strName) const;
+			CAttribute&			Get(const CString& strName);
+
+			const bool		Contains(const CString& strName) const;
+
+			const bool	Remove(const CString& strName);
+			
+			void	Clear();
+
+			const CAttribute&	operator[](const uint32 uIndex) const override;
+			CAttribute&			operator[](const uint32 uIndex) override;
+
+			const CAttribute&	operator[](const CString& strName) const;
+			CAttribute&			operator[](const CString& strName);
+
+			const CString	ToString() const;
+
+		private:
+			CAttributeList(CNode* pParent);
+			CAttributeList(const CAttributeList& List);
+		};
+
+		class COMMON_API CNodeList :
+			public Collection::ICountable<CNode>
+		{
+		private:
+			friend CNode;
+			friend CDocument;
+
+			CNode*	m_pParent;
+			Collection::CList<CPtr<CNode>>	m_List;
+
+		public:
+			virtual ~CNodeList();
 
 			CNode&	Add(const CString& strName);
 			CNode&	Add(const CString& strName, const CString& strValue);
-			CNode&	Add(const CString& strName, const int32 iValue);
-			CNode&	Add(const CString& strName, const float32 fValue);
-			CNode&	Add(const CString& strName, const bool bValue);
-
+			
 			CNode&			Get(const CString& strName);
 			const CNode&	Get(const CString& strName) const;
 
@@ -78,22 +112,11 @@ namespace CB{
 			const uint32	GetLength() const override;
 			const bool		IsEmpty() const override;
 
-			CNodeEnumerator	GetEnumerator() const;
-
 			const bool	Contains(const CString& strName) const;
 
-			void	Set(const CString& strValue);
-			void	Set(const int32 iValue);
-			void	Set(const float32 fValue);
-			void	Set(const bool bValue);
-			void	ResetValue();
-
 			void	Remove(const CString& strName);
-			void	Remove();
 
 			void	Clear();
-
-			const bool	HasNodes() const;
 
 			const CString	ToString() const;
 			const CString	ToString(const bool bWithNewLines) const;
@@ -106,71 +129,58 @@ namespace CB{
 			const CNode&	operator[](const uint32 uIndex) const override;
 
 		private:
-			CNode(CNode* pParent, const CString& strName);
+			CNodeList(CNode* pParent);
+			CNodeList(const CNodeList& List);
+
+			const CString	ToString(const bool bWithNewLines, const bool bNested, const uint32 uNestLevel) const;
+		};
+
+		class COMMON_API CNode{
+		private:
+			//friend CRoot;
+			friend CNodeList;
+
+			CNodeList*	m_pParent;
+			CString		m_strName;
+			CString		m_strValue;
+
+		public:
+			CAttributeList	Attributes;
+			CNodeList		Nodes;
+
+			const CString	GetName() const;
+			const CString	GetValue() const;
+
+			void	Set(const CString& strValue);
+
+			const bool	HasAttributes() const;
+			const bool	HasNodes() const;
+
+		private:
+			CNode(CNodeList* pParent, const CString& strName);
 			CNode(const CNode& Node);
 
 			const uint32	Parse(const CString& strText, const uint32 uStartIndex);
 			const uint32	ParseStartTag(const CString& strText, const uint32 uIndex);
 			const uint32	ParseEndTag(const CString& strText, const uint32 uStartIndex, const uint32 uIndex);
 
-			const CString	CreateNewLines(const bool bWithNewLines) const;
-			const CString	CreateTabs(const bool bNested, const uint32 uNestLevel) const;
+		public:
 			const CString	ToString(const bool bWithNewLines, const bool bNested, const uint32 uNestLevel) const;
 		};
 
-		class COMMON_API CRoot : 
-			public Collection::ICountable<CNode>
-		{
-		private:
-			CNode	m_Root;
-
+		class COMMON_API CDocument{
 		public:
-			CRoot();
+			CNodeList	Nodes;
 
-			void	SetOnMissingNode(const NodeErrorReact uReadReaction, const NodeErrorReact uWriteReaction);
-			void	SetOnValueProcess(const ValueErrorReact uReaction);
+			CDocument();
 
-			const NodeErrorReact	GetOnMissingNodeReadReaction() const;
-			const NodeErrorReact	GetOnMissingNodeWriteReaction() const;
-			const ValueErrorReact	GetOnValueProcessReaction() const;
-
-			CNode&	Add(const CString& strName);
-			CNode&	Add(const CString& strName, const CString& strValue);
-			CNode&	Add(const CString& strName, const int32 iValue);
-			CNode&	Add(const CString& strName, const float32 fValue);
-			CNode&	Add(const CString& strName, const bool bValue);
-
-			CNode&	Get(const CString& strName);
-			const CNode&	Get(const CString& strName) const;
-
-			CNode::CNodeEnumerator	GetEnumerator() const;
-
-			const bool Contains(const CB::CString& strName) const;
-
-			void	Remove(const CString& strName);
-			void	Remove(const uint32 uIndex);
-			void	Clear();
-
-			const bool	HasNodes() const;
-			const bool	IsEmpty() const override;
-
-			const uint32	GetLength() const override;
-
-			const CNode&	Get(const uint32 uIndex) const override;
-			CNode&			Get(const uint32 uIndex) override;
-
-			const CNode&	operator[](const CString& strName) const;
-			CNode&			operator[](const CString& strName);
-
-			const CNode&	operator[](const uint32 uIndex) const override;
-			CNode&			operator[](const uint32 uIndex) override;
-
-			void			Parse(const CString& strText);
+			void	Parse(const CString& strText);
 
 			const CString	ToString() const;
 			const CString	ToString(const bool bWithNewLines) const;
 			const CString	ToString(const bool bWithNewLines, const bool bNested) const;
 		};
+
 	}
 
 	namespace Exception{
