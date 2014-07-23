@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "../Include/CBStringEx.h"
 #include "../Include/Exception.h"
 

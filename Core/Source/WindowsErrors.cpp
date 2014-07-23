@@ -1,5 +1,5 @@
+#include "stdafx.h"
 #include "../Include/WindowsErrors.h"
-#include "../Internal/WinPlatform.h"
 
 namespace CB{
 		CWindowsError::CWindowsError(const uint32 dwErrorCode) : 
@@ -12,7 +12,7 @@ namespace CB{
 				CString strReturn(szMessage);
 				LocalFree((HLOCAL)szMessage);
 
-				return strReturn;
+				return L"(" + String::ToString(this->m_dwErrorCode) + L") " + strReturn;
 			}
 
 			return L"Error nr " + String::ToString(this->m_dwErrorCode);

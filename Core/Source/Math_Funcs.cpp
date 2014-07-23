@@ -239,7 +239,7 @@ namespace CB{
 		// Calcule une valeur (radians) proportionnelle comprise
 		// entre a et b (degrés).
 
-		const float32 Prop(const float32 radAngleA, const int32 radAngleB, const float32 fP){
+		const float32 Prop(const float32 radAngleA, const float32 radAngleB, const float32 fP){
 			float32 fAA = radAngleA;
 			float32 fBB = radAngleB;
 

@@ -40,7 +40,9 @@ namespace CB{
 			typedef CPair<_KeyType, _ValueType>	CItem;
 			typedef CLinkList<CItem> CDictionaryList;
 
-			class CEnumerator : public CDictionaryList::CEnumerator{
+			class CEnumerator : 
+				public CDictionaryList::CEnumerator
+			{
 			public:
 				CEnumerator();
 				CEnumerator(const CEnumerator& Enumerator);

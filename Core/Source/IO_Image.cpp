@@ -2,7 +2,7 @@
 #include "../Include/IO_Image.h"
 #include "../Include/Exception.h"
 #include "../Internal/IO_FreeImage.h"
-#include "../Include/CBMath.h"
+#include "../Include/Math_Funcs.h"
 #include "../Include/CBStringEx.h"
 #include "../Include/SmartPointers_AutoPtr.h"
 

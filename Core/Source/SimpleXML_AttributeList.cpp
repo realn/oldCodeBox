@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "../Include/SimpleXML.h"
 #include "../Include/Collection_Funcs.h"
 

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "../Include/IO_Stream.h"
+#include "../Include/SmartPointers_RefPtr.h"
 
 namespace CB{
 	namespace IO{

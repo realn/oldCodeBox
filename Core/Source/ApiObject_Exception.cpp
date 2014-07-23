@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "../Include/ApiObject.h"
 
 namespace CB{

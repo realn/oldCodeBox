@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "../Include/Module.h"
 #include "../Include/CBStringEx.h"
 

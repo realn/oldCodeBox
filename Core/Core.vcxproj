@@ -18,7 +18,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v110</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -60,7 +60,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;COMMON_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;COMMON_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4251</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -213,7 +213,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Source\Logger_TextFormatter.cpp" />
-    <ClCompile Include="Source\Math.cpp" />
     <ClCompile Include="Source\Math_Box.cpp" />
     <ClCompile Include="Source\Math_BoxF.cpp" />
     <ClCompile Include="Source\Math_Color.cpp" />
@@ -247,11 +246,11 @@
     <ClCompile Include="Source\IO_Sound.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Source\CBString.cpp" />
+    <ClCompile Include="Source\CBString_Funcs.cpp" />
     <ClCompile Include="Source\CBStringEx.cpp" />
     <ClCompile Include="Source\CBStringEx_StringList.cpp" />
     <ClCompile Include="Source\CBString_Convert.cpp" />
-    <ClCompile Include="Source\CBString_String.cpp" />
+    <ClCompile Include="Source\CBString.cpp" />
     <ClCompile Include="Source\IO_TextReader.cpp" />
     <ClCompile Include="Source\SimpleXML_Attribute.cpp" />
     <ClCompile Include="Source\SimpleXML_AttributeList.cpp" />

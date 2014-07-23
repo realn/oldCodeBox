@@ -1,7 +1,8 @@
+#include "stdafx.h"
 #include "../Include/Module.h"
 #include "../Internal/WinPlatform.h"
 #include "../Include/WindowsErrors.h"
-#include "../../Common/Include/CBStringEx.h"
+#include "../Include/CBStringEx.h"
 
 namespace CB{
 	CModule::CModule(const CString& strName) : 

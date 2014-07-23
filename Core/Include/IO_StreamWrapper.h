@@ -1,10 +1,11 @@
 #pragma once
 
-#include "IO_Stream.h"
-#pragma warning(disable : 4251)
+#include "SmartPointers_RefPtr.h"
 
 namespace CB{
 	namespace IO{
+		class IStream;
+
 		class COMMON_API IStreamWrapper{
 		protected:
 			CRefPtr<IStream>	m_pStream;

@@ -1,11 +1,15 @@
 #pragma once
 
-#include "IO_Stream.h"
 #include "SmartPointers_Hidden.h"
-#pragma warning(disable : 4251)
 
 namespace CB{
 	namespace IO{
+		class IStream;
+		template<typename _Type> class CRefPtr;
+		template<typename _Type> class Collection::IPacked;
+		enum class Direction;
+		enum class StreamPos;
+
 		class COMMON_API CSound{
 		private:
 			CHiddenPtr	m_pData;

@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "../Include/Logger_Formatters.h"
 #include "../Include/IO_TextWriter.h"
 

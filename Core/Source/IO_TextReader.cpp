@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "../Include/IO_TextReader.h"
+#include "../Include/IO_Stream.h"
 #include "../Include/CBStringEx.h"
 #include "../Include/Collection_Funcs.h"
 

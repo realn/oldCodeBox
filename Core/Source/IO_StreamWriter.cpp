@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "../Include/IO_StreamWriter.h"
+#include "../Include/IO_Stream.h"
 
 namespace CB{
 	namespace IO{

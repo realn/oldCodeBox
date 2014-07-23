@@ -1,9 +1,8 @@
+#include "stdafx.h"
 #include "../Include/Threads.h"
 #include "../Include/Exception.h"
 #include "../Include/SmartPointers_AutoPtr.h"
 #include "../Include/Memory.h"
-
-#include "../Internal/WinPlatform.h"
 
 namespace CB{
 	namespace Threads{

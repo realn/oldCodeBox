@@ -45,7 +45,7 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)Build\Output\$(Configuration)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)Build\Intermediate\$(Configuration)\$(ProjectName)\</IntDir>
-    <IncludePath>$(SolutionDir)Ext\Include;$(SolutionDir)Core\Common\Include</IncludePath>
+    <IncludePath>$(SolutionDir)Ext\Include;$(SolutionDir)Core\Include</IncludePath>
     <ExecutablePath>$(SolutionDir)Ext\runtime\;$(ExecutablePath)</ExecutablePath>
     <LibraryPath>$(SolutionDir)Ext\Lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
@@ -89,6 +89,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\WorkArea\BasicShader.cg" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Core.vcxproj">
+      <Project>{844b7ab6-f789-496c-86d2-fc71e8328f23}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

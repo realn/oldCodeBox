@@ -3,10 +3,13 @@
 #include "Macros.h"
 #include "Ref.h"
 #include "Collection_Interface.h"
-#include "SmartPointers_RefPtr.h"
+//#include "SmartPointers_RefPtr.h"
 #include "IO_Stream_Defs.h"
 
 namespace CB{
+	class CString;
+	template<typename _Type> class CRefPtr;
+
 	namespace IO{
 		class COMMON_API IStream : 
 			public virtual IRef

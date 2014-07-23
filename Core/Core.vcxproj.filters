@@ -368,9 +368,6 @@
     <ClCompile Include="Source\IO_Sound.cpp">
       <Filter>Source\IO</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Math.cpp">
-      <Filter>Source\Math</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Math_Color.cpp">
       <Filter>Source\Math</Filter>
     </ClCompile>
@@ -458,13 +455,7 @@
     <ClCompile Include="Source\Signals_Slots.cpp">
       <Filter>Source\Signals</Filter>
     </ClCompile>
-    <ClCompile Include="Source\CBString.cpp">
-      <Filter>Source\String</Filter>
-    </ClCompile>
     <ClCompile Include="Source\CBString_Convert.cpp">
-      <Filter>Source\String</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\CBString_String.cpp">
       <Filter>Source\String</Filter>
     </ClCompile>
     <ClCompile Include="Source\CBStringEx.cpp">
@@ -538,6 +529,12 @@
     </ClCompile>
     <ClCompile Include="Source\Math_Color_Funcs.cpp">
       <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CBString_Funcs.cpp">
+      <Filter>Source\String</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CBString.cpp">
+      <Filter>Source\String</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

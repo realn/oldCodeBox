@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "../Include/Signals_Slots.h"
 
 namespace CB{

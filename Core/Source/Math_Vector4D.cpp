@@ -1,5 +1,6 @@
+#include "stdafx.h"
 #include "../Include/Math_Vector.h"
-#include "../Include/CBMath.h"
+#include "../Include/Math_Funcs.h"
 #include "../Include/Exception.h"
 
 namespace CB{

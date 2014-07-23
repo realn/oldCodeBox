@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+#ifdef _USRDLL
+
 BOOL APIENTRY DllMain( HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved){
 	switch (ul_reason_for_call)
 	{
@@ -12,3 +14,4 @@ BOOL APIENTRY DllMain( HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpRese
 	return TRUE;
 }
 
+#endif

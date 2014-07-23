@@ -1,4 +1,4 @@
-#include "../Internal/stdafx.h"
+#include "stdafx.h"
 #include "../Include/Math_Color.h"
 #include "../Include/Math_Funcs.h"
 
