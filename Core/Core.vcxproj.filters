@@ -1,0 +1,543 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Include">
+      <UniqueIdentifier>{1c729f1f-452a-4564-820e-e0030b8f1f53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{f8255406-3742-40e5-b313-866ca10ae12c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\lib">
+      <UniqueIdentifier>{449f1662-2085-4de9-bc76-62874a6d1b89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\IO">
+      <UniqueIdentifier>{69564bbd-0d02-4125-bfd5-c4e3f915acd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Manage">
+      <UniqueIdentifier>{a3d9c25e-03a0-4576-949a-246e59db7336}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\String">
+      <UniqueIdentifier>{39aa82f9-36ed-4cad-a4f5-3866c4fcb2f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\IO">
+      <UniqueIdentifier>{26345e5b-783a-47d3-b303-a4440e0c8e0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\String">
+      <UniqueIdentifier>{af31e32a-316b-45b2-a047-7576dc1c7037}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Math">
+      <UniqueIdentifier>{77c1a1c6-8d54-465b-8586-2e158a9e065e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Math">
+      <UniqueIdentifier>{7a98a301-255d-44c3-9698-bea36193e454}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Internal">
+      <UniqueIdentifier>{3b6e9b36-571c-455c-a2b7-1d6a48a44a5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Platform">
+      <UniqueIdentifier>{1a79a983-8aa2-4a0f-97d7-dcf4b8a160a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Module">
+      <UniqueIdentifier>{9ebcaeea-d718-4ed2-829e-b97eba81cc88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Platform">
+      <UniqueIdentifier>{904bb1b1-fd6e-4c16-b241-6fc0fcec119e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Signals">
+      <UniqueIdentifier>{61e1d2e1-f718-4885-8f5e-65ddbcfd7640}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Signals">
+      <UniqueIdentifier>{76500e00-58a8-46d8-9cb8-f51faad7cfd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Collections">
+      <UniqueIdentifier>{11c2e234-6857-403a-af47-e725f645e551}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Smart Pointers">
+      <UniqueIdentifier>{57700074-8fbc-4dcf-a84a-0cf86eb48b2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Logger">
+      <UniqueIdentifier>{f592bf8a-aea6-492b-9962-af77348d181d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Font">
+      <UniqueIdentifier>{28dd383d-3b99-42ba-9034-d36b64783079}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Font">
+      <UniqueIdentifier>{da8a579a-ba8c-4255-83f1-4861e1da3555}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\XML">
+      <UniqueIdentifier>{f42e53a5-2a04-479c-a173-dca16c3aa427}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Include\Exception.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Macros.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Memory.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Ref.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimpleXML.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\IO_MemoryStream.h">
+      <Filter>Include\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\IO_Stream.h">
+      <Filter>Include\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\IO_Sound.h">
+      <Filter>Include\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\IO_SoundStream.h">
+      <Filter>Include\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Manage_EventHandler.h">
+      <Filter>Include\Manage</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Manage_Object.h">
+      <Filter>Include\Manage</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Manage_Singleton.h">
+      <Filter>Include\Manage</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Math_Color.h">
+      <Filter>Include\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Math_Matrix.h">
+      <Filter>Include\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Math_Point.h">
+      <Filter>Include\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Math_Rectangle.h">
+      <Filter>Include\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Math_Size.h">
+      <Filter>Include\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Math_Vector.h">
+      <Filter>Include\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\IO_Image.h">
+      <Filter>Include\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\IO_FreeImage.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\WinPlatform.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\IO_Path.h">
+      <Filter>Include\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ApiObject.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Module.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\IO_WindowsConsoleStream.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\IO_Directory.h">
+      <Filter>Include\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\IO_File.h">
+      <Filter>Include\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\IO_OSConsoleStream.h">
+      <Filter>Include\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\MessageBox.h">
+      <Filter>Include\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\WindowsErrors.h">
+      <Filter>Include\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Timer.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Signals_Func.h">
+      <Filter>Include\Signals</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Signals_Method.h">
+      <Filter>Include\Signals</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Signals_Signal.h">
+      <Filter>Include\Signals</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Signals_Slots.h">
+      <Filter>Include\Signals</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Collection.h">
+      <Filter>Include\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Collection_Interface.h">
+      <Filter>Include\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Collection_Array.h">
+      <Filter>Include\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Types.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Collection_List.h">
+      <Filter>Include\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SmartPointers.h">
+      <Filter>Include\Smart Pointers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SmartPointers_Ptr.h">
+      <Filter>Include\Smart Pointers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SmartPointers_AutoPtr.h">
+      <Filter>Include\Smart Pointers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SmartPointers_RefPtr.h">
+      <Filter>Include\Smart Pointers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SmartPointers_Hidden.h">
+      <Filter>Include\Smart Pointers</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Collection_Funcs.h">
+      <Filter>Include\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Collection_LinkList.h">
+      <Filter>Include\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Collection_Dictionary.h">
+      <Filter>Include\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Manage_ObjectManager.h">
+      <Filter>Include\Manage</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Manage_ObjectManaged.h">
+      <Filter>Include\Manage</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Collection_Memory.h">
+      <Filter>Include\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\CBString.h">
+      <Filter>Include\String</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\CBStringEx.h">
+      <Filter>Include\String</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\IO_StreamWrapper.h">
+      <Filter>Include\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\IO_StreamWriter.h">
+      <Filter>Include\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\IO_TextWriter.h">
+      <Filter>Include\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\IO_StreamReader.h">
+      <Filter>Include\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\IO_TextReader.h">
+      <Filter>Include\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\IO_DirectoryWIN.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\IO_FileStreamWIN.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\IO_SoundData.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\IO_SoundStream.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Logger.h">
+      <Filter>Include\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Logger_Formatters.h">
+      <Filter>Include\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Logger_Interface.h">
+      <Filter>Include\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Logger_Consts.h">
+      <Filter>Include\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Manage_EventInvoker.h">
+      <Filter>Include\Manage</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Manage_EventInvokerBase.h">
+      <Filter>Include\Manage</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Manage_EventHandlerGuard.h">
+      <Filter>Include\Manage</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Math_RectangleF.h">
+      <Filter>Include\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Math_Box.h">
+      <Filter>Include\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Math_BoxF.h">
+      <Filter>Include\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Threads.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\FontManager.h">
+      <Filter>Include\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Font.h">
+      <Filter>Include\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\CBMath.h">
+      <Filter>Include\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\IO_File_Exceptions.h">
+      <Filter>Include\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\IO_Stream_Exceptions.h">
+      <Filter>Include\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\IO_File_Defs.h">
+      <Filter>Include\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\IO_Directory_Exceptions.h">
+      <Filter>Include\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\IO_Stream_Defs.h">
+      <Filter>Include\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Math_Consts.h">
+      <Filter>Include\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Math_Funcs.h">
+      <Filter>Include\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\stdafx.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Exception.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Logger.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Memory.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Ref.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\dllmain.cpp">
+      <Filter>Source\lib</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO_MemoryStream.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO_SoundStream.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO_Stream.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO_Stream_Exceptions.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO_StreamReader.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO_StreamWrapper.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO_StreamWriter.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO_TextReader.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO_TextWriter.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO_Sound.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math_Color.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math_Matrix.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math_Point.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math_Point3D.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math_Rectangle.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math_Size.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math_Size3D.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math_Vector2D.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math_Vector3D.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math_Vector4D.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO_Image.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO_FreeImage_Bitmap.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO_FreeImage_Stream.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO_FreeImage_Data.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO_Path.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO_Directory_Exception.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO_DirectoryWIN.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO_File_Exception.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO_File_Funcs.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO_WindowsConsoleStream.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Module.cpp">
+      <Filter>Source\Module</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Module_Exceptions.cpp">
+      <Filter>Source\Module</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Module_Manager.cpp">
+      <Filter>Source\Module</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MessageBox.cpp">
+      <Filter>Source\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PlatformException.cpp">
+      <Filter>Source\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ApiObject_Exception.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Timer.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Signals_Signal.cpp">
+      <Filter>Source\Signals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Signals_Slots.cpp">
+      <Filter>Source\Signals</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CBString.cpp">
+      <Filter>Source\String</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CBString_Convert.cpp">
+      <Filter>Source\String</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CBString_String.cpp">
+      <Filter>Source\String</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CBStringEx.cpp">
+      <Filter>Source\String</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CBStringEx_StringList.cpp">
+      <Filter>Source\String</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Logger_TextFormatter.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO_Directory.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO_FileStreamWIN.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\IO_SoundData.cpp">
+      <Filter>Source\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math_RectangleF.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math_Box.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math_BoxF.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\WindowsErrors.cpp">
+      <Filter>Source\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Threads.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FontManager.cpp">
+      <Filter>Source\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Font.cpp">
+      <Filter>Source\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SimpleXML_Attribute.cpp">
+      <Filter>Source\XML</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SimpleXML_AttributeList.cpp">
+      <Filter>Source\XML</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SimpleXML_Document.cpp">
+      <Filter>Source\XML</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SimpleXML_Node.cpp">
+      <Filter>Source\XML</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SimpleXML_NodeList.cpp">
+      <Filter>Source\XML</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math_Consts.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math_Funcs.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\stdafx.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math_Vector2D_Funcs.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math_Vector3D_Funcs.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math_Color_Funcs.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

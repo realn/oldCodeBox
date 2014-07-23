@@ -115,7 +115,7 @@ const bool	KeyUpEvent(CB::CRefPtr<CB::Window::IWindow> pWindow, const CB::Window
 int main(){
 	auto pLogger = CB::Log::CLogger::GetInstance();
 	pLogger->AddStream(CB::IO::File::Open(L"main.log", CB::IO::File::AccessType::WriteOnly, CB::IO::File::OpenAction::AlwaysCreate).Cast<CB::IO::IStream>());
-	pLogger->AddStream(CB::IO::Console::Create().Cast<CB::IO::IStream>(), CB::Log::CTextFormatter::Create(CB::String::Encoding::ANSI).Cast<CB::Log::IEntryFormatter>());
+	pLogger->AddStream(CB::IO::Console::Create().Cast<CB::IO::IStream>(), CB::Log::CTextFormatter::Create(CB::String::Encoding::ANSI).Cast<CB::Log::IEntryFormat>());
 	pLogger->SetDebugMode(true);
 
 	try{

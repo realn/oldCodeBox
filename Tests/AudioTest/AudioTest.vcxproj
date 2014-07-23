@@ -87,9 +87,6 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\Common\Common.vcxproj">
-      <Project>{844b7ab6-f789-496c-86d2-fc71e8328f23}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\Interfaces\AudioDrvInterface\AudioDrvInterface.vcxproj">
       <Project>{909c3d3e-22da-48e4-8cfe-d896379d5a12}</Project>
     </ProjectReference>

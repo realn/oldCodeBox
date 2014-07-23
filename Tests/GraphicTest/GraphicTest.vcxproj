@@ -89,9 +89,6 @@
     <ClCompile Include="TextureFileLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\Common\Common.vcxproj">
-      <Project>{844b7ab6-f789-496c-86d2-fc71e8328f23}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\Interfaces\GraphicDrvInterface\GraphicDrvInterface.vcxproj">
       <Project>{1894c896-bb26-4993-b035-7885af9f507e}</Project>
     </ProjectReference>
