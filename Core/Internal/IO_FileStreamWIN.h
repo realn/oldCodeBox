@@ -1,7 +1,9 @@
 #pragma once
 
 #include "../Include/IO_File.h"
-#include "WinPlatform.h"
+#include "../Include/CBString.h"
+
+#include <Windows.h>
 
 namespace CB{
 	class CFileStreamWIN : 

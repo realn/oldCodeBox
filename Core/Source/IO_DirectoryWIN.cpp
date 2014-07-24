@@ -3,6 +3,7 @@
 #include "../Include/WindowsErrors.h"
 #include "../Include/IO_Path.h"
 #include "../Include/IO_Directory_Exceptions.h"
+#include "../Include/Memory.h"
 
 namespace CB{
 	CDirectoryWIN::CDirectoryWIN(const CString& strPath) : 

@@ -4,7 +4,7 @@
 
 namespace CB{
 	namespace IO{
-		enum class StreamPos : uint32{
+		enum class StreamPos{
 			Current = 0,
 			Begin,
 			End,

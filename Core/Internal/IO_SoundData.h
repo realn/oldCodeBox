@@ -1,10 +1,9 @@
 #pragma once
 
 #include "../Include/IO_Sound.h"
+#include "../Include/SmartPointers_RefPtr.h"
 
 #include <sndfile.h>
-
-#pragma comment(lib, "libsndfile.lib")
 
 namespace CB{
 	class CSoundData{

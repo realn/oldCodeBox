@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "../Include/FontManager.h"
 #include "../Include/Font.h"
+#include "../Include/IO_Stream.h"
 
 namespace CB{
 	namespace Font{

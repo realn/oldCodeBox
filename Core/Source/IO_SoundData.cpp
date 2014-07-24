@@ -1,6 +1,7 @@
 #include "stdafx.h"
-#include "../Internal/IO_SoundData.h"
 #include "../Include/Memory.h"
+#include "../Include/IO_Stream.h"
+#include "../Internal/IO_SoundData.h"
 
 namespace CB{
 	sf_count_t	CSoundData::SF_GetLength(void* pUserData){

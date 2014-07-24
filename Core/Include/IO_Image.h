@@ -1,51 +1,21 @@
 #pragma once
 
-#include "Math_Size.h"
-#include "Math_Rectangle.h"
-#include "IO_Stream.h"
+#include "Macros.h"
+#include "Types.h"
+#include "IO_Image_Defs.h"
 #include "SmartPointers_Hidden.h"
 #include "Collection_List.h"
 
 namespace CB{
+	template<typename _Type> class CRefPtr;
+	namespace Math{
+		class CPoint;
+		class CSize;
+		class CRectangle;
+	}
+
 	namespace IO{
-		namespace Image{
-			enum class FileType : uint32{
-				Unknown,
-				Bitmap,
-				Targa,
-				Jpeg,
-				Png,
-			};
-
-			enum class BitFormat : uint32{
-				Unknown,
-				f4Bit,
-				f8Bit,
-				f16Bit,
-				f24Bit,
-				f32Bit,
-			};
-
-			enum class ColorFormat{
-				Unknown,
-				RGB,
-				RGBA,
-			};
-
-			enum class FlipType{
-				Horizontal,
-				Vertical,
-			};
-
-			enum class ScaleFilter : uint32{
-				Box,
-				BiLinear,
-				BSpline,
-				BiCubic,
-				CatmullRom,
-				Lanczos3,
-			};
-		}
+		class IStream;
 
 		class COMMON_API CImage{
 		private:

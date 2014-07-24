@@ -1,7 +1,8 @@
 #pragma once
 
 #include "../Include/IO_Directory.h"
-#include "WinPlatform.h"
+
+#include <Windows.h>
 
 namespace CB{
 	class CDirectoryWIN{

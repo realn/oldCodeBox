@@ -4,6 +4,7 @@
 #include "../Include/IO_Stream_Exceptions.h"
 #include "../Include/Memory.h"
 #include "../Include/Collection_List.h"
+#include "../Include/SmartPointers_RefPtr.h"
 
 namespace CB{
 	namespace IO{

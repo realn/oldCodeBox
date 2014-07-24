@@ -2,11 +2,14 @@
 
 #include "Ref.h"
 #include "SmartPointers_Hidden.h"
-#include "SmartPointers_RefPtr.h"
-#include "IO_Stream.h"
 #include "Manage_Object.h"
 
 namespace CB{
+	template<typename _Type> class CRefPtr;
+	namespace IO{
+		class IStream;
+	}
+
 	namespace Font{
 		class CFont;
 		class COMMON_API CManager :

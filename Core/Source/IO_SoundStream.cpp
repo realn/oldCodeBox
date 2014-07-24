@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "../Internal/IO_SoundStream.h"
 #include "../Include/Collection_List.h"
+#include "../Include/SmartPointers_RefPtr.h"
 
 namespace CB{
 	CSoundStream::CSoundStream(CB::CRefPtr<CB::IO::IStream> pFileSoundStream) : 

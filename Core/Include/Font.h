@@ -1,10 +1,22 @@
 #pragma once
 
-#include "FontManager.h"
+#include "Macros.h"
+#include "Types.h"
+#include "Ref.h"
 #include "Math_Size.h"
+#include "Collection_List.h"
+#include "Manage_Object.h"
+#include "SmartPointers_Hidden.h"
 
 namespace CB{
+	template<typename _Type> class CRefPtr;
+	namespace IO{
+		class IStream;
+	}
+
 	namespace Font{
+		class CManager;
+
 		class COMMON_API CFont :
 			public IRef,
 			public Manage::IManagedObject<CManager, CFont>

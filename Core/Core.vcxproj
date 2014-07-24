@@ -103,6 +103,7 @@
     <ClInclude Include="Include\IO_File.h" />
     <ClInclude Include="Include\IO_File_Defs.h" />
     <ClInclude Include="Include\IO_File_Exceptions.h" />
+    <ClInclude Include="Include\IO_Image_Defs.h" />
     <ClInclude Include="Include\IO_MemoryStream.h" />
     <ClInclude Include="Include\IO_OSConsoleStream.h" />
     <ClInclude Include="Include\IO_Stream.h" />
@@ -169,7 +170,6 @@
     <ClInclude Include="Internal\IO_SoundData.h" />
     <ClInclude Include="Internal\IO_SoundStream.h" />
     <ClInclude Include="Internal\IO_WindowsConsoleStream.h" />
-    <ClInclude Include="Internal\WinPlatform.h" />
     <ClInclude Include="Source\stdafx.h" />
   </ItemGroup>
   <ItemGroup>

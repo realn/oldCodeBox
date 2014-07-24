@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "../Include/IO_File.h"
 #include "../Internal/IO_FileStreamWIN.h"
-#include "../Internal/WinPlatform.h"
+#include "../Include/SmartPointers_RefPtr.h"
 
 namespace CB{
 	namespace IO{

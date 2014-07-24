@@ -3,10 +3,14 @@
 #include "SmartPointers_Hidden.h"
 
 namespace CB{
+	template<typename _Type> class CRefPtr;
+
+	namespace Collection{
+		template<typename _Type> class IPacked;		
+	}
+
 	namespace IO{
 		class IStream;
-		template<typename _Type> class CRefPtr;
-		template<typename _Type> class Collection::IPacked;
 		enum class Direction;
 		enum class StreamPos;
 

@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "../Include/Timer.h"
-#include "../Internal/WinPlatform.h"
 #include "../Include/Exception.h"
 #include "../Include/WindowsErrors.h"
 

@@ -5,6 +5,8 @@
 #include "../Include/Math_Funcs.h"
 #include "../Include/CBStringEx.h"
 #include "../Include/SmartPointers_AutoPtr.h"
+#include "../Include/SmartPointers_RefPtr.h"
+#include "../Include/IO_Stream.h"
 
 namespace CB{
 	namespace IO{

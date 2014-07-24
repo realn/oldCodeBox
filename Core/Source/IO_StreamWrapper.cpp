@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "../Include/IO_StreamWrapper.h"
+#include "../Include/IO_Stream.h"
 #include "../Include/CBStringEx.h"
 
 namespace CB{

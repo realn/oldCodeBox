@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "../Include/Module.h"
-#include "../Internal/WinPlatform.h"
 #include "../Include/WindowsErrors.h"
 #include "../Include/CBStringEx.h"
 

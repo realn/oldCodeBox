@@ -13,9 +13,12 @@
 
 #include <FreeImage.h>
 
+#include <sndfile.h>
+
 #include <cmath>
 #include <vector>
 #include <cstdlib>
 
 #pragma comment(lib, "FreeImage.lib")
 #pragma comment(lib, "freetype.lib")
+#pragma comment(lib, "libsndfile.lib")

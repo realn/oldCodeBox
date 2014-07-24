@@ -2,7 +2,8 @@
 
 #include "../Include/IO_OSConsoleStream.h"
 #include "../Include/Manage_Singleton.h"
-#include "WinPlatform.h"
+
+#include <Windows.h>
 
 namespace CB{
 	class CWindowsConsoleStream : 

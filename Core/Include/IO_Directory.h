@@ -2,10 +2,13 @@
 
 #include "Macros.h"
 #include "CBString.h"
-#include "CBStringEx.h"
 #include "SmartPointers_Hidden.h"
 
 namespace CB{
+	namespace Collection{
+		class CStringList;
+	}
+
 	namespace IO{
 		namespace Directory{
 			class COMMON_API CDirectory {

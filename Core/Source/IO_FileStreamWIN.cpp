@@ -3,6 +3,7 @@
 #include "../Include/WindowsErrors.h"
 #include "../Include/Collection_List.h"
 #include "../Include/IO_File_Exceptions.h"
+#include "../Include/SmartPointers_RefPtr.h"
 
 namespace CB{
 	CFileStreamWIN::CFileStreamWIN(const CString& strFilename, const IO::File::AccessType uAccess, const IO::File::OpenAction uAction, const IO::File::ShareType uShare) :

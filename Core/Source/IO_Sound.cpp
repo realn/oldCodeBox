@@ -2,6 +2,7 @@
 #include "../Include/IO_Sound.h"
 #include "../Internal/IO_SoundData.h"
 #include "../Include/SmartPointers_AutoPtr.h"
+#include "../Include/IO_Stream.h"
 
 namespace CB{
 	namespace IO{

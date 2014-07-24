@@ -129,9 +129,6 @@
     <ClInclude Include="Internal\IO_FreeImage.h">
       <Filter>Internal</Filter>
     </ClInclude>
-    <ClInclude Include="Internal\WinPlatform.h">
-      <Filter>Internal</Filter>
-    </ClInclude>
     <ClInclude Include="Include\IO_Path.h">
       <Filter>Include\IO</Filter>
     </ClInclude>
@@ -320,6 +317,9 @@
     </ClInclude>
     <ClInclude Include="Source\stdafx.h">
       <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\IO_Image_Defs.h">
+      <Filter>Include\IO</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

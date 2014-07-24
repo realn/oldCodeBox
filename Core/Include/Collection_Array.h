@@ -3,7 +3,6 @@
 #include "Types.h"
 #include "Collection_Interface.h"
 #include "Exception.h"
-#include "Memory.h"
 #include "Collection_Memory.h"
 
 namespace CB{
