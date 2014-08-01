@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "../Include/CBStringEx.h"
+#include "../Include/Collection_StringList.h"
 #include "../Include/Exception.h"
 
 namespace CB{

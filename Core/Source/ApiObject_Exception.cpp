@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "../Include/ApiObject.h"
+#include "../Include/CBString_Funcs.h"
 
 namespace CB{
 	namespace Exception{

@@ -13,7 +13,7 @@ namespace FreeImage{
 		this->Free();
 	}
 
-	void	CBitmap::Create(const CB::Math::CSize& Size, const uint32 uBitsPerPixel){
+	void	CBitmap::Create(const CB::Math::CSize2D& Size, const uint32 uBitsPerPixel){
 		this->m_pBitmap = FreeImage_Allocate(Size.Width, Size.Height, uBitsPerPixel);
 		if(!this->m_pBitmap){
 			throw CB::Exception::CException(

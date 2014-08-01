@@ -3,6 +3,7 @@
 #include <Threads.h>
 #include <Math_Vector.h>
 #include <Math_Matrix.h>
+#include <CBString_Funcs.h>
 
 int main(){
 	auto pConsole = CB::IO::Console::Create();

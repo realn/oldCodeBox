@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "../Include/Math_RectangleF.h"
 #include "../Include/Exception.h"
+#include "../Include/CBString_Funcs.h"
+#include "../Include/Collection_Array.h"
 
 namespace CB{
 	namespace Math{
@@ -31,6 +33,13 @@ namespace CB{
 			Position(X, Y),
 			Size(Width, Height)
 		{}
+
+		CRectangleF32::CRectangleF32(const Collection::ICountable<float32>& array){
+			if( array.GetLength() >= 4 ){
+				Position.Set( array[0], array[1] );
+				Size.Set( array[2], array[3] );
+			}
+		}
 
 		void	CRectangleF32::SetZero(){
 			this->Position.SetZero();
@@ -129,6 +138,14 @@ namespace CB{
 				throw Exception::CInvalidArgumentException(L"uIndex", String::ToString(uIndex),
 					L"Index out of range.", CR_INFO());
 			}
+		}
+
+		const Collection::CArray<float32, 4>	CRectangleF32::ToArray() const{
+			float32 data[] = {
+				Position.X, Position.Y,
+				Size.X, Size.Y
+			};
+			return Collection::CArray<float32, 4>( data, 4 );
 		}
 	}
 }

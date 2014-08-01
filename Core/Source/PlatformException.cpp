@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "../Include/Exception.h"
 #include "../Include/WindowsErrors.h"
+#include "../Include/CBString_Funcs.h"
 
 namespace CB{
 	namespace Exception{

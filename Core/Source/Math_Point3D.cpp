@@ -1,60 +1,83 @@
 #include "stdafx.h"
-#include "../Include/Math_Point.h"
+#include "../Include/Math_Point3D.h"
+#include "../Include/Math_Point2D.h"
+#include "../Include/Math_Size3D.h"
 #include "../Include/Exception.h"
+#include "../Include/CBString_Funcs.h"
+#include "../Include/Collection_Array.h"
 
 namespace CB{
 	namespace Math{
 		CPoint3D::CPoint3D() :
+			X(0),
+			Y(0),
 			Z(0)
 		{}
 
 		CPoint3D::CPoint3D(const CPoint3D& Point) : 
-			CPoint(Point), 
+			X(Point.X),
+			Y(Point.Y),
 			Z(Point.Z)
 		{}
 
-		CPoint3D::CPoint3D(const CPoint& Point) : 
-			CPoint(Point), 
-			Z(0)
-		{}
-
-		CPoint3D::CPoint3D(const CPoint& Point, const int32 iZ) : 
-			CPoint(Point), 
-			Z(iZ)
-		{}
-
 		CPoint3D::CPoint3D(const int32 iValue) : 
-			CPoint(iValue), 
+			X(iValue),
+			Y(iValue),
 			Z(iValue)
 		{}
 
 		CPoint3D::CPoint3D(const int32 iX, const int32 iY) : 
-			CPoint(iX, iY), 
+			X(iX),
+			Y(iY), 
 			Z(0)
 		{}
 
 		CPoint3D::CPoint3D(const int32 iX, const int32 iY, const int32 iZ) : 
-			CPoint(iX, iY), 
+			X(iX),
+			Y(iY), 
 			Z(iZ)
 		{}
 
+		CPoint3D::CPoint3D(const CPoint2D& Point) : 
+			X(Point.X),
+			Y(Point.Y),
+			Z(0)
+		{}
+
+		CPoint3D::CPoint3D(const CPoint2D& Point, const int32 iZ) : 
+			X(Point.X),
+			Y(Point.Y),
+			Z(iZ)
+		{}
+
+		CPoint3D::CPoint3D(const CSize3D& Size) :
+			X(Size.Width),
+			Y(Size.Height),
+			Z(Size.Depth)
+		{}
+
+		CPoint3D::CPoint3D(const Collection::ICountable<int32>& array) :
+			X(0),
+			Y(0),
+			Z(0)
+		{
+			if( array.GetLength() >= 3 ){
+				X = array[0];
+				Y = array[1];
+				Z = array[2];
+			}
+		}
+
 		void	CPoint3D::SetZero(){
-			CPoint::SetZero();
+			this->X = 0;
+			this->Y = 0;
 			this->Z = 0;
 		}
 
 		void	CPoint3D::Set(const CPoint3D& Point){
-			CPoint::Set(Point);
+			this->X = Point.X;
+			this->Y = Point.Y;
 			this->Z = Point.Z;
-		}
-
-		void	CPoint3D::Set(const CPoint& Point){
-			CPoint::Set(Point);
-		}
-
-		void	CPoint3D::Set(const CPoint& Point, const int32 iZ){
-			this->Set(Point);
-			this->Z = iZ;
 		}
 
 		void	CPoint3D::Set(const int32 iValue){
@@ -64,11 +87,14 @@ namespace CB{
 		}
 
 		void	CPoint3D::Set(const int32 iX, const int32 iY){
-			CPoint::Set(iX, iY);
+			X = iX;
+			Y = iY;
+			Z = 0;
 		}
 
 		void	CPoint3D::Set(const int32 iX, const int32 iY, const int32 iZ){
-			CPoint::Set(iX, iY);
+			this->X = iX;
+			this->Y = iY;
 			this->Z = iZ;
 		}
 
@@ -235,6 +261,10 @@ namespace CB{
 				throw CB::Exception::CInvalidArgumentException(L"uIndex", String::ToString(uIndex),
 					L"Index out of range.", CR_INFO());
 			}
+		}
+
+		const Collection::CArray<int32, 3>	CPoint3D::ToArray() const {
+			return Collection::CArray<int32, 3>( &X, 3 );
 		}
 	}
 }

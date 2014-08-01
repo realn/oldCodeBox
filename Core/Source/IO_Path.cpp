@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "../Include/IO_Path.h"
+#include "../Include/CBString.h"
 
 namespace CB{
 	namespace IO{

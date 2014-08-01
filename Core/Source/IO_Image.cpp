@@ -1,12 +1,15 @@
 #include "stdafx.h"
+#include "../Include/CBString_Funcs.h"
 #include "../Include/IO_Image.h"
-#include "../Include/Exception.h"
+#include "../Include/IO_Stream.h"
 #include "../Internal/IO_FreeImage.h"
+#include "../Include/Exception.h"
+#include "../Include/Math_Size3D.h"
+#include "../Include/Math_Size2D.h"
 #include "../Include/Math_Funcs.h"
-#include "../Include/CBStringEx.h"
 #include "../Include/SmartPointers_AutoPtr.h"
 #include "../Include/SmartPointers_RefPtr.h"
-#include "../Include/IO_Stream.h"
+#include "../Include/Collection_StringList.h"
 
 namespace CB{
 	namespace IO{
@@ -17,11 +20,11 @@ namespace CB{
 			Image.CopyTo(*this);
 		}
 
-		CImage::CImage(const Math::CSize& Size){
+		CImage::CImage(const Math::CSize2D& Size){
 			this->Create(Size);
 		}
 
-		CImage::CImage(const Math::CSize& Size, const Image::BitFormat uFormat){
+		CImage::CImage(const Math::CSize2D& Size, const Image::BitFormat uFormat){
 			this->Create(Size, uFormat);
 		}
 
@@ -32,11 +35,11 @@ namespace CB{
 			catch(Exception::CException&){}
 		}
 
-		void	CImage::Create(const Math::CSize& Size){
+		void	CImage::Create(const Math::CSize2D& Size){
 			this->Create(Size, IO::Image::BitFormat::f32Bit);
 		}
 
-		void	CImage::Create(const Math::CSize& Size, const Image::BitFormat uFormat){
+		void	CImage::Create(const Math::CSize2D& Size, const Image::BitFormat uFormat){
 			this->Free();
 
 			uint32 uBits = 0;
@@ -162,12 +165,12 @@ namespace CB{
 			}
 		}
 
-		const Math::CSize	CImage::GetSize() const{
+		const Math::CSize2D	CImage::GetSize() const{
 			if(!this->IsLoaded()){
-				return Math::CSize();
+				return Math::CSize2D();
 			}
 			FreeImage::CData* pData = this->m_Data.Get<FreeImage::CData>();
-			return Math::CSize(FreeImage_GetWidth(pData->Bitmap.Get()), FreeImage_GetHeight(pData->Bitmap.Get()));
+			return Math::CSize2D(FreeImage_GetWidth(pData->Bitmap.Get()), FreeImage_GetHeight(pData->Bitmap.Get()));
 		}
 
 		const Image::BitFormat	CImage::GetBitFormat() const{
@@ -211,7 +214,7 @@ namespace CB{
 				throw Exception::CException(
 					L"Cannot retrieve data when image not loaded.", CR_INFO());
 			}
-			Math::CSize Size = this->GetSize();
+			Math::CSize2D Size = this->GetSize();
 			uint32 uBytes = this->GetBytesPerPixel();
 
 			Array.Resize(Size.Width * Size.Height * uBytes);
@@ -287,15 +290,15 @@ namespace CB{
 			}
 		}
 
-		void	CImage::Resize(const Math::CSize& Size){
+		void	CImage::Resize(const Math::CSize2D& Size){
 			this->Resize(Size, Image::ScaleFilter::BiCubic, false);
 		}
 
-		void	CImage::Resize(const Math::CSize& Size, const Image::ScaleFilter uFilter){
+		void	CImage::Resize(const Math::CSize2D& Size, const Image::ScaleFilter uFilter){
 			this->Resize(Size, uFilter, false);
 		}
 
-		void	CImage::Resize(const Math::CSize& Size, const Image::ScaleFilter uFilter, const bool bKeepRatio){
+		void	CImage::Resize(const Math::CSize2D& Size, const Image::ScaleFilter uFilter, const bool bKeepRatio){
 			if(!this->IsLoaded()){
 				throw Exception::CException(
 					L"Cannot resize not loaded image.", CR_INFO());
@@ -319,7 +322,7 @@ namespace CB{
 			}
 
 			if(bKeepRatio){
-				Math::CSize imgSize = this->GetSize();
+				Math::CSize2D imgSize = this->GetSize();
 				float fRatio = float(imgSize.Width) / float(imgSize.Height);
 				if(imgSize.Width > imgSize.Height){
 					uHeight = uint32(float(uWidth) / fRatio);
@@ -376,11 +379,11 @@ namespace CB{
 			Image.m_Data.Set<FreeImage::CData>(pData.Reset());
 		}
 
-		void	CImage::PasteTo(CImage& Image, const Math::CPoint& ptPosition) const{
+		void	CImage::PasteTo(CImage& Image, const Math::CPoint2D& ptPosition) const{
 			this->PasteTo(Image, ptPosition, 1.0f);
 		}
 
-		void	CImage::PasteTo(CImage& Image, const Math::CPoint& ptPosition, const float fAlpha) const{
+		void	CImage::PasteTo(CImage& Image, const Math::CPoint2D& ptPosition, const float fAlpha) const{
 			if(!this->IsLoaded()){
 				throw Exception::CException(
 					L"Cannot paste from not loaded image.", CR_INFO());

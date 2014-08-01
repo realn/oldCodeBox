@@ -14,7 +14,7 @@ namespace FreeImage{
 		CBitmap(FIBITMAP* pBitmap);
 		~CBitmap();
 
-		void	Create(const CB::Math::CSize& Size, const uint32 uBitsPerPixel);
+		void	Create(const CB::Math::CSize2D& Size, const uint32 uBitsPerPixel);
 		void	Set(FIBITMAP* pBitmap);
 		void	Free();
 		FIBITMAP*	Get() const;

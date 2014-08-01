@@ -2,9 +2,10 @@
 
 #include "Macros.h"
 #include "Types.h"
+#include "CBString.h"
+#include "CBString_Funcs.h"
 #include "Exception.h"
 #include "Collection_Interface.h"
-#include "Memory.h"
 #include "Collection_Memory.h"
 
 #include <new>

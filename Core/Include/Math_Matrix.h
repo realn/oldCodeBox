@@ -1,9 +1,11 @@
 #pragma once
 
-#include "Math_Vector.h"
+#include "Math_Vector4D.h"
 #include "Collection_Array.h"
 
 namespace CB{
+	class CString;
+
 	namespace Math{
 		enum class AxisOrientation{
 			AxisX,

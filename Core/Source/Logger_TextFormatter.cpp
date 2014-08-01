@@ -1,6 +1,8 @@
 #include "stdafx.h"
+#include "../Include/CBString_Funcs.h"
 #include "../Include/Logger_Formatters.h"
 #include "../Include/IO_TextWriter.h"
+#include "../Include/IO_Stream.h"
 
 namespace CB{
 	namespace Log{

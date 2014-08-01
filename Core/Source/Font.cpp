@@ -2,6 +2,8 @@
 #include "../Include/Font.h"
 #include "../Include/FontManager.h"
 #include "../Include/IO_Stream.h"
+#include "../Include/Math_Point2D.h"
+#include "../Include/Math_Size2D.h"
 
 namespace CB{
 	namespace Font{
@@ -41,7 +43,7 @@ namespace CB{
 			this->m_FontSize.Set(uSize, uSize);
 		}
 
-		void	CFont::SetSize(const Math::CSize& Size){
+		void	CFont::SetSize(const Math::CSize2D& Size){
 			auto pFace = this->m_pData.GetCast<FT_Face>();
 
 			auto uError = FT_Set_Pixel_Sizes(pFace, Size.Width, Size.Height);
@@ -89,7 +91,7 @@ namespace CB{
 			this->SelectGlyph(this->GetCharGlyphIndex(uChar));
 		}
 
-		void		CFont::GetGlyphBitmap(Collection::CList<byte>& Data, Math::CSize& Size){
+		void		CFont::GetGlyphBitmap(Collection::CList<byte>& Data, Math::CSize2D& Size){
 			auto pFace = this->m_pData.GetCast<FT_Face>();
 			FT_Bitmap& Bitmap = pFace->glyph->bitmap;
 
@@ -129,16 +131,16 @@ namespace CB{
 			}
 		}
 
-		const Math::CPoint	CFont::GetGlyphAdv() const{
+		const Math::CPoint2D	CFont::GetGlyphAdv() const{
 			auto pFace = this->m_pData.GetCast<FT_Face>();
 
-			return Math::CPoint(pFace->glyph->advance.x / 64, pFace->glyph->advance.y / 64);
+			return Math::CPoint2D(pFace->glyph->advance.x / 64, pFace->glyph->advance.y / 64);
 		}
 
-		const Math::CPoint	CFont::GetGlyphBitmapPos() const{
+		const Math::CPoint2D	CFont::GetGlyphBitmapPos() const{
 			auto pFace = this->m_pData.GetCast<FT_Face>();
 
-			return Math::CPoint(pFace->glyph->bitmap_left, pFace->glyph->bitmap_top);
+			return Math::CPoint2D(pFace->glyph->bitmap_left, pFace->glyph->bitmap_top);
 		}
 
 		const uint32	CFont::GetLineHeight() const{
@@ -147,7 +149,7 @@ namespace CB{
 			return pFace->height / 64;
 		}
 
-		const Math::CSize	CFont::GetSize() const{
+		const Math::CSize2D	CFont::GetSize() const{
 			return this->m_FontSize;
 		}
 

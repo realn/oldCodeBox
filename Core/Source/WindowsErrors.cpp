@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "../Include/CBString_Funcs.h"
 #include "../Include/WindowsErrors.h"
 
 namespace CB{

@@ -111,16 +111,7 @@
     <ClInclude Include="Include\Math_Matrix.h">
       <Filter>Include\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Math_Point.h">
-      <Filter>Include\Math</Filter>
-    </ClInclude>
     <ClInclude Include="Include\Math_Rectangle.h">
-      <Filter>Include\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Math_Size.h">
-      <Filter>Include\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Math_Vector.h">
       <Filter>Include\Math</Filter>
     </ClInclude>
     <ClInclude Include="Include\IO_Image.h">
@@ -222,9 +213,6 @@
     <ClInclude Include="Include\CBString.h">
       <Filter>Include\String</Filter>
     </ClInclude>
-    <ClInclude Include="Include\CBStringEx.h">
-      <Filter>Include\String</Filter>
-    </ClInclude>
     <ClInclude Include="Include\IO_StreamWrapper.h">
       <Filter>Include\IO</Filter>
     </ClInclude>
@@ -276,12 +264,6 @@
     <ClInclude Include="Include\Math_RectangleF.h">
       <Filter>Include\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Math_Box.h">
-      <Filter>Include\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Math_BoxF.h">
-      <Filter>Include\Math</Filter>
-    </ClInclude>
     <ClInclude Include="Include\Threads.h">
       <Filter>Include</Filter>
     </ClInclude>
@@ -320,6 +302,45 @@
     </ClInclude>
     <ClInclude Include="Include\IO_Image_Defs.h">
       <Filter>Include\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\CBString_Consts.h">
+      <Filter>Include\String</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\CBString_Funcs.h">
+      <Filter>Include\String</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Collection_StringList.h">
+      <Filter>Include\String</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Math_Cube.h">
+      <Filter>Include\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Math_CubeF.h">
+      <Filter>Include\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Math_Point2D.h">
+      <Filter>Include\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Math_Point3D.h">
+      <Filter>Include\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Math_Size2D.h">
+      <Filter>Include\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Math_Size3D.h">
+      <Filter>Include\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Math_Vector3D.h">
+      <Filter>Include\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Math_Vector4D.h">
+      <Filter>Include\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Math_Vector2D.h">
+      <Filter>Include\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Collection_ArrayPtr.h">
+      <Filter>Include\Collections</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -374,16 +395,10 @@
     <ClCompile Include="Source\Math_Matrix.cpp">
       <Filter>Source\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Math_Point.cpp">
-      <Filter>Source\Math</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Math_Point3D.cpp">
       <Filter>Source\Math</Filter>
     </ClCompile>
     <ClCompile Include="Source\Math_Rectangle.cpp">
-      <Filter>Source\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Math_Size.cpp">
       <Filter>Source\Math</Filter>
     </ClCompile>
     <ClCompile Include="Source\Math_Size3D.cpp">
@@ -458,12 +473,6 @@
     <ClCompile Include="Source\CBString_Convert.cpp">
       <Filter>Source\String</Filter>
     </ClCompile>
-    <ClCompile Include="Source\CBStringEx.cpp">
-      <Filter>Source\String</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\CBStringEx_StringList.cpp">
-      <Filter>Source\String</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Logger_TextFormatter.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -477,12 +486,6 @@
       <Filter>Source\IO</Filter>
     </ClCompile>
     <ClCompile Include="Source\Math_RectangleF.cpp">
-      <Filter>Source\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Math_Box.cpp">
-      <Filter>Source\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Math_BoxF.cpp">
       <Filter>Source\Math</Filter>
     </ClCompile>
     <ClCompile Include="Source\WindowsErrors.cpp">
@@ -535,6 +538,21 @@
     </ClCompile>
     <ClCompile Include="Source\CBString.cpp">
       <Filter>Source\String</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Collection_StringList.cpp">
+      <Filter>Source\String</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math_Point2D.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math_Size2D.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math_Cube.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math_CubeF.cpp">
+      <Filter>Source\Math</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

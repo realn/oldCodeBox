@@ -4,6 +4,7 @@
 #include "Types.h"
 #include "Collection_Interface.h"
 #include "Exception.h"
+#include "CBString_Funcs.h"
 
 namespace CB{
 	namespace Collection{

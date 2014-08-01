@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "../Include/Ref.h"
-#include "../Include/CBStringEx.h"
+#include "../Include/Exception.h"
 
 namespace CB{
 	IRef::IRef() : 

@@ -1,7 +1,12 @@
 #include "stdafx.h"
-#include "../Include/Math_Vector.h"
+#include "../Include/Math_Vector4D.h"
+#include "../Include/Math_Vector2D.h"
+#include "../Include/Math_Vector3D.h"
+#include "../Include/Math_Point3D.h"
 #include "../Include/Math_Funcs.h"
 #include "../Include/Exception.h"
+#include "../Include/CBString_Funcs.h"
+#include "../Include/Collection_Array.h"
 
 namespace CB{
 	namespace Math{
@@ -17,6 +22,34 @@ namespace CB{
 			Y(Vector.Y),
 			Z(Vector.Z), 
 			W(Vector.W)
+		{}
+
+		CVector4D::CVector4D(const float32 fValue) : 
+			X(fValue),
+			Y(fValue),
+			Z(fValue),
+			W(1.0f)
+		{}
+
+		CVector4D::CVector4D(const float32 fValue, const float32 fW) : 
+			X(fValue),
+			Y(fValue),
+			Z(fValue),
+			W(fW)
+		{}
+
+		CVector4D::CVector4D(const float32 fX, const float32 fY, const float32 fZ) : 
+			X(fX),
+			Y(fY), 
+			Z(fZ), 
+			W(1.0f)
+		{}
+
+		CVector4D::CVector4D(const float32 fX, const float32 fY, const float32 fZ, const float32 fW) : 
+			X(fX), 
+			Y(fY), 
+			Z(fZ), 
+			W(fW)
 		{}
 
 		CVector4D::CVector4D(const CVector3D& Vector) : 
@@ -68,33 +101,16 @@ namespace CB{
 			W(fW)
 		{}
 
-		CVector4D::CVector4D(const float32 fValue) : 
-			X(fValue),
-			Y(fValue),
-			Z(fValue),
-			W(1.0f)
-		{}
-
-		CVector4D::CVector4D(const float32 fValue, const float32 fW) : 
-			X(fValue),
-			Y(fValue),
-			Z(fValue),
-			W(fW)
-		{}
-
-		CVector4D::CVector4D(const float32 fX, const float32 fY, const float32 fZ) : 
-			X(fX),
-			Y(fY), 
-			Z(fZ), 
-			W(1.0f)
-		{}
-
-		CVector4D::CVector4D(const float32 fX, const float32 fY, const float32 fZ, const float32 fW) : 
-			X(fX), 
-			Y(fY), 
-			Z(fZ), 
-			W(fW)
-		{}
+		CVector4D::CVector4D(const Collection::ICountable<float32>& array) :
+			X(0.0f), Y(0.0f), Z(0.0f), W(1.0f)
+		{
+			if( array.GetLength() >= 4 ) {
+				X = array[0];
+				Y = array[1];
+				Z = array[2];
+				W = array[3];
+			}
+		}
 
 		void	CVector4D::SetZero(){
 			this->X = 0.0f;
@@ -359,12 +375,8 @@ namespace CB{
 			return this->Get(uIndex);
 		}
 
-		CVector4D::operator const CVector3D() const{
-			return CVector3D(this->X, this->Y, this->Z);
-		}
-
-		CVector4D::operator const CB::Collection::CArray<float32, 4U>() const{
-			return Collection::CArray<float32, 4>(this->GetPointer(), this->GetLength());
+		const Collection::CArray<float32, 4> CVector4D::ToArray() const{
+			return Collection::CArray<float32, 4>( this->GetPointer(), this->GetLength() );
 		}
 	}
 }

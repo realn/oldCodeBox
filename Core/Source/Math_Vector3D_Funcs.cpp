@@ -1,5 +1,7 @@
 #include "stdafx.h"
-#include "../Include/Math_Vector.h"
+#include "../Include/Math_Vector3D.h"
+#include "../Include/Math_Vector2D.h"
+#include "../Include/Math_Vector4D.h"
 #include "../Include/Math_Funcs.h"
 #include "../Include/Math_Consts.h"
 

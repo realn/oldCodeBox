@@ -1,20 +1,22 @@
 #pragma once
 
-#include "Math_Point.h"
-#include "Math_Size.h"
+#include "Macros.h"
+#include "Types.h"
+#include "Math_Point2D.h"
+#include "Math_Size2D.h"
 
 namespace CB{
 	namespace Math{
 		class COMMON_API CRectangle{
 		public:
-			CPoint	Position;
-			CSize	Size;
+			CPoint2D	Position;
+			CSize2D		Size;
 
 			CRectangle();
 			CRectangle(const CRectangle& Rectangle);
-			CRectangle(const CPoint& Position, const CSize& Size);
-			CRectangle(const int32 iX, const int32 iY, const CSize& Size);
-			CRectangle(const CPoint& Position, const uint32 uWidth, const uint32 uHeight);
+			CRectangle(const CPoint2D& Position, const CSize2D& Size);
+			CRectangle(const int32 iX, const int32 iY, const CSize2D& Size);
+			CRectangle(const CPoint2D& Position, const uint32 uWidth, const uint32 uHeight);
 			CRectangle(const int32 iX, const int32 iY, const uint32 uWidth, const uint32 uHeight);
 
 			void		SetZero();
@@ -25,7 +27,7 @@ namespace CB{
 			const bool	IsPartialZero() const;
 			const bool	IsEqual(const CRectangle& Rectangle) const;
 
-			const bool	Contains(const CPoint& Point) const;
+			const bool	Contains(const CPoint2D& Point) const;
 			const bool	Contains(const CRectangle& Rectangle) const;
 			const bool	Intersects(const CRectangle& Rectangle) const;
 
@@ -35,7 +37,7 @@ namespace CB{
 			const int32	GetYLower() const;	// Position.Y
 			const int32	GetYHigher() const;	// Position.Y + Size.Height
 
-			const CB::CString	ToString() const;
+			const CString	ToString() const;
 
 			const CRectangle&	operator=(const CRectangle& Rectangle);
 
@@ -43,6 +45,8 @@ namespace CB{
 			const bool	operator!=(const CRectangle& Rectangle) const;
 
 			const int32	operator[](const uint32 uIndex) const;
+
+			const Collection::CArray<int32, 4>	ToArray() const;
 		};
 	}
 }

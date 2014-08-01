@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "../Include/MessageBox.h"
-#include "../Include/CBStringEx.h"
+#include "../Include/Collection_StringList.h"
 
 namespace CB{
 	namespace Message{

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "../Include/SimpleXML.h"
+#include "../Include/Collection_StringList.h"
 #include "../Include/Collection_Funcs.h"
 
 namespace CB{

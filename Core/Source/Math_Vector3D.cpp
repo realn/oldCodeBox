@@ -1,7 +1,12 @@
 #include "stdafx.h"
-#include "../Include/Math_Vector.h"
+#include "../Include/Math_Vector2D.h"
+#include "../Include/Math_Vector3D.h"
+#include "../Include/Math_Vector4D.h"
+#include "../Include/Math_Point3D.h"
 #include "../Include/Math_Funcs.h"
 #include "../Include/Exception.h"
+#include "../Include/CBString_Funcs.h"
+#include "../Include/Collection_Array.h"
 
 namespace CB{
 	namespace Math{
@@ -15,24 +20,6 @@ namespace CB{
 			X(Vector.X),
 			Y(Vector.Y),
 			Z(Vector.Z)
-		{}
-
-		CVector3D::CVector3D(const CVector2D& Vector) : 
-			X(Vector.X),
-			Y(Vector.Y),
-			Z(0.0f)
-		{}
-
-		CVector3D::CVector3D(const CVector2D& Vector, const float32 fZ) : 
-			X(Vector.X),
-			Y(Vector.Y),
-			Z(fZ)
-		{}
-
-		CVector3D::CVector3D(const CPoint3D& Point) : 
-			X((float32)Point.X), 
-			Y((float32)Point.Y),
-			Z((float32)Point.Z)
 		{}
 
 		CVector3D::CVector3D(const float32 fValue) : 
@@ -52,6 +39,40 @@ namespace CB{
 			Y(fY), 
 			Z(fZ)
 		{}
+
+		CVector3D::CVector3D(const CVector2D& Vector) : 
+			X(Vector.X),
+			Y(Vector.Y),
+			Z(0.0f)
+		{}
+
+		CVector3D::CVector3D(const CVector2D& Vector, const float32 fZ) : 
+			X(Vector.X),
+			Y(Vector.Y),
+			Z(fZ)
+		{}
+
+		CVector3D::CVector3D(const CVector4D& Vector) :
+			X(Vector.X),
+			Y(Vector.Y),
+			Z(Vector.Z)
+		{}
+
+		CVector3D::CVector3D(const CPoint3D& Point) : 
+			X((float32)Point.X), 
+			Y((float32)Point.Y),
+			Z((float32)Point.Z)
+		{}
+
+		CVector3D::CVector3D(const Collection::ICountable<float32>&array) :
+			X(0.0f), Y(0.0f), Z(0.0f)
+		{
+			if( array.GetLength() >= 3 ) {
+				X = array[0];
+				Y = array[1];
+				Z = array[2];
+			}
+		}
 
 		void	CVector3D::SetZero(){
 			this->X = 0.0f;
@@ -122,7 +143,7 @@ namespace CB{
 			case 1:	return this->Y;
 			case 2:	return this->Z;
 			default:
-				throw CB::Exception::CInvalidArgumentException(L"uIndex", CB::String::FromUInt32(uIndex),
+				throw CB::Exception::CInvalidArgumentException(L"uIndex", CB::String::ToString(uIndex),
 					L"Index out of range.", CR_INFO());
 			}
 		}
@@ -134,7 +155,7 @@ namespace CB{
 			case 1:	return this->Y;
 			case 2:	return this->Z;
 			default:
-				throw CB::Exception::CInvalidArgumentException(L"uIndex", CB::String::FromUInt32(uIndex),
+				throw CB::Exception::CInvalidArgumentException(L"uIndex", CB::String::ToString(uIndex),
 					L"Index out of range.", CR_INFO());
 			}
 		}
@@ -299,10 +320,6 @@ namespace CB{
 
 		float32&	CVector3D::operator[](const uint32 uIndex){
 			return this->Get(uIndex);
-		}
-
-		CVector3D::operator const CVector2D() const{
-			return CVector2D(this->X, this->Y);
 		}
 
 		CVector3D::operator const CB::Collection::CArray<float32, 3U>() const{

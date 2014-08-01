@@ -74,48 +74,6 @@ namespace CB{
 
 		const CString&	operator+=(const CString& strText);
 	};
-
-	namespace String{
-		enum class Encoding{
-			UTF16 = 0,
-			UTF8,
-			ANSI,
-		};
-
-		extern COMMON_API const CString ToString(const Encoding uEncoding);
-
-		extern COMMON_API const CString	FromInt32(const int32 iValue);
-		extern COMMON_API const CString	FromUInt32(const uint32 uValue);
-		extern COMMON_API const CString	FromFloat(const float32 fValue);
-		extern COMMON_API const CString	FromBool(const bool bValue);
-
-		static inline const CString	ToString(const int32 iValue){ return FromInt32(iValue); }
-		static inline const CString	ToString(const uint32 uValue){ return FromUInt32(uValue); }
-		static inline const CString ToString(const float32 fValue){ return FromFloat(fValue); }
-		static inline const CString ToString(const bool bValue){ return FromBool(bValue); }
-		
-		extern COMMON_API const int32		ToInt32(const CString& strText);
-		extern COMMON_API const uint32		ToUInt32(const CString& strText);
-		extern COMMON_API const float32		ToFloat(const CString& strText);
-		extern COMMON_API const bool		ToBool(const CString& strText);
-
-		extern COMMON_API const bool		ToInt32(const CString& strText, int& iOutValue);
-		extern COMMON_API const bool		ToUInt32(const CString& strText, uint32& uOutValue);
-		extern COMMON_API const bool		ToFloat(const CString& strText, float& fOutValue);
-		extern COMMON_API const bool		ToBool(const CString& strText, bool& bOutValue);
-			
-		extern COMMON_API const CString		ToHexString(const uint32 uValue);
-
-		extern COMMON_API const CString		FromANSI(const int8* szText); // with zero
-		extern COMMON_API const CString		FromANSI(const int8* szText, const uint32 uLength);	// without zero
-		extern COMMON_API const CString		FromUTF8(const int8* szText); // with zero
-		extern COMMON_API const CString		FromUTF8(const int8* szText, const uint32 uLength);	// wirhout zero
-
-		extern COMMON_API const uint32		ToANSICount(const CString& strText); // returns count without zero
-		extern COMMON_API void				ToANSI(const CString& strText, int8* szOutText, const uint32 uBufferLen); // buffer len with zero
-		extern COMMON_API const uint32		ToUTF8Count(const CString& strText); // returns count without zero
-		extern COMMON_API void				ToUTF8(const CString& strText, int8* szOutText, const uint32 uBufferLen);	// buffer len with zero
-	}
 }
 
 extern COMMON_API const CB::CString		operator+(const wchar* pStr, const CB::CString& strText);

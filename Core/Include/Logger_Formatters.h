@@ -1,8 +1,18 @@
 #pragma once 
 
+#include "Macros.h"
+#include "Types.h"
 #include "Logger_Interface.h"
+#include "CBString_Consts.h"
 
 namespace CB{
+	class CString;
+	template<typename _Type> class CRefPtr;
+
+	namespace Exception{
+		class CException;
+	}
+
 	namespace Log{
 		class COMMON_API CTextFormatter :
 			public IEntryFormat

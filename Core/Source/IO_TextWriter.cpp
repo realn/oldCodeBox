@@ -1,7 +1,9 @@
 #include "stdafx.h"
+#include "../Include/CBString.h"
+#include "../Include/CBString_Funcs.h"
 #include "../Include/IO_TextWriter.h"
 #include "../Include/IO_Stream.h"
-#include "../Include/CBStringEx.h"
+#include "../Include/Collection_List.h"
 
 namespace CB{
 	namespace IO{

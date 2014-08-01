@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "../Include/CBString.h"
+#include "../Include/CBString_Funcs.h"
 #include "../Include/Exception.h"
 
 #include <sstream>

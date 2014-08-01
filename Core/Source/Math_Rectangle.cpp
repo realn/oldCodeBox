@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "../Include/Math_Rectangle.h"
 #include "../Include/Exception.h"
+#include "../Include/CBString_Funcs.h"
+#include "../Include/Collection_Array.h"
 
 namespace CB{
 	namespace Math{
@@ -14,17 +16,17 @@ namespace CB{
 			Size(Rectangle.Size)
 		{}
 
-		CRectangle::CRectangle(const CPoint& Position, const CSize& Size) : 
+		CRectangle::CRectangle(const CPoint2D& Position, const CSize2D& Size) : 
 			Position(Position), 
 			Size(Size)
 		{}
 
-		CRectangle::CRectangle(const int iX, const int iY, const CSize& Size) : 
+		CRectangle::CRectangle(const int iX, const int iY, const CSize2D& Size) : 
 			Position(iX, iY), 
 			Size(Size)
 		{}
 
-		CRectangle::CRectangle(const CPoint& Position, const uint32 uWidth, const uint32 uHeight) : 
+		CRectangle::CRectangle(const CPoint2D& Position, const uint32 uWidth, const uint32 uHeight) : 
 			Position(Position), 
 			Size(uWidth, uHeight)
 		{}
@@ -77,7 +79,7 @@ namespace CB{
 			return this->Position.Y + (int32)this->Size.Height;
 		}
 
-		const bool	CRectangle::Contains(const CPoint& Point) const{
+		const bool	CRectangle::Contains(const CPoint2D& Point) const{
 			return Point.X >= this->GetXLower() && 
 				Point.X <= this->GetXHigher() && 
 				Point.Y >= this->GetYLower() && 
@@ -132,6 +134,14 @@ namespace CB{
 				throw Exception::CInvalidArgumentException(L"uIndex", String::ToString(uIndex),
 					L"Index out of range.", CR_INFO());
 			}
+		}
+
+		const Collection::CArray<int32, 4>	CRectangle::ToArray() const{
+			int32 data[] = {
+				Position.X, Position.Y,
+				(int32)Size.Width, (int32)Size.Height
+			};
+			return Collection::CArray<int32, 4>(data, 4);
 		}
 	}
 }

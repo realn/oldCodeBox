@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "../Include/Logger.h"
 #include "../Include/Logger_Formatters.h"
+#include "../Include/IO_Stream.h"
 
 CB::Log::CLogger*	CB::Manage::CRefSingleton<CB::Log::CLogger>::ms_pInstance = 0;
 

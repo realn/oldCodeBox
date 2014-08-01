@@ -1,15 +1,23 @@
 #pragma once
 
+#include "Macros.h"
+#include "Types.h"
 #include "Ref.h"
 #include "Manage_Singleton.h"
 #include "Collection_Dictionary.h"
-#include "CBString.h"
-#include "IO_Stream.h"
 #include "Logger_Consts.h"
-#include "Logger_Interface.h"
 
 namespace CB{
+	class CString;
+	template<typename _Type> class CRefPtr;
+
+	namespace IO{
+		class IStream;
+	}
+
 	namespace Log{
+		class IEntryFormat;
+
 		class COMMON_API CLogger : 
 			public IRef, 
 			public Manage::CRefSingleton<CLogger>

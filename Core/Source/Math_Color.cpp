@@ -1,7 +1,11 @@
 #include "stdafx.h"
 #include "../Include/Math_Color.h"
+#include "../Include/Math_Vector4D.h"
+#include "../Include/Math_Vector3D.h"
+#include "../Include/Math_Point3D.h"
 #include "../Include/Math_Funcs.h"
 #include "../Include/Exception.h"
+#include "../Include/CBString_Funcs.h"
 
 namespace CB{
 	namespace Math{

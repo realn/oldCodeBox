@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "../Include/SimpleXML.h"
+#include "../Include/CBString.h"
+#include "../Include/Collection_StringList.h"
 
 namespace CB{
 	namespace SXML{

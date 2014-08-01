@@ -2,6 +2,7 @@
 #include "../Include/CBString.h"
 #include "../Include/Exception.h"
 #include "../Include/Memory.h"
+#include "../Include/CBString_Funcs.h"
 
 #include <wchar.h>
 

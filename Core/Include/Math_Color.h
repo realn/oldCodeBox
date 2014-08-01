@@ -1,9 +1,16 @@
 #pragma once
 
-#include "Math_Vector.h"
+#include "Macros.h"
+#include "Types.h"
 
 namespace CB{
+	class CString;
+
 	namespace Math{
+		class CVector3D;
+		class CVector4D;
+		class CPoint3D;
+
 		class COMMON_API CColor{
 		public:
 			float32	Red;

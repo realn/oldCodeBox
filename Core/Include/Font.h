@@ -3,7 +3,7 @@
 #include "Macros.h"
 #include "Types.h"
 #include "Ref.h"
-#include "Math_Size.h"
+#include "Math_Size2D.h"
 #include "Collection_List.h"
 #include "Manage_Object.h"
 #include "SmartPointers_Hidden.h"
@@ -23,24 +23,24 @@ namespace CB{
 		{
 			friend CManager;
 		private:
-			Math::CSize	m_FontSize;
+			Math::CSize2D	m_FontSize;
 			Collection::CList<byte>	m_FontData;
 			CHiddenPtr	m_pData;
 
 		public:
 			void	SetSize(const uint32 uSize);
-			void	SetSize(const Math::CSize& Size);
+			void	SetSize(const Math::CSize2D& Size);
 
 			void	SelectFace(const uint32 uIndex);
 			void	SelectGlyph(const uint32 uIndex);
 			void	SelectGlyphByChar(const wchar uChar);
 
-			void		GetGlyphBitmap(Collection::CList<byte>& Data, Math::CSize& Size);
+			void		GetGlyphBitmap(Collection::CList<byte>& Data, Math::CSize2D& Size);
 
-			const Math::CPoint	GetGlyphAdv() const;
-			const Math::CPoint	GetGlyphBitmapPos() const;
+			const Math::CPoint2D	GetGlyphAdv() const;
+			const Math::CPoint2D	GetGlyphBitmapPos() const;
 			const uint32		GetLineHeight() const;
-			const Math::CSize	GetSize() const;
+			const Math::CSize2D	GetSize() const;
 			const uint32		GetAscender() const;
 			const uint32		GetDescender() const;
 			

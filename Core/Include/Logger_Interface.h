@@ -1,10 +1,22 @@
 #pragma once
 
-#include "IO_Stream.h"
-#include "SmartPointers_RefPtr.h"
+#include "Macros.h"
+#include "Types.h"
 #include "Logger_Consts.h"
+#include "Ref.h"
 
 namespace CB{
+	class CString;
+	template<typename _Type> class CRefPtr;
+
+	namespace IO{
+		class IStream;
+	}
+
+	namespace Exception{
+		class CException;
+	}
+
 	namespace Log{
 		class COMMON_API IEntryFormat :
 			public virtual IRef

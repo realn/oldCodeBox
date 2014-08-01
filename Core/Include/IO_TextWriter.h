@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IO_StreamWriter.h"
+#include "CBString_Consts.h"
 
 namespace CB{
 	namespace IO{

@@ -1,27 +1,53 @@
 #pragma once
 
-#include "CBString.h"
-#include "Collection_List.h"
+#include "Macros.h"
+#include "Types.h"
+#include "CBString_Consts.h"
 
 namespace CB{
+	class CString;
+
 	namespace Collection{
-		class COMMON_API CStringList : 
-			public CList<CString>
-		{
-		public:
-			CStringList();
-			CStringList(const CStringList& List);
-			CStringList(const ICountable<CString>& List);
-
-			const bool		Contains(const CString& strText) const;
-			const uint32	IndexOf(const CString& strFind) const;
-
-			const CString	ToString() const;
-			const CString	ToString(const CString& strGlue) const;
-		};
+		template<typename _Type> class IPacked;
+		template<typename _Type> class ICountable;
+		template<typename _Type> class CList;
 	}
 
 	namespace String{
+		extern COMMON_API const CString ToString(const Encoding uEncoding);
+
+		extern COMMON_API const CString	FromInt32(const int32 iValue);
+		extern COMMON_API const CString	FromUInt32(const uint32 uValue);
+		extern COMMON_API const CString	FromFloat(const float32 fValue);
+		extern COMMON_API const CString	FromBool(const bool bValue);
+
+		extern COMMON_API const CString	ToString(const int32 iValue);
+		extern COMMON_API const CString	ToString(const uint32 uValue);
+		extern COMMON_API const CString ToString(const float32 fValue);
+		extern COMMON_API const CString ToString(const bool bValue);
+		
+		extern COMMON_API const int32		ToInt32(const CString& strText);
+		extern COMMON_API const uint32		ToUInt32(const CString& strText);
+		extern COMMON_API const float32		ToFloat(const CString& strText);
+		extern COMMON_API const bool		ToBool(const CString& strText);
+
+		extern COMMON_API const bool		ToInt32(const CString& strText, int& iOutValue);
+		extern COMMON_API const bool		ToUInt32(const CString& strText, uint32& uOutValue);
+		extern COMMON_API const bool		ToFloat(const CString& strText, float& fOutValue);
+		extern COMMON_API const bool		ToBool(const CString& strText, bool& bOutValue);
+			
+		extern COMMON_API const CString		ToHexString(const uint32 uValue);
+
+		extern COMMON_API const CString		FromANSI(const int8* szText); // with zero
+		extern COMMON_API const CString		FromANSI(const int8* szText, const uint32 uLength);	// without zero
+		extern COMMON_API const CString		FromUTF8(const int8* szText); // with zero
+		extern COMMON_API const CString		FromUTF8(const int8* szText, const uint32 uLength);	// wirhout zero
+
+		extern COMMON_API const uint32		ToANSICount(const CString& strText); // returns count without zero
+		extern COMMON_API void				ToANSI(const CString& strText, int8* szOutText, const uint32 uBufferLen); // buffer len with zero
+		extern COMMON_API const uint32		ToUTF8Count(const CString& strText); // returns count without zero
+		extern COMMON_API void				ToUTF8(const CString& strText, int8* szOutText, const uint32 uBufferLen);	// buffer len with zero
+
 		extern COMMON_API const CString	VarReplace(const CString& strText, const Collection::ICountable<CString>& VarList);
 		extern COMMON_API const CString	VarReplace(const CString& strText, const Collection::ICountable<CString>& VarList, const bool bIgnoreMissng);
 

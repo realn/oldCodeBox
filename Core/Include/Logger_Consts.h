@@ -1,8 +1,11 @@
 #pragma once
 
-#include "CBString.h"
+#include "Macros.h"
+#include "Types.h"
 
 namespace CB{
+	class CString;
+
 	namespace Log{
 		enum class LogLevel{
 			Debug,

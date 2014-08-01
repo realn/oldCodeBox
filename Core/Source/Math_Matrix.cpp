@@ -1,7 +1,12 @@
 #include "stdafx.h"
 #include "../Include/Math_Matrix.h"
+#include "../Include/Math_Vector4D.h"
+#include "../Include/Math_Vector3D.h"
+#include "../Include/Math_Vector2D.h"
 #include "../Include/Exception.h"
 #include "../Include/Memory.h"
+#include "../Include/CBString_Funcs.h"
+#include "../Include/Collection_Array.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>

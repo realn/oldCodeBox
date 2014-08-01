@@ -1,6 +1,6 @@
 #include "stdafx.h"
+#include "../Include/Collection_StringList.h"
 #include "../Include/IO_Directory.h"
-#include "../Include/CBStringEx.h"
 #include "../Internal/IO_DirectoryWIN.h"
 #include "../Include/IO_Directory_Exceptions.h"
 #include "../Include/WindowsErrors.h"

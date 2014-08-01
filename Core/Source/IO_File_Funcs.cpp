@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "../Include/CBString_Funcs.h"
 #include "../Include/IO_File.h"
 #include "../Internal/IO_FileStreamWIN.h"
 #include "../Include/SmartPointers_RefPtr.h"

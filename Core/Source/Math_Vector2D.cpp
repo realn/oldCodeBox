@@ -1,7 +1,12 @@
 #include "stdafx.h"
+#include "../Include/Math_Vector2D.h"
+#include "../Include/Math_Vector3D.h"
+#include "../Include/Math_Vector4D.h"
+#include "../Include/Math_Point2D.h"
 #include "../Include/Math_Funcs.h"
-#include "../Include/Math_Vector.h"
 #include "../Include/Exception.h"
+#include "../Include/CBString_Funcs.h"
+#include "../Include/Collection_Array.h"
 
 namespace CB{
 	namespace Math{
@@ -15,11 +20,6 @@ namespace CB{
 			Y(Vector.Y)
 		{}
 
-		CVector2D::CVector2D(const CPoint& Point) : 
-			X((float32)Point.X), 
-			Y((float32)Point.Y)
-		{}
-
 		CVector2D::CVector2D(const float32 fValue) : 
 			X(fValue), 
 			Y(fValue)
@@ -29,6 +29,31 @@ namespace CB{
 			X(fX), 
 			Y(fY)
 		{}
+
+		CVector2D::CVector2D(const CPoint2D& Point) : 
+			X((float32)Point.X), 
+			Y((float32)Point.Y)
+		{}
+
+		CVector2D::CVector2D(const CVector3D& Vector) :
+			X(Vector.X),
+			Y(Vector.Y)
+		{}
+
+		CVector2D::CVector2D(const CVector4D& Vector) :
+			X(Vector.X),
+			Y(Vector.Y)
+		{}
+
+		CVector2D::CVector2D(const Collection::ICountable<float32>& array) :
+			X(0.0f),
+			Y(0.0f)
+		{
+			if( array.GetLength() >= 2 ){
+				X = array[0];
+				Y = array[1];
+			}
+		}
 
 		void	CVector2D::SetZero(){
 			this->X = 0.0f;
@@ -166,10 +191,6 @@ namespace CB{
 
 		const CB::CString	CVector2D::ToString() const{
 			return L"X: " + String::ToString(this->X) + L", Y: " + String::ToString(this->Y);
-		}
-
-		const CPoint	CVector2D::ToPoint() const{
-			return CPoint((int)this->X, (int)this->Y);
 		}
 
 		const CVector2D&	CVector2D::operator=(const CVector2D& Vector){

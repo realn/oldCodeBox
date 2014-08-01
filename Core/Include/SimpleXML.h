@@ -1,11 +1,15 @@
 #pragma once
 
-#include "CBStringEx.h"
+#include "Macros.h"
+#include "Types.h"
 #include "Exception.h"
 #include "SmartPointers_AutoPtr.h"
-#include "Collection_LinkList.h"
+#include "Collection_List.h"
 
 namespace CB{
+	class CString;
+	template<typename _Type> class CPtr;
+
 	namespace SXML{
 		enum class NodeErrorReact{
 			ThrowException,

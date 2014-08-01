@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "../Include/CBString_Funcs.h"
 #include "../Include/Memory.h"
 #include "../Include/IO_Stream.h"
 #include "../Internal/IO_SoundData.h"

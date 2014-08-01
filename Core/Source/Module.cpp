@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "../Include/Module.h"
 #include "../Include/WindowsErrors.h"
-#include "../Include/CBStringEx.h"
+#include "../Include/Collection_List.h"
 
 namespace CB{
 	CModule::CModule(const CString& strName) : 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Macros.h"
+#include "Types.h"
 #include "SmartPointers_RefPtr.h"
 
 namespace CB{

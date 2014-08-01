@@ -1,6 +1,8 @@
 #pragma once
 
-#include "Math_Vector.h"
+#include "Macros.h"
+#include "Types.h"
+#include "Math_Vector2D.h"
 
 namespace CB{
 	namespace Math{
@@ -15,6 +17,7 @@ namespace CB{
 			CRectangleF32(const float32 fX, const float32 fY, const CVector2D& Size);
 			CRectangleF32(const CVector2D& Position, const float32 fWidth, const float32 fHeight);
 			CRectangleF32(const float32 fX, const float32 fY, const float32 fWidth, const float32 fHeight);
+			CRectangleF32(const Collection::ICountable<float32>& array);
 
 			void		SetZero();
 			void		Set(const CRectangleF32& Rect);
@@ -42,6 +45,8 @@ namespace CB{
 			const bool	operator!=(const CRectangleF32& Rectangle) const;
 
 			const float32	operator[](const uint32 uIndex) const;
+
+			const Collection::CArray<float32, 4>	ToArray() const;
 		};
 	}
 }

@@ -88,8 +88,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Include\ApiObject.h" />
+    <ClInclude Include="Include\CBString_Consts.h" />
+    <ClInclude Include="Include\CBString_Funcs.h" />
     <ClInclude Include="Include\Collection.h" />
     <ClInclude Include="Include\Collection_Array.h" />
+    <ClInclude Include="Include\Collection_ArrayPtr.h" />
     <ClInclude Include="Include\Collection_Dictionary.h" />
     <ClInclude Include="Include\Collection_Funcs.h" />
     <ClInclude Include="Include\Collection_LinkList.h" />
@@ -127,11 +130,15 @@
     <ClInclude Include="Include\Manage_EventInvokerBase.h" />
     <ClInclude Include="Include\Manage_ObjectManaged.h" />
     <ClInclude Include="Include\Manage_ObjectManager.h" />
-    <ClInclude Include="Include\Math_Box.h" />
-    <ClInclude Include="Include\Math_BoxF.h" />
+    <ClInclude Include="Include\Math_Cube.h" />
+    <ClInclude Include="Include\Math_CubeF.h" />
     <ClInclude Include="Include\Math_Consts.h" />
     <ClInclude Include="Include\Math_Funcs.h" />
+    <ClInclude Include="Include\Math_Point3D.h" />
     <ClInclude Include="Include\Math_RectangleF.h" />
+    <ClInclude Include="Include\Math_Size3D.h" />
+    <ClInclude Include="Include\Math_Vector3D.h" />
+    <ClInclude Include="Include\Math_Vector4D.h" />
     <ClInclude Include="Include\Memory.h" />
     <ClInclude Include="Include\Manage_Object.h" />
     <ClInclude Include="Include\IO_Path.h" />
@@ -152,14 +159,14 @@
     <ClInclude Include="Include\SmartPointers_Ptr.h" />
     <ClInclude Include="Include\SmartPointers_RefPtr.h" />
     <ClInclude Include="Include\CBString.h" />
-    <ClInclude Include="Include\CBStringEx.h" />
+    <ClInclude Include="Include\Collection_StringList.h" />
     <ClInclude Include="Include\CBMath.h" />
     <ClInclude Include="Include\Math_Color.h" />
     <ClInclude Include="Include\Math_Matrix.h" />
-    <ClInclude Include="Include\Math_Point.h" />
+    <ClInclude Include="Include\Math_Point2D.h" />
     <ClInclude Include="Include\Math_Rectangle.h" />
-    <ClInclude Include="Include\Math_Size.h" />
-    <ClInclude Include="Include\Math_Vector.h" />
+    <ClInclude Include="Include\Math_Size2D.h" />
+    <ClInclude Include="Include\Math_Vector2D.h" />
     <ClInclude Include="Include\Threads.h" />
     <ClInclude Include="Include\Timer.h" />
     <ClInclude Include="Include\Types.h" />
@@ -213,18 +220,18 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Source\Logger_TextFormatter.cpp" />
-    <ClCompile Include="Source\Math_Box.cpp" />
-    <ClCompile Include="Source\Math_BoxF.cpp" />
+    <ClCompile Include="Source\Math_Cube.cpp" />
+    <ClCompile Include="Source\Math_CubeF.cpp" />
     <ClCompile Include="Source\Math_Color.cpp" />
     <ClCompile Include="Source\Math_Color_Funcs.cpp" />
     <ClCompile Include="Source\Math_Consts.cpp" />
     <ClCompile Include="Source\Math_Funcs.cpp" />
     <ClCompile Include="Source\Math_Matrix.cpp" />
-    <ClCompile Include="Source\Math_Point.cpp" />
+    <ClCompile Include="Source\Math_Point2D.cpp" />
     <ClCompile Include="Source\Math_Point3D.cpp" />
     <ClCompile Include="Source\Math_Rectangle.cpp" />
     <ClCompile Include="Source\Math_RectangleF.cpp" />
-    <ClCompile Include="Source\Math_Size.cpp" />
+    <ClCompile Include="Source\Math_Size2D.cpp" />
     <ClCompile Include="Source\Math_Size3D.cpp" />
     <ClCompile Include="Source\Math_Vector2D.cpp" />
     <ClCompile Include="Source\Math_Vector2D_Funcs.cpp" />
@@ -247,8 +254,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Source\CBString_Funcs.cpp" />
-    <ClCompile Include="Source\CBStringEx.cpp" />
-    <ClCompile Include="Source\CBStringEx_StringList.cpp" />
+    <ClCompile Include="Source\Collection_StringList.cpp" />
     <ClCompile Include="Source\CBString_Convert.cpp" />
     <ClCompile Include="Source\CBString.cpp" />
     <ClCompile Include="Source\IO_TextReader.cpp" />
