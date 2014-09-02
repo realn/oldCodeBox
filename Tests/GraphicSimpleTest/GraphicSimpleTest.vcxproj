@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{494E4410-C4A5-4CED-BFD1-CDDC689B3C54}</ProjectGuid>
+    <ProjectGuid>{57225991-6B82-4C8C-A22C-C2A6F600EC9F}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>GraphicTest</RootNamespace>
+    <RootNamespace>GraphicSimpleTest</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -43,10 +43,9 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)Build\Output\$(Configuration)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)Build\Intermediate\$(Configuration)\$(ProjectName)\</IntDir>
-    <IncludePath>$(SolutionDir)Core\Include\;$(SolutionDir)Graphics\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Ext\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)Core\Include;$(SolutionDir)Graphics\Include;$(IncludePath)</IncludePath>
+    <ExecutablePath>$(SolutionDir)Ext\runtime\;$(ExecutablePath)</ExecutablePath>
+    <LibraryPath>$(SolutionDir)Ext\lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -82,25 +81,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CubeModel.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="RectOrthoModel.cpp" />
-    <ClCompile Include="ShaderFileLoader.cpp" />
-    <ClCompile Include="TextureFileLoader.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Shaders\BasicShader.cg" />
-    <None Include="Shaders\TextureShader.cg" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="CubeModel.h" />
-    <ClInclude Include="RectOrthoModel.h" />
-    <ClInclude Include="ShaderFileLoader.h" />
-    <ClInclude Include="TextureFileLoader.h" />
-    <ClInclude Include="VertexShaderConfig.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Assets\crate.jpg" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Core.vcxproj">
