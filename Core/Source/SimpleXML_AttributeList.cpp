@@ -105,5 +105,29 @@ namespace CB{
 			}
 			return list.ToString(L" ");
 		}
+
+		const uint32	CAttributeList::Parse( const CString& strText, const uint32 uStartIndex ) {
+			uint32 uIndex = uStartIndex;
+
+			if( !String::SkipWhiteSpace( strText, uStartIndex, uIndex ) ) {
+				CR_THROW(L"AttributeList: Unexpected end of tag.");
+			}
+
+			Collection::CStringList endTagList;
+			endTagList.Add(L">");
+			endTagList.Add(L"/>");
+			
+			while( !String::SubCompare(strText, uIndex, endTagList ) ) {
+				CAttribute* attrib = CAttribute::Parse( this, strText, uIndex, uIndex );
+
+				this->m_List.Add( attrib );
+
+				if( !String::SkipWhiteSpace( strText, uIndex, uIndex ) ){
+					CR_THROW(L"AttributeList: Unexpected end of list.");
+				}
+			}
+
+			return uIndex;
+		}
 	}
 }

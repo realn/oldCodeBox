@@ -118,20 +118,20 @@ namespace CB{
 		// Returns distance between two points in space.
 
 		const float32 Distance(const CVector3D& vA, const CVector3D& vB){
-			return (vA - vB).GetVectorLength();
+			return (vA - vB).GetLength();
 		}
 
 		// Returns distance between two points projected on XZ plane.
 
 		const float32 Distance2D(const CVector3D& vA, const CVector3D& vB){
 			CVector3D vAB = vA - vB;
-			return CVector2D(vAB.X, vAB.Z).GetVectorLength();
+			return CVector2D(vAB.X, vAB.Z).GetLength();
 		}
 
 		// Retourne l'angle formé par deux vecteurs.
 
 		const float32 Angle(const CVector3D& vU, const CVector3D& vV){
-			float32 fLen = vU.GetVectorLength() * vV.GetVectorLength();
+			float32 fLen = vU.GetLength() * vV.GetLength();
 			float32 fA = std::acosf(vU.Dot(vV) / fLen);
 			//float32 fB = std::asinf(vU.Cross(vV).GetLength() / fLen);
 			return fA;
@@ -143,7 +143,7 @@ namespace CB{
 			CVector3D u = vTriC - vTriA;
 			CVector3D v = vTriB - vTriA;
 
-			return u.Cross(v).GetNormalized();
+			return u.Cross(v).Normalize();
 		}
 
 
@@ -189,7 +189,6 @@ namespace CB{
 
 			return true;
 		}
-
 
 		const CVector3D	Lerp(const CVector3D& vA, const CVector3D& vB, const float32 fX){
 			return vA + (vB - vA) * fX;

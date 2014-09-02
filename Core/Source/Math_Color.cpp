@@ -6,6 +6,7 @@
 #include "../Include/Math_Funcs.h"
 #include "../Include/Exception.h"
 #include "../Include/CBString_Funcs.h"
+#include "../Include/Collection_Array.h"
 
 namespace CB{
 	namespace Math{
@@ -21,6 +22,13 @@ namespace CB{
 			Green(Color.Green), 
 			Blue(Color.Blue), 
 			Alpha(Color.Alpha)
+		{}
+
+		CColor::CColor(const CColor& Color, const float32 Alpha) :
+			Red(Color.Red), 
+			Green(Color.Green), 
+			Blue(Color.Blue), 
+			Alpha(Alpha)
 		{}
 
 		CColor::CColor(const CVector3D& Vector) : 
@@ -58,6 +66,19 @@ namespace CB{
 			Alpha(fAlpha)
 		{}
 
+		CColor::CColor(const Collection::ICountable<float32>& array) :
+			Red(1.0f), Green(1.0f), Blue(1.0f), Alpha(1.0f)
+		{
+			if( array.GetLength() >= 3 ){
+				Red = array[0];
+				Green = array[1];
+				Blue = array[2];
+			}
+			if( array.GetLength() >= 4 ){
+				Alpha = array[3];
+			}
+		}
+
 		CColor::CColor(const float32 fColor) : 
 			Red(fColor), 
 			Green(fColor), 
@@ -84,6 +105,20 @@ namespace CB{
 			Blue(fBlue), 
 			Green(fGreen), 
 			Alpha(fAlpha)
+		{}
+
+		CColor::CColor(const byte red, const byte green, const byte blue) :
+			Red(Math::Convert0255to01(red)),
+			Green(Math::Convert0255to01(green)),
+			Blue(Math::Convert0255to01(blue)),
+			Alpha(1.0f)
+		{}
+
+		CColor::CColor(const byte red, const byte green, const byte blue, const byte alpha) :
+			Red(Math::Convert0255to01(red)),
+			Green(Math::Convert0255to01(green)),
+			Blue(Math::Convert0255to01(blue)),
+			Alpha(Math::Convert0255to01(alpha))
 		{}
 
 		void	CColor::Set(const CColor& Color){
@@ -196,11 +231,13 @@ namespace CB{
 			return IsNearZero(this->Alpha);
 		}
 
-		void	CColor::Clamp(){
-			this->Red	= Clamp01(this->Red);
-			this->Green	= Clamp01(this->Green);
-			this->Blue	= Clamp01(this->Blue);
-			this->Alpha = Clamp01(this->Alpha);
+		const CColor	CColor::Clamp() const{
+			return CColor(
+				Clamp01(this->Red),
+				Clamp01(this->Green),
+				Clamp01(this->Blue),
+				Clamp01(this->Alpha)
+				);
 		}
 
 		const bool	CColor::IsEqual(const CColor& Color) const{
@@ -223,9 +260,9 @@ namespace CB{
 			uint32 uReturn = 0;
 
 			uReturn = uAlpha;
-			uReturn = uReturn << 8 | uBlue;
-			uReturn = uReturn << 8 | uGreen;
-			uReturn = uReturn << 8 | uRed;
+			uReturn = (uReturn << 8) | uBlue;
+			uReturn = (uReturn << 8) | uGreen;
+			uReturn = (uReturn << 8) | uRed;
 
 			return uReturn;
 		}
@@ -239,9 +276,9 @@ namespace CB{
 			uint32 uReturn = 0;
 
 			uReturn = uAlpha;
-			uReturn = uReturn << 8 | uRed;
-			uReturn = uReturn << 8 | uGreen;
-			uReturn = uReturn << 8 | uBlue;
+			uReturn = (uReturn << 8) | uRed;
+			uReturn = (uReturn << 8) | uGreen;
+			uReturn = (uReturn << 8) | uBlue;
 	
 			return uReturn;
 		}
@@ -255,9 +292,9 @@ namespace CB{
 			uint32 uReturn = 0;
 
 			uReturn = uBlue;
-			uReturn = uReturn << 8 | uGreen;
-			uReturn = uReturn << 8 | uRed;
-			uReturn = uReturn << 8 | uAlpha;
+			uReturn = (uReturn << 8) | uGreen;
+			uReturn = (uReturn << 8) | uRed;
+			uReturn = (uReturn << 8) | uAlpha;
 
 			return uReturn;
 		}
@@ -271,9 +308,9 @@ namespace CB{
 			uint32 uReturn = 0;
 
 			uReturn = uRed;
-			uReturn = uReturn << 8 | uGreen;
-			uReturn = uReturn << 8 | uBlue;
-			uReturn = uReturn << 8 | uAlpha;
+			uReturn = (uReturn << 8) | uGreen;
+			uReturn = (uReturn << 8) | uBlue;
+			uReturn = (uReturn << 8) | uAlpha;
 
 			return uReturn;
 		}
@@ -327,20 +364,8 @@ namespace CB{
 				L", Alpha: " + String::ToString(this->Alpha);
 		}
 
-		const CVector3D CColor::ToVector() const{
-			return CVector3D(this->Red, this->Green, this->Blue);
-		}
-
-		const CVector4D	CColor::ToVector4D() const{
+		const CVector4D	CColor::ToVector() const{
 			return CVector4D(this->Red, this->Green, this->Blue, this->Alpha);
-		}
-
-		const CPoint3D	CColor::ToPoint() const{
-			return CPoint3D(this->GetRedByte(), this->GetGreenByte(), this->GetBlueByte());
-		}
-
-		const CColor	CColor::ToColor() const{
-			return CColor(this->Red, this->Green, this->Blue, 1.0f);
 		}
 
 		const CColor&	CColor::operator=(const CColor& Color){
@@ -396,6 +421,10 @@ namespace CB{
 				throw CB::Exception::CInvalidArgumentException(L"uIndex", CB::String::ToString(uIndex),
 					L"Index out of range", CR_INFO());
 			}
+		}
+
+		const Collection::CArray<float32, 4>	CColor::ToArray() const{
+			return Collection::CArray<float32, 4>( &Red, 4 );
 		}
 	}
 }

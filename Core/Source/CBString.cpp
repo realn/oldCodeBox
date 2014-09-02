@@ -15,18 +15,6 @@ const bool MultiCompare(const CB::CString& strText, const uint32 uPos, const CB:
 	return false;
 }
 
-const wchar*	g_szWhiteSpace = L" \n\r\t";
-const uint32	g_uWhiteSpaceNumber = 4;
-
-const bool	IsCharWhiteSpace(const wchar uChar){
-	for(uint32 uIndex = 0; uIndex < g_uWhiteSpaceNumber; uIndex++){
-		if(uChar == g_szWhiteSpace[uIndex]){
-			return true;
-		}
-	}
-	return false;
-}
-
 namespace CB{
 	CString::CString() : 
 		m_pStr(0), 
@@ -231,14 +219,7 @@ namespace CB{
 			return true;
 		}
 
-		bool haveChars = false;
-		for(uint32 uIndex = 0; uIndex < this->GetLength(); uIndex++){
-			if(!IsCharWhiteSpace(this->m_pStr[uIndex])){
-				return false;
-			}
-		}
-
-		return true;
+		return String::IsWhiteSpace( *this );
 	}
 
 	const CString	CString::SubStringIndexed(const uint32 uStartPos, const uint32 uEndPos) const{
@@ -281,7 +262,7 @@ namespace CB{
 	}
 
 	const CString	CString::Trim() const{
-		return this->Trim(g_szWhiteSpace);
+		return this->Trim(L" \t\r\n");
 	}
 
 	const CString	CString::Trim(const CString& strCharList) const{

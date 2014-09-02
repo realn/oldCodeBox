@@ -39,6 +39,11 @@ namespace CB{
 		const _TCast*	GetCast() const{
 			return dynamic_cast<const _TCast*>(this->m_pPtr);
 		}
+
+		template<typename _TCast>
+		operator _TCast*(){
+			return dynamic_cast<_TCast*>(this->m_pPtr);
+		}
 	};
 
 	template<typename _Type>

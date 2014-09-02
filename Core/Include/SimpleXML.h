@@ -25,8 +25,6 @@ namespace CB{
 		class CNode;
 		class CDocument;
 		
-		//template class COMMON_API Collection::CLinkList<CPtr<CNode>>;
-
 		class COMMON_API CAttribute{
 		private:
 			friend CAttributeList;
@@ -45,7 +43,10 @@ namespace CB{
 
 		private:
 			CAttribute(CAttributeList* pParent, const CString& strName);
+			CAttribute(CAttributeList* pParent, const CString& strName, const CString& strValue );
 			CAttribute(const CAttribute& Attribute);
+
+			static CAttribute*	Parse( CAttributeList* pParent, const CString& strText, const uint32 uStartIndex, uint32& uOutIndex );
 		};
 
 		class COMMON_API CAttributeList :
@@ -89,6 +90,8 @@ namespace CB{
 		private:
 			CAttributeList(CNode* pParent);
 			CAttributeList(const CAttributeList& List);
+
+			const uint32	Parse( const CString& strText, const uint32 uStartIndex );
 		};
 
 		class COMMON_API CNodeList :
@@ -137,11 +140,11 @@ namespace CB{
 			CNodeList(const CNodeList& List);
 
 			const CString	ToString(const bool bWithNewLines, const bool bNested, const uint32 uNestLevel) const;
+			const bool		Parse( const CString& strText, const uint32 uIndex, uint32& uOutIndex );
 		};
 
 		class COMMON_API CNode{
 		private:
-			//friend CRoot;
 			friend CNodeList;
 
 			CNodeList*	m_pParent;
@@ -160,13 +163,14 @@ namespace CB{
 			const bool	HasAttributes() const;
 			const bool	HasNodes() const;
 
+			void	SetAttributeValue( const CString& strName, const CString& strValue );
+			const CString	GetAttributeValue( const CString& strName, const CString& strDefault ) const;
+
 		private:
 			CNode(CNodeList* pParent, const CString& strName);
 			CNode(const CNode& Node);
 
-			const uint32	Parse(const CString& strText, const uint32 uStartIndex);
-			const uint32	ParseStartTag(const CString& strText, const uint32 uIndex);
-			const uint32	ParseEndTag(const CString& strText, const uint32 uStartIndex, const uint32 uIndex);
+			static CNode*	Parse( CNodeList* pParent, const CString& strText, const uint32 uStartIndex, uint32& uOutIndex );
 
 		public:
 			const CString	ToString(const bool bWithNewLines, const bool bNested, const uint32 uNestLevel) const;
@@ -177,6 +181,9 @@ namespace CB{
 			CNodeList	Nodes;
 
 			CDocument();
+			~CDocument();
+
+			void	Clear();
 
 			void	Parse(const CString& strText);
 
@@ -185,77 +192,5 @@ namespace CB{
 			const CString	ToString(const bool bWithNewLines, const bool bNested) const;
 		};
 
-	}
-
-	namespace Exception{
-		class COMMON_API	CSXMLException : 
-			public CException
-		{
-		public:
-			CSXMLException(const CSXMLException& Exception);
-			CSXMLException(const CString& strMessage, const CString& strFunction, const CString& strFile, const uint32 uLine);
-			CSXMLException(const CString& strMessage, const CString& strFunction, const CString& strFile, const uint32 uLine, const CException& Exception);
-
-			virtual CException*	CreateCopy() const override;
-		};
-
-		class COMMON_API	CSXMLNodeException :
-			public CSXMLException
-		{
-		protected:
-			CString	m_strNodeName;
-
-		public:
-			CSXMLNodeException(const CSXMLNodeException& Exception);
-			CSXMLNodeException(const CString& strName, const CString& strFunction, const CString& strFile, const uint32 uLine);
-			CSXMLNodeException(const CString& strName, const CString& strFunction, const CString& strFile, const uint32 uLine, const CException& Exception);
-
-			virtual const CString	GetMessage() const override;
-
-			virtual CException*	CreateCopy() const override;
-		};
-
-		class COMMON_API	CSXMLNodeMissingException :
-			public CSXMLNodeException
-		{
-		protected:
-			CString	m_strChildName;
-
-		public:
-			CSXMLNodeMissingException(const CSXMLNodeMissingException& Exception);
-			CSXMLNodeMissingException(const CString& strName, const CString& strParent, const CString& strFunction, const CString& strFile, const uint32 uLine);
-			CSXMLNodeMissingException(const CString& strName, const CString& strParent, const CString& strFunction, const CString& strFile, const uint32 uLine, const CException& InnerException);
-
-			virtual const CString	GetMessage() const override;
-
-			virtual CException*	CreateCopy() const override;
-		};
-
-		class COMMON_API	CSXMLValueProcessingException :
-			public CSXMLNodeException
-		{
-		public:
-			CSXMLValueProcessingException(const CSXMLValueProcessingException& Exception);
-			CSXMLValueProcessingException(const CString& strName, const CString& strFunction, const CString& strFile, const uint32 uLine);
-			CSXMLValueProcessingException(const CString& strName, const CString& strFunction, const CString& strFile, const uint32 uLine, const CException& Exception);
-
-			virtual CException*	CreateCopy() const override;
-		};
-
-		class COMMON_API	CSXMLValueParsingException :
-			public CSXMLValueProcessingException
-		{
-		protected:
-			CString	m_strValue;
-
-		public:
-			CSXMLValueParsingException(const CSXMLValueParsingException& Exception);
-			CSXMLValueParsingException(const CString& strName, const CString& strValue, const CString& strFunction, const CString& strFile, const uint32 uLine);
-			CSXMLValueParsingException(const CString& strName, const CString& strValue, const CString& strFunction, const CString& strFile, const uint32 uLine, const CException& Exception);
-
-			virtual const CString	GetMessage() const override;
-
-			virtual CException* CreateCopy() const override;
-		};
 	}
 }

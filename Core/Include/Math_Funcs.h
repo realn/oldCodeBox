@@ -48,6 +48,7 @@ namespace CB{
 
 		extern COMMON_API const float32	Sin(const float32& radAngle);
 		extern COMMON_API const float32 Cos(const float32& radAngle);
+		extern COMMON_API const float32 Tan(const float32& radAngle);
 
 		extern COMMON_API void			RandInit(const uint32 uSeed);
 		extern COMMON_API const float32	Rand();

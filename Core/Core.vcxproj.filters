@@ -67,6 +67,18 @@
     <Filter Include="Source\XML">
       <UniqueIdentifier>{f42e53a5-2a04-479c-a173-dca16c3aa427}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Include\Module">
+      <UniqueIdentifier>{0d0e3786-8ce1-4f93-998b-6fb1d5be5a88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Threads">
+      <UniqueIdentifier>{9933f262-f3c2-4b3f-a758-db72dadddf36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Threads">
+      <UniqueIdentifier>{292ccb92-3fd5-4e18-8fe3-2fe51c14eee8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\SimpleXML">
+      <UniqueIdentifier>{b316e7f8-8e79-43b1-a253-fc5c788c92ef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Exception.h">
@@ -79,9 +91,6 @@
       <Filter>Include</Filter>
     </ClInclude>
     <ClInclude Include="Include\Ref.h">
-      <Filter>Include</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\SimpleXML.h">
       <Filter>Include</Filter>
     </ClInclude>
     <ClInclude Include="Include\IO_MemoryStream.h">
@@ -108,9 +117,6 @@
     <ClInclude Include="Include\Math_Color.h">
       <Filter>Include\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Math_Matrix.h">
-      <Filter>Include\Math</Filter>
-    </ClInclude>
     <ClInclude Include="Include\Math_Rectangle.h">
       <Filter>Include\Math</Filter>
     </ClInclude>
@@ -124,9 +130,6 @@
       <Filter>Include\IO</Filter>
     </ClInclude>
     <ClInclude Include="Include\ApiObject.h">
-      <Filter>Include</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Module.h">
       <Filter>Include</Filter>
     </ClInclude>
     <ClInclude Include="Internal\IO_WindowsConsoleStream.h">
@@ -264,9 +267,6 @@
     <ClInclude Include="Include\Math_RectangleF.h">
       <Filter>Include\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Threads.h">
-      <Filter>Include</Filter>
-    </ClInclude>
     <ClInclude Include="Include\FontManager.h">
       <Filter>Include\Font</Filter>
     </ClInclude>
@@ -342,6 +342,42 @@
     <ClInclude Include="Include\Collection_ArrayPtr.h">
       <Filter>Include\Collections</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Math_Plane.h">
+      <Filter>Include\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Math_Matrix3D.h">
+      <Filter>Include\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Math_Matrix4D.h">
+      <Filter>Include\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Module.h">
+      <Filter>Include\Module</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Module_Exceptions.h">
+      <Filter>Include\Module</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Threads_Thread.h">
+      <Filter>Include\Threads</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Threads_Mutex.h">
+      <Filter>Include\Threads</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Threads_Lock.h">
+      <Filter>Include\Threads</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimpleXML.h">
+      <Filter>Include\SimpleXML</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimpleXML_Exceptions.h">
+      <Filter>Include\SimpleXML</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimpleXML_Serialize_Math.h">
+      <Filter>Include\SimpleXML</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimpleXML_Serialize.h">
+      <Filter>Include\SimpleXML</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Exception.cpp">
@@ -390,9 +426,6 @@
       <Filter>Source\IO</Filter>
     </ClCompile>
     <ClCompile Include="Source\Math_Color.cpp">
-      <Filter>Source\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Math_Matrix.cpp">
       <Filter>Source\Math</Filter>
     </ClCompile>
     <ClCompile Include="Source\Math_Point3D.cpp">
@@ -491,9 +524,6 @@
     <ClCompile Include="Source\WindowsErrors.cpp">
       <Filter>Source\Platform</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Threads.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="Source\FontManager.cpp">
       <Filter>Source\Font</Filter>
     </ClCompile>
@@ -553,6 +583,42 @@
     </ClCompile>
     <ClCompile Include="Source\Math_CubeF.cpp">
       <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math_Plane.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math_Plane_Funcs.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math_Matrix3D.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math_Matrix3D_Funcs.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math_Matrix4D.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Math_Matrix4D_Funcs.cpp">
+      <Filter>Source\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Threads_Thread.cpp">
+      <Filter>Source\Threads</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Threads_Mutex.cpp">
+      <Filter>Source\Threads</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Threads_Lock.cpp">
+      <Filter>Source\Threads</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SimpleXML_Exceptions.cpp">
+      <Filter>Source\XML</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SimpleXML_Serialize.cpp">
+      <Filter>Source\XML</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SimpleXML_Serialize_Math.cpp">
+      <Filter>Source\XML</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

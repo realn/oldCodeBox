@@ -128,12 +128,12 @@ namespace CB{
 			return false;
 		}
 
-		const uint32	CVector3D::GetLength() const{
+		const uint32	CVector3D::GetSize() const{
 			return 3;
 		}
 
 		const uint32	CVector3D::GetSizeInBytes() const{
-			return this->GetLength() * sizeof(float32);
+			return this->GetSize() * sizeof(float32);
 		}
 
 		const float32&	CVector3D::Get(const uint32 uIndex) const{
@@ -168,20 +168,16 @@ namespace CB{
 			return &this->X;
 		}
 
-		const float32	CVector3D::GetVectorLength() const{
-			return SqRoot(this->GetVectorLengthSq());
+		const float32	CVector3D::GetLength() const{
+			return SqRoot(this->GetLengthSq());
 		}
 
-		const float32 CVector3D::GetVectorLengthSq() const{
+		const float32 CVector3D::GetLengthSq() const{
 			return Power2(this->X) + Power2(this->Y) + Power2(this->Z);
 		}
 
-		const CVector3D	CVector3D::GetNormalized() const{
-			return this->Div(this->GetVectorLength());
-		}
-
-		void	CVector3D::Normalize(){
-			this->Set(this->GetNormalized());
+		const CVector3D	CVector3D::Normalize() const{
+			return this->Div(this->GetLength());
 		}
 
 		const CVector3D	CVector3D::Add(const CVector3D& Vector) const{
@@ -323,7 +319,7 @@ namespace CB{
 		}
 
 		CVector3D::operator const CB::Collection::CArray<float32, 3U>() const{
-			return Collection::CArray<float32, 3>(this->GetPointer(), this->GetLength());
+			return Collection::CArray<float32, 3>(this->GetPointer(), this->GetSize());
 		}
 	}
 }

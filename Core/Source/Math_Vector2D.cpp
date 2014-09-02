@@ -99,12 +99,12 @@ namespace CB{
 			return false;
 		}
 
-		const uint32	CVector2D::GetLength() const{
+		const uint32	CVector2D::GetSize() const{
 			return 2;
 		}
 
 		const uint32	CVector2D::GetSizeInBytes() const{
-			return this->GetLength() * sizeof(float32);
+			return this->GetSize() * sizeof(float32);
 		}
 
 		const float32&	CVector2D::Get(const uint32 uIndex) const{
@@ -135,20 +135,16 @@ namespace CB{
 			return &this->X;
 		}
 
-		const float32	CVector2D::GetVectorLength() const{
-			return SqRoot(this->GetVectorLengthSq());
+		const float32	CVector2D::GetLength() const{
+			return SqRoot(this->GetLengthSq());
 		}
 
-		const float32 CVector2D::GetVectorLengthSq() const{
+		const float32 CVector2D::GetLengthSq() const{
 			return Power2(this->X) + Power2(this->Y);
 		}
 
-		const CVector2D	CVector2D::GetNormalized() const{
-			return this->Div(this->GetVectorLength());
-		}
-
-		void	CVector2D::Normalize(){
-			this->Set(this->GetNormalized());
+		const CVector2D	CVector2D::Normalize() const{
+			return this->Div(this->GetLength());
 		}
 
 		const CVector2D	CVector2D::Add(const CVector2D& Vector) const{
@@ -277,7 +273,7 @@ namespace CB{
 		}
 
 		CVector2D::operator const CB::Collection::CArray<float32, 2U>() const{
-			return Collection::CArray<float32, 2>(this->GetPointer(), this->GetLength());
+			return Collection::CArray<float32, 2>(this->GetPointer(), this->GetSize());
 		}
 	}
 }

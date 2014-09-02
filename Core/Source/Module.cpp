@@ -2,6 +2,7 @@
 #include "../Include/Module.h"
 #include "../Include/WindowsErrors.h"
 #include "../Include/Collection_List.h"
+#include "../Include/Module_Exceptions.h"
 
 namespace CB{
 	CModule::CModule(const CString& strName) : 

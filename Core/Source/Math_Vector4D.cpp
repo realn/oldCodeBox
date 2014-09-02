@@ -184,12 +184,12 @@ namespace CB{
 			return false;
 		}
 
-		const uint32	CVector4D::GetLength() const{
+		const uint32	CVector4D::GetSize() const{
 			return 4;
 		}
 
 		const uint32	CVector4D::GetSizeInBytes() const{
-			return this->GetLength() * sizeof(float32);
+			return this->GetSize() * (uint32)sizeof(float32);
 		}
 
 		const float32&	CVector4D::Get(const uint32 uIndex) const{
@@ -226,21 +226,17 @@ namespace CB{
 			return &this->X;
 		}
 
-		const float32	CVector4D::GetVectorLength() const{
-			return SqRoot(this->GetVectorLengthSq());
+		const float32	CVector4D::GetLength() const{
+			return SqRoot(this->GetLengthSq());
 		}
 
-		const float32 CVector4D::GetVectorLengthSq() const{
+		const float32 CVector4D::GetLengthSq() const{
 			return Power2(this->X) + Power2(this->Y) + Power2(this->Z);
 		}
 
-		const CVector4D	CVector4D::GetNormalized() const{
-			float32 fLen = this->GetVectorLength();
+		const CVector4D	CVector4D::Normalize() const{
+			float32 fLen = this->GetLength();
 			return CVector4D(X / fLen, Y / fLen, Z / fLen, this->W);
-		}
-
-		void	CVector4D::Normalize(){
-			this->Set(this->GetNormalized());
 		}
 
 		const CVector4D	CVector4D::Add(const CVector4D& Vector) const{
@@ -376,7 +372,7 @@ namespace CB{
 		}
 
 		const Collection::CArray<float32, 4> CVector4D::ToArray() const{
-			return Collection::CArray<float32, 4>( this->GetPointer(), this->GetLength() );
+			return Collection::CArray<float32, 4>( this->GetPointer(), this->GetSize() );
 		}
 	}
 }

@@ -42,7 +42,7 @@ namespace CB{
 			const bool	IsNearEqual(const CVector2D& Vector) const;
 
 			const bool		IsEmpty() const ;
-			const uint32	GetLength() const ;
+			const uint32	GetSize() const ;
 			const uint32	GetSizeInBytes() const ;
 
 			const float32&	Get(const uint32 uIndex) const ;
@@ -51,11 +51,10 @@ namespace CB{
 			const float32*	GetPointer() const ;
 			float32*		GetPointer() ;
 
-			const float32	GetVectorLength() const;
-			const float32	GetVectorLengthSq() const;
+			const float32	GetLength() const;
+			const float32	GetLengthSq() const;
 
-			const CVector2D	GetNormalized() const;
-			void			Normalize();
+			const CVector2D	Normalize() const;
 
 			const CVector2D	Add(const CVector2D& Vector) const;
 			const CVector2D	Sub(const CVector2D& Vector) const;

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "../Include/CBString_Funcs.h"
 #include "../Include/Collection_StringList.h"
+#include "../Include/Collection_Funcs.h"
 #include "../Include/Exception.h"
 
 #include <sstream>
@@ -575,6 +576,127 @@ namespace CB{
 			catch(CB::Exception::CException& Exception){
 				throw CB::Exception::CException(
 					L"Error while skiping strings from list.", CR_INFO(), Exception);
+			}
+		}
+
+		const Collection::CList<CString>	Split( const CString& strText ){
+			return Split( strText, L"", true );
+		}
+
+		const Collection::CList<CString>	Split( const CString& strText, const CString& strSeparator ){
+			return Split( strText, strSeparator, true );
+		}
+
+		const Collection::CList<CString>	Split( const CString& strText, const CString& strSeparator, const bool bIgnoreEmpty ){
+			Collection::CList<CString> list;
+			if( strText.IsEmpty() )
+				return list;
+			if( strSeparator.IsEmpty() ){
+				Collection::CList<wchar> charList = ToArray( strText );
+				for( uint32 i = 0; i < charList.GetLength(); i++ ){
+					list.Add( charList[i] );
+				}
+				return list;
+			}
+
+			uint32 uStart = 0, uEnd = 0;
+			CString	strItem;
+			while( strText.Find( strSeparator, uStart, uEnd ) ) {
+				strItem = strText.SubStringIndexed( uStart, uEnd );
+				uStart = uEnd + strSeparator.GetLength();
+				if( bIgnoreEmpty && strItem.IsEmptyOrWhiteSpace() )
+					continue;
+				else
+					list.Add( strItem );
+			}
+
+			if( uStart < strText.GetLength() ) {
+				strItem = strText.SubString( uStart );
+				if( !(strItem.IsEmptyOrWhiteSpace() && bIgnoreEmpty ) ){
+					list.Add( strItem );
+				}
+			}
+
+			return list;
+		}
+
+		const CString	Join( const Collection::ICountable<CString>& list ) {
+			return Join( list, L"" );
+		}
+
+		const CString	Join( const Collection::ICountable<CString>& list, const CString& strGlue ) {
+			if( list.IsEmpty() )
+				return CString();
+
+			uint32 uLength = strGlue.GetLength() * ( list.GetLength() - 1 );
+			for( uint32 i = 0; i < list.GetLength(); i++ )
+				uLength += list[i].GetLength();
+
+			CB::CString strReturn;
+			strReturn.Resize(uLength);
+
+			uint32 uIndex = 0;
+			for(uint32 uListIndex = 0; uListIndex < list.GetLength(); uListIndex++){
+				const CString& listItem = list[uListIndex];
+
+				if(!listItem.IsEmpty()){
+					Memory::CopyArray(listItem.GetPointer(), &strReturn[uIndex], listItem.GetLength());
+					uIndex += listItem.GetLength();
+				}
+				if(uListIndex != list.GetLength() - 1 && !strGlue.IsEmpty()){
+					Memory::CopyArray(strGlue.GetPointer(), &strReturn[uIndex], strGlue.GetLength());
+					uIndex += strGlue.GetLength();
+				}
+			}
+
+			return strReturn;
+		}
+
+		const Collection::CList<wchar> g_WhiteSpaceList = ToArray( L" \t\r\n" );
+		
+		const bool	IsWhiteSpace( const wchar chElem ) {
+			return Collection::Contains( g_WhiteSpaceList, chElem );
+		}
+
+		const bool	IsWhiteSpace( const CString& strText ) {
+			for( uint32 i = 0; i < strText.GetLength(); i++ ){
+				if( !IsWhiteSpace( strText[i] ) )
+					return false;
+			}
+			return true;
+		}
+
+		const bool	SkipWhiteSpace( const CString& strText, const uint32 uStartPos, uint32& uOutPos ) {
+			for( uint32 uIndex = uStartPos; uIndex < strText.GetLength(); uIndex++ ) {
+				if( !IsWhiteSpace( strText[uIndex] ) ) {
+					uOutPos = uIndex;
+					return true;
+				}
+			}
+			uOutPos = uStartPos;
+			return false;
+		}
+
+		const bool	FindWhiteSpace( const CString& strText, const uint32 uStartPos, uint32& uOutPos ) {
+			for( uint32 uIndex = uStartPos; uIndex < strText.GetLength(); uIndex++ ) {
+				if( IsWhiteSpace( strText[uIndex] ) ) {
+					uOutPos = uIndex;
+					return true;
+				}
+			}
+			uOutPos = uStartPos;
+			return false;			
+		}
+
+		const Collection::CList<CString>	GetWhiteSpace() {
+			Collection::CList<CString> list;
+			GetWhiteSpace( list );
+			return list;
+		}
+
+		void	GetWhiteSpace( Collection::CList<CString>& list ) {
+			for( uint32 uIndex = 0; uIndex < g_WhiteSpaceList.GetLength(); uIndex++ ) {
+				list.Add( g_WhiteSpaceList[uIndex] );
 			}
 		}
 	}

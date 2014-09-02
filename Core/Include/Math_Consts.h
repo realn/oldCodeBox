@@ -14,5 +14,11 @@ namespace CB{
 		extern COMMON_API const float32	EPSILON;
 		extern COMMON_API const float32	PIDIV180;
 		extern COMMON_API const float32	PIMUL180;
+
+		enum class PlaneSide{
+			Back = -1,
+			OnPlane = 0,
+			Front = 1,
+		};
 	}
 }

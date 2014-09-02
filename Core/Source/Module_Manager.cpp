@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "../Include/Module.h"
 #include "../Include/CBString.h"
+#include "../Include/Module_Exceptions.h"
 
 namespace CB{
 	CModuleManager::CModuleManager(){

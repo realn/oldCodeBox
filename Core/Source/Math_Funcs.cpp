@@ -195,12 +195,16 @@ namespace CB{
 		}
 
 
-		inline const float32	Sin( const float32 radAngle ) {
+		inline const float32	Sin( const float32& radAngle ) {
 			return std::sinf( radAngle );
 		}
 
-		inline const float32	Cos( const float32 radAngle ) {
+		inline const float32	Cos( const float32& radAngle ) {
 			return std::cosf( radAngle );
+		}
+
+		inline const float32	Tan( const float32& radAngle ) {
+			return std::tanf( radAngle );
 		}
 
 		void	RandInit(const uint32 uSeed){

@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "../Include/Threads.h"
+#include "../Include/Threads_Thread.h"
 #include "../Include/Exception.h"
 #include "../Include/SmartPointers_AutoPtr.h"
 #include "../Include/Memory.h"
@@ -74,46 +74,6 @@ namespace CB{
 
 		void*	IThread::GetHandle() const{
 			return this->m_pHandle.Get<void>();
-		}
-
-		//===================
-
-		CMutex::CMutex(const CMutex& Mutex){
-		}
-
-		CMutex::CMutex(){
-			CAutoPtr<CRITICAL_SECTION> pData = new CRITICAL_SECTION();
-			Memory::SetZero(*pData);
-			InitializeCriticalSection(pData.Get());
-			this->m_pHandle.Set<CRITICAL_SECTION>(pData.Reset());
-		}
-
-		CMutex::~CMutex(){
-			DeleteCriticalSection(this->m_pHandle.Get<CRITICAL_SECTION>());
-			this->m_pHandle.Delete<CRITICAL_SECTION>();
-		}
-
-		void*	CMutex::GetHandle() const{
-			return this->m_pHandle.Get<void>();
-		}
-
-		//====================
-
-		CLock::CLock(const CLock& Lock) : 
-			m_Mutex(Lock.m_Mutex)
-		{
-		}
-
-		CLock::CLock(CMutex& Mutex) : 
-			m_Mutex(Mutex)
-		{
-			void* pSection = this->m_Mutex.GetHandle();
-			EnterCriticalSection(reinterpret_cast<CRITICAL_SECTION*>(pSection));
-		}
-
-		CLock::~CLock(){
-			void* pSection = this->m_Mutex.GetHandle();
-			LeaveCriticalSection(reinterpret_cast<CRITICAL_SECTION*>(pSection));
 		}
 
 		//===============================================================================

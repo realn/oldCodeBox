@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "../Include/SimpleXML.h"
+#include "../Include/SimpleXML_Exceptions.h"
 #include "../Include/Collection_StringList.h"
 #include "../Include/Collection_Funcs.h"
 
@@ -151,8 +152,6 @@ namespace CB{
 				Collection::CStringList RetList;
 				
 				if(!this->IsEmpty()){
-					RetList.Add(CreateNewLines(bWithNewLines));
-
 					for(uint32 i = 0; i < this->m_List.GetLength(); i++){
 						RetList.Add(this->m_List[i]->ToString(bWithNewLines, bNested, uNestLevel));
 					}
@@ -163,6 +162,41 @@ namespace CB{
 			catch(Exception::CException& Exception){
 				throw Exception::CSXMLException(L"Error while converting node list to string.", CR_INFO(), Exception);
 			}
+		}
+
+		const bool	CNodeList::Parse( const CString& strText, const uint32 uStartIndex, uint32& uOutIndex ){
+			uint32 uIndex;
+			if( !String::SkipWhiteSpace( strText, uStartIndex, uIndex ) ){
+				return false;
+			}
+
+			if( strText.SubCompare( uIndex, L"</" ) ) {
+				return false;
+			}
+
+			if( strText[uIndex] != L'<' ){
+				if( !strText.Find(L"</", uIndex, uOutIndex ) ) {
+					uOutIndex = uIndex;
+				}
+				return false;
+			}
+
+			while( !strText.SubCompare( uIndex, L"</" ) ) {
+				if( strText[uIndex] != L'<') {
+					CR_THROW(L"NodeList: Invalid Value inside node list.");
+				}
+
+				CNode* pNode = CNode::Parse( this, strText, uIndex, uIndex );
+				this->m_List.Add( pNode );
+
+				if( !String::SkipWhiteSpace( strText, uIndex, uIndex ) ){
+					uOutIndex = strText.GetLength();
+					return true;
+				}
+			}
+
+			uOutIndex = uIndex;
+			return true;
 		}
 	}
 }

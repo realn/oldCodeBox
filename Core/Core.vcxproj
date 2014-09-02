@@ -134,6 +134,8 @@
     <ClInclude Include="Include\Math_CubeF.h" />
     <ClInclude Include="Include\Math_Consts.h" />
     <ClInclude Include="Include\Math_Funcs.h" />
+    <ClInclude Include="Include\Math_Matrix3D.h" />
+    <ClInclude Include="Include\Math_Plane.h" />
     <ClInclude Include="Include\Math_Point3D.h" />
     <ClInclude Include="Include\Math_RectangleF.h" />
     <ClInclude Include="Include\Math_Size3D.h" />
@@ -144,6 +146,7 @@
     <ClInclude Include="Include\IO_Path.h" />
     <ClInclude Include="Include\MessageBox.h" />
     <ClInclude Include="Include\Module.h" />
+    <ClInclude Include="Include\Module_Exceptions.h" />
     <ClInclude Include="Include\Ref.h" />
     <ClInclude Include="Include\Signals_Method.h" />
     <ClInclude Include="Include\Signals_Signal.h" />
@@ -151,6 +154,9 @@
     <ClInclude Include="Include\SimpleXML.h" />
     <ClInclude Include="Include\Manage_Singleton.h" />
     <ClInclude Include="Include\Signals_Func.h" />
+    <ClInclude Include="Include\SimpleXML_Exceptions.h" />
+    <ClInclude Include="Include\SimpleXML_Serialize.h" />
+    <ClInclude Include="Include\SimpleXML_Serialize_Math.h" />
     <ClInclude Include="Include\SmartPointers.h" />
     <ClInclude Include="Include\IO_Sound.h" />
     <ClInclude Include="Include\IO_SoundStream.h" />
@@ -162,12 +168,14 @@
     <ClInclude Include="Include\Collection_StringList.h" />
     <ClInclude Include="Include\CBMath.h" />
     <ClInclude Include="Include\Math_Color.h" />
-    <ClInclude Include="Include\Math_Matrix.h" />
+    <ClInclude Include="Include\Math_Matrix4D.h" />
     <ClInclude Include="Include\Math_Point2D.h" />
     <ClInclude Include="Include\Math_Rectangle.h" />
     <ClInclude Include="Include\Math_Size2D.h" />
     <ClInclude Include="Include\Math_Vector2D.h" />
-    <ClInclude Include="Include\Threads.h" />
+    <ClInclude Include="Include\Threads_Lock.h" />
+    <ClInclude Include="Include\Threads_Mutex.h" />
+    <ClInclude Include="Include\Threads_Thread.h" />
     <ClInclude Include="Include\Timer.h" />
     <ClInclude Include="Include\Types.h" />
     <ClInclude Include="Include\WindowsErrors.h" />
@@ -226,7 +234,11 @@
     <ClCompile Include="Source\Math_Color_Funcs.cpp" />
     <ClCompile Include="Source\Math_Consts.cpp" />
     <ClCompile Include="Source\Math_Funcs.cpp" />
-    <ClCompile Include="Source\Math_Matrix.cpp" />
+    <ClCompile Include="Source\Math_Matrix4D.cpp" />
+    <ClCompile Include="Source\Math_Matrix3D_Funcs.cpp" />
+    <ClCompile Include="Source\Math_Matrix4D_Funcs.cpp" />
+    <ClCompile Include="Source\Math_Plane.cpp" />
+    <ClCompile Include="Source\Math_Plane_Funcs.cpp" />
     <ClCompile Include="Source\Math_Point2D.cpp" />
     <ClCompile Include="Source\Math_Point3D.cpp" />
     <ClCompile Include="Source\Math_Rectangle.cpp" />
@@ -238,6 +250,7 @@
     <ClCompile Include="Source\Math_Vector3D.cpp" />
     <ClCompile Include="Source\Math_Vector3D_Funcs.cpp" />
     <ClCompile Include="Source\Math_Vector4D.cpp" />
+    <ClCompile Include="Source\Math_Matrix3D.cpp" />
     <ClCompile Include="Source\Memory.cpp" />
     <ClCompile Include="Source\MessageBox.cpp" />
     <ClCompile Include="Source\Module.cpp" />
@@ -260,12 +273,17 @@
     <ClCompile Include="Source\IO_TextReader.cpp" />
     <ClCompile Include="Source\SimpleXML_Attribute.cpp" />
     <ClCompile Include="Source\SimpleXML_AttributeList.cpp" />
+    <ClCompile Include="Source\SimpleXML_Exceptions.cpp" />
     <ClCompile Include="Source\SimpleXML_Node.cpp" />
     <ClCompile Include="Source\SimpleXML_NodeList.cpp" />
+    <ClCompile Include="Source\SimpleXML_Serialize.cpp" />
+    <ClCompile Include="Source\SimpleXML_Serialize_Math.cpp" />
     <ClCompile Include="Source\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Source\Threads.cpp" />
+    <ClCompile Include="Source\Threads_Lock.cpp" />
+    <ClCompile Include="Source\Threads_Mutex.cpp" />
+    <ClCompile Include="Source\Threads_Thread.cpp" />
     <ClCompile Include="Source\Timer.cpp" />
     <ClCompile Include="Source\WindowsErrors.cpp" />
   </ItemGroup>

@@ -173,7 +173,7 @@ namespace CB{
 		// Returns distance between two points on plane.
 
 		const float32 Distance(const CVector2D& vA, const CVector2D& vB){
-			return (vA - vB).GetVectorLength();
+			return (vA - vB).GetLength();
 		}
 
 		// Calcule les paramètres a et b du segment passant par

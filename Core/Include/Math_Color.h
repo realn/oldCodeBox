@@ -6,6 +6,11 @@
 namespace CB{
 	class CString;
 
+	namespace Collection{
+		template<typename _Type> class ICountable;
+		template<typename _Type, uint32 _Len> class CArray;
+	}
+
 	namespace Math{
 		class CVector3D;
 		class CVector4D;
@@ -20,15 +25,19 @@ namespace CB{
 
 			CColor();
 			CColor(const CColor& Color);
-			CColor(const CVector3D& Vector);
-			CColor(const CVector3D& Vector, const float32 fAlpha);
-			CColor(const CVector4D& Vector);
-			CColor(const CPoint3D& Point); // clamped to 0-255
-			CColor(const CPoint3D& Point, const float32 fAlpha);
+			CColor(const CColor& Color, const float Alpha);
+			explicit CColor(const CPoint3D& Point); // clamped to 0-255
+			explicit CColor(const CPoint3D& Point, const float32 fAlpha);
 			explicit CColor(const float32 fColor);
 			explicit CColor(const float32 fColor, const float32 fAlpha);
+			explicit CColor(const CVector3D& Vector);
+			explicit CColor(const CVector3D& Vector, const float32 fAlpha);
+			explicit CColor(const CVector4D& Vector);
+			explicit CColor(const Collection::ICountable<float32>& array);
 			CColor(const float32 fRed, const float32 fGreen, const float32 fBlue); // clamped to 0-1
 			CColor(const float32 fRed, const float32 fGreen, const float32 fBlue, const float32 fAlpha);
+			CColor(const byte red, const byte green, const byte blue);
+			CColor(const byte red, const byte green, const byte blue, const byte alpha);
 
 			void	Set(const CColor& Color);
 			void	Set(const float32 fColor);
@@ -55,7 +64,7 @@ namespace CB{
 			const bool	IsTransparent() const;
 			const bool	IsNearTransparent() const;
 
-			void		Clamp();
+			const CColor	Clamp() const;
 
 			const bool IsEqual(const CColor& Color) const;
 			const bool IsNearEqual(const CColor& Color) const;
@@ -76,10 +85,7 @@ namespace CB{
 			const CColor	DivColor(const CColor& Color) const;
 
 			const CString		ToString() const;
-			const CVector3D		ToVector() const;
-			const CVector4D		ToVector4D() const;
-			const CPoint3D		ToPoint() const;
-			const CColor		ToColor() const;
+			const CVector4D		ToVector() const;
 
 			const CColor&	operator=(const CColor& Color);
 
@@ -93,6 +99,8 @@ namespace CB{
 
 			const float32&	operator[](const uint32 uIndex) const;
 			float32&			operator[](const uint32 uIndex);
+
+			const Collection::CArray<float32, 4> ToArray() const;
 		};
 
 		class CColorHSV{

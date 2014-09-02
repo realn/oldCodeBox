@@ -82,5 +82,21 @@ namespace CB{
 		extern COMMON_API const bool	FindNot(const CString& strText, const Collection::ICountable<CString>& strSkip);
 		extern COMMON_API const bool	FindNot(const CString& strText, const Collection::ICountable<CString>& strSkip, uint32& uOutPos);
 		extern COMMON_API const bool	FindNot(const CString& strText, const Collection::ICountable<CString>& strSkip, const uint32 uStartPos, uint32& uOutPos);
+
+		extern COMMON_API const Collection::CList<CString>	Split( const CString& strText );
+		extern COMMON_API const Collection::CList<CString>	Split( const CString& strText, const CString& strSeparator );
+		extern COMMON_API const Collection::CList<CString>	Split( const CString& strText, const CString& strSeparator, const bool bIgnoreEmpty );
+
+		extern COMMON_API const CString	Join( const Collection::ICountable<CString>& list );
+		extern COMMON_API const CString Join( const Collection::ICountable<CString>& list, const CString& strGlue );
+
+		extern COMMON_API const bool	IsWhiteSpace( const wchar chElem );
+		extern COMMON_API const bool	IsWhiteSpace( const CString& strText );
+
+		extern COMMON_API const bool	SkipWhiteSpace( const CString& strText, const uint32 uStartPos, uint32& uOutPos );
+		extern COMMON_API const bool	FindWhiteSpace( const CString& strText, const uint32 uStartPos, uint32& uOutPot );
+
+		extern COMMON_API const Collection::CList<CString>	GetWhiteSpace();
+		extern COMMON_API void	GetWhiteSpace( Collection::CList<CString>& list );
 	}
 }

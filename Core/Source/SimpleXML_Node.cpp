@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "../Include/SimpleXML.h"
+#include "../Include/SimpleXML_Exceptions.h"
 #include "../Include/Collection_StringList.h"
 
 namespace CB{
@@ -45,85 +46,97 @@ namespace CB{
 			return !this->Nodes.IsEmpty();
 		}
 
-		const uint32	CNode::Parse(const CString& strText, const uint32 uStartIndex){
-			try{
-				const Collection::CList<wchar_t> whiteList = String::ToArray(L" \t\n\r");
+		void	CNode::SetAttributeValue( const CString& strName, const CString& strValue ){
+			CAttribute* attr = nullptr;
+			if( this->Attributes.Contains( strName ) )
+				attr = &this->Attributes[strName];
+			else
+				attr = &this->Attributes.Add( strName );
 
-				uint32 uIndex = uStartIndex;
-				for(; uIndex < strText.GetLength(); uIndex++){
-					if(String::MultiCompare(strText, uIndex, whiteList)){
-						continue;
-					}
-
-					if(strText.SubCompare(uIndex, L"</")){
-						return this->ParseEndTag(strText, uStartIndex, uIndex);
-					}
-
-					if(strText.SubCompare(uIndex, L"<")){
-						uIndex = this->ParseStartTag(strText, uIndex);
-					}								
-				}
-			}
-			catch(Exception::CException& Exception){
-				throw Exception::CSXMLNodeException(this->m_strName, 
-					CR_INFO(), Exception);
-			}
-			throw Exception::CSXMLException(
-				L"No ending tag for SXML node: " + this->m_strName + L".", CR_INFO());
+			attr->Set( strValue );
 		}
 
-		const uint32	CNode::ParseStartTag(const CString& strText, const uint32 uIndex){
-			uint32 uEndPos = uIndex;
-			bool bEnded = false;
-			if(!strText.Find(L">", uIndex, uEndPos)){
-				throw Exception::CSXMLException(L"Failed to find ending bracet.", CR_INFO());
-			}
-			if(uIndex + 1 == uEndPos){
-				throw Exception::CSXMLException(L"No endging tag found.", CR_INFO());
-			}
-			if(strText.SubCompare(uEndPos - 1, L"/")){
-				bEnded = true;
-				uEndPos--;
-			}
+		const CString	CNode::GetAttributeValue( const CString& strName, const CString& strDefault ) const{
+			if( !this->Attributes.Contains( strName ) )
+				return strDefault;
 
-			try{
-				//CNode& Node = this->Add(strText.SubStringIndexed(uIndex+1, uEndPos).Trim());
-				//if(!bEnded){
-				//	return Node.Parse(strText, uEndPos + 1);
-				//}
-				return uEndPos + 1;
-			}
-			catch(Exception::CException& Exception){
-				throw Exception::CSXMLException(L"Error while adding new node to " + this->m_strName + L" node.", 
-					CR_INFO(), Exception);
-			}
+			return this->Attributes[strName].GetValue();
 		}
 
-		const uint32	CNode::ParseEndTag(const CString& strText, const uint32 uStartIndex, const uint32 uIndex){
-			uint32 uEndPos = uIndex;
-			if(!strText.Find(L">", uIndex, uEndPos)){
-				throw Exception::CSXMLException(
-					L"Didn't found ending bracet for tag.", CR_INFO());
-			}
-			if(uIndex + 2 == uEndPos){
-				throw Exception::CSXMLException(
-					L"Invalid ending tag bracet position.", CR_INFO());
+		CNode*	CNode::Parse( CNodeList* pParent, const CString& strText, const uint32 uStartIndex, uint32& uOutIndex ) {
+			uint32 uTagStart;
+			if( !String::SkipWhiteSpace( strText, uStartIndex, uTagStart ) ) {
+				CR_THROW(L"Node: Failed to Find Tag Start.");
 			}
 
-			if(this->m_strName != strText.SubStringIndexed(uIndex + 2, uEndPos).Trim()){
-				throw Exception::CSXMLException(
-					L"Inalid ending tag for node: " + this->m_strName + L".", CR_INFO());
+			if( !strText.SubCompare( uTagStart, L"<" ) ){
+				CR_THROW(L"Node: Missing Tag Start.");
 			}
 
-			try{
-				if(!this->HasNodes()){
-					this->Set(strText.SubStringIndexed(uStartIndex, uIndex).Trim());
+			uint32 uNameStart;
+			if( !String::SkipWhiteSpace( strText, uTagStart + 1, uNameStart ) ){
+				CR_THROW(L"Node: Failed to Find Name Start.");
+			}
+
+			if( strText[uNameStart] == L'>' || strText[uNameStart] == L'/' ) {
+				CR_THROW(L"Node: Missing Name Start.");
+			}
+
+			Collection::CList<CString>	nameEnd = String::GetWhiteSpace();
+			nameEnd.Add(L"/>");
+			nameEnd.Add(L">");
+
+			uint32 uNameEnd;
+			if( !String::Find( strText, nameEnd, uNameStart, uNameEnd ) ) {
+				CR_THROW(L"Node: Failed to Find Name End.");
+			}
+
+			CString name = strText.SubStringIndexed( uNameStart, uNameEnd );
+
+			CAutoPtr<CNode> pNode = new CNode( pParent, name );
+
+			uint32 uTagEnd;
+			if( !String::SkipWhiteSpace( strText, uNameEnd, uTagEnd ) ) {
+				CR_THROW(L"Node: Failed to Find Tag End.");
+			}
+
+			if( strText[uTagEnd] != L'>' && strText[uTagEnd] != L'/' ) {
+				uTagEnd = pNode->Attributes.Parse( strText, uTagEnd );
+			}
+
+			if( strText.SubCompare( uTagEnd, L"/>" ) ){
+				uOutIndex = uTagEnd + 2;
+				return pNode.Reset();
+			}
+			else if( strText.SubCompare( uTagEnd, L">" ) ){
+				uTagEnd++;
+				uint32 uEndTagStart;
+				if( !pNode->Nodes.Parse( strText, uTagEnd, uEndTagStart ) ) {
+					CString value = strText.SubStringIndexed( uTagEnd, uEndTagStart ).Trim();
+
+					pNode->m_strValue = value;
 				}
-				return uIndex + 1;
+
+				if( !strText.SubCompare( uEndTagStart, L"</" ) ){
+					CR_THROW(L"Node: Invalid ending tag start.");
+				}
+
+				uint32 uEndNameStart = uEndTagStart + 2;
+				uint32 uEndNameEnd;
+				if( !strText.Find( L">", uEndNameStart, uEndNameEnd ) ){
+					CR_THROW(L"Node: Failed to find ending tag name end.");
+				}
+
+				name = strText.SubStringIndexed( uEndNameStart, uEndNameEnd ).Trim();
+				if( pNode->m_strName != name ){
+					CR_THROW(L"Node: Ending tag name isn't euqal to node name.");
+				}
+
+				uOutIndex = uEndNameEnd + 1;
+				return pNode.Reset();
 			}
-			catch(Exception::CException& Exception){
-				throw Exception::CSXMLException(L"Error while concluding end tag parsing for node " + this->m_strName + L".",
-					CR_INFO(), Exception);
+			else{
+				CR_THROW(L"Node: Missing tag end.");
 			}
 		}
 

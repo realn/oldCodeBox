@@ -46,7 +46,7 @@ namespace CB{
 			const bool	IsNearEqual(const CVector3D& Vector) const;
 
 			const bool		IsEmpty() const ;
-			const uint32	GetLength() const ;
+			const uint32	GetSize() const ;
 			const uint32	GetSizeInBytes() const ;
 
 			const float32&	Get(const uint32 uIndex) const ;
@@ -55,11 +55,10 @@ namespace CB{
 			const float32*	GetPointer() const ;
 			float32*		GetPointer() ;
 
-			const float32	GetVectorLength() const;
-			const float32	GetVectorLengthSq() const;
+			const float32	GetLength() const;
+			const float32	GetLengthSq() const;
 
-			const CVector3D	GetNormalized() const;
-			void			Normalize();
+			const CVector3D		Normalize() const;
 
 			const CVector3D	Add(const CVector3D& Vector) const;
 			const CVector3D	Sub(const CVector3D& Vector) const;
@@ -121,5 +120,6 @@ namespace CB{
 		extern COMMON_API const float32		DistancePlanPoint(const CVector3D &vTriA, const CVector3D &vTriB, const CVector3D &vTriC, const CVector3D &vPoint);
 		extern COMMON_API const bool		IsSamePlane(const CVector3D* pPlan1, const CVector3D* pPlan2);
 		extern COMMON_API const CVector3D	SegmentDist(const CVector3D& vA, const CVector3D& vB, const float32 fX);
+		extern COMMON_API const CVector3D	Lerp(const CVector3D& vA, const CVector3D& vB, const float32 fX);
 	}
 }

@@ -33,35 +33,6 @@ namespace CB{
 			void*	GetHandle() const;
 		};
 
-		//=============================================================
-		//	Mutex object, that's basically an monitor implemenation.
-		//	Designed to use with CLock class.
-		//=============================================================
-		class CMutex{
-		private:
-			CHiddenPtr	m_pHandle;
-
-			CMutex(const CMutex& Mutex);
-		public:
-			CMutex();
-			~CMutex();
-
-			void*	GetHandle() const;
-		};
-
-		//=============================================================
-		//	Mutex locking object for out-of-scope usage.
-		//=============================================================
-		class CLock{
-		private:
-			CMutex&		m_Mutex;
-
-			CLock(const CLock& Lock);
-		public:
-			CLock(CMutex& Mutex);
-			~CLock();
-		};
-
 		extern COMMON_API void	Wait(const uint32 uMiliseconds);
 	}
 }
