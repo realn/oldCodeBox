@@ -22,10 +22,6 @@ namespace CB{
 				if( !(devInfo.StateFlags & DISPLAY_DEVICE_ACTIVE ) )
 					continue;
 
-				//	We want only adapters that are attached to this machine
-				if( !(devInfo.StateFlags & DISPLAY_DEVICE_ATTACHED_TO_DESKTOP ) )
-					continue;
-
 				//	There still can be ducplicates on this list, so we must
 				//	first check for them.
 				if( list.Contains( devInfo.DeviceID ) ) {
@@ -58,7 +54,7 @@ namespace CB{
 				this->m_strId = adapterList[uIndex];
 			}
 
-			//	Then we obtain the name and description of this specific adapter
+			//	Then we obtain the name of this specific adapter
 			//	by finding in on the list.
 			{
 				DISPLAY_DEVICEW devInfo = { 0 };
@@ -66,9 +62,8 @@ namespace CB{
 
 				for( uint32 i = 0; EnumDisplayDevicesW( nullptr, i, &devInfo, 0 ); i++ ){
 					if( this->m_strId == devInfo.DeviceID ){
-						this->m_strName = devInfo.DeviceName;	//	Contains specific address to adapter
-						this->m_strDesc = devInfo.DeviceString;	//	Contains human readable name of adapter
-						// We found the information, so we can quit the loop.
+						this->m_strName = devInfo.DeviceString;	//	Contains human readable name of adapter
+						// We found the needed information, so we can quit the loop.
 						break;
 					}
 				}
@@ -79,6 +74,11 @@ namespace CB{
 			//	No work needed.
 		}
 
+		//	Return Index of the adapter when encountered on enumeration.
+		const uint32	CAdapter::GetIndex() const{
+			return this->m_uIndex;
+		}
+
 		//	Returns specific ID for adapter
 		const CString	CAdapter::GetId() const{
 			return this->m_strId;
@@ -87,11 +87,6 @@ namespace CB{
 		//	Returns system address for adapter
 		const CString	CAdapter::GetName() const{
 			return this->m_strName;
-		}
-
-		//	Returns human readable name for adapter
-		const CString	CAdapter::GetDescription() const{
-			return this->m_strDesc;
 		}
 
 		//	Counts the number of adapter currently active on this system. 
@@ -107,8 +102,9 @@ namespace CB{
 
 			//	Count the number of displays (monitors) using adapter address (name)
 			uint32 uNumber = 0;
-			while( EnumDisplayDevicesW( this->m_strName.GetPointer(), uNumber, &devInfo, 0 ) ){ 
-				uNumber++;
+			for( uint32 i = 0; EnumDisplayDevicesW( nullptr, i, &devInfo, 0 ); i++ ){ 
+				if( (devInfo.StateFlags & DISPLAY_DEVICE_ACTIVE) && this->m_strId == devInfo.DeviceID )
+					uNumber++;
 			}
 
 			return uNumber;

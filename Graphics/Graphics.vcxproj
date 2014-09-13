@@ -82,16 +82,34 @@
     <ClInclude Include="Include\GraphicContext.h" />
     <ClInclude Include="Include\Graphic_Adapter.h" />
     <ClInclude Include="Include\Graphic_Consts.h" />
+    <ClInclude Include="Include\Graphic_Device.h" />
+    <ClInclude Include="Include\Graphic_DeviceParameters.h" />
     <ClInclude Include="Include\Graphic_Display.h" />
     <ClInclude Include="Include\Graphic_DisplayMode.h" />
+    <ClInclude Include="Include\Graphic_OutputWindow.h" />
     <ClInclude Include="Include\Graphic_Strings.h" />
+    <ClInclude Include="Include\Graphic_Window.h" />
+    <ClInclude Include="Internal\Graphic_DeviceContext.h" />
+    <ClInclude Include="Internal\Graphic_GLConsts.h" />
+    <ClInclude Include="Internal\Graphic_GLTypes.h" />
+    <ClInclude Include="Internal\Graphic_RCBindGuard.h" />
+    <ClInclude Include="Internal\Graphic_RenderContext.h" />
+    <ClInclude Include="Internal\Graphic_WindowClass.h" />
+    <ClInclude Include="Internal\Graphic_WindowImpl.h" />
     <ClInclude Include="Source\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Graphic_Adapter.cpp" />
+    <ClCompile Include="Source\Graphic_Device.cpp" />
+    <ClCompile Include="Source\Graphic_DeviceContext.cpp" />
+    <ClCompile Include="Source\Graphic_DeviceParameters.cpp" />
     <ClCompile Include="Source\Graphic_Display.cpp" />
     <ClCompile Include="Source\Graphic_DisplayMode.cpp" />
+    <ClCompile Include="Source\Graphic_RCBindGuard.cpp" />
+    <ClCompile Include="Source\Graphic_RenderContext.cpp" />
     <ClCompile Include="Source\Graphic_Strings.cpp" />
+    <ClCompile Include="Source\Graphic_Window.cpp" />
+    <ClCompile Include="Source\Graphic_WindowCLass.cpp" />
     <ClCompile Include="Source\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -101,6 +119,9 @@
     <ProjectReference Include="..\Core\Core.vcxproj">
       <Project>{844b7ab6-f789-496c-86d2-fc71e8328f23}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Include\VirtualKeys.incl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

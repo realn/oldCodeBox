@@ -20,11 +20,11 @@
     <ClInclude Include="Internal\WinPlatform.h">
       <Filter>Internal</Filter>
     </ClInclude>
-    <ClInclude Include="Include\WindowDriver.h">
-      <Filter>Include</Filter>
-    </ClInclude>
     <ClInclude Include="Internal\Driver.h">
       <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\WindowDriver.h">
+      <Filter>Include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

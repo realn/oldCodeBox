@@ -177,7 +177,7 @@ namespace CB{
 
 		template<typename _ReturnType, typename _Arg1, typename _Arg2, typename _Arg3, typename _Arg4>
 		const uint32	CFunc<_ReturnType, _Arg1, _Arg2, _Arg3, _Arg4, void>::GetHashCode() const{
-			return static_cast<uint32>(this->m_pFunc);
+			return reinterpret_cast<uint32>(this->m_pFunc);
 		}
 
 		template<typename _ReturnType, typename _Arg1, typename _Arg2, typename _Arg3, typename _Arg4>

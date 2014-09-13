@@ -29,6 +29,27 @@
     <ClCompile Include="Source\Graphic_Strings.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Graphic_DeviceParameters.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphic_DeviceContext.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphic_RenderContext.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphic_RCBindGuard.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphic_Device.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphic_WindowCLass.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Graphic_Window.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\stdafx.h">
@@ -52,5 +73,43 @@
     <ClInclude Include="Include\Graphic_Strings.h">
       <Filter>Include</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Graphic_Device.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Graphic_DeviceParameters.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Graphic_OutputWindow.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\Graphic_DeviceContext.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\Graphic_RenderContext.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\Graphic_GLTypes.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\Graphic_GLConsts.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\Graphic_RCBindGuard.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Graphic_Window.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\Graphic_WindowClass.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Internal\Graphic_WindowImpl.h">
+      <Filter>Internal</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Include\VirtualKeys.incl">
+      <Filter>Include</Filter>
+    </None>
   </ItemGroup>
 </Project>

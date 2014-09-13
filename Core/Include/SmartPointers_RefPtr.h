@@ -2,6 +2,7 @@
 
 #include "Types.h"
 #include "SmartPointers_Ptr.h"
+#include "Ref.h"
 
 namespace CB{
 	template<typename _Type>
@@ -61,15 +62,17 @@ namespace CB{
 
 	template<typename _Type>
 	void	CRefPtr<_Type>::AddRef(){
-		if(this->m_pPtr){
-			this->m_pPtr->AddRef();
+		IRef* pRef = reinterpret_cast<IRef*>(this->m_pPtr);
+		if(pRef){
+			pRef->AddRef();
 		}
 	}
 
 	template<typename _Type>
 	void	CRefPtr<_Type>::Release(){
-		if(this->m_pPtr){
-			this->m_pPtr->Release();
+		IRef* pRef = reinterpret_cast<IRef*>(this->m_pPtr);
+		if(pRef){
+			pRef->Release();
 			this->m_pPtr = 0;
 		}
 	}

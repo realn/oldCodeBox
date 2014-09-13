@@ -94,11 +94,15 @@
     <ClInclude Include="Include\Collection_Array.h" />
     <ClInclude Include="Include\Collection_ArrayPtr.h" />
     <ClInclude Include="Include\Collection_Dictionary.h" />
+    <ClInclude Include="Include\Collection_Dictionary_Enumerator.h" />
     <ClInclude Include="Include\Collection_Funcs.h" />
     <ClInclude Include="Include\Collection_LinkList.h" />
+    <ClInclude Include="Include\Collection_LinkList_Enumerator.h" />
+    <ClInclude Include="Include\Collection_LinkList_Node.h" />
     <ClInclude Include="Include\Collection_List.h" />
     <ClInclude Include="Include\Collection_Interface.h" />
     <ClInclude Include="Include\Collection_Memory.h" />
+    <ClInclude Include="Include\Collection_Pair.h" />
     <ClInclude Include="Include\Font.h" />
     <ClInclude Include="Include\FontManager.h" />
     <ClInclude Include="Include\IO_Directory.h" />

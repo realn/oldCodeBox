@@ -378,6 +378,18 @@
     <ClInclude Include="Include\SimpleXML_Serialize.h">
       <Filter>Include\SimpleXML</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Collection_LinkList_Node.h">
+      <Filter>Include\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Collection_LinkList_Enumerator.h">
+      <Filter>Include\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Collection_Pair.h">
+      <Filter>Include\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Collection_Dictionary_Enumerator.h">
+      <Filter>Include\Collections</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Exception.cpp">

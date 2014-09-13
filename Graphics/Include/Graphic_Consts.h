@@ -2,6 +2,30 @@
 
 namespace CB{
 	namespace Graphic{
+		enum class FeatureLevel{
+			/*
+				Generation 1 level hardware:
+				Direct3D 9, SM 2 (asm)
+				OpenGL 1.4 + VBO + MipMap Gen + Anisotropy, ARB Shader (asm)
+			*/
+			Level_1,	// DX9 (SM2, ASM) / OGL1.4-1.5 (SM2, ARB Program/ASM)
+
+			/*
+				Generation 2 level hardware:
+				Direct3D 9, SM 3 (HLSL)
+				OpenGL 2.0-2.1, GLSL Shader
+			*/
+			Level_2,	// DX9 (SM3, HLSL) / OGL2.0-2.1 (SM3, GLSL)
+
+			//	SM:	3
+			//	RT:	8
+			Level_3,	// DX10 (SM4, HLSL) / OGL3.0-3.3 (SM4, GLSL)
+
+			//	SM: 4
+			//	RT: 8
+			Level_4,	// DX11 (SM5, HLSL) / OGL4.0-4.4 (SM5, GLSL)
+		};
+
 		//=============================================
 		//	Represents bit assosiation of components in a buffer.
 		//	WARNING: Color Components are in REVERSE than placement, Ex:

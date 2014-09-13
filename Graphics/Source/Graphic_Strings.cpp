@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "../Include/Graphic_Strings.h"
 #include "../Include/Graphic_Consts.h"
+#include "../Include/Graphic_Window.h"
 
 #include <CBString.h>
 #include <CBString_Funcs.h>
@@ -54,6 +55,37 @@ namespace CB{
 			default:
 				return String::ToString((uint32)uFormat);
 			}
+		}
+
+		const CString ToString(const Graphic::Style uStyle){
+			switch (uStyle)
+			{
+			case Graphic::Style::Pure:					return L"Pure";
+			case Graphic::Style::Single:				return L"Single";
+			case Graphic::Style::Sizeable:				return L"Sizeable";
+			case Graphic::Style::SizeableToolWindow:	return L"Sizeable Toolwindow";
+			case Graphic::Style::ToolWindow:			return L"ToolWindow";
+			default:
+				return L"Style: " + ToHexString(static_cast<uint32>(uStyle));
+			}
+		}
+
+		const CString	ToString(const Graphic::VirtualKey uKey){
+			switch (uKey)
+			{
+			#define CR_DEFVK(_KEY,B)	case Graphic::VirtualKey::_KEY:	return L#_KEY;
+			#include "../Include/VirtualKeys.incl"
+			#undef CR_DEFVK
+			default:
+				return L"Undefined";
+			}
+		}
+
+		const Graphic::VirtualKey	FromString(const CString& strKey){
+			#define CR_DEFVK(_KEY, B)	if(strKey == L#_KEY) return Graphic::VirtualKey::_KEY;
+			#include "../Include/VirtualKeys.incl"
+			#undef CR_DEFVK
+			return Graphic::VirtualKey::Undefined;
 		}
 	}
 }

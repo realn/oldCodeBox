@@ -12,15 +12,14 @@ namespace CB{
 			const uint32	m_uIndex;
 			CString			m_strId;
 			CString			m_strName;
-			CString			m_strDesc;
 
 		public:
 			CAdapter( uint32 uIndex = DEFAULT_ADAPTER );
 			~CAdapter();
 
+			const uint32	GetIndex() const;
 			const CString	GetId() const;
 			const CString	GetName() const;
-			const CString	GetDescription() const;
 
 			static const uint32	Count();
 			const uint32		CountDisplays() const;

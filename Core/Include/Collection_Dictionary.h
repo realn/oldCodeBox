@@ -3,35 +3,12 @@
 #include "Types.h"
 #include "Collection_Interface.h"
 #include "Collection_LinkList.h"
+#include "Collection_List.h"
+#include "Collection_Dictionary_Enumerator.h"
 #include "Exception.h"
 
 namespace CB{
 	namespace Collection{
-		template<typename _KeyType, typename _ValueType>
-		class CPair{
-		protected:
-			_KeyType	m_Key;
-			_ValueType	m_Value;
-
-		public:
-			CPair(const _KeyType& Key, const _ValueType& Value);
-			CPair(const CPair<_KeyType, _ValueType>& Pair);
-			CPair(const CPair<_ValueType, _KeyType>& Pair);
-			virtual ~CPair();
-
-			const _KeyType&		GetKey() const;
-			const _ValueType&	GetValue() const;
-
-			_KeyType&	GetKey();
-			_ValueType&	GetValue();
-
-			void	SetKey(const _KeyType& Key);
-			void	SetValue(const _ValueType& Value);
-			void	Set(const _KeyType& Key, const _ValueType& Value);
-
-			const CPair<_KeyType, _ValueType>&	operator=(const CPair<_KeyType, _ValueType>& Pair);
-		};
-
 		template<typename _KeyType, typename _ValueType>
 		class CDictionary : 
 			public CLinkList<CPair<_KeyType, _ValueType>>
@@ -39,26 +16,13 @@ namespace CB{
 		public:
 			typedef CPair<_KeyType, _ValueType>	CItem;
 			typedef CLinkList<CItem> CDictionaryList;
-
-			class CEnumerator : 
-				public CDictionaryList::CEnumerator
-			{
-			public:
-				CEnumerator();
-				CEnumerator(const CEnumerator& Enumerator);
-				CEnumerator(const CDictionary<_KeyType, _ValueType>& Dictionary);
-
-				_KeyType&	GetKey();
-				_ValueType& GetValue();
-
-				const _KeyType&	GetKey() const;
-				const _ValueType& GetValue() const;
-			};
+			typedef CDictEnumerator<_KeyType, _ValueType> CEnumerator;
 
 		protected:
-			const bool	GetItemByKey(const _KeyType& Key, typename CEnumerator& Enumerator) const;
+			const bool	GetItemByKey(const _KeyType& Key, CDictEnumerator<_KeyType, _ValueType>& Enumerator) const;
+			CItem&	GetItemByKey( const _KeyType& Key ) const;
 			_ValueType&	GetValue(const _KeyType& Key) const;
-			CItem&		GetItemByIndex(const uint32 uIndex) const;
+			CItem&	GetItemByIndex(const uint32 uIndex) const;
 
 		public:
 			CDictionary();
@@ -73,7 +37,7 @@ namespace CB{
 			void			Insert(const uint32 uIndex, const CItem& Item);
 			void			Insert(const uint32 uIndex, const _KeyType& Key, const _ValueType& Value);
 			void			Delete(const uint32 uIndex);
-			void			Delete(const typename CEnumerator& Enumerator);
+			void			Delete(CDictEnumerator<_KeyType, _ValueType>& Enumerator);
 			void			DeleteByKey(const _KeyType& Key);
 			const _ValueType	RemoveByKey(const _KeyType& Key);
 
@@ -107,125 +71,27 @@ namespace CB{
 			_ValueType&			operator[](const _KeyType& Key);
 		};
 
-		//================================
-		//	PAIR IMPLEMENTATION
-		//================================
-
-		template<typename _KeyType, typename _ValueType>
-		CPair<_KeyType, _ValueType>::CPair(const _KeyType& Key, const _ValueType& Value) : 
-			m_Key(Key), 
-			m_Value(Value)
-		{}
-
-		template<typename _KeyType, typename _ValueType>
-		CPair<_KeyType, _ValueType>::CPair(const CPair<_KeyType, _ValueType>& Pair) : 
-			m_Key(Pair.m_Key), 
-			m_Value(Pair.m_Value)
-		{}
-
-		template<typename _KeyType, typename _ValueType>
-		CPair<_KeyType, _ValueType>::CPair(const CPair<_ValueType, _KeyType>& Pair) : 
-			m_Key(Pair.GetValue()), 
-			m_Value(Pair.GetKey())
-		{}
-
-		template<typename _KeyType, typename _ValueType>
-		CPair<_KeyType, _ValueType>::~CPair(){
-		}
-
-		template<typename _KeyType, typename _ValueType>
-		const _KeyType&		CPair<_KeyType, _ValueType>::GetKey() const{
-			return this->m_Key;
-		}
-
-		template<typename _KeyType, typename _ValueType>
-		const _ValueType&	CPair<_KeyType, _ValueType>::GetValue() const{
-			return this->m_Value;
-		}
-
-		template<typename _KeyType, typename _ValueType>
-		_KeyType&	CPair<_KeyType, _ValueType>::GetKey(){
-			return this->m_Key;
-		}
-
-		template<typename _KeyType, typename _ValueType>
-		_ValueType&	CPair<_KeyType, _ValueType>::GetValue(){
-			return this->m_Value;
-		}
-
-		template<typename _KeyType, typename _ValueType>
-		void	CPair<_KeyType, _ValueType>::SetKey(const _KeyType& Key){
-			this->m_Key = Key;
-		}
-
-		template<typename _KeyType, typename _ValueType>
-		void	CPair<_KeyType, _ValueType>::SetValue(const _ValueType& Value){
-			this->m_Value = Value;
-		}
-
-		template<typename _KeyType, typename _ValueType>
-		void	CPair<_KeyType, _ValueType>::Set(const _KeyType& Key, const _ValueType& Value){
-			this->m_Key = Key;
-			this->m_Value = Value;
-		}
-
-		template<typename _KeyType, typename _ValueType>
-		const CPair<_KeyType, _ValueType>&	CPair<_KeyType, _ValueType>::operator=(const CPair<_KeyType, _ValueType>& Pair){
-			this->Set(Pair.GetKey(), Pair.GetValue());
-			return *this;
-		}
-
-		//=================================
-		//	CDictionary::CEnumerator IMPLEMENTATION
-		//=================================
-		
-		template<typename _KeyType, typename _ValueType>
-		CDictionary<_KeyType, _ValueType>::CEnumerator::CEnumerator() : 
-			CDictionaryList::CEnumerator()
-		{}
-
-		template<typename _KeyType, typename _ValueType>
-		CDictionary<_KeyType, _ValueType>::CEnumerator::CEnumerator(const CEnumerator& Enumerator) : 
-			CDictionaryList::CEnumerator(Enumerator)
-		{}
-
-		template<typename _KeyType, typename _ValueType>
-		CDictionary<_KeyType, _ValueType>::CEnumerator::CEnumerator(const CDictionary<_KeyType, _ValueType>& Dictionary) : 
-			CDictionaryList::CEnumerator(Dictionary)
-		{}
-
-		template<typename _KeyType, typename _ValueType>
-		_KeyType&	CDictionary<_KeyType, _ValueType>::CEnumerator::GetKey(){
-			return this->Get().GetKey();
-		}
-
-		template<typename _KeyType, typename _ValueType>
-		_ValueType& CDictionary<_KeyType, _ValueType>::CEnumerator::GetValue(){
-			return this->Get().GetValue();
-		}
-
-		template<typename _KeyType, typename _ValueType>
-		const _KeyType&	CDictionary<_KeyType, _ValueType>::CEnumerator::GetKey() const{
-			return this->Get().GetKey();
-		}
-
-		template<typename _KeyType, typename _ValueType>
-		const _ValueType& CDictionary<_KeyType, _ValueType>::CEnumerator::GetValue() const{
-			return this->Get().GetValue();
-		}
-
 		//=================================
 		//	CDictionary IMPLEMENTATION
 		//=================================
 
 		template<typename _KeyType, typename _ValueType>
-		const bool	CDictionary<_KeyType, _ValueType>::GetItemByKey(const _KeyType& Key, typename CEnumerator& Enumerator) const{
+		const bool	CDictionary<_KeyType, _ValueType>::GetItemByKey(const _KeyType& Key, CDictEnumerator<_KeyType, _ValueType>& Enumerator) const{
 			for(Enumerator.ToFirst(); Enumerator.IsValid(); Enumerator.Next()){
 				if(Enumerator.GetKey() == Key){
 					return true;
 				}
 			}
 			return false;
+		}
+
+		template<typename _KeyType, typename _ValueType>
+		typename CDictionary<_KeyType, _ValueType>::CItem&	CDictionary<_KeyType, _ValueType>::GetItemByKey(const _KeyType& Key) const{
+			CDictEnumerator<_KeyType, _ValueType> Enum = this->GetEnumerator();
+			if( !this->GetItemByKey( Key, Enum ) ){
+				CR_THROW( L"Key not found." );
+			}
+			return Enum.Get();
 		}
 
 		template<typename _KeyType, typename _ValueType>
@@ -376,7 +242,7 @@ namespace CB{
 		}
 
 		template<typename _KeyType, typename _ValueType>
-		void	CDictionary<_KeyType, _ValueType>::Delete(const typename CEnumerator& Enumerator){
+		void	CDictionary<_KeyType, _ValueType>::Delete(CDictEnumerator<_KeyType, _ValueType>& Enumerator){
 			try{
 				CDictionaryList::Delete(Enumerator);
 			}
@@ -389,7 +255,7 @@ namespace CB{
 		template<typename _KeyType, typename _ValueType>
 		void	CDictionary<_KeyType, _ValueType>::DeleteByKey(const _KeyType& Key){
 			try{
-				typename CEnumerator Enumerator = this->GetEnumerator();
+				CEnumerator Enumerator = this->GetEnumerator();
 				if(this->GetItemByKey(Key, Enumerator)){
 					CDictionaryList::Delete(Enumerator);
 				}
@@ -424,12 +290,12 @@ namespace CB{
 
 		template<typename _KeyType, typename _ValueType>
 		_ValueType&		CDictionary<_KeyType, _ValueType>::Get(const _KeyType&	Key){
-			return this->GetValue(Key);
+			return this->GetItemByKey(Key).GetValue();
 		}
 
 		template<typename _KeyType, typename _ValueType>
 		const _ValueType&	CDictionary<_KeyType, _ValueType>::Get(const _KeyType& Key) const{
-			return this->GetValue(Key);
+			return this->GetItemByKey(Key).GetValue();
 		}
 
 		template<typename _KeyType, typename _ValueType>
@@ -533,9 +399,9 @@ namespace CB{
 		}
 
 		template<typename _KeyType, typename _ValueType>
-		typename CDictionary<_KeyType, _ValueType>::CEnumerator	CDictionary<_KeyType, _ValueType>::GetEnumerator() const{
-			return CEnumerator(*this);
-		}
+		typename CDictEnumerator<_KeyType, _ValueType>	CDictionary<_KeyType, _ValueType>::GetEnumerator() const{
+			return CEnumerator( this, this->m_pFirst );
+		} 
 
 		template<typename _KeyType, typename _ValueType>
 		void	CDictionary<_KeyType, _ValueType>::Set(const CDictionary<_KeyType, _ValueType>& Dictionary){

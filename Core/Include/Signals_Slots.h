@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Signals_Signal.h"
-#include "Collection.h"
+#include "Collection_LinkList.h"
 #include "Signals_Func.h"
 
 #pragma warning(disable : 4251)
@@ -13,9 +13,9 @@ namespace CB{
 		//===================================================================
 		class COMMON_API ISlot{
 		protected:
-			typedef	Collection::CLinkList<ISignal*> SignalList;
+			typedef	Collection::CLinkList<ISignal*> CSignalList;
 
-			SignalList	m_pSignals;
+			CSignalList	m_pSignals;
 
 			void	AddInternal(ISignal& pSignal);
 			void	RemoveInternal(ISignal& pSignal);
@@ -42,7 +42,7 @@ namespace CB{
 			ISlotReturn();
 
 		protected:
-			ISignalBase<_ReturnType>*	GetSignal(SignalList::CEnumerator& En);
+			ISignalBase<_ReturnType>*	GetSignal(CSignalList::CEnumerator& En);
 		};
 
 		//===================================================================
@@ -53,7 +53,7 @@ namespace CB{
 		}
 
 		template<typename _ReturnType>
-		ISignalBase<_ReturnType>*	ISlotReturn<_ReturnType>::GetSignal(SignalList::CEnumerator& En){
+		ISignalBase<_ReturnType>*	ISlotReturn<_ReturnType>::GetSignal(CSignalList::CEnumerator& En){
 			return reinterpret_cast<ISignalBase<_ReturnType>*>(En.Get());
 		}
 

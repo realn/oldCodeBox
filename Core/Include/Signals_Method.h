@@ -83,6 +83,7 @@ namespace CB{
 
 		public:
 			CMethod(_ObjType* pObject, Obj_Callback_Type pCallback);
+			CMethod( const CMethod& method );
 
 			_ReturnType	InvokeSignal() override;
 
@@ -98,6 +99,11 @@ namespace CB{
 		CMethod<_ObjType, _ReturnType, _Arg1, _Arg2, _Arg3, _Arg4, void>::CMethod(_ObjType* pObject, Obj_Callback_Type pCallback) :
 			m_pObject(pObject), m_pObjCallback(pCallback)
 		{}
+
+		template<typename _ObjType, typename _ReturnType, typename _Arg1, typename _Arg2, typename _Arg3, typename _Arg4>
+		CMethod<_ObjType, _ReturnType, _Arg1, _Arg2, _Arg3, _Arg4, void>::CMethod(const CMethod& method) :
+			m_pObject(method.m_pObject), m_pObjCallback(method.m_pObjCallback)
+		{}		
 
 		template<typename _ObjType, typename _ReturnType, typename _Arg1, typename _Arg2, typename _Arg3, typename _Arg4>
 		_ReturnType	CMethod<_ObjType, _ReturnType, _Arg1, _Arg2, _Arg3, _Arg4, void>::InvokeSignal(){
